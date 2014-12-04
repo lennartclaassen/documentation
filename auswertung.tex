@@ -1,0 +1,3160 @@
+\chapter{Auswertung}
+\label{chap:ausw}
+
+%\section{Basic und ICAAM}	Untersuchungen immer für beide durchführen: Fehler, Zeit, Konvergenz.
+%Direkter Vergleich für Gesichter schon in AAM Revisited behandelt etc. Für Zellen nochmal interessant?
+
+Um eine detaillierte Betrachtung der Einflussfaktoren auf die Modellbildung und -anpassung zu ermöglichen, wurden zunächst Referenzmodelle auf Basis von $200$ annotierten murinen Milzzellen erstellt. Jede Zelle wurde dabei durch acht äquidistant angeordnete Landmarken auf der äu"seren Kontur sowie eine Landmarke im Zentrum beschrieben. Ausgehend davon werden die verschiedenen Faktoren unabhängig voneinander betrachtet, um die Detektion der Zellen innerhalb der Aufnahmen zu optimieren.\\
+Da das Ziel der Segmentierung in der zuverlässigen Erkennung der Zellkonturen liegt, ist es erforderlich, die erzeugte Modellanpassung der Post-Fokus-Modelle durch erneute Anwendung morphologischer Operationen in den Bildbereich der Fokus-Aufnahmen zurück zu transformieren. Die Bewertung der Segmentierungsgüte erfolgt demnach für alle Modelle anhand der manuellen Segmentierung der Fokus-Aufnahmen.
+
+\section{Referenzmodell}
+Sowohl für das Basic AAM als auch für das ICAAM wurde jeweils ein Modell mit Trainingsdaten auf Basis der Fokus-Aufnahmen und ein Modell auf Basis der Post-Fokus-Aufnahmen erstellt. Für alle Hauptkomponentenanalysen wurde die zu beschreibende Varianz auf $98\%$ gesetzt, wie in \cite{Cootes2000} vorgeschlagen. Die zulässige Iterationszahl für die Modellanpassung wurde auf $200$ Iterationen, und die maximale Grö"se der Modellobjekte wurde auf die doppelte Grö"se der Initialisierungs- bzw. Durchschnittsgrö"se beschränkt. Darüber hinaus wurden keine weiteren Kriterien zur Einschränkung der gefundenen Objekte festgelegt. Tabelle \ref{tab:reference_params} enthält eine Zusammenfassung der für das Referenzmodell verwendeten Konfiguration. 
+
+\begin{table}[ht]
+\caption{Parameter zur Erstellung und Objektanpassung der Referenzmodelle}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{lightgray} \textbf{Parameter} & \textbf{Wert} \\
+\hline
+Zellanzahl & $200$\\
+\hline
+Landmarken pro Zelle & $9$\\
+\hline
+Beschriebene Formvarianz & $98\%$\\
+\hline
+Beschriebene Texturvarianz & $98\%$\\
+\hline
+Beschriebene Erscheinungsvarianz (Basic AAM) & $98\%$\\
+\hline
+Maximale Iterationsanzahl & $200$\\
+\hline
+Maximale Grö"se der Modellobjekte & $200\%$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:reference_params}
+\end{table}
+
+\subsection{Modellbildung}
+\label{sec:reference_model_building}
+Da das ICAAM das gleiche Form- und Texturmodell verwendet wie das Basic AAM, erfolgt die Betrachtung dieser Modelle vorrangig bezogen auf den Unterschied in den verwendeten Zellaufnahmen. Gleiches gilt für die Analyse des Erscheinungsmodells, welches definitionsgemä"s nur für das Basic AAM vorhanden ist.
+
+\subsubsection{Formmodell}
+Bild \ref{fig.reference_building_eigenvalues_shape} stellt die Anteile der Eigenwerte an der durch das Formmodell beschriebenen Varianz dar. Es zeigt sich, dass die zur Beschreibung der Formvarianz erforderliche Anzahl an Parametern für das Post-Fokus-Modell (PFM) etwas geringer ist als für das Fokus-Modell (FM). Auch ist der Anteil der ersten Eigenwerte an der Gesamtvarianz beim PFM grö"ser als beim FM. So bilden die ersten drei Eigenwerte des PFM bereits $64\%$ der Gesamtvarianz ab, während es beim FM nur $54\%$ sind.\\
+
+\begin{figure}[!ht]
+\vspace{3mm}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+		xlabel=Eigenwert,
+		ylabel=Anteil an Gesamtvarianz \lbrack \%\rbrack,
+		xtick={1,...,13},
+		ymin=0,
+		ytick={0,10,...,100},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=north west,
+			nodes=right,
+			draw=none
+		}
+		%axis lines=left
+	]
+	\addplot[color=red,mark=square*] coordinates{
+		(1,24.6718)
+		(2,43.7092)
+		(3,54.14785132)
+		(4,63.1821339)
+		(5,70.60866985)
+		(6,76.45681086)
+		(7,81.7263871)
+		(8,86.97406846)
+		(9,90.86684525)
+		(10,93.72329021)
+		(11,96.11621437)
+		(12,98.25885879)
+		(13,100)		
+	};
+	\addplot[color=blue,mark=diamond*] coordinates{
+		(1,26.42529337)
+		(2,51.19458535)
+		(3,63.64859236)
+		(4,72.13773673)
+		(5,78.8676646)
+		(6,83.94694845)
+		(7,88.06842906)
+		(8,91.7882484)
+		(9,94.19470806)
+		(10,96.53607266)
+		(11,98.45170481)
+		(12,100)
+		
+	};
+	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-3mm}
+\caption{Eigenwertverlauf der Formmodelle}
+\label{fig.reference_building_eigenvalues_shape}
+\vspace{3mm}
+\end{figure}
+
+%\begin{figure}[ht]
+%	\begin{center}
+%	\includegraphics[scale=0.5]{ShapeEW_Verlauf_EXEL_final}
+%	\caption{Eigenwertverlauf der Formmodelle}
+%	\label{fig.reference_building_eigenvalues_shape}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+Den Einfluss des ersten und zweiten Formparameters zeigt Bild \ref{fig.reference_building_shape_visualization}, in welchem beide Parameter negativ (links) bzw. positiv (rechts) um $3 \sqrt{\lambda_i}$ bezogen auf das mittlere Formmodell (Mitte) versetzt wurden. Für das FM lassen sich deutlich die beiden Haupttransformationsachsen ausmachen. Der erste Parameter streckt bzw. staucht die Form bzgl. einer senkrechten Achse, während die Transformationsachse des zweiten Parameters um $45^{\circ}$ dazu verdreht ist. Das PFM weist eine ähnliche, wenngleich auch weniger deutliche Transformationsstruktur auf. Die Einflüsse des ersten und zweiten Parameters sind hier im Vergleich zum FM jedoch vertauscht.
+
+\begin{figure}[!ht]
+	\begin{center}
+	\subfigure[1. Formparameter (Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/shape_focus_mode1_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_focus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_focus_mode1_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[1. Formparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/shape_postfocus_mode1_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_postfocus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_postfocus_mode1_+3sigma_sm}
+	}\\
+	\subfigure[2. Formparameter (Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/shape_focus_mode2_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_focus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_focus_mode2_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[2. Formparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/shape_postfocus_mode2_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_postfocus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/shape_postfocus_mode2_+3sigma_sm}
+	}
+	\caption{Variation der ersten beiden Formparameter um $\pm 3 \sqrt{\lambda_i}$}
+	\label{fig.reference_building_shape_visualization}
+	\end{center}
+	\vspace*{-8mm}
+\end{figure}
+Insgesamt sind die Unterschiede zwischen den Formmodellen relativ gering und lassen sich hauptsächlich durch die grö"sere Fläche der Formen des PFM und den damit verbundenen längeren Abständen zwischen zwei Landmarken, sowie die leicht veränderte Form der Zellen innerhalb der Post-Fokus-Aufnahmen erklären. Eine genauere Betrachtung des Einflusses verschiedener Landmarkenzahlen erfolgt in Kapitel \ref{sec:landmarkenzahl}.
+
+\subsubsection{Texturmodell}
+Die Darstellung der durch die Textureigenwerte beschriebenen Varianz in Bild \ref{fig.reference_building_eigenvalues_texture} zeigt zunächst, dass für beide Modelle $90\%$ der abgebildeten Varianz bereits durch etwa die Hälfte der Eigenwerte beschrieben wird. Der Anteil der beschriebenen Texturvarianz könnte demnach vermutlich reduziert werden um eine Performance-Verbesserung sowohl bei der Modellerstellung als auch bei der Objektanpassung zu erreichen. Eine Evaluierung dessen erfolgt im Zusammenhang mit weiteren Modelloptimierungen in Kapitel \ref{sec:optimierungen}.
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+		xlabel=Eigenwert,
+		ylabel=Anteil an Gesamtvarianz \lbrack \%\rbrack,
+		xtick={1,10,20,...,100},
+		ymin=0,
+		ytick={0,10,...,100},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=north west,
+			nodes=right,
+			draw=none
+		},
+		width=10cm,
+		height=8cm,
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+		(1,9.3517)
+		(2,15.2949)
+		(3,20.5713)
+		(4,24.9625)
+		(5,29.1245)
+		(6,32.6688)
+		(7,36.0761)
+		(8,38.9434)
+		(9,41.6122)
+		(10,44.1006)
+		(11,46.5437)
+		(12,48.7947)
+		(13,50.933)
+		(14,52.9388)
+		(15,54.84)
+		(16,56.6087)
+		(17,58.3003)
+		(18,59.9584)
+		(19,61.5421)
+		(20,63.0157)
+		(21,64.3726)
+		(22,65.6655)
+		(23,66.8989)
+		(24,68.1224)
+		(25,69.3171)
+		(26,70.4492)
+		(27,71.5228)
+		(28,72.5688)
+		(29,73.5931)
+		(30,74.5831)
+		(31,75.5572)
+		(32,76.4472)
+		(33,77.3132)
+		(34,78.1544)
+		(35,78.9586)
+		(36,79.7577)
+		(37,80.5454)
+		(38,81.3183)
+		(39,82.0563)
+		(40,82.7627)
+		(41,83.438)
+		(42,84.0775)
+		(43,84.7142)
+		(44,85.3073)
+		(45,85.8892)
+		(46,86.4696)
+		(47,87.0269)
+		(48,87.5625)
+		(49,88.0915)
+		(50,88.5987)
+		(51,89.0883)
+		(52,89.5555)
+		(53,89.9999)
+		(54,90.4362)
+		(55,90.8619)
+		(56,91.2641)
+		(57,91.6551)
+		(58,92.0399)
+		(59,92.4083)
+		(60,92.7601)
+		(61,93.1048)
+		(62,93.4352)
+		(63,93.7509)
+		(64,94.0587)
+		(65,94.3562)
+		(66,94.6485)
+		(67,94.927)
+		(68,95.1931)
+		(69,95.4476)
+		(70,95.6884)
+		(71,95.924)
+		(72,96.1559)
+		(73,96.3754)
+		(74,96.5825)
+		(75,96.7881)
+		(76,96.9887)
+		(77,97.183)
+		(78,97.3674)
+		(79,97.5416)
+		(80,97.7111)
+		(81,97.8739)
+		(82,98.0342)
+		(83,98.1889)
+		(84,98.3417)
+		(85,98.4892)
+		(86,98.6306)
+		(87,98.7668)
+		(88,98.8984)
+		(89,99.0247)
+		(90,99.1483)
+		(91,99.2676)
+		(92,99.385)
+		(93,99.4978)
+		(94,99.605)
+		(95,99.7103)
+		(96,99.813)
+		(97,99.9089)
+		(98,100)
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+		(1,18.3798)
+		(2,30.5811)
+		(3,40.8188)
+		(4,46.939)
+		(5,51.7332)
+		(6,55.9077)
+		(7,59.5516)
+		(8,63.0461)
+		(9,66.2501)
+		(10,69.3385)
+		(11,71.7978)
+		(12,73.9657)
+		(13,76.0748)
+		(14,77.9957)
+		(15,79.8533)
+		(16,81.6647)
+		(17,83.3742)
+		(18,84.8987)
+		(19,86.171)
+		(20,87.3716)
+		(21,88.5192)
+		(22,89.5978)
+		(23,90.6211)
+		(24,91.5858)
+		(25,92.374)
+		(26,93.0675)
+		(27,93.6876)
+		(28,94.2705)
+		(29,94.8001)
+		(30,95.2324)
+		(31,95.6407)
+		(32,95.9878)
+		(33,96.3198)
+		(34,96.6187)
+		(35,96.9134)
+		(36,97.1716)
+		(37,97.4196)
+		(38,97.6281)
+		(39,97.8322)
+		(40,98.0289)
+		(41,98.2145)
+		(42,98.3868)
+		(43,98.5352)
+		(44,98.6777)
+		(45,98.8126)
+		(46,98.9412)
+		(47,99.0623)
+		(48,99.1755)
+		(49,99.2859)
+		(50,99.3943)
+		(51,99.4944)
+		(52,99.5893)
+		(53,99.6792)
+		(54,99.7652)
+		(55,99.8491)
+		(56,99.925)
+		(57,100)		
+	};
+	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-3mm}
+\caption{Eigenwertverlauf der Texturmodelle}
+\vspace{-3mm}
+\label{fig.reference_building_eigenvalues_texture}
+\end{figure}
+
+%\begin{figure}[ht]
+%	\begin{center}
+%	\includegraphics[scale=0.3]{TexturEW_Verlauf_EXEL}
+%	\caption{Eigenwertverlauf der Texturmodelle}
+%	\label{fig.reference_building_eigenvalues_texture}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+Darüber hinaus ist ein deutlicher Unterschied zwischen den erstellten Modellen vorhanden. Die $378$ Pixel gro"se, aus den Post-Fokus-Aufnahmen erzeugte Modelltextur, kann durch die Hauptachsentransformation mit Hilfe von $57$ Parametern ausgedrückt werden.\\
+Die zur Beschreibung benötigte Parameteranzahl konnte somit um ca. $85\%$ reduziert werden. Im Vergleich dazu wurde für das FM nur eine Reduktion um ca. $44\%$, von 176 Pixel auf 98 Texturparameter erreicht.\\
+Dies deutet darauf hin, dass deutliche stärkere Texturabhängigkeiten zwischen den Zellen der Post-Fokus-Aufnahmen vorhanden sind. Die Betrachtung der Gradientenbilder der beiden Modelle bestätigt diese Annahme. Wie in Bild \ref{fig.reference_building_texture_gradients} deutlich zu erkennen ist, zeigt sich für das FM ein nahezu gleichmä"siger Gradient über das gesamte Objekt, während für das PFM in beiden Koordinatenrichtungen ein deutlicher Helligkeitsgradient zwischen Zellmitte, Zellinnerem und Zellrand vorhanden ist.
+
+\begin{figure}[ht]
+	\begin{center}
+	\subfigure[Fokus-Modell]{
+		\includegraphics[scale=3]{gradientenbild_focus_x}
+		\includegraphics[scale=3]{gradientenbild_focus_y}
+	}\\
+	\subfigure[Post-Fokus-Modell]{
+		\includegraphics[scale=2]{gradientenbild_postfocus_x}
+		\includegraphics[scale=2]{gradientenbild_postfocus_y}
+	}
+	\caption{Texturgradienten in X- (links) und Y-Richtung (rechts)}
+	\label{fig.reference_building_texture_gradients}
+	\end{center}
+	\vspace*{-3mm}
+\end{figure}
+
+Die Variation der Texturparameter bezogen auf das mittlere Formmodell in Bild \ref{fig.reference_building_texture_visualization} zeigt, wie durch die Veränderung des ersten und zweiten Texturparameters im Rahmen von $\pm 3 \sqrt{\lambda_i}$ für das FM trotz des nahezu homogenen mittleren Texturmodells eindeutigere Zelltexturen erzeugt werden können.
+
+\begin{figure}[ht]
+	\begin{center}
+	\subfigure[1. Texturparameter (Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/texture_focus_mode1_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_focus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_focus_mode1_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[1. Texturparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/texture_postfocus_mode1_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_postfocus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_postfocus_mode1_+3sigma_sm}
+	}\\
+	\subfigure[2. Texturparameter (Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/texture_focus_mode2_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_focus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_focus_mode2_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[2. Texturparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=2]{vosm_explorer_images/texture_postfocus_mode2_-3sigma_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_postfocus_mean_sm}
+		\includegraphics[scale=2]{vosm_explorer_images/texture_postfocus_mode2_+3sigma_sm}
+	}
+	\caption{Variation der ersten beiden Texturparameter um $\pm 3 \sqrt{\lambda_i}$}
+	\label{fig.reference_building_texture_visualization}
+	\end{center}
+	\vspace*{-8mm}
+\end{figure}
+
+Aus der grö"seren Varianz der Texturen des FM lässt sich also nicht automatisch auf eine geringere Fähigkeit zur Modellierung der Zellbilder schlie"sen. Fraglich bleibt jedoch, ob besonders das Basic AAM für dieses Modell in der Lage ist, eine gute Modellanpassung auch aus einer nicht optimalen Initialisierung zu erreichen. Für das ICAAM sollte dies von geringerer Bedeutung sein, da dort die Optimierung der Texturparameter wie beschrieben erst im Anschluss an die Bestimmung der Form- und Transformationsparameter erfolgt.\\
+Die Texturparameter des PFM kontrollieren dagegen hauptsächlich Position und Intensität der inneren Zellstruktur, worin sich erneut die grö"sere Ähnlichkeit der Zellbilder innerhalb der Post-Fokus-Aufahmen zeigt.
+
+\subsubsection{Erscheinungsmodell}
+Der Eigenwertverlauf des Erscheinungsmodells des Basic AAM in Bild \ref{fig.reference_building_eigenvalues_appearance} ähnelt stark dem Verlauf des Formmodells. Auch die Eigenwertanzahl ist die gleiche, und erneut ist die Anzahl der zur Beschreibung der Modellvarianz erforderlichen Parameter für das PFM geringer.
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+		xlabel=Eigenwert,
+		ylabel=Anteil an Gesamtvarianz \lbrack \%\rbrack,
+		xtick={1,...,13},
+		ymin=0,
+		ytick={0,10,...,100},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=north west,
+			nodes=right,
+			draw=none
+		}
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+		(1,24.6645)
+		(2,43.6976)
+		(3,54.1345)
+		(4,63.168)
+		(5,70.5936)
+		(6,76.4426)
+		(7,81.7142)
+		(8,86.9632)
+		(9,90.8577)
+		(10,93.717)
+		(11,96.1124)
+		(12,98.2564)
+		(13,100)		
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+		(1,26.406)
+		(2,51.1464)
+		(3,63.5962)
+		(4,72.084)
+		(5,78.827)
+		(6,83.9061)
+		(7,88.0267)
+		(8,91.7535)
+		(9,94.1668)
+		(10,96.516)
+		(11,98.4358)
+		(12,100)
+	};
+	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-3mm}
+\caption{Eigenwertverlauf der Erscheinungsmodelle}
+\label{fig.reference_building_eigenvalues_appearance}
+\vspace{-3mm}
+\end{figure}
+
+%\begin{figure}[ht]
+%	\begin{center}
+%	\includegraphics[scale=0.4]{AppearanceEW_Verlauf_EXEL}
+%	\caption{Eigenwertverlauf der Erscheinungsmodelle}
+%	\label{fig.reference_building_eigenvalues_appearance}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+Die Analyse der durch Variation der Eigenwerte erzeugten Modellveränderung zeigt ebenfalls deutlich die Korrelation zwischen Form- und Erscheinungsparametern. In Bild \ref{fig.reference_building_appearance_visualization} ist diese Abhängigkeit für die ersten beiden Erscheinungsparameter deutlich zu erkennen. Es erfolgt demnach hauptsächlich eine Modellierung der Form bei lediglich geringen Veränderungen des Texturmodells.\\
+Da dies bei allen Erscheinungsparametern der Fall ist, besteht die Möglichkeit, dass das Basic AAM besonders für das FM keine ausreichende Texturvarianz abbilden kann, um die Zellen optimal zu modellieren. Eine Erhöhung der vom Erscheinungsmodell beschriebenen Varianz könnte für diesen Fall die Möglichkeiten der Texturmodellierung verbessern.
+
+\begin{figure}[ht]
+	\begin{center}
+	\subfigure[1. Erscheinungsparameter (Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode1_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode1_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[1. Erscheinungsparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode1_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode1_+3sigma_sm}
+	}\\
+	\subfigure[2. Erscheinungsparameter (Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode2_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode2_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[2. Erscheinungsparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode2_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode2_+3sigma_sm}
+	}
+	\caption{Variation der ersten beiden Erscheinungsparameter um $\pm 3 \sqrt{\lambda_i}$}
+	\label{fig.reference_building_appearance_visualization}
+	\end{center}
+	\vspace*{-8mm}
+\end{figure}
+
+Insgesamt lässt sich aus allen drei Modellen ableiten, dass die Varianzen zwischen den Zellen für das PFM geringer sind, wodurch eine zuverlässigere Modellierung der Zellen der Post-Fokus-Aufnahmen wahrscheinlich ist. Eine detaillierte Aussage über die Modellierung der Zellen und die durch das Modell erreichbare Objektanpassung lässt sich allein aufgrund dieser Daten jedoch nicht treffen. Hinzu kommen die möglichen Probleme der Objektmodellierung besonders im Falle des Basic AAM. Es ist deshalb erforderlich, eine genauere Betrachtung der Modellanpassung durchzuführen.
+
+\subsection{Modellanpassung}
+Die Bewertung der Modellanpassung wurde anhand von Aufnahmen mit 100 im Trainingsdatensatz enthaltenen und 100 unbekannten Zellen vorgenommen. Bild \ref{fig.reference_fitting_images} zeigt einen Ausschnitt der Aufnahmen zusammen mit den verwendeten Initialisierungspositionen, welche aus der vorliegenden manuellen Segmentierung ermittelt wurden.
+
+\begin{figure}[ht]
+	\begin{center}
+	\subfigure[Fokus-Aufnahme]{\includegraphics[scale=0.5]{init_positions_reference_fitting_focus}}
+	\hspace{2mm}
+	\subfigure[Post-Fokus-Aufnahme]{\includegraphics[scale=0.5]{init_positions_reference_fitting_postfocus}}
+	\caption[Aufnahmen zur Analyse der Objektanpassung mit Initialisierungspositionen]{Aufnahmen zur Analyse der Objektanpassung mit Initialisierungspositionen (grün)}
+	\label{fig.reference_fitting_images}
+	\end{center}
+	\vspace*{-10mm}
+\end{figure}
+
+\subsubsection{Texturfehler}
+Der Box-Whisker-Plot in Bild \ref{fig.error_boxplot} stellt die resultierenden Texturfehler im Anschluss an die Modellanpassung für alle als erkannt gewerteten Zellen dar. Es zeigt sich, dass die verbleibenden Texturfehler der Modellanpassung der Fokus-Modelle über den Fehlern der jeweiligen Post-Fokus-Modelle liegen. Da die Texturfehler als Frobeniusnorm der Matrix aus den Pixeldifferenzen berechnet werden, würde bei vergleichbaren Pixelfehlern der Gesamtfehler mit zunehmender Anzahl der Einträge bzw. Pixel grö"ser werden. Die relative Differenz zwischen den Fehlerwerten ist damit nochmals grö"ser als die bereits aus den absoluten Fehlerwerten erkennbare Differenz.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.8]{Boxplot_Fehler_100and100_new_correct_offset}
+%	\caption{Box-Whisker-Plot der Fehlerwerte}
+%	\label{fig.error_boxplot}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \begin{axis}[
+    	ytick={0,0.1,...,1.1},
+    	minor y tick num=5,
+    	ymax=1.1,
+    	ylabel=Texturfehlerwert,
+    	xtick={1,...,4},
+    	x tick label style={align=center},
+    	xticklabels={Fokus\\ Basic AAM, Fokus\\ ICAAM, Post-Fokus\\ Basic AAM, Post-Fokus\\ ICAAM},
+    	boxplot/draw direction=y,
+    	width=14cm,
+    	height=8cm,
+    ]
+    \addplot+[color=red,mark=x,
+    boxplot prepared={
+      median=0.8527,
+      upper quartile=0.90185,
+      lower quartile=0.800925,
+      upper whisker=0.968435,
+      lower whisker=0.7136525
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.7054\\ 0.9773\\  0.9763\\ 0.9698\\ 0.7118\\ 0.6919\\ 0.9727\\ 0.7006\\ 0.974\\ 0.7077\\};
+    \addplot+[color=Green,mark=x,
+    boxplot prepared={
+      median=0.3036,
+      upper quartile=0.34925,
+      lower quartile=0.2674,
+      upper whisker=0.5597,
+      lower whisker=0.18718
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.6045\\ 0.1818\\ 0.5826\\ 0.5688\\ 0.1814\\ 0.1825\\ 0.5750\\ 0.1783\\ 0.6312\\ 0.1793\\};
+    \addplot+[color=blue,mark=x,
+    boxplot prepared={
+      median=0.34285,
+      upper quartile=0.4445,
+      lower quartile=0.269475,
+      upper whisker=0.6660925,
+      lower whisker=0.19592
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.765\\ 0.6853\\ 0.7185\\ 0.1627\\ 0.1598\\ 0.1835\\ 0.1369\\ 0.7388\\ 0.185\\ };
+    \addplot+[color=ProcessBlue,mark=x,
+    boxplot prepared={
+      median=0.098465,
+      upper quartile=0.12565,
+      lower quartile=0.083585,
+      upper whisker=0.214595,
+      lower whisker=0.06376175
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.243\\ 0.2395\\ 0.0595\\ 0.2222\\ 0.05791\\ 0.2339\\ 0.06266\\ 0.062\\ 0.06054\\ };
+  \end{axis}
+\end{tikzpicture}
+\caption{Box-Whisker-Plot der Texturfehlerwerte}
+\label{fig.error_boxplot}
+\end{center}
+\vspace{-3mm}
+\end{figure}
+
+Darüber hinaus zeigt der Vergleich zwischen dem Basic AAM und dem ICAAM jeweils einen deutlich geringeren verbleibenden Texturfehler für das ICAAM. Dies könnte hauptsächlich aus der zuvor beschriebenen, lediglich geringen Fähigkeit des erstellten Basic AAMs zur Modellierung verschiedener Texturen resultieren. Eine genaue Auflistung der durchschnittlichen ($\mathbf{E_D}$) und minimalen ($\mathbf{E_{min}}$) verbliebenen Texturfehler sowie der durchschnittlichen Anpassungsdauer ($t$) findet sich in Tabelle \ref{tab:texture_errors}.\\
+Anders als zu erwarten, liegen die durchschnittlichen Fehlerwerte für die unbekannten Zellen bei der Objektanpassung durch das ICAAM der Fokus-Aufnahmen unter den Werten für die Zellen des Trainingssatzes. Da die Fehlerwerte insgesamt bei allen Modellen jedoch sehr nah beieinander liegen, zeigt sich hierdurch vor allem, dass die Modelle in der Lage sind, aus den Eingangsdaten zu generalisieren und unbekannte Objekte zu modellieren. Die Variation der zur Modellbildung verwendeten Zellanzahl in Kapitel \ref{sec:optimierungen} soll ermitteln, ob es möglich ist, diese Generalisierung weiter zu verbessern bzw. gleiche Ergebnisse auch mit geringerer Zellanzahl zu erreichen.\\
+Der aus der Formulierung des ICAAM resultierende Geschwindigkeitsvorteil zeigt sich bei Betrachtung der durchschnittlichen Anpassungsdauer. Die Objektanpassung des ICAAM verläuft im Mittel etwa fünfmal (Fokus) bzw. zehnmal (Post-Fokus) schneller als die Anpassung durch das Basic AAM. Die Unterschiede zwischen den Anpassungszeiten der beiden Basic AAM erklärt sich aus den unterschiedlichen Pixelgrö"sen der Modelle bzw. Zellaufnahmen, da das Verhältnis der Anpassungszeiten in etwa dem Verhältnis der Pixelgrö"sen entspricht.
+
+\begin{table}[ht]
+\caption[Texturfehler und Anpassungsdauer der Referenzmodelle bei der Objektanpass-\\ung]{Texturfehler und Anpassungsdauer der Referenzmodelle bei der Objektanpassung}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|l|c|c|c|r|}
+\hline
+\rowcolor{lightgray} \multicolumn{1}{|c|}{\textbf{Modell}} & \multicolumn{1}{|c|}{\textbf{Zellen}} & $\mathbf{n}$ & $\mathbf{E_D}$ & $\mathbf{E_{min}}$ & \multicolumn{1}{|c|}{$\mathbf{t}$ \lbrack ms\rbrack}\\
+\hline
+& Aus Trainingssatz & $100$ & $0.846$ & $0.692$ & $51.353$\\\cline{2-6}
+Fokus Basic AAM & Unbekannte & $100$ & $0.852$ & $0.705$ & $59.128$\\\cline{2-6}
+& Gesamt & $200$ & $0.849$ & $0.692$ & $55.241$\\
+\hline
+& Aus Trainingssatz & $100$ & $0.321$ & $0.178$ & $10.513$\\\cline{2-6}
+Fokus ICAAM & Unbekannte & $100$ & $0.314$ & $0.181$ & $10.160$\\\cline{2-6}
+& Gesamt & $200$ & $0.317$ & $0.178$ & $10.337$\\
+\hline
+& Aus Trainingssatz & $100$ & $0.363$ & $0.137$ & $124.198$\\\cline{2-6}
+Post-Fokus Basic AAM & Unbekannte & $100$ & $0.376$ & $0.163$ & $132.361$\\\cline{2-6}
+& Gesamt & $200$ & $0.369$ & $0.137$ & $128.279$\\
+\hline
+& Aus Trainingssatz & $100$ & $0.101$ & $0.058$ & $10.088$\\\cline{2-6}
+Post-Fokus ICAAM & Unbekannte & $100$ & $0.115$ & $0.060$ & $11.369$\\\cline{2-6}
+& Gesamt & $200$ & $0.108$ & $0.058$ & $10.728$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:texture_errors}
+\end{table}
+
+Da die verbleibenden Texturfehler nur aus den Pixeldifferenzen berechnet werden, lassen sie nicht zwangsläufig auch einen Rückschluss auf die Fähigkeit des Modells zu, die Objektform korrekt zu modellieren. Zwar kann bei einem geringen Fehlerwert davon ausgegangen werden, dass neben der Textur auch die Form hinreichend genau modelliert wurde, umgekehrt bedeutet ein grö"serer Fehlerwert jedoch nicht, dass die Modellform in gleichem Ma"se von der Objektform abweicht wie die Texturen. Dies gilt sowohl für das Basic AAM als auch für das ICAAM.\\
+
+Das Basic AAM erzeugt wie gesehen nur eine geringe Texturvariation bei der Modellierung der Erscheinungsparameter, wodurch bereits ein höherer Fehlerwert erwartet werden kann. Das ICAAM modelliert Form und Textur unabhängig voneinander, weshalb der Texturfehler allein ebenfalls keine direkte Auskunft über die Güte des Formmodells gibt.\\
+Die Modellierung der Objektformen und die damit verbundene Qualität der Segmentierung soll im folgenden anhand der zuvor beschriebenen Fehlerma"se evaluiert werden.
+
+\subsubsection{Segmentierungsergebnis}
+Bei der vollständigen Objektmodellierung kann bei kleinen verbleibenden Texturabweichungen im Allgemeinen davon ausgegangen werden, das die Modellierung der Form korrekt war. Dennoch kann nicht ausgeschlossen werden, dass sich ein geringer Texturfehler trotz einer invaliden Modellierung der Objektform ergibt. Besonders bei unbekannter Güte der Trainingsdaten ist daher eine genauere Betrachtung des Segmentierungsergebnisses sinnvoll.\\
+Das Ergebnis der automatischen Segmentierung wurde mit der als Goldstandard zu betrachtenden manuellen Segmentierung verglichen. Dabei wurden die Werte des Dice-Koeffizienten ($D$), des Jaccard-Koeffizienten ($J$), der Flächenüberdeckung ($F\ddot{U}$) und der Hausdorff-Distanz ($H$) über die gesamten korrekt erkannten Zellen gemittelt. Zusätlich ist mit $H_{max}$ die maximale aufgetretene Hausdorff-Distanz angegeben. Tabelle \ref{tab:segmentation_results} fasst die Ergebnisse der vier betrachteten Modelle zusammen.\\
+\vspace{3mm}
+
+\begin{table}[!ht]
+\caption{Segmentierungsergebnisse der Referenzmodelle bei der Objektanpassung}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell} \\
+\rowcolor{lightgray} & \textbf{Basic AAM} & \textbf{ICAAM} & \textbf{Basic AAM} & \textbf{ICAAM} \\
+\hline
+$RP$ & $199$ & $187$ & $200$ & $200$ \\
+\hline
+$FP$ & $1$ & $0$ & $0$ & $0$ \\
+\hline
+$FN$ & $1$ & $13$ & $0$ & $0$ \\
+\hline
+$Ge$ & $0.995$ & $1$ & $1$ & $1$\\
+\hline
+$Se$ & $0.995$ & $0.935$ & $1$ & $1$\\
+\hline
+$F_1$ & $0.995$ & $0.966$ & $1$ & $1$\\
+\hline
+$D$ & $0.863$ & $0.819$ & $0.816$ & $0.851$\\
+\hline
+$J$ & $0.758$ & $0.694$ & $0.689$ & $0.740$\\
+\hline
+$F\ddot{U}$ & $0.807$ & $0.779$ & $0.707$ & $0.771$\\
+\hline
+$H$ & $2.767$ & $3.043$ & $3.165$ & $2.850$\\
+\hline
+$H_{max}$ & $7.810$ & $11.662$ & $6.708$ & $5.831$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:segmentation_results}
+\end{table}
+
+Die Genauigkeit liegt für das Basic AAM der Fokus-Aufnahmen bei $Ge=0.995$, da eine der Zellen an einer Endposition modelliert wurde, welche um mehr als den halben Zellradius von der Position der manuellen Segmentierung abwich. Für alle anderen Modelle beträgt die Genauigkeit $Ge=1$. Das auf den Fokus-Aufnahmen basierende ICAAM weist $13$ falsch negativ erkannte Zellen auf. Die modellierte Grö"se dieser Zellen überstieg die Grenze von $200\%$ der Initialisierungsgrö"se, weshalb sie als nicht erkannt gewertet wurden. Es handelt sich dabei sowohl um unbekannte als auch um im Trainingssatz vorhandene Zellen. Es ergibt sich damit im Vergleich zu den anderen Modellen die geringste Sensitivität und daraus auch der geringste $F_1$-Wert.\\
+Den grö"sten Dice- und Jaccard-Koeffizienten sowie die höchste Flächenüberdeckung erreicht das Basic AAM der Fokus-Aufnahmen. Trotz der beschriebenen morphologischen Rücktransformation der Segmentierungsergebnisse, mit welcher auch eine gewisse Ungenauigkeit einhergeht, erreicht das ICAAM der Post-Fokus-Aufnahmen jedoch ähnliche Werte.\\
+Die maximalen Hausdorff-Distanzen liegen für die Fokus-Modelle jeweils über den Werten der Post-Fokus-Modelle. Da eine zu starke Verkleinerung des Segmentierungsgebietes durch die morphologische Rücktransformation die maximalen Hausdorff-Distanzen jedoch verringern würde, ist ein Vergleich zischen den beiden Bildgruppen hier nur bedingt sinnvoll. Die Betrachtung der durchschnittlichen Hausdorff-Distanzen zeigt allerdings lediglich eine Abweichung von $0.4$ Pixel zwischen allen Modellen. Dies lässt darauf schlie"sen, dass mittels der morphologischen Rücktransformation plausible Segmentierungsergebnisse erzeugt werden.\\
+
+Bei der gemeinsamen Betrachtung der Texturfehler und Segmentierungsergebnisse der Referenzmodelle ergibt sich insgesamt das beste Ergebniss für das ICAAM der Post-Fokus-Aufnahmen. Es modelliert die Zellen schnell und erreicht dabei eine geringe verbleibende Pixeldifferenz sowie vergleichsweise gute Segmentierungsergebnisse. Im Folgenden sollen weitere Einflüsse überprüft werden, um die Modellierungs- und Segmentierungsqualität zu steigern. Darüber hinaus erfolgt eine Evaluation der Modellanpassung aus verschiedenen Initialisierungspositionen.
+
+%Für Referenz: Modell mit 200 Zellen und 8 Landmarken anlernen und Fitting-Performance erfassen. 98\% cutoff. Fitting auf 20-Zellen-Bild. Automatische Initialisierung. Einmal für Fokus und einmal für Nachfokus! Für beide Modelle.
+%Modell aus Vollbild, border x = 20, y = 269, max 200 Zellen, nur Label 1, 8 Landmarken + center; Nachfokus: Dil:3, XOffset:2, YOffset:1
+%98% cutoff bei allen modellen
+%Fitting auf ..._20_cells.bmp's, max Error 1.5, 300 iterations, max 12 constr. params, size constrain 0-2
+%Änderung: Fitting auf _100and100.bmp's. 100 Zellen davon im Trainingssatz, 100 unbekannt. Ausschnitt mit border: x=245, y=20
+%Miss-One-Out Evaluation um festzustellen, wie gut das Modell generalisiert?
+
+%\textbf{Auswertung von:}\\\\
+%Building:\\
+%EW:\\
+%Anzahl $\rightarrow$ Shape etwa gleich, Textur-EW-Anzahl bei Fokus deutlich höher (weniger Übereinstimmung innerhalb der Zellbilder; Nahezu gleichmä"siger Gradient beim IC (Gradienten-Bilder)), Appearance ähnlich aber wie Shape deutlich größer bei Fokus (Warum? vosm explorer verwenden um erste moden darzustellen)\\
+%Verlauf $\rightarrow$ Ab welchem Prozentsatz könnte abgeschnitten werden, da Einfluss nurnoch gering?\\
+%Allgemein $\rightarrow$ Referenzbild anzeigen und vergleichen (fokus/nachfokus)
+
+%Fitting:\\
+%Fehlerwerte $\rightarrow$ Absolute Werte, Verhältnis zwischen \glqq Erkennung\grqq\ und Hintergrund\\
+%Fehlerverlauf $\rightarrow$ wie schnell nähert sich der Fehler dem Endwert an?\\
+
+%Segmentation-result:\\ 
+%Segmentierungsqualität\\
+
+%1. Landmarkenanzahl bestimmen - definierte Zellzahl, wie verändert sich das Modell und das Fitting-Ergebnis?
+
+\section{Veränderung der abgebildeten Erscheinungsvarianz}
+\label{sec:cutoff}
+Aufgrund der gezeigten, geringen Modellierung der Textur durch das erstellte Erscheinungsmodell des Basic AAM soll die Auswirkung der Erhöhung der abgebildeten Varianz untersucht werden. Diese Änderung beeinflusst demnach nur das Basic AAM.\\
+Die Ursache für die vorrangige Modellierung der Objektform durch das Erscheinungsmodell liegt in der Grö"se des Wichtungsfaktors der Formparameter. Dieser wird als Quotient aus den Summen der Textur- und Formeigenwerte berechnet. Aus der in Kapitel \ref{sec:reference_model_building} beschriebenen gro"sen Anzahl an Textureigenwerten resultiert somit ein hoher Wichtungsfaktor und daraus ein starker Einfluss der Formparameter auf das Erscheinungsmodell.\\
+Um die Texturvariation auch repräsentativ im Erscheinungsmodell abbilden zu können, muss daher die gesamte vom Erscheinungsmodell abgebildete Varianz erhöht werden. Dies erfolgt ausgehend von den bisherigen $98\%$ in Schritten von $0.25\%$ bis zu $99.75\%$. Eine Abbildung von $100\%$ soll nicht betrachtet werden, da diese das gesamte Form- und Texturmodell beschreiben und damit der Idee des gesonderten Erscheinungsmodells widersprechen würde.\\
+Als alternative Lösung sei noch die starke Verringerung der abgebildeten Varianz des Texturmodells genannt, mit welcher die gleichen Auswirkungen auf das Erscheinungsmodell erreicht werden könnten. Dieser Ansatz wird im Rahmen der Modelloptimierung in Kapitel \ref{sec:optimierungen} näher betrachtet. 
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.5]{AppearanceEW_Verlauf_Cutoff}
+%	\caption{Anzahl der Erscheinungseigenwerte in Abhängigkeit der Modellvarianz}
+%	\label{fig.cutoff_building_eigenvalues_appearance}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+		xlabel=Modellvarianz \lbrack \%\rbrack,
+		ylabel=Eigenwerte des Erscheinungsmodells,
+		xtick={98.5,98.75,...,99.75},
+		ymin=0,
+		ymax=40,
+		ytick={0,5,...,35},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=north west,
+			nodes=right,
+			draw=none
+		}
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+		(98.5,13)
+		(98.75,13)
+		(99,13)
+		(99.25,13)
+		(99.5,17)
+		(99.75,32)		
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+		(98.5,12)
+		(98.75,13)
+		(99,14)
+		(99.25,16)
+		(99.5,20)
+		(99.75,28)
+	};
+	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-3mm}
+\caption{Anzahl der Eigenwerte des Erscheinungsmodells in Abhängigkeit der Modellvarianz}
+\label{fig.cutoff_building_eigenvalues_appearance}
+\vspace{-2mm}
+\end{figure}
+
+Bild \ref{fig.cutoff_building_eigenvalues_appearance} zeigt bei Erhöhung der abgebildeten Erscheinungsvarianz ab $98.75$ einen kontinuierlichen Anstieg der Parameteranzahl des Erscheinungsmodells der Post-Fokus-Aufnahmen. Die Anzahl an Erscheinungsparametern des FM hingegen bleibt bis zu einer modellierten Varianz von $99.25\%$ konstant und steigt anschlie"send steil an. Im Folgenden werden die Modelle ab dem jeweiligen Anstieg der Parameterzahl genauer betrachtet.\\
+Die zusätzlichen Erscheinungsparameter modellieren wie erwartet eine reine Texturvariation ohne Beeinflussung der Modellform, da die bisherigen Erscheinungsparameter bereits eine nahezu vollständige Abbildung der Formparameter waren. Bild \ref{fig.cutoff_appearance_visualization} stellt die modellierte Textur für die ersten zusätzlichen Parameter dar.\\
+
+\begin{figure}[!ht]
+	\begin{center}
+	\subfigure[14. Erscheinungsparameter (Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode14_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode14_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[13. Erscheinungsparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode13_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode13_+3sigma_sm}
+	}\\
+	\subfigure[15. Erscheinungsparameter (Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode15_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_focus_mode15_+3sigma_sm}
+	}
+	\hspace{2mm}
+	\subfigure[14. Erscheinungsparameter (Post-Fokus-Modell)]{
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode14_-3sigma_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mean_sm}
+		\includegraphics[scale=0.5]{vosm_explorer_images/appearance_postfocus_mode14_+3sigma_sm}
+	}
+	\caption{Variation der ersten zusätzlichen Erscheinungsparameter um $\pm 3 \sqrt{\lambda_i}$}
+	\label{fig.cutoff_appearance_visualization}
+	\end{center}
+	\vspace*{-8mm}
+\end{figure}
+
+Das AAM sollte aufgrund der zusätzlichen Erscheinungsparameter somit eine bessere Texturanpassung und einen geringeren verbleibenden Texturfehler erzeugen. Die Box-Whisker-Plots der verbleibenden Texturfehler in Bild \ref{fig.error_boxplot_cutoff_focus} und Bild \ref{fig.error_boxplot_cutoff_postfocus} bestätigen dies und zeigen die Abnahme der Fehlerwerte bei Erhöhung der Modellvarianz.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.8]{boxplot_cutoff_fokus}
+%	\caption{Box-Whisker-Plot der Fehlerwerte des Basic AAM der Fokus-Aufnahmen in Abhängigkeit der abgebildeten Erscheinungsvarianz}
+%	\label{fig.error_boxplot_cutoff_focus}
+%	\end{center}
+%	\vspace*{-11mm}
+%\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \begin{axis}[
+    	ytick={0,0.1,...,1.1},
+    	minor y tick num=5,
+    	ymax=1.1,
+    	ylabel=Texturfehlerwert,
+    	xlabel=Erscheinungsvarianz \lbrack \%\rbrack,
+    	xtick={1,2,3},
+    	x tick label style={align=center},
+    	xticklabels={98.0, 99.5, 99.75},
+    	boxplot/draw direction=y,
+    	width=10cm,
+    	height=8cm,
+    ]
+    \addplot+[color=red,mark=x,
+    boxplot prepared={
+      median=0.8527,
+      upper quartile=0.90185,
+      lower quartile=0.800925,
+      upper whisker=0.968435,
+      lower whisker=0.7136525
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.7054\\ 0.9773\\ 0.9763\\ 0.9698\\ 0.7118\\ 0.6919\\ 0.9727\\ 0.7006\\ 0.974\\ 0.7077\\};
+    \addplot+[color=red,mark=x,
+    boxplot prepared={
+      median=0.8257,
+      upper quartile=0.884825,
+      lower quartile=0.763925,
+      upper whisker=0.9661675,
+      lower whisker=0.65436
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.6408\\ 0.9855\\ 0.9945\\ 0.6482\\ 0.9906\\ 0.6489\\ 0.975\\ 0.9688\\ 0.5732\\ 0.6485\\};
+    \addplot+[color=red,mark=x,
+    boxplot prepared={
+      median=0.692,
+      upper quartile=0.7568,
+      lower quartile=0.624575,
+      upper whisker=0.848735,
+      lower whisker=0.53051
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0]{0.4527\\ 0.8925\\ 0.8801\\ 0.8845\\ 0.8661\\ 0.5128\\ 0.514\\ 0.5165\\ 0.8618\\ 0.5192\\};
+  \end{axis}
+\end{tikzpicture}
+\caption{Box-Whisker-Plot der Texturfehlerwerte des Basic AAM der Fokus-Aufnahmen in Abhängigkeit der abgebildeten Erscheinungsvarianz}
+\label{fig.error_boxplot_cutoff_focus}
+\end{center}
+\end{figure}
+
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.6]{boxplot_cutoff_post-fokus}
+%	\caption{Box-Whisker-Plot der Fehlerwerte des Basic AAM der Post-Fokus-Aufnahmen in Abhängigkeit der abgebildeten Erscheinungsvarianz}
+%	\label{fig.error_boxplot_cutoff_postfocus}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \begin{axis}[
+    	ytick={0,0.1,...,1.1},
+    	minor y tick num=5,
+    	ymax=1.1,
+    	ylabel=Texturfehlerwert,
+    	xlabel=Erscheinungsvarianz \lbrack \%\rbrack,
+    	xtick={1,2,...,6},
+    	x tick label style={align=center},
+    	xticklabels={98.0, 98.75, 99.0, 99.25, 99.5, 99.75},
+    	boxplot/draw direction=y,
+    	width=15cm,
+    	height=8cm,
+    ]
+    \addplot+[color=blue,mark=x,
+    boxplot prepared={
+      median=0.34285,
+      upper quartile=0.4445,
+      lower quartile=0.269475,
+      upper whisker=0.6660925,
+      lower whisker=0.19592
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.765\\ 0.6853\\ 0.7185\\ 0.1627\\ 0.185\\ 0.7388\\ 0.1598\\ 0.9155\\ 0.1835\\ 0.1369\\ };
+    \addplot+[color=blue,mark=x,
+    boxplot prepared={
+      median=0.32725,
+      upper quartile=0.424375,
+      lower quartile=0.25815,
+      upper whisker=0.644875,
+      lower whisker=0.1833025
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.6937\\ 0.6755\\ 0.1676\\ 0.1479\\ 0.1678\\ 0.7357\\ 0.1512\\ 0.936\\ 0.651699999999999\\ 0.1371\\ };
+    \addplot+[color=blue,mark=x,
+    boxplot prepared={
+      median=0.28605,
+      upper quartile=0.401175,
+      lower quartile=0.224875,
+      upper whisker=0.610915,
+      lower whisker=0.159245
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0]{0.6115\\ 0.6247\\ 0.1457\\ 0.1479\\ 0.739\\ 0.1405\\ 0.8816\\ 0.665799999999999\\ 0.1532\\ 0.1246\\};
+    \addplot+[color=blue,mark=x,
+    boxplot prepared={
+      median=0.2695,
+      lower quartile=0.205675,
+      upper quartile=0.370925,
+      lower whisker=0.139785,
+      upper whisker=0.566535,
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0]{0.6389\\ 0.5757\\ 0.7648\\ 0.1331\\ 0.6967\\ 0.1308\\ 0.7114\\ 0.1263\\ 0.1392\\ 0.1074\\ };
+    \addplot+[color=blue,mark=x,
+    boxplot prepared={
+      median=0.2567,
+      lower quartile=0.201425,
+      upper quartile=0.3554,
+      lower whisker=0.127875,
+      upper whisker=0.5617875,      
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0]{0.6047\\ 0.5847\\ 0.1195\\ 0.8119\\ 0.1112\\ 0.6875\\ 0.1225\\ 0.5966\\ 0.1269\\ 0.09944\\ };
+    \addplot+[color=blue,mark=x,solid,
+    boxplot prepared={
+      median=0.2133,
+      lower quartile=0.16225,
+      upper quartile=0.279925,
+      lower whisker=0.1184425,
+      upper whisker=0.39801,
+    },
+    ] %coordinates {};
+    table[row sep=\\,y index=0]{0.4062\\ 0.4881\\ 0.4403\\ 0.471\\ 0.1123\\ 0.1096\\ 0.1068\\ 0.5532\\ 0.1113\\ 0.1096\\ };
+  \end{axis}
+\end{tikzpicture}
+\caption{Box-Whisker-Plot der Texturfehlerwerte des Basic AAM der Post-Fokus-Aufnahmen in Abhängigkeit der abgebildeten Erscheinungsvarianz}
+\label{fig.error_boxplot_cutoff_postfocus}
+\end{center}
+\end{figure}
+
+Durch die zusätzlichen Modellparameter und die daraus resultierenden Schritte zur Texturanpassung kommt es für die Fokus-Modelle zu einem deutlichen Anstieg der zur Modellanpassung benötigten Dauer, wie aus Bild \ref{fig.fitting_time_cutoff} ersichtlich ist.\\
+
+Ein gegensätzlicher Verlauf lässt sich für die Post-Fokus-Modelle ausmachen. Es zeigt sich eine mit zunehmender Modellvarianz geringer werdende Anpassungsdauer. Dieser Effekt entsteht durch die zusätzliche Texturrepräsentation und die damit zusammenhängende verbesserte initiale Texturberechnung. Es werden somit im weiteren iterativen Anpassungsvorgang weniger Schritte benötigt, um die optimale Modellanpassung zu erzeugen. Erneut zeigt sich an diesem Beispiel der Vorteil der Post-Fokus-Aufnahmen, da die Zelltexturen in diesen Aufnahmen markanter und damit vom Modell besser zu repräsentieren sind. Für die Modelle der Fokus-Aufnahmen verbessert sich die initiale Texturbestimmung nicht wesentlich, so dass bei diesen die Anzahl an folgenden Iterationsschritten nicht verringert werden kann.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.4]{fitting_time_cutoff}
+%	\caption{Durchschnittliche Dauer der Modellanpassung in Abhängigkeit der abgebildeten Erscheinungsvarianz}
+%	\label{fig.fitting_time_cutoff}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+		xlabel=Erscheinungsvarianz \lbrack \%\rbrack,
+		ylabel=Anpassungsdauer \lbrack ms\rbrack,
+		xtick={98.5,98.75,...,99.75},
+		ymin=0,
+		ymax=150,
+		ytick={0,20,...,140},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=north west,
+			nodes=right,
+			draw=none
+		}
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+(98.5,55.241)
+(98.75,55.241)
+(99,55.241)
+(99.25,55.241)
+(99.5,89.444)
+(99.75,95.422)		
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+(98.5,128.279)
+(98.75,111.643)
+(99,95.803)
+(99.25,64.17)
+(99.5,49.733)
+(99.75,37.213)
+	};
+	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-3mm}
+\caption{Durchschnittliche Dauer der Modellanpassung in Abhängigkeit der abgebildeten Erscheinungsvarianz}
+\label{fig.fitting_time_cutoff}
+\vspace{-3mm}
+\end{figure}
+
+Eine Erhöhung der abgebildeten Erscheinungsvarianz und damit der Freiheitsgrade des AAM kann demnach trotz des komplexeren Modells zu einer Verringerung der Modellierungsdauer bei gleichzeitiger Verbesserung der Texturanpassung führen. Da an dieser Stelle allerdings von einer hohen Güte der Initialisierungspositionen ausgegangen werden kann, muss weiterhin geklärt werden, ob dieser Geschwindigkeitsvorteil auch bei einer vom Optimum abweichenden Modellinitialisierung bestehen bleibt. Diese Untersuchung erfolgt in Kapitel \ref{sec:pos_iteration}. Abschlie"send bleibt zu bewerten, ob die verbesserte Texturmodellierung auch zu einer Verbesserung der Segmentierungsergebnisse führt. Tabelle \ref{tab:segmentation_results_cutoff_focus} und Tabelle \ref{tab:segmentation_results_cutoff_postfocus} fassen die Resultate der Segmentierungsbewertung zusammen. Es wird deutlich, dass mit jedem zusätzlichen Anteil abgebildeter Varianz die Segmentierungen verbessert werden können. Somit zeigt sich, dass auch die Modellierung der Zellform durch die zusätzliche Texturvarianz genauer wird.\\
+
+\begin{table}[!ht]
+\caption{Segmentierungsergebnisse der Fokus-Modelle bei unterschiedlichen abgebildeten Erscheinungsvarianzen}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\rowcolor{lightgray} & \textbf{99.25} & \textbf{99.50} & \textbf{99.75}\\
+\hline
+$RP$ & $199$ & $200$ & $200$\\
+\hline
+$FP$ & $1$ & $1$ & $0$\\
+\hline
+$FN$ & $1$ & $1$ & $0$\\
+\hline
+$Ge$ & $0.995$ & $0.995$ & $1$\\
+\hline
+$Se$ & $0.995$ & $0.995$ & $1$\\
+\hline
+$F_1$ & $0.995$ & $0.995$ & $1$\\
+\hline
+$D$ & $0.863$ & $0.865$ & $0.880$\\
+\hline
+$J$ & $0.758$ & $0.763$ & $0.786$\\
+\hline
+$F\ddot{U}$ & $0.807$ & $0.810$ & $0.820$\\
+\hline
+$H$ & $2.767$ & $2.585$ & $2.322$\\
+\hline
+$H_{max}$ & $7.810$ & $8.000$ & $5.385$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:segmentation_results_cutoff_focus}
+\end{table} 
+
+\begin{table}[!ht]
+\caption{Segmentierungsergebnisse der Post-Fokus-Modelle bei unterschiedlichen abgebildeten Erscheinungsvarianzen}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \textbf{98.50} & \textbf{98.75} & \textbf{99.00} & \textbf{99.25} & \textbf{99.50} & \textbf{99.75} \\
+\hline
+$RP$ & $200$ & $200$ & $200$ & $200$ & $200$ & $200$ \\
+\hline
+$FP$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+\hline
+$FN$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+\hline
+$Ge$ & $1$ & $1$ & $1$ & $1$ & $1$ & $1$\\
+\hline
+$Se$ & $1$ & $1$ & $1$ & $1$ & $1$ & $1$\\
+\hline
+$F_1$ & $1$ & $1$ & $1$ & $1$ & $1$ & $1$\\
+\hline
+$D$ & $0.816$ & $0.818$ & $0.824$ & $0.826$ & $0.839$ & $0.846$\\
+\hline
+$J$ & $0.689$ & $0.692$ & $0.700$ & $0.703$ & $0.723$ & $0.733$\\
+\hline
+$F\ddot{U}$ & $0.707$ & $0.713$ & $0.719$ & $0.723$ & $0.745$ & $0.758$\\
+\hline
+$H$ & $3.165$ & $3.157$ & $3.156$ & $3.069$ & $2.928$ & $2.839$\\
+\hline
+$H_{max}$ & $6.708$ & $7.071$ & $6.325$ & $6.403$ & $5.831$ & $5.831$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:segmentation_results_cutoff_postfocus}
+\end{table}
+
+Die Ergebnisse der Modellierung und Segmentierung sind ausschlaggebend für die Eignung des AAM in der Zellsegmentierung. Die Modellierungsdauer ist daher als untergeordnetes Entscheidungskriterium anzusehen, weshalb trotz der für das Fokus-Modell gestiegenen Anpassungsdauer für die weiteren Untersuchungen jeweils die Modelle mit einer Erscheinungsvarianz von $99.75\%$ verwendet werden, da diese eine bessere Texturmodellierung gewährleisten.
+
+
+%- Cutoff heraufsetzen: 98.5, 99, 99.5, 100 Prozent.
+%- Anzahl an Erscheinungsparametern angeben
+%- Ersten Moden werden vermutlich gleich sein, daher die im Referenzmodell nicht vorhandenen Moden zeigen. (13 bzw. 14)
+%- Objektanpassung des Basic AAM erneut überprüfen und evtl. zusammen mit den Ergebnissen (Auch ICAAM) des Referenzmodells plotten (Box-Whisker)
+%- Auswirkungen auf Anpassungsdauer angeben
+%- Segmentierungen evtl. auch nochmal vergleichen (eher für den Anhang?)
+
+%- Form und Texturvarianz auch prüfen? Evtl. auch auf mögliche Reduktion -> Performance-Vorteile?
+
+%Einfluss des Cutoff auf die Segmentierungsgenauigkeit?
+
+\section{Landmarkenanzahl}
+\label{sec:landmarkenzahl}
+Die lineare Interpolation zwischen den Landmarkenpunkten beeinflusst sowohl die Modellbildung als auch das Segmentierungsergebnis, so dass im Folgenden der Einfluss unterschiedlicher Landmarkenzahlen untersucht werden soll. Die für die Modellbildung aus den Landmarken erzeugte Triangulation der manuellen Segmentierung definiert die Grö"se der betrachteten Pixelbereiche. Eine zu geringe Landmarkenanzahl kann daher dazu führen, dass die Zellformen und -texturen nicht ausreichend im Modell repräsentiert werden. Gleichzeitig kann es durch eine zu gro"se Anzahl an Landmarken zu einer ungenaueren Abbildung der statistischen Texturzusammenhänge kommen, da die einzelnen Pixelbereiche mit steigender Landmarkenzahl kleiner werden.\\
+Für das Segmentierungsergebnis ist aufgrund der verbesserten Konturmodellierung eine möglichst hohe Anzahl an Landmarkenpunkten anzustreben. Ziel ist es daher, in Abhängigkeit der Pixelgrö"se eine Landmarkenanzahl zu ermitteln, welche sowohl eine zuverlässige Objektanpassung als auch eine hohe Segmentierungsgüte gewährleistet. Für alle Modelle wurde eine zusätzliche Landmarke im Zentrum der Zellen verwendet, um eine gleichmä"sige Triangulation zu ermöglichen. Die im Folgenden angegebenen Landmarkenzahlen beziehen sich immer auf die zur Abbildung der äu"seren Kontur verwendeten Landmarken.\\
+Um ein vergleichbares Ma"s zu erhalten, wurden die jeweiligen durchschnittlich verbliebenen Texturfehler mittels Division durch die Pixelanzahl der Modelle normiert: 
+
+\begin{equation}
+E_{norm} = \frac{E_D}{n_{pix}}
+\end{equation}
+
+\vspace{3mm}
+Die grafische Darstellung der Resultate enthält Bild \ref{fig.landmarks_norm_error}. Die dazugehörigen Wertetabellen finden sich in Anhang \ref{app_norm_err}. Zu Beginn der Verläufe ist bei allen Modellen mit zunehmender Landmarkenzahl eine deutliche Abnahme der verbleibenden Texturfehler zu erkennen. Für das Basic AAM kommt es unabhängig von den verwendeten Aufnahmen zu einer Stabilisierung der Fehlerwerte im Bereich zwischen $11$ und $16$ Landmarken. Das ICAAM zeigt hingegen eine erneute Zunahme der Fehlerwerte ab einer Anzahl von $15$ bzw. $16$ Landmarken.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\subfigure[Basic AAM der Fokus-Aufnahmen]{
+%		\includegraphics[scale=0.25]{landmarken_norm_err_fok_bas}
+%	}
+%	\hspace{2mm}
+%	\subfigure[ICAAM der Fokus-Aufnahmen]{
+%		\includegraphics[scale=0.25]{landmarken_norm_err_fok_ic}
+%	}\\
+%	\subfigure[Basic AAM der Post-Fokus-Aufnahmen]{
+%		\includegraphics[scale=0.25]{landmarken_norm_err_postfok_bas}
+%	}
+%	\hspace{2mm}
+%	\subfigure[ICAAM der Post-Fokus-Aufnahmen]{
+%		\includegraphics[scale=0.25]{landmarken_norm_err_postfok_ic}
+%	}
+%	\caption[Normierte durchschnittliche Texturfehler in Abhängigkeit der Landmarkenan-\\zahl]{Normierte durchschnittliche Texturfehler in Abhängigkeit der Landmarkenanzahl}
+%	\label{fig.tests}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\subfigure[Basic AAM der Fokus-Aufnahmen]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.8]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Texturfehlerwert,
+			xtick={4,5,...,16},
+			ymin=0.3,
+			ymax=0.6,
+			ytick={0.3,0.35,...,0.6},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(4,0.5536)
+			(5,0.4711)
+			(6,0.4124)
+			(7,0.3886)
+			(8,0.3917)
+			(9,0.3712)
+			(10,0.3751)
+			(11,0.3606)
+			(12,0.3659)
+			(13,0.3651)
+			(14,0.3629)
+			(15,0.3713)
+			(16,0.3681)		
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{13mm}
+\subfigure[ICAAM der Fokus-Aufnahmen]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.8]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Texturfehlerwert,
+			xtick={4,5,...,16},
+			ymin=0.16,
+			ymax=0.22,
+			ytick={0.16,0.17,...,0.21},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=Green,mark=*] coordinates{
+			(4,0.2094)
+			(5,0.2016)
+			(6,0.1909)
+			(7,0.1805)
+			(8,0.1804)
+			(9,0.1781)
+			(10,0.182)
+			(11,0.178)
+			(12,0.1819)
+			(13,0.1817)
+			(14,0.1755)
+			(15,0.1824)
+			(16,0.1863)		
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\subfigure[Basic AAM der Post-Fokus-Aufnahmen]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.8]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Texturfehlerwert,
+			xtick={4,5,...,16},
+			ymin=0.05,
+			ymax=0.1,
+			ytick={0.05,0.06,...,0.09},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/precision=3,
+			}
+			%axis lines=left
+		]
+		\addplot[color=blue,mark=square*] coordinates{
+			(4,0.0886)
+			(5,0.0753)
+			(6,0.0646)
+			(7,0.0626)
+			(8,0.0601)
+			(9,0.0618)
+			(10,0.0622)
+			(11,0.0624)
+			(12,0.0621)
+			(13,0.0618)
+			(14,0.0621)
+			(15,0.0619)
+			(16,0.0624)		
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{13mm}
+\subfigure[ICAAM der Post-Fokus-Aufnahmen]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.8]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Texturfehlerwert,
+			xtick={4,5,...,16},
+			ymin=0.027,
+			ymax=0.033,
+			ytick={0.027,0.028,...,0.033},
+			scaled y ticks=false,
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=3,
+			}
+			%axis lines=left
+		]
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(4,0.0322)
+			(5,0.0313)
+			(6,0.0291)
+			(7,0.0283)
+			(8,0.0285)
+			(9,0.0284)
+			(10,0.0283)
+			(11,0.028)
+			(12,0.0288)
+			(13,0.0282)
+			(14,0.0283)
+			(15,0.028)
+			(16,0.0286)		
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\end{center}
+\vspace{-3mm}
+\caption[Normierte durchschnittliche Texturfehler in Abhängigkeit der Landmarken-\\ anzahl]{Normierte durchschnittliche Texturfehler in Abhängigkeit der Landmarkenanzahl}
+\label{fig.landmarks_norm_error}
+\vspace{-3mm}
+\end{figure}
+
+Die Segmentierungsergebnisse in Bild \ref{fig.landmarks_segmentation_results} stellen die Verläufe des Dice- und des Jaccard-Koeffizienten, der Flächenüberdeckung sowie der Hausdorff-Distanzen dar. Für alle Werte zeigt sich bei zunehmender Anzahl an Landmarken eine schnelle Verbesserung im Anfangsbereich. Anschlie"send werden ab einer Anzahl von $9$ Landmarken nur noch geringe Verbesserungen in den Segmentierungsergebnissen erzielt. 
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\subfigure[Flächenüberdeckung]{
+%		\includegraphics[scale=0.4]{landmarken_seg_fue}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Dice-Koeffizient]{
+%		\includegraphics[scale=0.4]{landmarken_seg_dice}
+%	}\\
+%	\subfigure[Jaccard-Koeffizient]{
+%		\includegraphics[scale=0.4]{landmarken_seg_jac}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Hausdorff-Distanzen]{
+%		\includegraphics[scale=0.4]{landmarken_seg_haus}
+%	}
+%	\caption{Segmentierungsergebnisse in Abhängigkeit der Landmarkenanzahl}
+%	\label{fig.landmarks_segmentation_results}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\subfigure[Flächenüberdeckung]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.9]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Flächenüberdeckung,
+			xtick={4,5,...,16},
+			ymin=0.4,
+			ymax=1,
+			ytick={0.4,0.5,...,1},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=1,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(4,0.6325)
+			(5,0.7391)
+			(6,0.8075)
+			(7,0.8309)
+			(8,0.8204)
+			(9,0.859)
+			(10,0.8572)
+			(11,0.8663)
+			(12,0.8742)
+			(13,0.8712)
+			(14,0.8783)
+			(15,0.8766)
+			(16,0.8788)		
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(4,0.6098)
+			(5,0.7236)
+			(6,0.778)
+			(7,0.8013)
+			(8,0.7787)
+			(9,0.8331)
+			(10,0.8314)
+			(11,0.8268)
+			(12,0.8438)
+			(13,0.8522)
+			(14,0.8488)
+			(15,0.8488)
+			(16,0.8044)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(4,0.4843)
+			(5,0.5746)
+			(6,0.6785)
+			(7,0.7365)
+			(8,0.7576)
+			(9,0.8071)
+			(10,0.8098)
+			(11,0.8293)
+			(12,0.7985)
+			(13,0.8575)
+			(14,0.8323)
+			(15,0.8571)
+			(16,0.839)	
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(4,0.4997)
+			(5,0.598)
+			(6,0.6934)
+			(7,0.7486)
+			(8,0.7712)
+			(9,0.8202)
+			(10,0.8099)
+			(11,0.838)
+			(12,0.8274)
+			(13,0.8597)
+			(14,0.8598)
+			(15,0.8598)
+			(16,0.85)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{11mm}
+\subfigure[Dice-Koeffizient]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.9]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Dice-Koeffizient,
+			xtick={4,5,...,16},
+			ymin=0.4,
+			ymax=1,
+			ytick={0.4,0.5,...,1},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=1,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(4,0.7673)
+			(5,0.8371)
+			(6,0.8723)
+			(7,0.8814)
+			(8,0.8799)
+			(9,0.8924)
+			(10,0.8914)
+			(11,0.8934)
+			(12,0.8971)
+			(13,0.8948)
+			(14,0.8977)
+			(15,0.8979)
+			(16,0.9001)	
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(4,0.7279)
+			(5,0.8021)
+			(6,0.8167)
+			(7,0.8389)
+			(8,0.8191)
+			(9,0.8413)
+			(10,0.8431)
+			(11,0.8369)
+			(12,0.8322)
+			(13,0.8256)
+			(14,0.8309)
+			(15,0.8309)
+			(16,0.8087)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(4,0.6518)
+			(5,0.7269)
+			(6,0.7978)
+			(7,0.8325)
+			(8,0.8461)
+			(9,0.8705)
+			(10,0.8714)
+			(11,0.8823)
+			(12,0.8671)
+			(13,0.892)
+			(14,0.8814)
+			(15,0.8915)
+			(16,0.8825)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(4,0.6652)
+			(5,0.7427)
+			(6,0.806)
+			(7,0.8397)
+			(8,0.8508)
+			(9,0.8767)
+			(10,0.8689)
+			(11,0.8829)
+			(12,0.8763)
+			(13,0.8896)
+			(14,0.8869)
+			(15,0.8869)
+			(16,0.8831)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\subfigure[Jaccard-Koeffizient]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.9]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Jaccard-Koeffizient,
+			xtick={4,5,...,16},
+			ymin=0.4,
+			ymax=1,
+			ytick={0.4,0.5,...,1},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/precision=1,
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(4,0.6225)
+			(5,0.7198)
+			(6,0.7735)
+			(7,0.788)
+			(8,0.7855)
+			(9,0.8056)
+			(10,0.804)
+			(11,0.8074)
+			(12,0.8134)
+			(13,0.8096)
+			(14,0.8144)
+			(15,0.8147)
+			(16,0.8183)		
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(4,0.5721)
+			(5,0.6695)
+			(6,0.6902)
+			(7,0.7226)
+			(8,0.6936)
+			(9,0.726)
+			(10,0.7288)
+			(11,0.7195)
+			(12,0.7127)
+			(13,0.703)
+			(14,0.7107)
+			(15,0.7107)
+			(16,0.6788)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(4,0.4834)
+			(5,0.571)
+			(6,0.6636)
+			(7,0.7131)
+			(8,0.7332)
+			(9,0.7707)
+			(10,0.7721)
+			(11,0.7894)
+			(12,0.7653)
+			(13,0.805)
+			(14,0.7879)
+			(15,0.8043)
+			(16,0.7898)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(4,0.4984)
+			(5,0.5907)
+			(6,0.675)
+			(7,0.7236)
+			(8,0.7404)
+			(9,0.7804)
+			(10,0.7683)
+			(11,0.7903)
+			(12,0.7798)
+			(13,0.8011)
+			(14,0.7968)
+			(15,0.7968)
+			(16,0.7907)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{11mm}
+\subfigure[Durchschnittliche Hausdorff-Distanz]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.9]
+		\begin{axis}[
+			xlabel=Landmarkenanzahl,
+			ylabel=Durchschnittliche Hausdorff-Distanz,
+			xtick={4,5,...,16},
+			ymin=1.5,
+			ymax=5,
+			ytick={1.5,2,...,4.5},
+			scaled y ticks=false,
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=1,
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(4,3.6077)
+			(5,2.8275)
+			(6,2.4674)
+			(7,2.2475)
+			(8,2.3223)
+			(9,2.1449)
+			(10,2.1433)
+			(11,2.139)
+			(12,2.0526)
+			(13,2.1275)
+			(14,2.054)
+			(15,2.042)
+			(16,2.0281)
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(4,4.187)
+			(5,3.2821)
+			(6,3.1625)
+			(7,2.8383)
+			(8,3.0431)
+			(9,2.8251)
+			(10,2.8621)
+			(11,2.8304)
+			(12,3.0479)
+			(13,3.3525)
+			(14,2.997)
+			(15,2.997)
+			(16,3.0035)
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(4,4.3203)
+			(5,3.8017)
+			(6,3.3438)
+			(7,3.0903)
+			(8,2.8391)
+			(9,2.3862)
+			(10,2.4433)
+			(11,2.2474)
+			(12,2.4526)
+			(13,2.1547)
+			(14,2.2668)
+			(15,2.1932)
+			(16,2.2929)	
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(4,4.234)
+			(5,3.7975)
+			(6,3.2487)
+			(7,3.0223)
+			(8,2.8504)
+			(9,2.4541)
+			(10,2.5339)
+			(11,2.3426)
+			(12,2.4634)
+			(13,2.2756)
+			(14,2.3597)
+			(15,2.3597)
+			(16,2.3816)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\end{center}
+\vspace{-3mm}
+\caption{Segmentierungsergebnisse in Abhängigkeit der Landmarkenanzahl}
+\label{fig.landmarks_segmentation_results}
+\vspace{-3mm}
+\end{figure}
+
+\vspace{9mm}
+Die aufgeführten Werte werden zusammen mit den normierten Fehlerwerten und den $F_1$-Ma"sen (Anhang \ref{app_f1}) herangezogen, um einen allgemeinen Gütewert $\Gamma$ zu bestimmen. Mit Hilfe dieses Gütewertes wird ermittelt, mit welcher Landmarkenanzahl insgesamt über alle Modelle hinweg die beste Objektdetektion und -segmentierung erzielt wird. Die Berechnung wird definiert über
+
+\begin{equation}
+\Gamma = \frac{F_1 \cdot D \cdot J \cdot F\ddot{U}}{E_{norm} \cdot H }
+\end{equation}
+
+Eine Zusammenfassung der erreichten Gütewerte der jeweiligen Modelle in Abhängigkeit der Landmarkenanzahl enthält Tabelle \ref{tab:landmarks_gamma}.\\
+
+\vspace{6mm}
+Da die Gütewerte zwar einen direkten Vergleich innerhalb der Modelle, nicht aber zwischen den Modellen ermöglichen, wurde für alle Landmarkenzahlen die Summe der vier Modelle gebildet, wodurch jene Landmarkenzahl identifiziert werden kann, welche modellübergreifend das beste Ergebnis erzielt.
+
+\begin{table}[!ht]
+\caption{Gütewerte der Modelle in Abhängigkeit der Landmarkenanzahl}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell} &\\
+\rowcolor{lightgray} Landmarken & \textbf{Basic AAM} & \textbf{ICAAM} & \textbf{Basic AAM} & \textbf{ICAAM} & $\sum$\\
+\hline
+4 & $0.151$ & $0.281$ & $0.399$ & $1.214$ & $2.044$\\
+\hline
+5 & $0.334$ & $0.569$ & $0.833$ & $2.209$ & $3.945$\\
+\hline
+6 & $0.535$ & $0.702$ & $1.664$ & $3.995$ & $6.897$\\
+\hline
+7 & $0.661$ & $0.931$ & $2.260$ & $5.311$ & $9.163$\\
+\hline
+8 & $0.623$ & $0.779$ & $2.754$ & $5.989$ & $10.146$\\
+\hline
+9 & $0.776$ & $0.988$ & $3.674$ & $8.039$ & $13.477$\\
+\hline
+10 & $0.764$ & $0.961$ & $3.583$ & $7.548$ & $12.856$\\
+\hline
+11 & $0.810$ & $0.963$ & $4.121$ & $8.918$ & $14.812$\\
+\hline
+12 & $0.850$ & $0.882$ & $3.479$ & $7.980$ & $13.190$\\
+\hline
+13 & $0.813$ & $0.791$ & $4.626$ & $9.554$ & $15.784$\\
+\hline
+14 & $0.861$ & $0.924$ & $4.105$ & $9.108$ & $14.998$\\
+\hline
+15 & $0.846$ & $0.889$ & $4.529$ & $9.202$ & $15.466$\\
+\hline
+16 & $0.867$ & $0.752$ & $4.085$ & $8.712$ & $14.416$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:landmarks_gamma}
+\end{table}
+
+Es zeigt sich, dass ab einer Anzahl von $8$ Landmarken jeweils höhere Gütewerte durch die Modelle mit einer ungeraden Anzahl an Landmarken erreicht werden. Den maximalen Gütewert erreichen die Modelle, welche auf $13$ Landmarken basieren, weshalb diese Anzahl für die folgenden Analysen übernommen wird.
+
+%warum ungerade landmarkenzahl besser?
+
+%Einfluss der Landmarkenanzahl auf die Triangulation des Modells? Einfluss auf die Segmentierungsperformance? Einfluss auf die Fitting-Zeit?
+
+%- Modelle mit verschiedener Landmarkenanzahl erstellen und unter Berücksichtigung der bisherigen Ergebnisse die Anpassung vergleichen
+%- Performance-Auswertung auch auf die benötigte Zeit bezogen durchführen
+
+\vspace{3mm}
+\section{Iteration der Initialisierungsposition}
+\label{sec:pos_iteration}
+Nachdem die Segmentierungsqualität in den vorherigen Schritten verbessert werden konnte, folgt eine Evaluierung des Einzugsbereiches der Modelle. Dabei soll analysiert werden, welche Aufnahmen und welches Modell die zuverlässigsten Ergebnisse bei vom Optimum abweichenden Initialisierungspositionen liefern.\\
+Dazu erfolgte eine Iteration der Initialisierungspositionen um fünf Pixel in alle Richtungen ausgehend von den zuvor verwendeten Positionen. Aus den durchschnittlichen resultierenden Fehlerwerten der somit insgesamt $121$ Positionen wurden die in Bild \ref{fig.position_quality_maps} dargestellten Gütekarten erstellt. Die Helligkeit der abgebildeten Pixel verhält sich dabei proportional zum Verlauf der Fehlerwerte. Je kleiner der Texturfehler einer Initialisierungsposition, desto dunkler ist der Pixel auf der jeweiligen Gütekarte dargestellt. Der maximale abgebildete Fehlerwert wurde auf $1.0$ gesetzt und entspricht in dieser Darstellung einem wei"sen Pixel. Die absoluten Fehlerwerte finden sich in Anhang \ref{app_pos_err}.
+
+\begin{figure}[!ht]
+	\begin{center}
+	\subfigure[Basic AAM (Fokus-Aufnahmen)]{
+		\includegraphics[scale=0.6]{Guetekarte_Fokus_Basic_mean_black_grid}
+	}
+	\hspace{2mm}
+	\subfigure[ICAAM (Fokus-Aufnahmen)]{
+		\includegraphics[scale=0.6]{Guetekarte_Fokus_IC_mean_black_grid}
+	}\\
+	\subfigure[Basic AAM (Post-Fokus-Aufnahmen)]{
+		\includegraphics[scale=0.6]{Guetekarte_PostFokus_Basic_mean_new_values_black_grid}
+	}
+	\hspace{2mm}
+	\subfigure[ICAAM (Post-Fokus-Aufnahmen)]{
+		\includegraphics[scale=0.6]{Guetekarte_PostFokus_IC_mean_black_grid}
+	}
+	\caption{Gütekarten der verbleibenden Texturfehler bei Iteration der Initialisierungspositionen}
+	\label{fig.position_quality_maps}
+	\end{center}
+	\vspace*{-8mm}
+\end{figure}
+
+Wie bereits in den vorangegangenen Analysen gezeigt, erreicht das ICAAM im Allgemeinen geringere Fehlerwerte als das Basic AAM. Besonders deutlich wird durch die Gütekarten, dass der Bereich eines niedrigen verbleibenden Texturfehlers bei den Modellen der Post-Fokus-Aufnahmen deutlich grö"ser ist als bei den Modellen der Fokus-Aufnahmen.\\
+
+Der für die zentrale Initialisierungsposition erreichte Fehlerwert wird bei den Modellen der Fokus-Aufnahmen lediglich im Bereich der direkt angrenzenden Pixelpositionen annäherungsweise erreicht. Anschlie"send steigen die Fehlerwerte schnell an und werden mit zunehmendem Abstand nur noch geringfügig grö"ser. Bei den Modellen der Post-Fokus-Aufnahmen wird der Bereich, in welchem zur zentralen Initialisierungsposition vergleichbare Werte erzielt werden, durch einen Umkreis von zwei bis drei Pixel beschrieben. Auch kommt es zu einer kontinuierlichen Zunahme der Texturfehler mit zunehmender Entfernung vom Zentrum.\\
+Dies deutet auf einen Vorteil der Post-Fokus-Aufnahmen bei der Ermittlung der Zellposition bei abweichender Initialisierung hin, welcher durch die grö"sere statistische Varianz der Zellbilder erklärt werden kann, die sich bereits im Rahmen der vorherigen Untersuchungen zeigte, und im Vergleich der Fokus-Aufnahmen mit den Post-Fokus-Aufnahmen zu grö"seren Texturfehlerwerten führt. Ein weiterer Faktor könnte die geringere Durchschnittsgrö"se der Zellen in den Fokus-Aufnahmen sein, da bei beiden Modellen die Prädiktormatrizen bei der Modellerstellung in Abhängigkeit von der Bildgrö"se der Trainingsdaten berechnet werden.\\
+Der in Kapitel \ref{sec:cutoff} ermittelte Geschwindigkeitsvorteil des Basic AAM der Post-Fokus-Aufnahmen gegenüber dem Basic AAM der Fokus-Aufnahmen lässt sich mittels der in Tabelle \ref{tab:pos_it_time} aufgeführten, über alle Initialisierungspositionen gemittelten, Anpassungszeiten nicht bestätigen. Das Basic AAM erreicht für beide Aufnahmen nahezu identische Werte bei Betrachtung der gesamten Iteration.
+
+\begin{table}[!ht]
+\caption[Durchschnittliche Anpassungsdauer bei Iteration der Initialisierungsposition-\\en ]{Durchschnittliche Anpassungsdauer bei Iteration der Initialisierungspositionen}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell} \\
+\rowcolor{lightgray} & \textbf{Basic AAM} & \textbf{ICAAM} & \textbf{Basic AAM} & \textbf{ICAAM} \\
+\hline
+Gesamte Iteration & $83.273$ ms & $16.596$ ms & $83.246$ ms & $21.824$ ms \\
+\hline
+Optimale Initialisierungen & $91.184$ ms & $10.395$ ms & $86.924$ ms & $17.106$ ms \\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:pos_it_time}
+\end{table}
+
+Das ICAAM der Fokus-Aufnahmen benötigt im Durchschnitt dagegen etwa $5$ ms weniger zur Objektanpassung als das ICAAM der Post-Fokus-Aufnahmen. Die gesonderte Betrachtung der Anpassungszeiten bei optimalen Initialisierungspositionen zeigt jedoch, dass die geringe Differenz zwischen den Aufnahmearten bereits hier vorliegt. Die Annäherung der Zeiten ist damit nicht allein auf die Positionsiteration, sondern vor allem auf die zuvor durchgeführte Veränderung der Landmarkenanzahl zurückzuführen.\\
+Neben den absoluten Fehlerwerten und der Anpassungsdauer ist besonders die Fähigkeit des Modells zur korrekten Annäherung der Zellposition von Interesse. In Tabelle \ref{tab:pos_approximation} ist für die verschiedenen Modelle jeweils die Anzahl an Zellen aufgeführt, für welche der Zellmittelpunkt in den Umgebungsbereichen [$x\pm1$ pix ; $y\pm1$ pix] und [$x\pm2$ pix ; $y\pm2$ pix] bestimmt wurde. Darüber hinaus ist die erwartete Mindestanzahl an Zellen (welche bereits in diesen Bereichen initialisiert wurden) sowie der bezogen auf die Gesamtzahl an Iterationen ($24200$) erreichte Anteil angegeben.
+
+\begin{table}[!ht]
+\caption[Ergebnisse der Positionsbestimmung bei Iteration der Initialisierungsposition-\\en ]{Ergebnisse der Positionsbestimmung bei Iteration der Initialisierungspositionen}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell} & Erwartete\\
+\rowcolor{lightgray} Positionsbereich & \textbf{Basic AAM} & \textbf{ICAAM} & \textbf{Basic AAM} & \textbf{ICAAM} & Mindestanzahl\\
+\hline
+[$x\pm1$ pix ; $y\pm1$ pix] & $2070$ & $2115$ & $2060$ & $4995$ & $1800$\\
+\hline
+Anteil an Gesamtzahl & $8.55\%$ & $8.74\%$ & $8.51\%$ & $20.64\%$ & $7.44\%$\\
+\hline
+[$x\pm2$ pix ; $y\pm2$ pix] & $5418$ & $5183$ & $5806$ & $9450$ & $5000$\\
+\hline
+Anteil an Gesamtzahl & $22.39\%$ & $21.42\%$ & $23.99\%$ & $39.05\%$ & $20.66\%$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:pos_approximation}
+\end{table}
+
+Während die Ergebnisse der beiden Modelle der Fokus-Aufnahmen und auch das Basic AAM der Post-Fokus-Aufnahmen lediglich leicht über der erwarteten Mindestanzahl liegen, erreicht das ICAAM der Post-Fokus-Aufnahmen in beiden Fällen deutlich höhere Anteile und generiert mit knapp $40\%$ für den Umgebungsbereich von $\pm2$ Pixeln eine gute Annäherung der korrekten Zellpositionen.\\
+Aufgrund der auf den Gradienten der Zellbilder basierenden Prädiktion der Positionen liegt beim ICAAM jedoch kein weiteres Verbesserungspotential vor. Das Basic AAM hingegen bietet die Möglichkeit der Veränderung der bei der Modellerstellung verwendeten Versatzwerte (siehe Tabelle \ref{tab:versatz_params}). Im Folgenden soll geklärt werden, ob durch Modifikation dieser Werte eine Verbesserung der Positionsbestimmung erreicht werden kann.\\
+Die Versatzwerte wurden zunächst auf $5$ und $15$ Prozent gesetzt, um eine bessere Annäherung in einem weiteren Einzugsbereich zu erzielen, ohne die Genauigkeit im näher gelegenen Bereich zu verändern. Anschlie"send wurden die ursprünglichen Versatzwerte verdoppelt, wodurch der Einfluss der relativ geringen Grö"se der Zellbilder überprüft werden sollte. Die Ergebnisse der resultierenden Positionsbestimmung enthält Tabelle \ref{tab:pos_approximation_versatzwerte}.
+
+\begin{table}[!ht]
+\caption{Ergebnisse der Positionsbestimmung bei Veränderung der Versatzwerte des Basic AAM}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell} & Erwartete\\
+\rowcolor{lightgray} Positionsbereich & $5\%$ \& $15\%$ & $10\%$ \& $20\%$ & $5\%$ \& $15\%$ & $10\%$ \& $20\%$ & Mindestanzahl\\
+\hline
+[$x\pm1$ pix ; $y\pm1$ pix] & $2051$ 	& $2048$ 	& $2156$ 	& $2378$ 	& $1800$\\
+\hline
+Anteil an Gesamtzahl 		& $8.48\%$ 	& $8.46\%$ 	& $8.91\%$ 	& $9.83\%$ 	& $7.44\%$\\
+\hline
+[$x\pm2$ pix ; $y\pm2$ pix] & $5485$ 	& $5460$ 	& $6244$ 	& $7003$ 	& $5000$\\
+\hline
+Anteil an Gesamtzahl 		& $22.67\%$ & $22.56\%$ & $25.80\%$ & $28.94\%$ & $20.66\%$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:pos_approximation_versatzwerte}
+\end{table}
+
+Für das FM zeigt sich im Vergleich zu den ursprünglichen Werten für beide Modifikationen eine Abnahme der im Bereich [$x\pm1$ pix ; $y\pm1$ pix] approximierten Zellanzahl, während sie im Bereich [$x\pm2$ pix ; $y\pm2$ pix] leicht zunimmt. Beim PFM hingegen nimmt die Anzahl der ermittelten Zellpositionen in beiden Fällen zu. Das beste Ergebnis erreicht die Verdopplung der ursprünglichen Versatzwerte auf $10$ und $20$ Prozent. Dieses unterschiedliche Ergebnis der beiden Aufnahmearten lässt sich erneut durch die geringere statistische Aussagekraft der Zellen der Fokus-Aufnahmen erklären. Dadurch ist es für das AAM der Fokus-Aufnahmen ungeachtet der verwendeten Versatzwerte nicht möglich, bei grö"seren Abweichungen von der optimalen Initialisierungsposition die Zellposition ausreichend genau zu bestimmen. Dies gilt damit insbesondere auch für das ICAAM. Das PFM hingegen schafft dies zumindest in gewissem Ma"se aufgrund des deutlicheren Gradientenverlaufs, welcher sich auch in den Ergebnissen des ICAAM der Post-Fokus-Aufnahmen zeigt.\\
+Insgesamt erzielt das ICAAM gegenüber dem Basic AAM deutlich bessere Ergebnisse, und es zeigt sich, dass die Fokus-Aufnahmen für eine Bestimmung der Zellposition bei nicht optimaler Initialisierung kaum geeignet sind. Im Folgenden soll deshalb untersucht werden, ob über eine zusätzliche Bildvorverarbeitung eine Verbesserung der Modellanpassung erreicht werden kann.
+
+%Variation der Versatzwerte bei Modellerstellung
+%original: +/- 0.05 & 0.1 !!!Bilder waren zu klein!!! Originale auch nochmal neu berechnen! ICAAM AUCH!?
+%neu1: +/- 0.1 & 0.2
+%neu2: +/- 0.05 & 0.15
+
+
+%Möglichkeiten zur Steigerung/Verbesserung des Einzugsbereiches bzw. der Ergebnisse ermitteln?
+%Displacement vektoren anschauen! VO_AAMBasic.cpp ab Zeile 1005 !NUR BASIC!
+%Rotationsdisplacement evtl. herausnehmen!? -> bringt keine Verbesserung!
+
+%In welchem Abstand (x bzw. y) wird die Zelle noch gefunden? Welche Rolle spielt der Initialisierungswinkel und warum!?
+
+
+%- Einzugsbereich feststellen und unter Berücksichtigung der bisherigen Erkenntnisse Verbesserungsmöglichkeiten ermitteln und überprüfen
+%- Winkeleinzugsbereich evtl. vernachlässigen? Bringt eigentlich kaum was und ist ungeklärt...
+
+\section{Histogrammausgleich}
+Über einen Histogrammausgleich kann sowohl der Kontrast zwischen den Strukturen erhöht, als auch ein Ausgleich von Helligkeitsunterschieden zwischen verschiedenen Zellaufnahmen erreicht werden.\\
+Ziel des Histogrammausgleichs ist es, eine gleichmä"sige Verteilung der Grauwerte zu schaffen. Dazu erfolgt eine Punktoperation, welche sich mittels des kummulativen Histogrammverlaufs 
+\begin{equation}
+\tilde{H}(k) = \sum_{k=0}^{m \cdot n}H(k)
+\end{equation}
+
+berechnen lässt. Dabei wird die Bildgrö"se in x-Richtung mit $m$ und in y-Richtung mit $n$ bezeichnet. $H(k)$ beschreibt den Histogrammwert des $k$-ten Pixels.\\
+Der neue Grauwert $g_{k}^{'}$ eines Pixels ergibt sich damit zusammen mit dem maximalen Grauwert für 8-Bit $G_{max}=255$ nach \cite{Erhardt2008} über
+
+\begin{equation}
+g_{k}^{'} = \frac{G_{max}}{m\cdot n}\cdot \tilde{H}(k)
+\end{equation}
+
+Bild \ref{fig.hist_equalization} stellt das Ergebnis des Histogrammausgleichs dar. Die Spreizung des ursprünglichen Histogramms ist deutlich zu erkennen, so dass sich eine gleichmä"sigere Verteilung der Grauwerte über den gesamten Wertebereich ergibt.
+
+\begin{figure}[!ht]
+	\begin{center}
+	\subfigure[Fokus-Aufnahme]{
+		\includegraphics[scale=0.2]{Fokus}
+	}
+	\hspace{2mm}
+	\subfigure[Fokus-Aufnahme nach Histogrammausgleich]{
+		\includegraphics[scale=0.2]{Fokus_HN}
+	}\\
+	\subfigure[Histogramm der Fokus-Aufnahme]{
+		\includegraphics[scale=0.225]{Hist_Fokus}
+	}
+	\hspace{2mm}
+	\subfigure[Histogramm der Fokus-Aufnahme nach Histogrammausgleich]{
+		\includegraphics[scale=0.225]{Hist_Fokus_HN}
+	}
+	\caption{Ergebnis des Histogrammausgleichs}
+	\label{fig.hist_equalization}
+	\end{center}
+	\vspace*{-8mm}
+\end{figure}
+
+Falls der erhöhte Kontrast zwischen Zellstrukturen und Aufnahmenhintergrund die Modellanpassung beeinflusst, sollte sich dies auch in den verbleibenden Texturfehlerwerten bemerkbar machen. Tabelle \ref{tab:texture_errors_hist} vergleicht die durchschnittlichen verbleibenden Fehlerwerte der jeweiligen Modelle mit und ohne Histogrammausgleich.
+
+\begin{table}[!ht]
+\caption[Durchschnittliche Texturfehler der Modelle mit und ohne Histogrammaus-\\ gleich ]{Durchschnittliche Texturfehler der Modelle mit und ohne Histogrammausgleich}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|l|c|c|}
+\hline
+\rowcolor{lightgray} & & \textbf{Ohne} & \textbf{Mit} \\
+\rowcolor{lightgray} \multicolumn{1}{|c|}{\textbf{Aufnahme}} & \multicolumn{1}{|c|}{\textbf{Modell}} & {\textbf{Histogrammausgleich}} & {\textbf{Histogrammausgleich}} \\
+\hline
+Fokus 		& Basic AAM 	& $0.694$ 		& $0.696$ \\\cline{2-4}
+ 			& ICAAM 		& $0.345$ 		& $0.353$ \\
+\hline
+Post-Fokus 	& Basic AAM 	& $0.246$ 		& $0.269$ \\\cline{2-4}
+			& ICAAM 		& $0.112$ 		& $0.146$ \\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:texture_errors_hist}
+\end{table}
+
+Für alle Modelle zeigt sich eine geringe Zunahme der Texturfehler. Dies kann im Zusammenhang mit der Berechnung der Texturfehler als Frobeniusnorm aus grö"seren Absolutwerten durch die Histogrammspreizung resultieren. Somit lässt sich aufgrund der leicht erhöhten Fehlerwerte allein keine Aussage über die Modellanpassung und die Segmentierung treffen, weshalb zusätzlich die Segmentierungsergebnisse betrachtet werden müssen.\\
+Tabelle \ref{tab:segmentation_results_HN_focus} fasst diese für die auf den Fokus-Aufnahmen basierenden Modelle und Tabelle \ref{tab:segmentation_results_HN_postfocus} für die Modelle der Post-Fokus-Aufnahmen zusammen.\\
+Für alle Modelle führt die Verwendung des Histogrammausgleichs zu einer Verschlechterung der Segmentierungsqualität. Zusammen mit den erhöhten Fehlerwerten zeigt sich damit, dass der Histogrammausgleich der Eingangsdaten nicht zu einer besseren Modellanpassung führt. Da das Ziel vorrangig in der Kontrasterhöhung und einem daraus resultierenden stärkeren Texturgradienten lag, mit welchem insbesondere die Positionsapproximation verbessert werden sollte, wird abschlie"send nochmals eine Positionsiteration durchgeführt. Da sich im vorangegangenen Kapitel bereits zeigte, dass das ICAAM dem Basic AAM in diesem Bereich deutlich überlegen ist, kann die Analyse auf das ICAAM der Fokus-Aufnahmen beschränkt werden, für welche ein Histogrammausgleich durchgeführt wurde.\\
+
+\begin{table}[!ht]
+\caption[Segmentierungsergebnisse der Fokus-Modelle mit und ohne Histogrammausgleich]{Segmentierungsergebnisse der Fokus-Modelle mit und ohne Histogrammausgleich (HA)}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Basic AAM} & \multicolumn{2}{c|}{ICAAM} \\
+\rowcolor{lightgray} & \textbf{Ohne HA} & \textbf{Mit HA} & \textbf{Ohne HA} & \textbf{Mit HA} \\
+\hline
+$RP$ 		& $200$ 	& $200$ 	& $191$ 	& $190$ \\
+\hline
+$FP$ 		& $0$ 		& $0$ 		& $3$ 		& $2$ \\
+\hline
+$FN$ 		& $0$ 		& $0$ 		& $9$ 		& $10$ \\
+\hline
+$Ge$ 		& $1$ 		& $1$ 		& $0.985$ 	& $0.990$\\
+\hline
+$Se$ 		& $1$ 		& $1$ 		& $0.955$ 	& $0.950$\\
+\hline
+$F_1$ 		& $1$ 		& $1$ 		& $0.970$ 	& $0.969$\\
+\hline
+$D$ 		& $0.895$ 	& $0.894$ 	& $0.826$ 	& $0.823$\\
+\hline
+$J$ 		& $0.810$ 	& $0.808$ 	& $0.703$ 	& $0.699$\\
+\hline
+$F\ddot{U}$ & $0.871$ 	& $0.871$ 	& $0.852$ 	& $0.841$\\
+\hline
+$H$ 		& $2.128$ 	& $2.159$ 	& $3.352$ 	& $3.241$\\
+\hline
+$H_{max}$ 	& $5.385$ 	& $5.385$ 	& $22.804$ 	& $16.401$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:segmentation_results_HN_focus}
+\end{table}
+
+\vspace{3mm}
+
+\begin{table}[!ht]
+\caption{Segmentierungsergebnisse der Post-Fokus-Modelle mit und ohne Histogrammausgleich}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Basic AAM} & \multicolumn{2}{c|}{ICAAM} \\
+\rowcolor{lightgray} & \textbf{Ohne HA} & \textbf{Mit HA} & \textbf{Ohne HA} & \textbf{Mit HA} \\
+\hline
+$RP$ 		& $200$ 	& $200$ 	& $200$ 	& $200$ \\
+\hline
+$FP$ 		& $0$ 		& $0$ 		& $0$ 		& $0$ \\
+\hline
+$FN$ 		& $0$ 		& $0$ 		& $0$ 		& $0$ \\
+\hline
+$Ge$ 		& $1$ 		& $1$ 		& $1$ 		& $1$\\
+\hline
+$Se$ 		& $1$ 		& $1$ 		& $1$ 		& $1$\\
+\hline
+$F_1$ 		& $1$ 		& $1$ 		& $1$ 		& $1$\\
+\hline
+$D$ 		& $0.892$ 	& $0.886$ 	& $0.890$ 	& $0.887$\\
+\hline
+$J$ 		& $0.805$ 	& $0.795$ 	& $0.801$ 	& $0.797$\\
+\hline
+$F\ddot{U}$ & $0.857$ 	& $0.842$ 	& $0.860$ 	& $0.861$\\
+\hline
+$H$ 		& $2.155$ 	& $2.256$ 	& $2.276$ 	& $2.408$\\
+\hline
+$H_{max}$ 	& $5.000$ 	& $5.385$ 	& $5.099$ 	& $9.000$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:segmentation_results_HN_postfocus}
+\end{table}
+
+\vspace{8mm}
+Tabelle \ref{tab:pos_approximation_versatzwerte_HN} vergleicht die Ergebnisse der Positionsbestimmung des ICAAM für die Fokus-Aufnahmen mit und ohne Histogrammausgleich.
+
+\begin{table}[!ht]
+\caption{Ergebnisse der Positionsbestimmung durch das ICAAM der Fokus-Aufnahmen mit und ohne Histogrammausgleich}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & Ohne & Mit & Erwartete\\
+\rowcolor{lightgray} Positionsbereich & Histogrammausgleich & Histogrammausgleich & Mindestanzahl\\
+\hline
+[$x\pm1$ pix ; $y\pm1$ pix] & $2115$ 	& $2103$ 	& $1800$\\
+\hline
+Anteil an Gesamtzahl 		& $8.74\%$ 	& $8.69\%$ 	& $7.44\%$\\
+\hline
+[$x\pm2$ pix ; $y\pm2$ pix] & $5183$ 	& $5180$ 	& $5000$\\
+\hline
+Anteil an Gesamtzahl 		& $21.42\%$ & $21.40\%$ & $20.66\%$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:pos_approximation_versatzwerte_HN}
+\end{table}
+
+Wie schon bei den Ergebnissen der verbleibenden Texturfehler und der Segmentierung kommt es auch hier durch die Anwendung des Histogrammausgleichs zu einer geringfügigen Verschlechterung der Positionsbestimmung. Insgesamt kann durch den Histogrammausgleich somit keine Verbesserung der Modellanpassung erreicht werden. Darüber hinaus zeigt sich, dass die Kontrasterhöhung nur geringe Auswirkungen auf die durch das AAM erzielten Ergebnisse hat.
+
+%Einfluss auf die Segmentierung innerhalb des Trainingssatzes? Einfluss auf die Segmentierung von unbekannten Zellen?
+
+%Kombination aus Helligkeitsnormierung und Gauß??
+
+%- Einfluss evtl. besonders bei den Fokusaufnahmen interessant
+
+%\section{Grö"se an Trainingsdaten / Eigenvektoranzahl}
+%Gibt Aufschluss darüber, welche Anzahl an Zellen für ein gutes Trainingsmodell benötigt wird. Wie gro"s ist die Varianz innerhalb des Trainingssatzes.
+%Annäherung an bestimmten Wert für $n \rightarrow \infty$? Ist dies der optimale Wert? Oder gleicher Segmentierungserfolg bei kleinerem Trainingssatz / weniger Eigenvektoren?
+
+%- Trainingszellanzahl über EV/Parameter Anzahl plotten.
+%- Optimale Anzahl ableiten und Fitting dafür erneut auswerten.
+
+%\section{Vorfilterung der Eingangsdaten (Gau"sfilter)}
+%Einfluss auf Segmentierung, könnte auch mit ins nächste Kapitel!?
+
+%- Erkennung evtl. verbessert, aber dafür keine genaue Modellierung der Zelltextur mehr.
+%- Konturen könnten auch verschwommener sein -> schlechtere Segmentierung
+
+%\section{Bildgrö"se / Interpolation / Gau"s-Pyramide}
+%Stufenverfahren implementieren? Geschwindigkeits und/oder Genauigkeitsvorteil? Überhaupt sinnvoll, wenn Bilder erst hochskaliert werden, oder nur bei herunterskalieren der Auflösung praktikabel? D.h. ist die Segmentierung bei Größeren Bildern überhaupt genauer? Zellen ohnehin sehr klein!
+
+%- Wird die Bildgröße verändert oder nur die Auflösung? Ist das nicht das gleiche?
+
+%\section{Initialisierungsparameter - Grö"se / Winkel}
+%Welche Skalierung ist als Initialisierung sinnvoll? Kann diese (zuverlässig?) aus Trainingsdaten ermittelt werden? Winkel s.o.
+
+%- ist das Modell besser, wenn es schrumpft oder wenn es sich ausdehnt?
+
+%\section{Sonstiges}
+%Parameterabhängigkeiten zwischen Zellen - Klassifikation möglich? Z.B. ersten und zweiten Parameter Abhängig voneinander auftragen, evtl. auch bis zum n-ten.
+%Verlaufskurve der Eigenwerte - Welcher Eigenwert hat welchen Einfluss, wie schnell sinkt dieser ab? Modifikation der Dämpfungsparameter in der VOSM Bibliothek. 
+%Konvergenzverlauf in Bildern darstellen!?
+%Bilder der Zellen speichern (boundingbox) anstelle des gesamten Eingangsbildes. (Erledigt)
+
+%Automatische Parameteroptimierung für das Modell möglich? Welche Fehlermaße sind aussagekräftig dafür?
+
+\section{Modelloptimierungen}
+\label{sec:optimierungen}
+
+Nachdem verschiedene Einflussfaktoren untersucht und angepasst wurden, erfolgt eine abschlie"sende Analyse von Optimierungsmöglichkeiten zur Minimierung von Speicherbedarf und benötigter Rechenleistung. Dazu soll zunächst eine Verringerung der Texturparameter erfolgen, wie sie bereits in Kapitel \ref{sec:cutoff} erwähnt wurde. Anschlie"send soll geprüft werden, ob vergleichbare Ergebnisse auch mit einer geringeren Anzahl an Trainingsdaten erreicht werden können, bzw. ob eine grö"sere Anzahl an Trainingsdaten die Modellanpassung signifikant verbessert.
+
+\subsection{Optimierung der abgebildeten Texturvarianz}
+Durch eine Reduktion der abgebildeten Texturvarianz sollen Parameter mit geringem Einfluss auf die Modellierungsgüte eliminiert werden, um somit die Anpassungsdauer zu verringern. Für alle Modelle wurde die abgebildete Texturvarianz von $98\%$ in Schritten von $3\%$ bis auf $80\%$ verringert. Bild \ref{fig.texture_cutoff_time} stellt den Verlauf der durchschnittlichen Anpassungsdauer für die betrachteten Modelle dar.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.5]{mean_time_texture_cutoff_reduction}
+%	\caption{Durchschnittliche Anpassungsdauer in Abhängigkeit der abgebildeten Texturvarianz}
+%	\label{fig.texture_cutoff_time}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right,scale=1.15]
+	\begin{axis}[
+		xlabel=Texturvarianz \lbrack \%\rbrack,
+		ylabel=Anpassungsdauer \lbrack ms\rbrack,
+		xtick={98,95,...,80},
+		x dir=reverse,
+		ymin=0,
+		ymax=140,
+		ytick={0,20,...,140},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=west,
+			nodes=right,
+			draw=none,
+			nodes={text depth=,text width=2cm,inner sep=0.2cm},
+		},
+		y tick label style={
+			/pgf/number format/fixed,
+			/pgf/number format/fixed zerofill,
+			/pgf/number format/precision=0,
+		}			
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+		(80,85.2979)
+		(83,67.8726)
+		(86,89.6501)
+		(89,131.816)
+		(92,126.272)
+		(95,120.5579)
+		(98,105.3658)	
+	};
+	\addplot[color=Green,mark=*] coordinates{
+		(80,12.7907)
+		(83,9.3796)
+		(86,10.2098)
+		(89,10.6638)
+		(92,10.6071)
+		(95,9.3859)
+		(98,9.2288)
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+		(80,52.2057)
+		(83,86.3945)
+		(86,84.5455)
+		(89,104.7986)
+		(92,89.8107)
+		(95,81.6419)
+		(98,86.6563)
+	};
+	\addplot[color=ProcessBlue,mark=x] coordinates{
+		(80,16.2973)
+		(83,13.4716)
+		(86,11.2114)
+		(89,12.9948)
+		(92,15.9176)
+		(95,17.7553)
+		(98,16.3565)	
+	};
+	\legend{Fokus\\ Basic AAM,Fokus ICAAM,Post-Fokus Basic AAM,Post-Fokus ICAAM}
+	\end{axis}
+\end{tikzpicture}
+\caption{Durchschnittliche Anpassungsdauer in Abhängigkeit der abgebildeten Texturvarianz}
+\label{fig.texture_cutoff_time}
+\end{center}
+\vspace{-14mm}
+\end{figure}
+
+\vspace{25mm}
+Wie sich zeigt, sind die Ergebnisse unabhängig von der Art der zur Modellbildung verwendeten Aufnahmen. Die Reduktion der Texturparameterzahl führt im Falle des Basic AAM nach einem initialen Anstieg jeweils zu einer geringeren Anpassungsdauer. Die zur Modellierung benötigte Zeit des ICAAM bleibt hingegen nahezu konstant. Da ein Geschwindigkeitsvorteil nur bei gleichbleibender Modellierungsqualität von Nutzen ist, sind in Bild \ref{fig.texture_cutoff_errors} die verbleibenden Texturfehler in Abhängigkeit der modellierten Texturvarianz dargestellt.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.5]{mean_errors_texture_cutoff_reduction}
+%	\caption{Durchschnittliche verbleibende Texturfehlerwerte in Abhängigkeit der abgebildeten Texturvarianz}
+%	\label{fig.texture_cutoff_errors_old}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\vspace{2mm}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right,scale=1.1]
+	\begin{axis}[
+		xlabel=Texturvarianz \lbrack \%\rbrack,
+		ylabel=Anpassungsdauer \lbrack ms\rbrack,
+		xtick={98,95,...,80},
+		x dir=reverse,
+		ymin=0,
+		ymax=0.8,
+		ytick={0,0.1,...,0.8},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=west,
+			nodes=right,
+			draw=none,
+			nodes={text depth=,text width=2cm,inner sep=0.2cm},
+		},
+		y tick label style={
+			/pgf/number format/fixed,
+			/pgf/number format/fixed zerofill,
+			/pgf/number format/precision=0,
+		}			
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+		(80,0.7135)
+		(83,0.714)
+		(86,0.7085)
+		(89,0.7087)
+		(92,0.6991)
+		(95,0.6996)
+		(98,0.6937)
+	};
+	\addplot[color=Green,mark=*] coordinates{
+		(80,0.6018)
+		(83,0.5771)
+		(86,0.5539)
+		(89,0.5264)
+		(92,0.4878)
+		(95,0.4385)
+		(98,0.3452)
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+		(80,0.2966)
+		(83,0.2849)
+		(86,0.2746)
+		(89,0.2648)
+		(92,0.2647)
+		(95,0.2569)
+		(98,0.2458)
+	};
+	\addplot[color=ProcessBlue,mark=x] coordinates{
+		(80,0.2371)
+		(83,0.2159)
+		(86,0.2034)
+		(89,0.1835)
+		(92,0.1648)
+		(95,0.1449)
+		(98,0.1122)	
+	};
+	\legend{Fokus\\ Basic AAM,Fokus ICAAM,Post-Fokus Basic AAM,Post-Fokus ICAAM}
+	\end{axis}
+\end{tikzpicture}
+\caption{Durchschnittliche verbleibende Texturfehlerwerte in Abhängigkeit der abgebildeten Texturvarianz}
+\label{fig.texture_cutoff_errors}
+\end{center}
+\vspace{-6mm}
+\end{figure}
+	
+
+Die Fehlerwerte verändern sich im Gegensatz zu den Anpassungszeiten für beide Basic AAM nur geringfügig. Für das ICAAM hingegen kommt es jeweils zu einem deutlichen Anstieg der verbleibenden Texturfehler. Abschlie"send werden die Segmentierungsergebnisse betrachtet, um eine ganzheitliche Bewertung der Auswirkungen der Varianzreduktion zu ermöglichen. In Bild \ref{fig.texture_cutoff_segmentation_results} sind die Verläufe der Flächenüberdeckung, des Dice- und Jaccard-Koeffizienten sowie der Hausdorff-Distanzen dargestellt.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\subfigure[Flächenüberdeckung]{
+%		\includegraphics[scale=0.25]{texture_cutoff_fue}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Dice-Koeffizient]{
+%		\includegraphics[scale=0.25]{texture_cutoff_dice}
+%	}\\
+%	\subfigure[Jaccard-Koeffizient]{
+%		\includegraphics[scale=0.25]{texture_cutoff_jaccard}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Hausdorff-Distanzen]{
+%		\includegraphics[scale=0.25]{texture_cutoff_hausd}
+%	}
+%	\caption{Segmentierungsergebnisse in Abhängigkeit der abgebildeten Texturvarianz}
+%	\label{fig.texture_cutoff_segmentation_results_old}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\subfigure[Flächenüberdeckung]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Texturvarianz \lbrack \%\rbrack,
+			ylabel=Flächenüberdeckung,
+			xtick={98,95,...,80},
+			x dir=reverse,
+			ymin=0.84,
+			ymax=0.89,
+			ytick={0.84,0.85,...,0.89},
+			legend columns=-1,
+			legend style={
+				at={(1,1)},
+				%yshift=0.2cm,
+				%xshift=0.9cm,
+				anchor=south,
+				nodes=left,
+				%draw=none,
+				nodes={text depth=1em, text width=5em,column sep=0.4cm},
+				%align=center,
+			},
+			legend entries={Fokus\\ Basic AAM,Fokus\\ ICAAM,Post-Fokus\\ Basic AAM,Post-Fokus\\ ICAAM},
+			legend to name=textvarleg,
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(80,0.8696)
+			(83,0.8699)
+			(86,0.8703)
+			(89,0.8708)
+			(92,0.8705)
+			(95,0.8709)
+			(98,0.8712)	
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(80,0.878)
+			(83,0.8673)
+			(86,0.8672)
+			(89,0.8715)
+			(92,0.8503)
+			(95,0.8547)
+			(98,0.8522)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(80,0.8569)
+			(83,0.8575)
+			(86,0.8575)
+			(89,0.8575)
+			(92,0.8575)
+			(95,0.8575)
+			(98,0.8575)	
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(80,0.863)
+			(83,0.8609)
+			(86,0.8665)
+			(89,0.8652)
+			(92,0.8605)
+			(95,0.8591)
+			(98,0.8597)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{11mm}
+\subfigure[Dice-Koeffizient]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Texturvarianz \lbrack \%\rbrack,
+			ylabel=Dice-Koeffizient,
+			xtick={98,95,...,80},
+			x dir=reverse,
+			ymin=0.8,
+			ymax=0.92,
+			ytick={0.8,0.82,...,0.92},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(80,0.8945)
+			(83,0.8944)
+			(86,0.8945)
+			(89,0.8946)
+			(92,0.8944)
+			(95,0.8946)
+			(98,0.8948)	
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(80,0.8446)
+			(83,0.8407)
+			(86,0.8434)
+			(89,0.8325)
+			(92,0.8339)
+			(95,0.831)
+			(98,0.8256)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(80,0.8915)
+			(83,0.892)
+			(86,0.892)
+			(89,0.892)
+			(92,0.892)
+			(95,0.892)
+			(98,0.892)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(80,0.8871)
+			(83,0.8895)
+			(86,0.8915)
+			(89,0.8924)
+			(92,0.8898)
+			(95,0.8893)
+			(98,0.8896)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\subfigure[Jaccard-Koeffizient]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Texturvarianz \lbrack \%\rbrack,
+			ylabel=Jaccard-Koeffizient,
+			xtick={98,95,...,80},
+			x dir=reverse,
+			ymin=0.68,
+			ymax=0.84,
+			ytick={0.68,0.7,...,0.84},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(80,0.8092)
+			(83,0.809)
+			(86,0.8091)
+			(89,0.8093)
+			(92,0.8089)
+			(95,0.8093)
+			(98,0.8096)		
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(80,0.731)
+			(83,0.7252)
+			(86,0.7292)
+			(89,0.7131)
+			(92,0.7151)
+			(95,0.7108)
+			(98,0.703)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(80,0.8043)
+			(83,0.805)
+			(86,0.805)
+			(89,0.805)
+			(92,0.805)
+			(95,0.805)
+			(98,0.805)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(80,0.7971)
+			(83,0.801)
+			(86,0.8043)
+			(89,0.8058)
+			(92,0.8015)
+			(95,0.8007)
+			(98,0.8011)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{11mm}
+\subfigure[Durchschnittliche Hausdorff-Distanz]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Texturvarianz \lbrack \%\rbrack,
+			ylabel=Durchschnittliche Hausdorff-Distanz,
+			xtick={98,95,...,80},
+			x dir=reverse,
+			ymin=1.5,
+			ymax=4,
+			ytick={1.5,2,...,3.5},
+			scaled y ticks=false,
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=1,
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(80,2.1555)
+			(83,2.1497)
+			(86,2.1523)
+			(89,2.1485)
+			(92,2.1516)
+			(95,2.1458)
+			(98,2.1275)
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(80,3.0792)
+			(83,3.1001)
+			(86,2.9727)
+			(89,3.2765)
+			(92,3.0737)
+			(95,3.1232)
+			(98,3.1719)
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(80,2.1588)
+			(83,2.1547)
+			(86,2.1547)
+			(89,2.1547)
+			(92,2.1547)
+			(95,2.1547)
+			(98,2.1547)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(80,2.3055)
+			(83,2.2517)
+			(86,2.3089)
+			(89,2.2452)
+			(92,2.2585)
+			(95,2.2731)
+			(98,2.2756)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\\
+\vspace{2mm}
+\ref{textvarleg}
+\end{center}
+\vspace{-3mm}
+\caption{Segmentierungsergebnisse in Abhängigkeit der abgebildeten Texturvarianz}
+\label{fig.texture_cutoff_segmentation_results}
+\vspace{-3mm}
+\end{figure}
+
+Die Werte der Flächenüberdeckung des ICAAM der Fokus-Aufnahmen zeigen bei Verringerung der Texturvarianz einen deutlichen Anstieg. Die Werte des ICAAM der Post-Fokus-Aufnahmen steigen im Bereich einer abgebildeten Texturvarianz von $89\%$ und $86\%$ etwas an, kehren anschlie"send jedoch in den Bereich des Ausgangswertes zurück.\\
+Für die beiden Basic AAM kommt es jeweils nur zu einer minimalen Verringerung der Flächenüberdeckung. Die Dice- und Jaccard-Koeffizienten des ICAAM der Fokus-Aufnahmen nehmen jeweils mit Abnahme der Texturvarianz leicht zu. Für die anderen Modelle verändern sich die Werte dagegen kaum. Ähnlich verhält es sich bei den durchschnittlichen Hausdorff-Distanzen. Für das ICAAM der Fokus-Aufnahmen kommt es dabei zu einer geringfügigen Abnahme. Die anderen Modelle hingegen zeigen über den gesamten Wertebereich einen nahezu konstanten Verlauf.\\
+Insgesamt zeigen die Ergebnisse, dass eine Reduktion der abgebildeten Texturvarianz für das Basic AAM die Modellierungsdauer verringern kann, ohne die verbleibenden Texturfehler deutlich zu erhöhen. Auch das Segmentierungsergebnis verschlechtert sich dadurch nur geringfügig. Im Falle einer Anwendung, bei welcher eine minimale Anpassungsdauer gewünscht oder erforderlich ist, kann dieser Schritt somit verwendet werden, ohne dass deutliche Verschlechterungen der Modellierungs- und Segmentierungsergebnisse zu erwarten sind. Für das ICAAM hingegen ist dieses Vorgehen nur unter bestimmten Bedingungen sinnvoll. Die möglichen Zeitersparnisse sind zum einen aufgrund der ohnehin schnellen Anpassungsgeschwindigkeit gering und zum anderen stark von der gewählten Texturvarianz abhängig. Darüber hinaus kommt es zu einer deutlichen Verschlechterung der Texturfehlerwerte. Die Segmentierungsergebnisse verbessern sich hingegen leicht. Eine Reduktion der Texturvarianz ist somit für das ICAAM nur bei Anwendungen sinnvoll, bei welchen die Texturmodellierung nur geringe Priorität hat und bereits minimale Geschwindigkeitsverbesserungen von gro"ser Bedeutung sind. Eine genaue Identifikation der optimalen abgebildeten Texturvarianz ist für die Optimierung der Modellierungsdauer des ICAAM jedoch stets erforderlich.
+
+%Reduktion der Texturparameterzahl - Textur Cutoff heruntersetzen
+
+\subsection{Optimierung der Trainingsdatengrö"se}
+Da jedes AAM direkt von der Güte der Trainingsdaten abhängig ist, hat die Anzahl an Trainingsobjekten einen gro"sen Einfluss auf die Modellierungsfähigkeit. Im Folgenden soll daher untersucht werden, ob gleiche Ergebnisse auch mit einer geringeren Zahl an Objekten bzw. ob bessere Ergebnisse durch eine Erhöhung der Objektanzahl erreicht werden können. Dazu wurde die bisher verwendete Anzahl von $200$ Zellen zunächst in drei Schritten um jeweils $50$ Zellen verringert. Zusätzlich wurden die Ergebnisse für eine Erhöhung der Anzahl in drei Schritten um jeweils $100$ Zellen untersucht.\\
+Wie aus Bild \ref{fig.cellcount_ev_shape_and_texture} ersichtlich ist, steigt die Anzahl an Eigenvektoren des Formmodells nur geringfügig an. Da sich die Zellen durch ihre runde Form stark ähneln, entspricht dies auch den Erwartungen. Für das Texturmodell kommt es mit Erhöhung der Objektanzahl zunächst zu einem sehr steilen Anstieg. Besonders ausgeprägt ist dieser für das Fokus-Modell. Zwischen den aus $400$ und aus $500$ Zellen erstellten Modellen nimmt die Anzahl an Textureigenvektoren nur noch wenig zu. Der grö"ste Teil der Varianz zwischen den Zellen ist hier also bereits durch die Trainingsdaten beschrieben. Erneut zeigt sich auch die deutlich höhere Eigenvektoranzahl des Fokus-Modells aufgrund der höheren Varianz innerhalb dieser Aufnahme. Da sowohl Basic AAM als auch ICAAM das gleiche Form- und Texturmodell verwenden, wurde die Betrachtung nur nach den Aufnahmearten differenziert. Die Eigenvektoranzahl des Erscheinungsmodells korreliert mit dem Verlauf des Form- und Texturmodells, weshalb an dieser Stelle keine gesonderte Betrachtung erfolgt.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\subfigure[Eigenvektoranzahl der Formmodelle]{
+%		\includegraphics[scale=0.25]{cellcount_shape_ev}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Eigenvektoranzahl der Texturmodelle]{
+%		\includegraphics[scale=0.25]{cellcount_texture_ev}
+%	}
+%	\caption{Eigenvektoranzahl der Form- und Texturmodelle in Abhängigkeit der Trainingsdatengrö"se}
+%	\label{fig.cellcount_ev_shape_and_texture}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+	\subfigure[Eigenvektoranzahl der Formmodelle]{
+		\begin{tikzpicture}[trim axis left, trim axis right,scale=0.8]
+		\begin{axis}[
+			xlabel=Zellen im Trainingsdatensatz,
+			ylabel=Eigenwerte des Formmodells,
+			xtick={0,100,...,500},
+			ymin=0,
+			ymax=25,
+			ytick={0,5,...,20},
+			legend columns=-1,
+			legend style={
+				at={(1,1)},
+				%yshift=0.2cm,
+				%xshift=0.9cm,
+				anchor=south,
+				nodes=left,
+				%draw=none,
+				nodes={text depth=1em, text width=5em,column sep=0.4cm},
+				%align=center,
+			},
+			legend entries={Fokus-Modell,Post-Fokus-Modell},
+			legend to name=named_final_ew,
+%			legend style={
+%				at={(1,0.5)},
+%				xshift=0.2cm,
+%				anchor=west,
+%				nodes=right,
+%				draw=none
+%			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(50,17)
+			(100,19)
+			(150,19)
+			(200,19)
+			(300,20)
+			(400,20)
+			(500,20)		
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(50,16)
+			(100,17)
+			(150,17)
+			(200,17)
+			(300,18)
+			(400,18)
+			(500,18)
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+		\end{tikzpicture}
+	}
+	\hspace{10mm}
+%	\\\vspace{3mm}
+	\subfigure[Eigenvektoranzahl der Texturmodelle]{
+		\begin{tikzpicture}[trim axis left, trim axis right,scale=0.8]
+		\begin{axis}[
+			xlabel=Zellen im Trainingsdatensatz,
+			ylabel=Eigenwerte des Texturmodells,
+			xtick={0,100,...,500},
+			ymin=0,
+			ymax=140,
+			ytick={0,20,...,120},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=west,
+				nodes=right,
+				draw=none
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(50,42)
+			(100,72)
+			(150,90)
+			(200,103)
+			(300,115)
+			(400,121)
+			(500,124)		
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(50,32)
+			(100,45)
+			(150,53)
+			(200,59)
+			(300,65)
+			(400,69)
+			(500,71)
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+		\end{tikzpicture}
+	}
+\\
+\vspace{2mm}
+\ref{named_final_ew}
+\end{center}
+\caption{Eigenvektoranzahl der Form- und Texturmodelle in Abhängigkeit der Trainingsdatengrö"se}
+\label{fig.cellcount_ev_shape_and_texture}
+%\vspace*{-8mm}
+\end{figure}
+
+
+
+Besonders deutlich zeigen sich die Auswirkungen der erhöhten Texturparameterzahl bei Betrachtung der durchschnittlichen Texturfehler in Bild \ref{fig.cellcount_errors} für das ICAAM der Fokus-Aufnahmen. Mit steigender Trainingsdatenzahl kommt es zu einer exponentiellen Abnahme der verbleibenden Texturfehlerwerte. Für alle anderen Modelle kommt es ebenfalls zu einer, wenn auch weniger stark ausgeprägten, Abnahme der Fehlerwerte.\\\\
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[scale=0.3]{cellcount_mean_errors}
+%	\caption{Durchschnittliche verbleibende Texturfehlerwerte in Abhängigkeit der Trainingsdatengrö"se}
+%	\label{fig.cellcount_errors}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+
+\begin{figure}[!ht]
+	\begin{center}
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=1.0]
+	\begin{axis}[
+		xlabel=Zellen im Trainingsdatensatz,
+		ylabel=Texturfehlerwert,
+		xtick={0,100,...,500},
+		ymin=0,
+		ymax=1,
+		ytick={0,0.1,...,1},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=west,
+			nodes=right,
+			draw=none,
+			nodes={text depth=,text width=2cm,inner sep=0.2cm},
+		},
+		y tick label style={
+			/pgf/number format/fixed,
+			/pgf/number format/fixed zerofill,
+			/pgf/number format/precision=1,
+		}			
+		%axis lines=left
+	]
+	\addplot[color=red,mark=diamond*] coordinates{
+		(50,0.8154)
+		(100,0.7735)
+		(150,0.7362)
+		(200,0.6958)
+		(300,0.6333)
+		(400,0.6107)
+		(500,0.5913)
+	};
+	\addplot[color=Green,mark=*] coordinates{
+		(50,0.6603)
+		(100,0.4981)
+		(150,0.4101)
+		(200,0.344)
+		(300,0.2692)
+		(400,0.2307)
+		(500,0.2064)
+	};
+	\addplot[color=blue,mark=square*] coordinates{
+		(50,0.2857)
+		(100,0.2869)
+		(150,0.2563)
+		(200,0.2423)
+		(300,0.2252)
+		(400,0.2148)
+		(500,0.207)
+	};
+	\addplot[color=ProcessBlue,mark=x] coordinates{
+		(50,0.1937)
+		(100,0.1429)
+		(150,0.1216)
+		(200,0.1121)
+		(300,0.1028)
+		(400,0.0956)
+		(500,0.0922)	
+	};
+	\legend{Fokus\\ Basic AAM,Fokus ICAAM,Post-Fokus Basic AAM,Post-Fokus ICAAM}
+	\end{axis}
+\end{tikzpicture}
+\caption{Durchschnittliche verbleibende Texturfehlerwerte in Abhängigkeit der Trainingsdatengrö"se}
+\label{fig.cellcount_errors}
+\end{center}
+\vspace*{-8mm}
+\end{figure}
+
+Die in Bild \ref{fig.cellcount_segmentation_results} dargestellten Ergebnisse der Modellsegmentierungen zeigen, dass sich sowohl für beide Post-Fokus-Modelle als auch für das Basic AAM der Fokus-Aufnahmen bereits ab einer Zellanzahl von etwa $100$ nur noch kleine Änderungen in der Segmentierungsqualität ergeben. für das ICAAM der Post-Fokus-Aufnahmen kommt es sogar zu einer geringfügigen Verschlechterung der Flächenüberdeckung sowie des Dice- und Jaccard-Koeffizienten. Den auffälligsten Verlauf zeigt das ICAAM der Fokus-Aufnahmen. Die höchste Flächenüberdeckung erzielt es bei einer Anzahl von $150$ Trainingsobjekten, fällt danach allerdings sehr stark ab. Auch für Dice- und Jaccard-Koeffizient ergibt sich ein wechselhafter Verlauf mit zunehmender Trainingsdatenzahl. Lediglich die mittleren Hausdorff-Distanzen dieses Modells nehmen mit steigender Objektanzahl ab und bleiben ab etwa $400$ Zellen nahezu konstant.
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\subfigure[Flächenüberdeckung]{
+%		\includegraphics[scale=0.25]{cellcount_fue}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Dice-Koeffizient]{
+%		\includegraphics[scale=0.25]{cellcount_dice}
+%	}\\
+%	\subfigure[Jaccard-Koeffizient]{
+%		\includegraphics[scale=0.25]{cellcount_jaccard}
+%	}
+%	\hspace{2mm}
+%	\subfigure[Hausdorff-Distanzen]{
+%		\includegraphics[scale=0.25]{cellcount_hausd}
+%	}
+%	\caption{Segmentierungsergebnisse in Abhängigkeit der Trainingsdatengrö"se}
+%	\label{fig.cellcount_segmentation_results}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\subfigure[Flächenüberdeckung]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Zellen im Trainingsdatensatz,
+			ylabel=Flächenüberdeckung,
+			xtick={0,100,...,500},
+			ymin=0.76,
+			ymax=0.92,
+			ytick={0.76,0.78,...,0.92},
+			legend columns=-1,
+			legend style={
+				at={(1,1)},
+				%yshift=0.2cm,
+				%xshift=0.9cm,
+				anchor=south,
+				nodes=left,
+				%draw=none,
+				nodes={text depth=1em, text width=5em,column sep=0.4cm},
+				%align=center,
+			},
+			legend entries={Fokus\\ Basic AAM,Fokus\\ ICAAM,Post-Fokus\\ Basic AAM,Post-Fokus\\ ICAAM},
+			legend to name=named,
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(50,0.8389)
+			(100,0.8702)
+			(150,0.8709)
+			(200,0.8714)
+			(300,0.8777)
+			(400,0.875)
+			(500,0.8763)
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(50,0.826)
+			(100,0.8308)
+			(150,0.8772)
+			(200,0.8478)
+			(300,0.7852)
+			(400,0.7816)
+			(500,0.8007)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(50,0.8097)
+			(100,0.8459)
+			(150,0.8449)
+			(200,0.8455)
+			(300,0.8433)
+			(400,0.8457)
+			(500,0.85)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(50,0.8441)
+			(100,0.8606)
+			(150,0.8583)
+			(200,0.8598)
+			(300,0.8563)
+			(400,0.8505)
+			(500,0.8512)	
+		};
+		%\legend{Fokus\\ Basic AAM,Fokus\\ ICAAM,Post-Fokus\\ Basic AAM,Post-Fokus\\ ICAAM}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{11mm}
+\subfigure[Dice-Koeffizient]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Zellen im Trainingsdatensatz,
+			ylabel=Dice-Koeffizient,
+			xtick={0,100,...,500},
+			ymin=0.8,
+			ymax=0.92,
+			ytick={0.8,0.82,...,0.92},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}			
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(50,0.8849)
+			(100,0.8959)
+			(150,0.8946)
+			(200,0.8946)
+			(300,0.8962)
+			(400,0.895)
+			(500,0.896)
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(50,0.8076)
+			(100,0.8347)
+			(150,0.8254)
+			(200,0.8283)
+			(300,0.823)
+			(400,0.8177)
+			(500,0.8296)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(50,0.8748)
+			(100,0.8888)
+			(150,0.8872)
+			(200,0.8877)
+			(300,0.8862)
+			(400,0.8872)
+			(500,0.8903)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(50,0.8803)
+			(100,0.889)
+			(150,0.8892)
+			(200,0.8899)
+			(300,0.8896)
+			(400,0.8868)
+			(500,0.8855)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\subfigure[Jaccard-Koeffizient]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Zellen im Trainingsdatensatz,
+			ylabel=Jaccard-Koeffizient,
+			xtick={0,100,...,500},
+			ymin=0.66,
+			ymax=0.84,
+			ytick={0.66,0.7,...,0.84},
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=2,
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(50,0.7935)
+			(100,0.8114)
+			(150,0.8093)
+			(200,0.8092)
+			(300,0.8118)
+			(400,0.8099)
+			(500,0.8116)	
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(50,0.6773)
+			(100,0.7162)
+			(150,0.7028)
+			(200,0.7069)
+			(300,0.6992)
+			(400,0.6916)
+			(500,0.7089)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(50,0.7775)
+			(100,0.7998)
+			(150,0.7972)
+			(200,0.798)
+			(300,0.7956)
+			(400,0.7972)
+			(500,0.8022)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(50,0.7862)
+			(100,0.8002)
+			(150,0.8005)
+			(200,0.8016)
+			(300,0.8011)
+			(400,0.7966)
+			(500,0.7946)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\hspace{11mm}
+\subfigure[Durchschnittliche Hausdorff-Distanzen]{
+	\begin{tikzpicture}[trim axis left, trim axis right,scale=0.85]
+		\begin{axis}[
+			xlabel=Zellen im Trainingsdatensatz,
+			ylabel=Durchschnittliche Hausdorff-Distanzen,
+			xtick={0,100,...,500},
+			ymin=1.5,
+			ymax=4,
+			ytick={1.5,2,...,3.5},
+			scaled y ticks=false,
+			legend style={
+				at={(1,0.5)},
+				xshift=0.2cm,
+				anchor=north west,
+				nodes=right,
+				draw=none
+			},
+			y tick label style={
+				/pgf/number format/fixed,
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision=1,
+			}
+			%axis lines=left
+		]
+		\addplot[color=red,mark=diamond*] coordinates{
+			(50,2.3428)
+			(100,2.1413)
+			(150,2.1416)
+			(200,2.1207)
+			(300,2.1022)
+			(400,2.108)
+			(500,2.0839)
+		};
+		\addplot[color=Green,mark=*] coordinates{
+			(50,3.4815)
+			(100,2.9078)
+			(150,3.315)
+			(200,3.1157)
+			(300,2.6318)
+			(400,2.5577)
+			(500,2.5349)	
+		};
+		\addplot[color=blue,mark=square*] coordinates{
+			(50,2.394)
+			(100,2.2314)
+			(150,2.2416)
+			(200,2.2218)
+			(300,2.2137)
+			(400,2.2066)
+			(500,2.163)
+		};
+		\addplot[color=ProcessBlue,mark=x] coordinates{
+			(50,2.5342)
+			(100,2.2892)
+			(150,2.285)
+			(200,2.2654)
+			(300,2.2466)
+			(400,2.2941)
+			(500,2.3063)	
+		};
+		%\legend{Fokus-Modell,Post-Fokus-Modell}
+		\end{axis}
+	\end{tikzpicture}
+}
+\\
+\vspace{2mm}
+\ref{named}
+\end{center}
+%\vspace{-3mm}
+\caption{Segmentierungsergebnisse in Abhängigkeit der Trainingsdatengrö"se}
+\label{fig.cellcount_segmentation_results}
+\vspace{-3mm}
+\end{figure}
+
+
+%Reduktion der Zellanzahl - Vergleichbares Ergebnis erreichbar?
+
+\section{Abschlie"sende Segmentierungsergebnisse}
+\label{chap:final_segmentation}
+Zum Abschluss der Auswertung erfolgt eine Betrachtung der Segmentierungsgüte der optimierten Modelle. Die Initialisierung erfolgte dabei auf Basis der in Kapitel \ref{chap:bildvorverarbeitung} beschriebenen Bildvorverarbeitung. Es wurde ein Bildausschnitt gewählt, welcher insgesamt $268$ Zellen enthielt, von denen $100$ Bestandteil der Trainingsdaten waren. Somit konnten Segmentierungsergebnisse erzeugt werden, welche einen Vergleich mit anderen Segmentierungsverfahren ermöglichen. Tabelle \ref{tab:final_params} enthält eine Zusammenfassung der zur Modellerstellung und -anpassung verwendeten Parameter.
+
+\begin{table}[!ht]
+\caption{Parameter zur Erstellung und Objektanpassung der optimierten Modelle}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{lightgray} \textbf{Parameter} & \textbf{Wert} \\
+\hline
+Zellanzahl & $500$\\
+\hline
+Landmarken pro Zelle & $14$\\
+\hline
+Beschriebene Formvarianz & $98\%$\\
+\hline
+Beschriebene Texturvarianz & $98\%$\\
+\hline
+Beschriebene Erscheinungsvarianz (Basic AAM) & $99.75\%$\\
+\hline
+Maximale Iterationsanzahl & $200$\\
+\hline
+Maximale Grö"se der Modellobjekte & $200\%$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:final_params}
+\end{table}
+
+Für die Modellanpassung wurde darüber hinaus ein maximal zulässiger Fehlerwert für jedes Modell in Abhängigkeit der zuvor ermittelten durchschnittlichen Texturfehlerwerte bestimmt. Diese wurden zunächst gerundet und anschlie"send jeweils verdoppelt. Lediglich für das Basic AAM der Fokus-Aufnahmen, welches bereits sehr hohe Texturfehlerwerte erzeugte, wurde der Durchschnittsfehler mit einem geringeren Faktor multipliziert. Die zuvor ermittelten durchschnittlichen Texturfehler und die daraus abgeleiteten maximal zulässigen Fehlerwerte sind in Tabelle \ref{tab:max_errors} zusammengefasst.
+
+\begin{table}[!ht]
+\caption{Durchschnittliche Texturfehler und daraus resultierende maximale Fehlerwerte für die Modellanpassung}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell}\\
+\rowcolor{lightgray} & \textbf{Basic AAM} & \textbf{ICAAM} & \textbf{Basic AAM} & \textbf{ICAAM} \\
+\hline
+Durchschnittlicher Texturfehler (gerundet) & $0.6$ & $0.2$ & $0.2$ & $0.1$ \\
+\hline
+Maximal zulässiger Texturfehler & $0.8$ & $0.4$ & $0.4$ & $0.2$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:max_errors}
+\end{table}
+
+Da die resultierenden Texturfehlerwerte bereits in den vorangegangenen Abschnitten dargestellt und verglichen wurden, konzentriert sich die abschlie"sende Betrachtung auf die erzielten Segmentierungsergebnisse. Tabelle \ref{tab:final_segmentation} fasst diese für die verschiedenen Modelle zusammen.
+
+\begin{table}[!ht]
+\caption{Segmentierungsergebnisse der optimierten Modelle bei der Objektanpassung}
+\begin{center}
+\vspace{-3mm}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{2}{c|}{Fokus-Modell} & \multicolumn{2}{c|}{Post-Fokus-Modell} \\
+\rowcolor{lightgray} & \textbf{Basic AAM} & \textbf{ICAAM} & \textbf{Basic AAM} & \textbf{ICAAM} \\
+\hline
+$RP$ & $253$ & $223$ & $245$ & $250$ \\
+\hline
+$FP$ & $43$ & $27$ & $30$ & $26$ \\
+\hline
+$FN$ & $15$ & $45$ & $23$ & $18$ \\
+\hline
+$Ge$ & $0.855$ & $0.892$ & $0.891$ & $0.926$\\
+\hline
+$Se$ & $0.944$ & $0.832$ & $0.914$ & $0.933$\\
+\hline
+$F_1$ & $0.897$ & $0.861$ & $0.902$ & $0.919$\\
+\hline
+$D$ & $0.738$ & $0.730$ & $0.750$ & $0.756$\\
+\hline
+$J$ & $0.585$ & $0.575$ & $0.600$ & $0.610$\\
+\hline
+$F\ddot{U}$ & $0.731$ & $0.779$ & $0.718$ & $0.728$\\
+\hline
+$H$ & $2.450$ & $2.629$ & $2.772$ & $2.820$\\
+\hline
+$H_{max}$ & $10.000$ & $12.369$ & $9.220$ & $9.849$\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:final_segmentation}
+\end{table}
+
+Die Segmentierungsergebnisse zeigen, dass das ICAAM der Post-Fokus-Aufnahmen wie schon in den vorangegangenen Abschnitten die höchste Segmentierungsgüte aufweist. Lediglich die durchschnittlichen Hausdorff-Distanzen liegen über den Ergebniswerten der anderen Modelle. Zusammen mit der in dieser Untersuchung gezeigten zuverlässigen Texturmodellierung kann das ICAAM damit als im Vergleich zum Basic AAM geeigneteres Verfahren für die Anwendung in der Zellsegmentierung betrachtet werden.
