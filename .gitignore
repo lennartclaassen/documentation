@@ -1,0 +1,18 @@
+# temp files
+*~
+
+# Compiled Latex files
+*.aux
+*.log
+*.blg
+*.bbl
+*.lot
+*.maf
+*.mtc
+*.mtc*
+*.lof
+*.nlo
+*.out
+*.gz
+*.bak
+*.toc
