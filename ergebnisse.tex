@@ -2,6 +2,15 @@
 
 \section{Lokalisationsgenauigkeit}
 
+
+\subsection{Globale Lokalisation}
+Das QR Board wird an definierter Position im Raum angebracht und genauso auch im Modell positioniert. Anschließend wird die globale Lokalisation durchgeführt. Das Board wird von der Kamera des Kamera-Projektor Systems erkannt und die Position mit der Position der Lokalisation verglichen.
+
+
+\subsection{Tracking/Kontinuierliche Lokalisation}
+Die globale Lokalisation wird anhand des Boards korrigiert um eine definierte Ausgangslage zu erhalten. Anschließend erfolgt eine Bewegung des Kamera-Projektor Systems entlang der verschiedenen Raumrichtungen und eine Rotation um die jeweiligen Winkel. Alle Messungen werden separat durchgeführt um eine Beeinflussung der Parameter untereinander zu verhindern. Die Bewegung erfolgt so, dass eine Rückkehr zur Ausgangslage stattfindet um eine Bestimmung der Positionsabweichung im Anschluss an die Bewegung durch erneute Detektion des Boards zu ermöglichen. Es ist darauf hinzuweisen, dass aufgrund der getrennten Betrachtung die Validierung zum einen für die visuelle Odometrie (x,y,z,yaw) und zum anderen für die Messdaten der IMU erfolgt (roll, pitch).
+
 \section{Projektionsgenauigkeit}
+Überprüfung der Genauigkeit mit Hilfe externer Kamera. Externe Kamera wird kalibriert um objektive Betrachtung der Projektionsgenauigkeit zu ermöglichen. Kamera Projektor System ist bereits kalibriert. Verwendung von 2 QR Boards. Eins wird auf ebene Unterlage aufgeklebt, das andere wird vom Projektor projiziert. Zunächst wird das aufgeklebte Board durch die Kamera des Kamera Projektor Systems erkannt um daraus die Transformation zu berechnen, welche im Programm verwendet wird um die Projektorsicht zu erzeugen. Das projizierte Board wird anschließend mit der externen Kamera erfasst genauso wie das aufgeklebt. Es wird jeweils die Transformation zur Kamera berechnet um daraus die Differenz der beiden Boards bezüglich Position und Lage zu bestimmen.
 
 \section{Benutzerinteraktion}
