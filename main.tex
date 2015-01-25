@@ -80,6 +80,30 @@
 
 \newcommand{\red}[1][TODO]{\textbf{\color{red}{#1}}}
 
+%\newcommand{\pt}[1][p]{$\boldsymbol{#1}$ }
+\newcommand{\pt}[1][p]{\ensuremath{
+	{\boldsymbol{#1} } 
+}}
+\newcommand{\pteq}[2][p]{\ensuremath{
+	{\boldsymbol{#1} = \left[ {#2} \right] ^T}
+}}
+
+%\newcommand{\pti}[2][p]{\ensuremath{
+%	{_{(#2)}\boldsymbol{#1} } 
+%}}
+
+\newcommand{\pth}[1][p]{\ensuremath{
+	{\boldsymbol{\tilde{#1}} }
+}}
+\newcommand{\ptheq}[2][p]{\ensuremath{
+	{\boldsymbol{\tilde{#1}} = \left[ {#2},1 \right] ^T}
+}}
+
+%\newcommand{\tran}[3][T]{\ensuremath{
+%	{^{#2}\boldsymbol{#1}_{#3} } 
+%}}
+
+\newcommand{\kps}[1][]{Kamera-Projektor-System#1 }
 
 
 \begin{document}                            % Dokumentenanfang
