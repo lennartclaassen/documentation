@@ -1,4 +1,5 @@
 \chapter{Projektion}
+\red[Visualisierung? und Visualisierung im Gui dann auch einbauen!?]
 Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.model}) erfolgen. Die ausgewählten Modelldaten sollen mittels des integrierten Projektors perspektivisch korrekt in die Umgebung projiziert werden. Dazu ist zunächst die Ermittlung der Pose des Projektors innerhalb der Umgebung erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Simulation der Perspektive erfolgt dabei ausgehend von einem Kameramodell, da der Projektor wie in \abschnitt{chap.proj_transformation} als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche dann mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
 
 \section{Ermittlung der Projektorposition}

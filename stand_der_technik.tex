@@ -2,6 +2,7 @@
 \label{chap:tech}
 
 \section{Lokalisation}
+\label{chap:mcl}
 \red[Die Lokalisation mobiler Systeme in bekannten Umgebungen ist Gegenstand aktueller Forschungsvorhaben.\\
 Während die Positionsbestimmung im Freien durch die Verwendung von GPS \\
 Durch die ubiquitäre Nutzung von Computern in Form von Smartphones wird die Lokalisation in Gebäuden]\\
@@ -45,14 +46,14 @@ Da das Ziel des entwickelten Systems in der Lokalisation in bekannter Umgebung l
 \red[Welche Lokalisationsverfahren gibt es. Allgemein und speziell für handgeführte Systeme.]\\
 
 
-\section{RGB-D Kameras}
+\section{RGB-D Kameras/Tiefenkameras(?)}
 Die beschriebenen Verfahren und Algorithmen haben sich besonders im Bereich der 2D Lokalisation bewährt, obwohl sie prinzipiell unabhängig von der Anzahl an Dimensionen sind. Die größer werdende Verbreitung von \red[bezahlbaren] leistungsfähigen Tiefenkameras\red[für normale Anwender] wie der Microsoft Kinect\red[Tm] führt jedoch dazu, dass die Anwendungen immer häufiger auch auf 3D Umgebungen erweitert werden. Die Lokalisation in 3D Umgebungen ist besonders dann von Bedeutung, wenn das System sich in mehr als einer Ebene bewegen kann. Die Anzahl der Freiheitsgrade (in der 2D Lokalisation meist drei) steigt dadurch auf sechs an, da die Pose des Systems nun über drei translatorische sowie drei rotatorische Freiheitsgerade beschrieben wird. Neben der Notwendigkeit für geeignete 3D Modellumgebungen kann die Erhöhung der Freiheitsgrade auch dazu führen, dass keine Odometriedaten mehr vorhanden sind. Dies ist insbesondere bei fliegenden \cite{Huang2011} und hand- oder körpergeführten Systemen \cite{Fallon2012} der Fall. Die Auswertung von Tiefen- und Farbinformationen ermöglicht es jedoch dies durch visuelle Odometrie zu kompensieren \cite{Whelan2013robust}.\\
 Auch die Integration in traditionelle Robotersysteme zeigt, dass Tiefenkameras eine sinnvolle Alternative zu bisherigen Sensoren wie Laser-Entfernungsmessern darstellen können \cite{Cunha2011} \cite{Eriksson2012}. Anzumerken ist, dass der beobachtbare Bildbereich bezüglich Distanz und Sichtfeld meist deutlich kleiner ist, als bei Laser Sensoren. Die Eignung von Tiefenkameras für Lokalisationsaufgaben ist daher anwendungsabhängig zu überprüfen.\\
 
 \red[Featurebasierte Lokalisation (RGB-D SLAM, Fovis)\\
 Markerbasierte Lokalisation]\\
 
-\section{Projektion}
+\section{Projektion/Augmented Reality}
 \red[Projektion von Bildinformationen (Augmented Reality Bereich) ebenfalls großes Forschungsgebiet, besonders im Bereich der digitalen Bildverarbeitung (computer vision).]\\
 
 \red[In welchen Bereichen wird Augmented Reality angewendet und für welche Anwendungen/in welcher Weise soll es den Benutzer unterstützen?\\]
@@ -74,12 +75,12 @@ Auch Li \textit{et al.} \cite{Li2013} stellen ein handgeführtes Projektionssyst
 Molyneaux \textit{et al.} \cite{Molyneaux2012} erweitern die Metapher der Taschenlampe und integrieren darüber hinaus eine automatische Lokalisation des handgeführten Projektionssystems. Eine Infrastruktur aus Microsoft Kinect Sensoren erkennt und verfolgt die Systempose und ermöglicht dadurch die verzerrungsfreie Projektion beliebiger Zusatzinformationen innerhalb eines Raumes. Durch Infrarot Kameras am Projektionssystem selbst wird zudem eine Interaktion mit den visualisierten Daten realisiert.\\
 Das \textit{SideBySide} Projekt von Willis \textit{et al.} \cite{Willis2011} ermöglicht die Interaktion von Benutzern über handgeführte Projektionssysteme. Jedes System projiziert dabei sowohl ein Bild im sichtbaren Lichtspektrum als auch einen Marker im Infrarot Spektrum. Die Erkennung der Marker durch die Systeme erlaubt das Zusammenspiel der jeweiligen Projektionen der Anwender. Beispielanwendungen finden sich im Austausch von Informationen oder Dateien und in kooperativen Spielen.\\
 Einen weiteren Ansatz für kooperative Projektionssysteme liefern Robinson \textit{et al.} \cite{Robinson2012} mit \textit{PicoTales}. Dabei werden handgeführte Projektionssysteme verwendet um gemeinsam animierte Videos zu erstellen. Die Lokalisation erfolgt dabei nach einem Kalibrierungsverfahren über das Aufzeichnen von Bewegungsdaten durch eine inertiale Messeinheit. Die Auswertung und Fusionierung zu einem gemeinsamen Video erfolgt nach Ende der Interaktion über einen separaten Computer.\\
-\red[Omnitouch]
+Das von Harrison \textit{et al.\ }\cite{Harrison2011} entwickelte \textit{Omnitouch} ist ein körpergeführtes System, welches die Projektion grafischer Benutzeroberflächen auf typische im Alltag vorhandenen Oberfläche ermöglicht. Das System verfügt neben einem Projektor auch über eine Tiefenkamera zur Detektion von Benutzereingaben. Dadurch wird die Funktionalität von Touchscreens abgebildet und es können typische Anwendungen implementiert werden, die sonst beispielsweise auf Smartphones oder Tablets genutzt werden.\\
 
 Warum der Ansatz?
-\red[Verschiedene handgeführte Systeme, welche jedoch entweder auf manueller, externer Lokalisation, oder markerbasierter Lokalisation beruhen. Bei anderen Systemen wird lediglich eine Ausrochtung bzgl der Projektionsoberfläche durchgeführt. Selbstlokalisation ohne hilfsmittel bisher nicht behandelt. Lokalisation von mobilen Systemen allerdings seit einiger Zeit Forschungsthema, neuer ist jedoch die 3D Lokalisation. System soll die Brücke bilden zwischen mobilen, autonomen Lokalisationssystemen und handgeführten Projektionssystemen\\]
+\red[Verschiedene handgeführte Systeme, welche jedoch entweder auf manueller, externer Lokalisation, oder markerbasierter Lokalisation beruhen. Bei anderen Systemen wird lediglich eine Ausrichtung bzgl der Projektionsoberfläche durchgeführt. Selbstlokalisation ohne hilfsmittel bisher nicht behandelt. Lokalisation von mobilen Systemen allerdings seit einiger Zeit Forschungsthema, neuer ist jedoch die 3D Lokalisation. System soll die Brücke bilden zwischen mobilen, autonomen Lokalisationssystemen und handgeführten Projektionssystemen\\]
 \red[OHNE HILFSMITTEL nochmal aufgreifen wenn alternative Lokalisation über Muster o.ä. aufgeführt wird]
 
 \red[Welche Systeme gibt es zur Projektion von (Modell-)Daten.]\\
 
-%\includesinglesvg[test][test]
+%\includesvgnew[1]{test}
