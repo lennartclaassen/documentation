@@ -1,13 +1,35 @@
 \chapter{Lokalisation}
 
-\red[Karte! Octomap aus Kartenmodell!]
+\section{Lokalisatonsumgebung/\red[Karte]}
+\label{chap.map}
+Die Bestimmung der Pose des \kps{s} erfordert ein Abbild der realen Umgebung um die Sensordaten mit den Modelldaten abgleichen zu können. In der Lokalisation wird dieses Modell auch als Karte bezeichnet. Als Grundlage von Karten werden häufig Entfernungsmessungen verwendet, die im Rahmen von Verfahren wie dem in \abschnitt{chap.slam} beschriebenen SLAM eingesetzt werden. Dabei ist das Resultat meist eine Repräsentation der Umgebung in Form einer Punktwolke. Da diese Darstellung je nach Größe und Auflösung der Karte zu einem hohen Rechenaufwand führen kann wird in dieser Arbeit eine darauf aufbauende Implementierung \cite{Octomap} verwendet, welche eine kompakte und effiziente Beschreibung der Umgebung ermöglicht. Die von Hornung \textit{et al.} \cite{Hornung2013} beschriebene Datenstruktur, genannt \textit{Octomap}, basiert auf der Abbildung der Karte über eine \textit{octree} genannte Baumstruktur.\\
+Zunächst wird ein Würfelvolumen des zu beschreibende Bereiches bestimmt, in diesem Fall die maximalen Abmessungen des Umgebungsmodells. Dieser Würfel wird anschließend in acht äquivalente Volumenelemente (Voxel) unterteilt. Für jedes Voxel erfolgt eine Bestimmung, ob sich ein Messpunkt der Punktwolke in diesem Volumen befindet. Dabei erfolgt eine Betrachtung entlang der Sensorstrahlen, so dass gleichzeitig nicht belegte Voxel bestimmt werden können. Alle belegten Voxel werden anschließend erneut auf gleiche Weise unterteilt. Rekursiv erfolgt somit die in \abb{fig.octree} dargestellte Verfeinerung der Baum- und Volumenstruktur. Freie Bereiche müssen dabei nicht weiter verfeinert werden, wodurch eine effiziente Darstellung erreicht wird.\\
 
-\section{Lokalisationsverfahren}
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{Octree Darstellung - nach paper Hornung et al.}
+		\label{fig.octree}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
+
+
+Die Besonderheit des von Hornung \textit{et al.} entwickelten Ansatzes liegt darin, dass im Gegensatz zu einer binären Darstellung der Voxelzustände eine probabilistische Bewertung vorgenommen wird. Es können somit bei der Betrachtung der Voxel mehr als zwei Zustände unterschieden werden, so dass zwischen belegten, freien und unbekannten Bereichen differenziert werden kann. Als Grenzwert der Verfeinerung kann eine anwendungsabhängige Auflösung definiert werden. Auch die Kombination verschiedener Strukturbäume mit unterschiedlichen Auflösungen ist bei der Verwendung von \textit{Octomap} möglich. Bei Bedarf können so bestimmte Strukturen feiner aufgelöst werden um die Genauigkeit der Abbildung zu erhöhen.\\
+Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap} zeigt \abb{fig.octomap}.
+
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{Vergleich - Octomap Modellumgebung (Pointcloud)}
+		\label{fig.octomap}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
 
 \section{Ermittlung der Initialpose}
 \label{chap.globloc}
-Globale Lokalisation\\
-Für die globale Lokalisation wurde in dieser Arbeit ein Ansatz gewählt, welcher auf dem Monte Carlo Algorithmus basiert \cite{Dellaert1999}. Dieser Ansatz entspricht wie bereits in \abschnitt{chap:mcl} beschrieben einem Partikelfilter. Dazu wurde eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. \red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
+Für die globale Lokalisation wurde in dieser Arbeit ein Ansatz gewählt, welcher auf dem Monte Carlo Algorithmus basiert \cite{Dellaert1999}. Dieser Ansatz entspricht wie bereits in \abschnitt{chap:mcl} beschrieben einem Partikelfilter. Dazu wurde eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. Als Referenz wird die zuvor beschriebene aus der Modellumgebung erzeugte \textit{Octomap} verwendet. \red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
 In der vorhandenen Umgebungskarte werden dabei im Rahmen zuvor festlegbarer Parameter Partikel basierend auf einer Zufallsverteilung generiert. Jeder Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden: dem Endpoint-Modell und dem Raycasting-Modell. Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
 
 \subsection{Log-Likelihood-Funktion}
@@ -49,7 +71,7 @@ Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtun
 \red[Anpassung der Varianz in Abhängigkeit der Entfernung als Ausblick]
 
 \subsection{Endpoint-Modell}
-Das Endpoint-Modell, welches von \red[X] in \cite{Endpoint} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten Karte wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei ein Distanzwert zugewiesen, basierend auf der Entfernung zum nächsten Hindernis. Als Hindernisse gelten dabei neben dem Raum auch alle statischen Objekte, welche in der Karte vorhanden sind. Erfolgt die Lokalisatioon wie in dieser Arbeit innerhalb einer statischen Umgebung kann die Berechnung der Distanzkarte bereits vor der Lokalisation erfolgen.\\
+Das Endpoint-Modell, welches von \red[X] in \cite{Endpoint} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei ein Distanzwert zugewiesen, basierend auf der Entfernung zum nächsten Hindernis. Als Hindernisse gelten dabei alle belegten Zellen der \textit{Octomap}, also neben dem Raum auch alle in der Karte vorhanden statischen Objekte. Erfolgt die Lokalisation wie in dieser Arbeit innerhalb einer statischen Umgebung kann die Berechnung der Distanzkarte bereits vor der Lokalisation erfolgen.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -60,7 +82,7 @@ Das Endpoint-Modell, welches von \red[X] in \cite{Endpoint} beschrieben wurde, b
 	%\vspace*{-8mm}
 \end{figure}
 
-Durch die vorhergehende Berechnung dieser Karte ergibt sich eine deutliche Verringerung des Rechenaufwands bei jedem Lokalisierungsschritt. Anzumerken bleibt, dass die Distanz-Karte während der gesamten Programmlaufdauer im Speicher behalten wird und bezüglich des Speicherbedarfs die Ausgangskarte deutlich übersteigen kann.\\
+Durch die vorhergehende Berechnung dieser Karte ergibt sich eine deutliche Verringerung des Rechenaufwands bei jedem Lokalisationsschritt. Anzumerken bleibt, dass die Distanz-Karte während der gesamten Programmlaufdauer im Speicher behalten wird und bezüglich des Speicherbedarfs die Ausgangskarte deutlich übersteigen kann.\\
 Die Lokalisation erfolgt beim Endpoint-Modell durch Betrachtung der Punkte der Punktewolke. Diese werden als Endpunkte der Strahlen interpretiert, welche von der Kamera an der jeweiligen Partikelpose ausgesendet werden. Durch Abbildung auf die zuvor berechnete Distanz-Karte können die darin gespeicherten Werte für $\Delta d$ ausgelesen werden. Die Wahrscheinlichkeiten, dass die Punktwolke von der Stelle des betrachteten Partikels aus aufgenommen wurde lässt sich anschließend anhand der Distanzwerte bestimmen. Die berechneten Wahrscheinlichkeiten aller Strahlen werden innerhalb der unter \abschnitt{chap.loglik} beschriebenen Log-Likelihood-Funktion addiert um den Partikel mit der höchsten Gewichtung zu ermitteln.\\
 Das Endpoint-Modell bildet nicht direkt die physikalische Arbeitsweise eines Entfernungsmessers ab, da es durch Hindernisse \glqq hindurchsehen\grqq{} kann, wie \abb{fig.endpoint} zeigt. Dennoch ist es in der Lage, eine zuverlässige Approximation der Systempose zu bestimmen \cite{Konolige1999}.\\
 
@@ -129,7 +151,7 @@ Die in \abschnitt{chap.imu} beschriebene inertiale Messeinheit ist in der Lage d
 Als Ergänzung der visuellen Odometrie werden die Messdaten der inertialen Messeinheit mit den Odometriedaten mittels eines Erweiterten Kalman-Filters fusioniert.
 
 \subsection{Erweitertes Kalman Filter}
-Das Kalman-Filter stellt eine in der Praxis bewährte Methode zur Fusionierung von Sensordaten dar. Es handelt sich beim Kalman-Filter \cite{Kalman1960} um die spezielle Implementierung eines Bayes-Filters, welcher eine statistische Approximation des aktuellen Systemzustands ermöglicht. Der Ausgang jeder auf ein System wirkende Aktion, beispielsweise die Drehung der Räder, kann in der Realität nicht ohne Unsicherheiten vorhergesagt werden. Der neue Systemzustand ist deshalb allein auf Basis der Odometriedaten nur mit großer Varianz bestimmbar. Messungen können dazu verwendet werden diese Unsicherheiten zu korrigieren um den realen Zustand mit höherer Genauigkeit schätzen zu können. Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. \abb{fig.kalman}\red[in anlehung an Hertzberg s.134] zeigt das Prinzip der Zustandsannäherung und die auf Basis der Messwerte durchgeführte Korrektur.\\
+Das Kalman-Filter stellt eine in der Praxis bewährte Methode zur Fusionierung von Sensordaten dar. Es handelt sich beim Kalman-Filter \cite{Kalman1960} um die spezielle Implementierung eines Bayes-Filters, welcher eine statistische Approximation des aktuellen Systemzustands ermöglicht. Der Ausgang jeder auf ein System wirkende Aktion, beispielsweise die Drehung der Räder, kann in der Realität nicht ohne Unsicherheiten vorhergesagt werden. Der neue Systemzustand ist deshalb allein auf Basis der Odometriedaten nur mit großer Varianz bestimmbar. Messungen können dazu verwendet werden, diese Unsicherheiten zu korrigieren um den realen Zustand mit höherer Genauigkeit schätzen zu können. Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. \abb{fig.kalman}\red[in anlehung an Hertzberg s.134] zeigt das Prinzip der Zustandsannäherung und die auf Basis der Messwerte durchgeführte Korrektur.\\
 Durch das Erweiterte Kalman-Filter (EKF) kann dieses Filterprinzip durch Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert. Mit Hilfe der inertialen Messeinheit kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nickwinkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert um die Bewegung des Systems zu schätzen.
 
 

@@ -148,7 +148,19 @@ Kalibrierung Projektor + Kamera+Projektor\\
 Transformationen zwischen den Koordinatensystemen (oder in Kapiteln erst?)
 ]
 
-Wichtig sind die Transformationen zwischen den Koordinatensystemen und die Abbildung des Projektors. Die Transformation erfolgt allerdings immer über die Kamera, da diese im Weltkoordinatensystem lokalisiert wird. Für die Kalibrierung sind die intrinsischen und extrinsischen Parameter relevant, aber auch die Herkunft?
+\red[Wichtig sind die Transformationen zwischen den Koordinatensystemen und die Abbildung des Projektors. Die Transformation erfolgt allerdings immer über die Kamera, da diese im Weltkoordinatensystem lokalisiert wird. Für die Kalibrierung sind die intrinsischen und extrinsischen Parameter relevant, aber auch die Herkunft?\\]
+
+\red[
+Transformationen:\\
+Map = World\\
+World -> BaseLink\\
+BaseLink -> CameraLink\\
+CameraLink -> Camera\\
+Camera -> Projector\\
+World -> Objects\\
+World -> ARMarker (eq. to Objects)\\
+Projector -> IntrinsicProj
+]
 
 \section{Software}
 Zur Realisierung der einzelnen Systemfunktionen wurden Komponenten erstellt, welche auf verschiedenen Softwarebibliotheken aufgebaut sind. Die Bedienfunktionen des Systems wurden dabei innerhalb einer grafischen Benutzeroberfläche zusammengefasst. Bevor die Programmstruktur näher erläutert wird sollen deshalb zunächst die verwendeten Bibliotheken und Softwareumgebungen dargestellt werden.

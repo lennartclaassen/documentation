@@ -1,8 +1,9 @@
 \chapter{Datengrundlage}
-\label{chap:datengrundlage}
+\label{chap.modeldata}
 Das Ziel der Anwendung liegt in der Darstellung von Modelldaten durch das \kps innerhalb der realen Umgebung. Dazu soll in diesem Kapitel eine geeignete Modellstruktur definiert. Als Grundlage für die spätere Lokalisation ist es erforderlich, ein möglichst originalgetreues Abbild der realen Umgebung zu erstellen. Eine hohe Modellgüte ermöglicht den Abgleich zwischen Modell- und Umgebungsdaten und erlaubt die präzise Positionierung virtueller Objekte sowohl in der Modell-\red[Modellumgebung oder Modell-Umgebung?] als auch in der realen Umgebung. Die in der realen Umgebung zu visualisierenden Modellobjekte werden auf Basis der virtuellen Umgebungsdaten erstellt und positioniert. Die Projektion der Modellumgebung selbst innerhalb der realen Umgebung würde lediglich zu Überlagerungen gleicher Strukturen führen und besitzt außerhalb von Validierungen des \kps{s} keine Relevanz.\\
 
 \section{Modellumgebung}
+\label{chap.slam}
 Für die Verwendung der erstellten Programmstruktur ist es erforderlich, dass die Umgebung in Form eines 3D Modells abgebildet wird. Als Modellumgebung werden dabei alle statischen Objekte und Strukturen betrachtet, welche eine Repräsentation der realen Umgebung darstellen. Um die benötigten Daten zu generieren können verschiedene Verfahren angewendet werden.\\
 Liegen bereits Modelldaten der Umgebung vor, so kann das virtuelle Umgebungsmodell direkt aus diesen abgeleitet werden. Insbesondere ist dies der Fall, wenn die Anwendung des \kps{s} in die Planungs- und Bauphase eines Gebäudes integriert werden soll. Eine beispielhafte Modellumgebung ist in \abb{fig.mapMod} dargestellt.\\
 
@@ -33,8 +34,17 @@ Das Ergebnis der Kartierung entspricht einer texturierten Punktwolke. Im Gegensa
 
 \section{Modellobjekte}
 Für die Projektion der visuellen Zusatzinformationen sind zu Grunde liegende Modelldaten erforderlich. Modellobjekte beschreiben somit alle Strukturen und Objekte, welche keine Elemente der realen Umgebung abbilden. Die zur Erstellung der Modellumgebung beschriebenen Verfahren können dabei ebenso auf die Modellierung von Objekten und Strukturen angewendet werden. Anstelle von Algortihmen zur Kartierung der Umgebung könnten dabei jedoch spezielle Verfahren zur Erfassung dreidimensionaler Objekte eingesetzt werden, wie beispielsweise von \cite{Xu2012} beschrieben.\\
-Die Modellobjekte müssen anders als die Modellumgebung jedoch nicht als reale Objekte vorhanden sein, weshalb sie auch keine Auswirkungen auf die Lokalisation haben. Es können somit beliebige Objekte modelliert werden um diese später in der realen Umgebung zu visualisieren.\\
+Die Modellobjekte müssen anders als die Modellumgebung jedoch nicht als reale Objekte vorhanden sein, weshalb sie auch keine Auswirkungen auf die Lokalisation haben. Es können somit beliebige Objekte modelliert werden um diese später in der realen Umgebung zu visualisieren. \abb{fig.modobj} zeigt zwei Beispiele möglicher Modellobjekte und ihre Integration in die Modellumgebung.\\
 Die Modellgüte hat in allen Fällen keine Auswirkungen auf die Lokalisations- oder Projektionsgenauigkeit. Für die Visualisierung ist jedoch eine ausreichende Auflösung der Modellstrukturen und -texturen anzustreben.\\
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{Modellobjekte, Subfigures (insgesamt 4, jeweils allein und in Umgebung): Steckdosen - Leitungen}
+		\label{fig.modobj}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
 
 \section{Dateistruktur}
 Um die Szene, bestehend aus der Modellumgebung und allen integrierten Modellobjekten, später wieder in den virtuellen Planungsablauf integrieren zu können wird eine Dateistruktur definiert, welche die Sicherung der aktuellen Modellkonfiguration ermöglicht. Alle Modellelement werden dazu mit ihrer aktuellen Pose, Textur und geometrischen Repräsentation erfasst und aufgezeichnet. Eine Wiederherstellung verschiedener Konfigurationen ist damit ebenfalls jederzeit möglich.\\

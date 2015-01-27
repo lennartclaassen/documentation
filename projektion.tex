@@ -1,10 +1,26 @@
-\chapter{Projektion}
-\red[Visualisierung? und Visualisierung im Gui dann auch einbauen!?]
-Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.model}) erfolgen. Die ausgewählten Modelldaten sollen mittels des integrierten Projektors perspektivisch korrekt in die Umgebung projiziert werden. Dazu ist zunächst die Ermittlung der Pose des Projektors innerhalb der Umgebung erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Simulation der Perspektive erfolgt dabei ausgehend von einem Kameramodell, da der Projektor wie in \abschnitt{chap.proj_transformation} als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche dann mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
+\chapter{Visualisierung}
+Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.modeldata}) erfolgen. Die ausgewählten Modelldaten sollen mittels des integrierten Projektors perspektivisch korrekt in die Umgebung projiziert werden. Dazu ist zunächst die Visualisierung der Modellumgebung und die Ermittlung der Pose des Projektors innerhalb dieser erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Simulation der Perspektive erfolgt dabei ausgehend von einem Kameramodell, da der Projektor wie in \abschnitt{chap.proj_transformation} als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche dann mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
+
+\section{Visualisierung der Modelldaten}
+Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen die dem Anwender bereitgestellt werden sollen. Die Visualisierung gliedert sich dabei in zwei Bereiche: die Visualisierung des Modells innerhalb der grafischen Benutzeroberfläche und die Projektion der Modellobjekte innerhalb der realen Umgebung. Um die Projektion zu ermöglichen ist es zunächst erforderlich die gesamten Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\red[footnote?] Abbildung der dreidimensionalen Modell-Szene zu erhalten wird die \red[Visualisierungsbibliothek] VTK verwendet. \abb{fig.modscene} zeigt die Darstellung der gerenderten Modell-Szene innerhalb des Visualisierungsbereiches der grafischen Benutzeroberfläche.
+
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{Modellszene im GUI}
+		\label{fig.modscene}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
+
+
+Die grafische Benutzeroberfläche ermöglicht dabei die individuelle Positionierung und Ausrichtung aller Elemente. Zu beachten ist, dass die Pose der Modellumgebung selbst nicht modifiziert werden sollte, da wie in \kapitel{chap.map} beschrieben die Lokalisation auf den Daten der Modellumgebung basiert. Der Zusammenhang zwischen den Koordinaten der Modellumgebung und der Karte der Lokalisation wäre bei einer Veränderung der Pose nicht mehr gegeben und würde zu einem Fehler in der späteren Visualisierung führen. Die grafische Benutzeroberfläche enthält die Möglichkeit eine Zuweisung der Modellelemente zu den Gruppen Umgebung und Objekt vorzunehmen, wodurch die Möglichkeiten zur Modifikation der Elemente entsprechend eingeschränkt oder freigegeben werden.
+
+
+\red[Bilder für Modellumgebung und Modellobjekte (z.B. Steckdosen, Leitungen)]
 
 \section{Ermittlung der Projektorposition}
 Durch die in \abschnitt{chap.proj_calibration} durchgeführte Kalibrierung des \kps{s} ist die externe Transformation zwischen der Kamera des Kinect Sensors und dem Projektor bekannt. Die kontinuierlich durchgeführte Lokalisation des \kps{s} liefert die Pose der Kamera innerhalb der Umgebung worüber sich somit auch die Pose des Projektors bestimmen lässt. Ist diese bekannt, kann durch die Kopplung zwischen den Kartendaten der Lokalisation und den verwendeten Modelldaten die Pose des Projektors innerhalb der simulierten Umgebung bestimmt werden.
-Transformation der Position basierend auf den Positionsdaten der Kamera. Transformation aus Kalibrierung bekannt.\\
 
 \section{Perspektivische Transformation}
 Die perspektivische Abbildung einer 3D Umgebung auf eine 2D Ebene wurde bereits in \kapitel{chap.perspproj} beschrieben. Der Projektor wird eingesetzt um Daten zu visualisieren, welche zwar innerhalb der Modellumgebung, nicht jedoch in der realen Umgebung vorhanden sind. Der Projektor kann deshalb in der Modellumgebung als Kamera simuliert werden, wodurch die Abbildung der Perspektive und Visualisierung dieser möglich wird. Die perspektivische Transformation der Modelldaten erfolgt damit basierend auf den aus durch die Lokalisation bestimmten extrinsischen und den bei der Kalibrierung ermittelten intrinsischen Parametern des Projektors. Die Abbildung der 3D Modellpunkte auf die 2D pixel der simulierten Kamera wird demnach beschrieben durch:
