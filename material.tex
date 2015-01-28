@@ -1,11 +1,15 @@
 \chapter{Material}
 \label{chap:material}
-
+\red[TODO:\\
+\kps auslagern oder in Material beschreiben?\\
+\kps Kalibrierung etc. inkl. Grundlagenteil, wie ausführlich?\\
+GUI Struktur auslagern oder hier beschreiben?\\
+]
 \section{Hardware}
 Das erstellte System wurde aus verschiedenen Hardwarekomponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. \red[TODO: PC Beschreibung]
 
 \subsection{Microsoft Kinect}
-Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect Sensor ist ein System welches eine Natürliche Benutzerschnittstelle\red[Definition] (NUI) bereitstellt und darüber die Steuerung von Programmen und Spielen ermöglicht. Ursprünglich wurde der Kinect Sensor für die Spielekonsole XBOX360 entwickelt und 2010 veröffentlicht.\\
+Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect Sensor ist ein System welches eine Natürliche Benutzerschnittstelle\red[Definition] (NUI) für Computer \red[und Spielkonsolen] bereitstellt und darüber die Steuerung von Programmen und Spielen ermöglicht. Ursprünglich wurde der Kinect Sensor für die Spielkonsole XBOX360\red[TM] entwickelt und 2010 veröffentlicht.\\
 Der Kinect Sensor verfügt über zwei Kameras, mit denen Videoaufnahmen im Farb- (RGB) sowie im Infrarotbereich (IR) möglich sind. Die Technik zur Ermittlung der Tiefeninformationen stammt von der Firma PrimeSense (PrimeSense LTD, Tel Aviv, Israel) und ist unter anderem durch das Patent \cite{Freedman2008} geschützt. Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet um Tiefenbilder zu generieren. Der IR-Projektor projiziert ein irreguläres IR Muster, welches von der IR-Kamera erkannt wird. Über die Verzerrungen des Musters sind anschließend softwareseitig Rückschlüsse auf die Tiefenwerte der aufgenommenen Szene möglich. Die bekannte Relation zwischen der RGB- und IR-Kamera ermöglicht dadurch die Zuordnung von Farb- und Tiefenwerten. Sensoren dieser Art werden daher auch als RGB-D\red[footnote] Kameras bezeichnet.\\
 Der Kinect Sensor stellt damit eine kostengünstige Möglichkeit zur parallelen Aufnahme von Tiefen- und Farbinformationen dar. Da seit der Veröffentlichung verschiedene quell-offene Treiber entwickelt wurden eignet sich der Kinect Sensor besonders auch für die Anwendung in der Forschung. In dieser Arbeit werden neben den Daten der RGB-Kamera auch die Tiefeninformationen sowie die daraus generierten Punktwolken verwendet. Der Kinect Sensor umfasst über die Kamerasysteme hinaus vier Mikrofone zur Sprachsteuerung und einen Motor, welcher die Veränderung des Neigungswinkels ermöglicht. Diese Funktionen sind jedoch nicht Bestandteil des in dieser Arbeit entwickelten Systems.\\
 \red[Da Microsoft selbst keine Angaben über die von ihnen lizensierte Technologie macht stammen die Beschreibungen zur Funktionsweise der Kinect aus den Patentschriften der Firma PrimeSense.]
@@ -13,13 +17,15 @@ Der Kinect Sensor stellt damit eine kostengünstige Möglichkeit zur parallelen 
 \red[Datenblatt/Spezifikationen in Anhang!]
 
 \subsection{Microvision Pico Laser Projektor}
+\red[Als Projektor wurde ein pico Laser Projektor verwendet, welcher sich neben der geringen Grö"se dadurch auszeichnet, dass als Lichtquelle ein Laser zum Einsatz kommt. Damit ist es nicht erforderlich manuelle Fokuseinstellungen vorzunehmen, um die Schärfe des projizierten Bildes an die Projektionsfläche anzupassen. Genauere Spezifikationen des Projektors finden sich in Anhang \ref{app:projector}.]
 \red[Datenblatt/Spezifikationen Anhang!]
 
 \subsection{Arduino Nano}
 \label{chap.arduino}
 Der Arduino Nano ist ein quell-offenes Mikrocontroller Board, welches durch Schnittstellen in Form von analogen und digitalen Ein- und Ausgängen die Steuerung, Kontrolle und Kommunikation mit elektronischen Komponenten wie Sensoren oder Aktoren ermöglicht. Eine detaillierte Auflistung der Spezifikationen des Arduino Nano findet sich in \anhang{app:arduino}.\\
 Die zur Erstellung von Programmen bereitgestellte, ebenfalls quell-offene, Software bildet im Zusammenhang mit der Hardware eine ganzheitliche Entwicklungsumgebung mittels derer sich eine Vielzahl von Projekten unterschiedlicher Komplexität realisieren lassen. Der Arduino Nano verfügt dazu über eine USB-Schnittstelle welche sowohl die Übertragung der erstellten Software auf den Arduino Nano als auch den Empfang von Kommunikationsdaten ermöglicht. Damit zusätzliche Lageinformationen für die Lokalisation des Kamera-Projektor-System zur Verfügung gestellt werden können wird in dieser Arbeit der Arduino Nano verwendet um eine inertiale Messeinheit in das System zu integrieren, welche im folgenden näher beschrieben wird.
-\red[Auf Berechnung der Lagedaten näher eingehen?]
+\red[Auf Berechnung der Lagedaten näher eingehen?]\\
+\red[Buttons eingebaut, kurz ansprechen hier]
 
 %\cite{http://arduino.cc/en/Main/ArduinoBoardNano}
 
@@ -199,4 +205,6 @@ Module: \mLocalization - EKF Odometrie (Tracking) - Visuelle Odometrie - IMU - V
 
 Das \mLocalization bestimmt und überwacht die aktuelle Position des Kamera-Projektor-Systems. Es ermittelt die initiale Position mittels globaler Lokalisation auf Basis der vom \mMapserver zur Verfügung gestellten Karte. Als weitere Eingangsgröße verwendet es die Odometriedaten, welche vom \mEkf zur Verfügung gestellt werden um Veränderungen in der Position während der Bedienung zu erkennen und die Positionsdaten dementsprechend zu aktualisieren. Das \mEkf selbst verwendet und filtert dabei die visuellen Odometriedaten des \mFovis und die Lagedaten des \mImu \red[TODO Moduls] um die kombinierten Odometriedaten zu bestimmen.\\
 Diese so vom \mLocalization bestimmten Positionsdaten werden dann dem \mTransformation übermittelt, welches alle Koordinatentransformationen zwischen der ermittelten Kameraposition, dem Projektor und den relevanten Objekten der Umgebung berechnet. Diese Berechnungen werden dann vom \mVisualization verwendet, um ein Abbild der aktuellen Projektorsicht innerhalb der 3D Umgebung zu erstellen. Diese Ansicht wird dem Benutzer anschließend sowohl über die Benutzeroberfläche durch das \mGui als auch über die Projektion durch das \mProjection dargestellt. Das \mInteraction erkennt vom Benutzer durchgeführte Gesten oder Bewegungen, über welche er auf Basis der projizierten Daten mit der Modellumgebung interagiert. Die Steuerungsbefehle werden dann über das \mTransformation an das \mVisualization übertragen, wo diese interpretiert werden und in Form von Modifikationen der Modellumgebung umgesetzt werden.\\
-Die jeweilige spezifische Realisierung der Module wird in den folgenden Kapiteln näher spezifiziert.
+Die jeweilige spezifische Realisierung der Module wird in den folgenden Kapiteln näher spezifiziert.\\
+\red[Buttons eingebaut, kurz als Möglichkeit der Interaktion erwähnen- Aber welches Modul managed das?]
+

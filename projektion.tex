@@ -1,5 +1,12 @@
 \chapter{Visualisierung}
-Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.modeldata}) erfolgen. Die ausgewählten Modelldaten sollen mittels des integrierten Projektors perspektivisch korrekt in die Umgebung projiziert werden. Dazu ist zunächst die Visualisierung der Modellumgebung und die Ermittlung der Pose des Projektors innerhalb dieser erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Simulation der Perspektive erfolgt dabei ausgehend von einem Kameramodell, da der Projektor wie in \abschnitt{chap.proj_transformation} als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche dann mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
+\label{chap.vis}
+\red[TODO:\\
+Ergänzung von Zusatzinformationen noch etwas ausfürhlicher?\\
+Karte einblenden implementiert?\\
+]
+
+Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.modeldata}) erfolgen. Die ausgewählten Modelldaten sollen mittels des integrierten Projektors perspektivisch korrekt in die Umgebung projiziert werden. Dazu ist zunächst die Visualisierung der Modellumgebung und die Ermittlung der Pose des Projektors innerhalb dieser erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Simulation der Perspektive erfolgt dabei ausgehend von einem Kameramodell, da der Projektor wie in \abschnitt{chap.proj_transformation} als inverse Kamera betrachtet werden kann.\\
+Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
 
 \section{Visualisierung der Modelldaten}
 Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen die dem Anwender bereitgestellt werden sollen. Die Visualisierung gliedert sich dabei in zwei Bereiche: die Visualisierung des Modells innerhalb der grafischen Benutzeroberfläche und die Projektion der Modellobjekte innerhalb der realen Umgebung. Um die Projektion zu ermöglichen ist es zunächst erforderlich die gesamten Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\red[footnote?] Abbildung der dreidimensionalen Modell-Szene zu erhalten wird die \red[Visualisierungsbibliothek] VTK verwendet. \abb{fig.modscene} zeigt die Darstellung der gerenderten Modell-Szene innerhalb des Visualisierungsbereiches der grafischen Benutzeroberfläche.
@@ -42,7 +49,7 @@ Transformation. der. Umgebungspunkte. in. Projektorkoordinaten.
 
 \red[Darstellung der Perspektive innerhalb des VTK GUIs]
 
-\section{Visualisierung}
+\section{Projektion}
 Nachdem durch die perspektivische Transformation ein Bild der Projektorsicht vorliegt erfolgt die Visualisierung der Modellstrukturen in der realen Umgebung. Da bereits alle nötigen Transformationen des Bildes im Rahmen der perspektivischen Abbildung durchgeführt wurden, kann das vorliegende Bild direkt als Ausgangssignal des Projektors verwendet werden. Darüber hinaus kann das Bild um weitere Informationen ergänzt werden. \abb{fig.proj_rms} zeigt, wie das Ausgabebild mit einem Rahmen versehen wurde, welcher dem Anwender eine visuelle Rückmeldung über die Güte der Lokalisation basierend auf dem berechneten RMS Wert (siehe \kapitel{chap.globloc}) gibt.
 Projektion der Sicht des Projektors auf das Modell. Ausblenden des Raumes, sodass nur die gewünschten Strukturen dargestellt werden. Alternativ Raummodell als schwarzes Objekt darstellen.
 
