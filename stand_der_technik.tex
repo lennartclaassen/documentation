@@ -1,10 +1,14 @@
 \chapter{Stand der Technik}
 \label{chap:tech}
-\red[TODO:\\
-Lokalisation mobiler Systeme in Gebäuden etc.\\
-Augmented Reality inkl. Interaktion mit Projektionen\\
-Handgeführte Lokalisationssysteme (Ohne Projektion)\\
-]
+%\red[TODO:\\
+%Lokalisation mobiler Systeme in Gebäuden etc.\\
+%Augmented Reality inkl. Interaktion mit Projektionen\\
+%Handgeführte Lokalisationssysteme (Ohne Projektion)\\
+%]
+\red[Viele Forschungsgruppen beschäftigen sich mit der Problematik, sowohl Lokalisation in bekannter als auch unbekannter Umgebung.
+Da das Ziel des entwickelten Systems in der Lokalisation in bekannter Umgebung liegt wird sich bei der Darstellung der bisherigen Forschungsansätze auf diesen Bereich konzentriert. Da das entwickelte System aufgrund seiner Komponenten dafür ausgelegt ist, die Lokalisation auf Basis von Tiefen- und Farbinformationen durchzuführen werden an dieser Stelle Ansätze, welche auf anderen Verfahren wie Ortung von Funkwellen basieren, ebenfalls nicht näher ausgeführt.]\\
+
+
 Da sich die geplante Anwendung des \kps{s} in verschiedene Funktionsbereiche gliedern lässt, soll im Folgenden ein Überblick über den aktuellen Forschungsstand innerhalb der jeweiligen Bereiche gegeben werden. Abschließend werden Systeme vorgestellt, welche eine mit dem in dieser Arbeit entwickelten \kps{} vergleichbare Funktionalität in einem oder mehreren Bereichen bieten.
 
 \section{Lokalisation}
@@ -40,63 +44,70 @@ Die globale Lokalisation erfolgt bei der Markov Lokalisation entweder durch Init
 Die Diskretisierung und gleichzeitige Betrachtung aller möglichen Posen ist mit großem Rechenaufwand verbunden. Die Monte Carlo Lokalisation ist in der Lage dieses Problem zu umgehen, indem es anstelle aller möglichen Posen nur ausgewählte Stichproben betrachtet. Jede dieser Stichproben entspricht einer Pose und wird auch als Partikel bezeichnet. Die Partikel können dabei neben dem diskreten Posenraum auch aus dem kontinuierlichen Posenraum, wie er meist für mobile Systeme vorliegt, gezogen werden \cite{Fox2001}. Die Kontrolle über die Partikelanzahl ermöglicht es zudem, den Algorithmus auf die verfügbaren Rechenressourcen abzustimmen \cite{Thrun2001}.\\
 Durch die geringen Einschränkungen bezüglich der als Basis verwendeten Wahrscheinlichkeitsverteilungen ist die Monte Carlo Lokalisation in der Lage die globale und lokale Lokalisation mit hoher Genauigkeit zu realisieren \cite{Thrun2005}. Die hohe Effizienz dieses Ansatzes führt dazu, dass er bei der Lokalisation mobiler Systeme der Markov Lokalisation deutlich überlegen ist \cite{Fox2001}.
 
-\red[Monte Carlo etc. ->Buch\\]
-\red[smartphone lokalisierung thematisieren aber verwendet externe Sensorik zur Positionsbestimmung]
-\red[Viele Forschungsgruppen beschäftigen sich mit der Problematik, sowohl Lokalisation in bekannter als auch unbekannter Umgebung.
-Da das Ziel des entwickelten Systems in der Lokalisation in bekannter Umgebung liegt wird sich bei der Darstellung der bisherigen Forschungsansätze auf diesen Bereich konzentriert. Da das entwickelte System aufgrund seiner Komponenten dafür ausgelegt ist, die Lokalisation auf Basis von Tiefen- und Farbinformationen durchzuführen werden an dieser Stelle Ansätze, welche auf anderen Verfahren wie Ortung von Funkwellen basieren, ebenfalls nicht näher ausgeführt.]\\
+%\red[Monte Carlo etc. ->Buch\\]
+%\red[smartphone lokalisierung thematisieren aber verwendet externe Sensorik zur Positionsbestimmung]
 
-\red[In der Robotik wird die fortlaufende Ableitung der Orientierung und Geschwindigkeit aus Messungen der Raddrehwinkel als Odometrie bezeichnet. \cite{Hertzberg2012}]
+\red[In der Robotik wird die fortlaufende Ableitung der Orientierung und Geschwindigkeit aus Messungen der Raddrehwinkel als Odometrie bezeichnet. \cite{Hertzberg2012}\\]
 \red[Wie Quelle für Lokalisationsabsatz referenzieren?]
-\red[Welche Lokalisationsverfahren gibt es. Allgemein und speziell für handgeführte Systeme.]\\
+%\red[Welche Lokalisationsverfahren gibt es. Allgemein und speziell für handgeführte Systeme.]\\
 
 
 \section{RGB-D Kameras/Tiefenkameras(?)}
 Die beschriebenen Verfahren und Algorithmen haben sich besonders im Bereich der 2D Lokalisation bewährt, obwohl sie prinzipiell unabhängig von der Anzahl an Dimensionen sind. Die größer werdende Verbreitung von zugleich kostengünstigen und leistungsfähigen Tiefenkameras wie der Microsoft Kinect\red[Tm] führt jedoch dazu, dass die Anwendungen immer häufiger auch auf 3D Umgebungen erweitert werden. Die Lokalisation in 3D Umgebungen ist besonders dann von Bedeutung, wenn das System sich in mehr als einer Ebene bewegen kann. Die Anzahl der Freiheitsgrade (in der 2D Lokalisation meist drei) steigt dadurch auf sechs an, da die Pose des Systems nun über drei translatorische sowie drei rotatorische Freiheitsgerade beschrieben wird. Neben der Notwendigkeit für geeignete 3D Modellumgebungen kann die Erhöhung der Freiheitsgrade auch dazu führen, dass keine Odometriedaten mehr ermittelt werden können. Dies ist insbesondere bei fliegenden \cite{Huang2011} und hand- oder körpergeführten Systemen \cite{Fallon2012} der Fall. Die Auswertung von Tiefen- und Farbinformationen ermöglicht es jedoch dies durch visuelle Odometrie zu kompensieren \cite{Whelan2013robust}.\\
 Auch die Integration in traditionelle Robotersysteme zeigt, dass Tiefenkameras eine sinnvolle Alternative zu bisherigen Sensoren wie Laser-Entfernungsmessern darstellen können \cite{Cunha2011} \cite{Eriksson2012}. Anzumerken ist, dass der beobachtbare Bildbereich bezüglich Distanz und Sichtfeld meist deutlich kleiner ist als bei Laser Sensoren. Die Eignung von Tiefenkameras für Lokalisationsaufgaben ist daher anwendungsabhängig zu überprüfen.\\
 
-\red[Featurebasierte Lokalisation (RGB-D SLAM, Fovis)\\
-Markerbasierte Lokalisation]\\
+%\red[Featurebasierte Lokalisation (RGB-D SLAM, Fovis)\\
+%Markerbasierte Lokalisation]\\
 
-\section{Projektion/Augmented Reality}
-Die Überlagerung oder Vereinigung von virtuellen und realen Umgebungen wird als Augmented Reality (AR) bezeichnet \cite{Azuma97}. Durch eine dreidimensionale Registrierung wird die Interaktion zwischen den Objekten der beiden Welten ermöglicht. Die Umgebung des menschlichen Beobachters wird somit um zusätzliche virtuelle Elemente ergänzt. Neben herkömmlichen und transparenten Bildschirmen \red[quellen? google glass!?] werden insbesondere Projektoren zur Visualisierung der virtuellen Daten eingesetzt. Anwendungsbereiche finden sich in der Medizin zur Unterstützung der Kommunikation zwischen Arzt und Patient \red[\cite{Bluteau2005}], zur Unterstützung bei Operationen \red[Gavaghan, Hoppe],  als Navigationshilfe für Personen in Gebäuden \red[cite{Chung}], zur Interaktion mit Robotersystemen \red[Tommaso], \\
-\red[Low - Life-Sized Projector Based Dioramas -> Hausumgebung auf leere Wände projiziert]\\
-\red[Oh - Projektion von Entertainment/Filmen etc. auf Oberflächen]\\
-\red[Rhaskar - Table-Top AR, Bringing Physical Models to life]\\
-\red[Wilson - Interaktion zwischen mehreren Oberflächen durch Einsatz mehrerer Projektoren und Kameras]
-\red[Projektion von Bildinformationen (Augmented Reality Bereich) ebenfalls großes Forschungsgebiet, besonders im Bereich der digitalen Bildverarbeitung (computer vision).]\\
+\section{Augmented Reality}
+Die Überlagerung oder Vereinigung von virtuellen und realen Umgebungen wird als Augmented Reality (AR) bezeichnet \cite{Azuma1997}. Durch eine dreidimensionale Registrierung wird die Interaktion zwischen den Objekten der beiden Welten ermöglicht. Die Umgebung des menschlichen Beobachters wird somit um virtuelle Elemente ergänzt. Neben herkömmlichen und transparenten Bildschirmen \red[quellen? google glass!?] werden insbesondere Projektoren zur Visualisierung der virtuellen Daten eingesetzt. Anwendungen finden sich in der Medizin als Unterstützung von Ärzten in der Chirurgie \cite{Gavaghan2012} \cite{Hoppe2001} oder als Hilfe bei der Kommunikation zwischen Arzt und Patient \cite{Bluteau2005}. Durch Zusatzinformationen kann AR die Interaktionsmöglichkeiten mit Robotersystemen erweitern \cite{DeTommaso2012} oder statische Objekte animieren \cite{Raskar1999}. In Alltagssituationen entsteht durch die Visualisierung von Informationen eine interaktive Benutzerschnittstelle \cite{Linder2010} \cite{Huber2012}.\\
+Durch Kombination mehrerer Projektoren können virtuelle Umgebungen auf realen Geometrien erzeugt \cite{Low2001} oder der Interaktionsbereich auf weiter entfernte Oberflächen ausgedehnt werden \cite{Wilson2010}.
 
-\red[In welchen Bereichen wird Augmented Reality angewendet und für welche Anwendungen/in welcher Weise soll es den Benutzer unterstützen?\\]
+%\red[Low - Life-Sized Projector Based Dioramas -> Hausumgebung auf leere Wände projiziert]\\
+%\red[Oh - Projektion von Entertainment/Filmen etc. auf Oberflächen]\\
+%\red[Raskar - Table-Top AR, Bringing Physical Models to life]\\
+%\red[Huber - Lightbeam -> Interaktion mit Projektionen über Alltagsgegenstände]\\
+%\red[Linder - LuminAR -> Interaktion mit Projektion in Büroumgebung]\\
+%\red[Wilson - Interaktion zwischen mehreren Oberflächen durch Einsatz mehrerer Projektoren und Kameras]
 
 \red[Bimber - Embedded Entertainment with Smart Projectors -> für Ausblick/Limitierungen bzgl. der Projektionsuntergründe]
 \red[auch Park - Kontrast erhöhung]
 \red[auch Wang - Relighting]\\%
 \red[Bimber - Multi-Projector Techniques for Real Time... -> Architectural Projection]\\
-\section{Interaktion}
-\red[Benutzerinteraktion basierend auf der Verwendung von Tiefeninformationen. Hauptsächlicher Ansatz ist die Befehlsvorgabe über Gestensteuerung.]\\
-\red[Welche Formen von Benutzerinteraktion gibt es, besonders bezogen auf die Kinect und Projektionssysteme.\\
-(z.B. Omnitouch)]\\
-\red[Huber - Lightbeam -> Interaktion mit Projektionen über Alltagsgegenstände]\\
-\red[Linder - LuminAR -> Interaktion mit Projektion in Büroumgebung]\\
-\red[Wen - Handgesten zur Interaktion in der Chirurgie]\\
-\red[Tan - iSarProjection -> Handgeführtes System, Aufbau sehr ähnlich Kinpro, Lokalisation aber anhand der Modelle auf die dann projiziert wird, eher wie David]\\
+
+%\section{Interaktion}
+%\red[Benutzerinteraktion basierend auf der Verwendung von Tiefeninformationen. Hauptsächlicher Ansatz ist die Befehlsvorgabe über Gestensteuerung.]\\
+%\red[Welche Formen von Benutzerinteraktion gibt es, besonders bezogen auf die Kinect und Projektionssysteme.\\
+%(z.B. Omnitouch)]\\
+
+%\red[Wen - Handgesten zur Interaktion in der Chirurgie]\\
 
 
-\section{Systeme}
-\subsection{Lokalisation}
-\red[Ein handgeführtes Scanning System, entwickelt von Mair \textit{et al.} \cite{Mair2010}, fusioniert IMU Daten und  \\]
 
-\subsection{Projektion}
+\section{Handgeführte Projektionssysteme}
+%\subsection{Lokalisation}
+%\red[Ein handgeführtes Scanning System, entwickelt von Mair \textit{et al.} \cite{Mair2010}, fusioniert IMU Daten und  \\]
+
+%\subsection{Projektion}
+Die Miniaturisierung der Projektionstechnologie hat zu einer Entwicklung mobilerer, handgeführter Systeme geführt. In den letzen Jahren wurden verschiedene Ansätze untersucht, welche sich mit der Projektion virtueller Zusatzinformationen durch tragbare Systeme befassen. Dabei werden sowohl Miniprojektoren als auch in Smartphones integrierte Projektionssysteme eingesetzt. Im folgenden soll ein Überblick über vorhandene handgeführte Projektionssysteme und ihre Anwendungsbereiche gegeben werden.\\
 Die Navigation innerhalb eines Museums wird von Wecker \textit{et al.} \cite{Wecker2013} mittels handgeführter Projektionssysteme durch die Visualisierung von Karten- und Wegdaten unterstützt.\\
-Ein System mit ähnlichem Ziel haben Chung \textit{et al.} \cite{Chung2011} entwickelt, welches dem Anwender bei der Navigation innerhalb von Gebäuden behilflich sein soll. Ein Miniprojektor wird dabei in Kombination mit einem Smartphone verwendet um zusätzliche Informationen bei Erkennung von Visitenkarten oder Gebäudeplänen zu visualisieren. Die Funktionalität soll dabei an eine Taschenlampe erinnern, welche die Zusatzinformationen sichtbar macht.\\
+Ein System mit ähnlichem Ziel haben Chung \textit{et al.} \cite{Chung2011} entwickelt. Dieses soll dem Anwender bei der Navigation innerhalb von Gebäuden behilflich sein. Ein Miniprojektor wird dabei in Kombination mit einem Smartphone verwendet um zusätzliche Informationen bei der Erkennung von Visitenkarten oder Gebäudeplänen zu visualisieren. Die Funktionalität soll dabei an eine Taschenlampe erinnern, welche die Zusatzinformationen sichtbar macht.\\
 Auch Li \textit{et al.} \cite{Li2013} stellen ein handgeführtes Projektionssystem vor, welches im Konzept an eine Taschenlampe angelehnt ist. Durch Projektion von Karten- und Wegdaten auf den Boden vor dem Benutzer wird dieser entlang eines Weges geführt. Im Gegensatz zu Chung \textit{et al.} erfolgt dabei eine kontinuierliche Aktualisierung der Projektion in Abhängigkeit der Position entlang des Weges. Die Lokalisation wurde dabei manuell durch eine Begleitperson vorgenommen.\\
 Molyneaux \textit{et al.} \cite{Molyneaux2012} erweitern die Metapher der Taschenlampe und integrieren darüber hinaus eine automatische Lokalisation des handgeführten Projektionssystems. Eine Infrastruktur aus Microsoft Kinect Sensoren erkennt und verfolgt die Systempose und ermöglicht dadurch die verzerrungsfreie Projektion beliebiger Zusatzinformationen innerhalb eines Raumes. Durch Infrarot Kameras am Projektionssystem selbst wird zudem eine Interaktion mit den visualisierten Daten realisiert.\\
-Das \textit{SideBySide} Projekt von Willis \textit{et al.} \cite{Willis2011} ermöglicht die Interaktion von Benutzern über handgeführte Projektionssysteme. Jedes System projiziert dabei sowohl ein Bild im sichtbaren Lichtspektrum als auch einen Marker im Infrarot Spektrum. Die Erkennung der Marker durch die Systeme erlaubt das Zusammenspiel der jeweiligen Projektionen der Anwender. Beispielanwendungen finden sich im Austausch von Informationen oder Dateien und in kooperativen Spielen.\\
+Das \textit{SideBySide} Projekt von Willis \textit{et al.} \cite{Willis2011} ermöglicht die Interaktion zwischen Benutzern über handgeführte Projektionssysteme. Jedes System projiziert dabei sowohl ein Bild im sichtbaren Lichtspektrum als auch einen Marker im Infrarot Spektrum. Die Erkennung der Marker durch die Systeme erlaubt das Zusammenspiel der jeweiligen Projektionen der Anwender. Beispielanwendungen finden sich im Austausch von Informationen oder Dateien und in kooperativen Spielen.\\
 Einen weiteren Ansatz für kooperative Projektionssysteme liefern Robinson \textit{et al.} \cite{Robinson2012} mit \textit{PicoTales}. Dabei werden handgeführte Projektionssysteme verwendet um gemeinsam animierte Videos zu erstellen. Die Lokalisation erfolgt dabei nach einem Kalibrierungsverfahren über das Aufzeichnen von Bewegungsdaten durch eine inertiale Messeinheit. Die Auswertung und Fusionierung zu einem gemeinsamen Video erfolgt nach Ende der Interaktion über einen separaten Computer.\\
-Das von Harrison \textit{et al.\ }\cite{Harrison2011} entwickelte \textit{Omnitouch} ist ein körpergeführtes System, welches die Projektion grafischer Benutzeroberflächen auf typische im Alltag vorhandenen Oberfläche ermöglicht. Das System verfügt neben einem Projektor auch über eine Tiefenkamera zur Detektion von Benutzereingaben. Dadurch wird die Funktionalität von Touchscreens abgebildet und es können typische Anwendungen implementiert werden, die sonst beispielsweise auf Smartphones oder Tablets genutzt werden.\\
+Das von Harrison \textit{et al.\ }\cite{Harrison2011} entwickelte \textit{Omnitouch} ist ein körpergeführtes System, welches die Projektion grafischer Benutzeroberflächen auf typische im Alltag vorhandene Oberflächen ermöglicht. Das System verfügt neben einem Projektor auch über eine Tiefenkamera zur Detektion von Benutzereingaben. Dadurch wird die Funktionalität von Touchscreens abgebildet und es können typische Anwendungen implementiert werden, die sonst beispielsweise auf Smartphones oder Tablets genutzt werden.\\
+Ein vergleichbarer Aufbau wird von Tan \textit{et al.} \cite{Tan2013} verwendet um virtuelle Modelldaten auf reale Modelle zu projizieren. Dies ermöglicht die korrekte Darstellung der virtuellen Daten auch bei einem Wechsel der Beobachterperspektive. Die Lokalisation des Systems erfolgt dabei anhand des Abgleichs zwischen Modell und Sensordaten.\\
 
-Warum der Ansatz?
-\red[Verschiedene handgeführte Systeme, welche jedoch entweder auf manueller, externer Lokalisation, oder markerbasierter Lokalisation beruhen. Bei anderen Systemen wird lediglich eine Ausrichtung bzgl der Projektionsoberfläche durchgeführt. Selbstlokalisation ohne Hilfsmittel (externe Sensorik, Marker in Form von KArten o.ä.) bisher nicht behandelt. Lokalisation von mobilen Systemen allerdings seit einiger Zeit Forschungsthema, neuer ist jedoch die 3D Lokalisation. System soll die Brücke bilden zwischen mobilen, autonomen Lokalisationssystemen und handgeführten Projektionssystemen\\]
+\red[Abbildungen der Systeme?\\]
+
+%Warum der Ansatz?
+Wenige der handgeführten Systeme ermitteln ihre Pose innerhalb der Umgebung. Häufig ist lediglich die relative Pose bezüglich definierter Oberflächen oder Objekte Bestandteil der Betrachtung. Systeme, welche eine globale Lokalisation erfordern, verwenden dagegen entweder manuelle oder auf externen Sensoren basierende Lokalisationsverfahren. Die Selbstlokalisation mobiler Systeme ist allerdings seit einiger Zeit Forschungsthema und es existiert eine Vielzahl von Ansätzen um eine zuverlässige Lokalisation in zwei- und dreidimensionalen bekannten Umgebungen zu erreichen. Eine Übertragung auf den Anwendungsbereich handgeführter Projektionssysteme hat jedoch bisher nicht stattgefunden.\\
+Die vorliegende Arbeit soll die Lücke zwischen der Lokalisation mobiler Systeme und der projektorbasierten \textit{Augmented Reality} schließen. Die Anwendungsgebiete werden vereint, indem die Selbstlokalisation eines handgeführten \kps{s} realisiert und darauf aufbauend die Projektion visueller Zusatzinformationen in der realen Umgebung ermöglicht wird.
+%\red[Verschiedene handgeführte Systeme, welche jedoch entweder auf manueller, externer Lokalisation, oder markerbasierter Lokalisation beruhen. Bei anderen Systemen wird lediglich eine Ausrichtung bzgl der Projektionsoberfläche durchgeführt. Selbstlokalisation ohne Hilfsmittel (externe Sensorik, Marker in Form von KArten o.ä.) bisher nicht behandelt. Lokalisation von mobilen Systemen allerdings seit einiger Zeit Forschungsthema, neuer ist jedoch die 3D Lokalisation. System soll die Brücke bilden zwischen mobilen, autonomen Lokalisationssystemen und handgeführten Projektionssystemen\\]
 \red[OHNE HILFSMITTEL nochmal aufgreifen wenn alternative Lokalisation über Muster o.ä. aufgeführt wird]
+
+\red[Tan - iSarProjection -> Handgeführtes System, Aufbau sehr ähnlich Kinpro, Lokalisation aber anhand der Modelle auf die dann projiziert wird, eher wie David]\\
 
 \red[Welche Systeme gibt es zur Projektion von (Modell-)Daten.]\\
 

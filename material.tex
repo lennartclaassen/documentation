@@ -9,16 +9,15 @@ GUI Struktur auslagern oder hier beschreiben?\\
 Das erstellte System wurde aus verschiedenen Hardwarekomponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. \red[TODO: PC Beschreibung]
 
 \subsection{Microsoft Kinect}
-Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect Sensor ist ein System welches eine Natürliche Benutzerschnittstelle\red[Definition] (NUI) für Computer \red[und Spielkonsolen] bereitstellt und darüber die Steuerung von Programmen und Spielen ermöglicht. Ursprünglich wurde der Kinect Sensor für die Spielkonsole XBOX360\red[TM] entwickelt und 2010 veröffentlicht.\\
+Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect Sensor ist ein System welches eine Natürliche Benutzerschnittstelle\red[Definition] (NUI) für Computer \red[und Spielkonsolen] bereitstellt und darüber die Steuerung von Programmen und Spielen ermöglicht. Die im Rahmen dieser Arbeit verwendete Version des Sensors wurde für die Spielkonsole XBOX360\red[TM] entwickelt und 2010 veröffentlicht.\\
 Der Kinect Sensor verfügt über zwei Kameras, mit denen Videoaufnahmen im Farb- (RGB) sowie im Infrarotbereich (IR) möglich sind. Die Technik zur Ermittlung der Tiefeninformationen stammt von der Firma PrimeSense (PrimeSense LTD, Tel Aviv, Israel) und ist unter anderem durch das Patent \cite{Freedman2008} geschützt. Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet um Tiefenbilder zu generieren. Der IR-Projektor projiziert ein irreguläres IR Muster, welches von der IR-Kamera erkannt wird. Über die Verzerrungen des Musters sind anschließend softwareseitig Rückschlüsse auf die Tiefenwerte der aufgenommenen Szene möglich. Die bekannte Relation zwischen der RGB- und IR-Kamera ermöglicht dadurch die Zuordnung von Farb- und Tiefenwerten. Sensoren dieser Art werden daher auch als RGB-D\red[footnote] Kameras bezeichnet.\\
 Der Kinect Sensor stellt damit eine kostengünstige Möglichkeit zur parallelen Aufnahme von Tiefen- und Farbinformationen dar. Da seit der Veröffentlichung verschiedene quell-offene Treiber entwickelt wurden eignet sich der Kinect Sensor besonders auch für die Anwendung in der Forschung. In dieser Arbeit werden neben den Daten der RGB-Kamera auch die Tiefeninformationen sowie die daraus generierten Punktwolken verwendet. Der Kinect Sensor umfasst über die Kamerasysteme hinaus vier Mikrofone zur Sprachsteuerung und einen Motor, welcher die Veränderung des Neigungswinkels ermöglicht. Diese Funktionen sind jedoch nicht Bestandteil des in dieser Arbeit entwickelten Systems.\\
 \red[Da Microsoft selbst keine Angaben über die von ihnen lizensierte Technologie macht stammen die Beschreibungen zur Funktionsweise der Kinect aus den Patentschriften der Firma PrimeSense.]
 
 \red[Datenblatt/Spezifikationen in Anhang!]
 
-\subsection{Microvision Pico Laser Projektor}
-\red[Als Projektor wurde ein pico Laser Projektor verwendet, welcher sich neben der geringen Grö"se dadurch auszeichnet, dass als Lichtquelle ein Laser zum Einsatz kommt. Damit ist es nicht erforderlich manuelle Fokuseinstellungen vorzunehmen, um die Schärfe des projizierten Bildes an die Projektionsfläche anzupassen. Genauere Spezifikationen des Projektors finden sich in Anhang \ref{app:projector}.]
-\red[Datenblatt/Spezifikationen Anhang!]
+\subsection{Microvision ShowWx}%Pico Laser Projektor}
+Neben der geringen Größe zeichnet sich der pico Laser Projektor ShowWX von der Firma Microvision (Microvison Inc., Redmond, USA) dadurch aus, dass als Lichtquelle ein Laser zum Einsatz kommt. Dadurch ist die Schärfe des Bildes unabhängig vom Abstand zur Projektionsfläche, weshalb keine manuelle Anpassung der Fokuseinstellungen erforderlich ist. \red[TODO: Funktionsprinzip] Genauere Spezifikationen des ShowWX finden sich in Anhang \ref{app:projector}.
 
 \subsection{Arduino Nano}
 \label{chap.arduino}
