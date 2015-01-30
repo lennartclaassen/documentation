@@ -76,14 +76,14 @@ Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstel
 	%\vspace*{-8mm}
 \end{figure}
 
-
 \subsection{Kamerakalibrierung}
 %Ziel der Kalibrierung ist es, die Transformation $\tmat{S}{0}$ zu bestimmen, welche die Punkte der realen Umgebung $\ve{0}{P}$ auf die Sensorkoordinaten der Kamera $\ve{S}{p}$ abbildet:
 Ziel der Kalibrierung ist es, die Funktion $f$ zu bestimmen, welche die Punkte der realen Umgebung $\ve{0}{P}$ auf die Sensorkoordinaten der Kamera $\ve{S}{p}$ abbildet:
 
 \begin{equation}
-f : \; \ve{0}{P} \rightarrow \ve{S}{p}
+f : \; \ve{0}{P} \mapsto \ve{S}{p}
 \end{equation}
+\red[Wie verschiedene Kameras unterscheiden, KRGB und KIR, Sensorebene: SRGB und SIR und für Projektor SP?\\]
 
 Unter Verwendung des Lochkameramodells \red[\cite{Jaehne2012}], welches von einer Kamera ohne Optik mit infinitesimal kleiner Blendenöffnung ausgeht, kann diese Abbildung beschrieben werden über:
 
@@ -91,12 +91,50 @@ Unter Verwendung des Lochkameramodells \red[\cite{Jaehne2012}], welches von eine
 s \cdot \ve{S}{\tilde{p}} = \tmat{S}{0}\ve{0}{\tilde{P}}
 \end{equation}
 
+Dabei wird über den Skalierungsfaktor $s$ die Uneindeutigkeit der Tiefeninformationen beschrieben, da alle Punkte auf der Verbindungslinie zwischen $\ve{0}{\tilde{P}}$ und $\ve{S}{\tilde{p}}$ ebenfalls auf $\ve{S}{\tilde{p}}$ abgebildet werden. Die Transformationsmatrix $\tmat{S}{0}$ beschreibt das Produkt aus der intrinsischen $\tmat{S}{K}$ und extrinsischen $\tmat{K}{0}$ Matrix der Kamera:
+
+\red[Bild, dass die Uneindeutigkeit zeigt?\\]
+
+\begin{equation}
+\tmat{S}{0} = \tmat{S}{K} \cdot \tmat{K}{0}
+\end{equation}
+
+\subsubsection{Extrinsische Kameramatrix}
+Die extrinsische Kameramatrix definiert die Transformation zwischen dem globalen Koordinatensystem und dem Koordinatensystem der Kamera. Sie gibt damit die Lage von $\ks{K}$ im $\ks{0}$ an und wird über eine Translation und eine Rotation beschrieben.\\
+Während die Translation allgemein über den Verschiebungsvektor zwischen den Koordinatensystemen $\vec{t} = [t_x, t_y, t_z]^T$ angegeben wird, existieren für die Definition der Rotation verschiedene Konventionen.\\
+Allgemein kann jede Rotation im dreidimensionalen Raum als durch eine $(3 \times 3)$ Matrix ausgedrückt werden. Dabei existieren verschiedene Methoden, um eine eindeutige Beschreibung zu erreichen. Die gängigsten beiden sind die Achse-Winkel Darstellung und die Beschreibung durch \red[Euler-Winkel]. Während bei der Achse-Winkel Darstellung die Drehung um eine definierte Achse im Raum durchgeführt wird (\abb{fig.rotations} (a)), erfolgt bei der Euler-Winkel Darstellung eine Verknüpfung von Elementardrehungen, also Rotationen um die Achsen des Koordinatensystems (\abb{fig.rotations} (b)) \cite{Foley1990}. \red[Im folgenden sollen alle beschriebenen Rotationen basierend auf der Euler-Winkel Darstellung durchgeführt werden. Da für diese verschiedene Konventionen existieren, wird die Darstellung im folgenden als ??? festgelegt. Eine Rotation kann danach über die drei Elementardrehungen um die fixierten/mitgedrehten(?) Achsen beschrieben werden:]
+
+\begin{equation}
+\begin{split}
+\vec{R} & = \matt{R_{11}}{R_{12}}{R_{13}}{R_{21}}{R_{22}}{R_{23}}{R_{31}}{R_{32}}{R_{33}} \matt{R_{11}}{R_{12}}{R_{13}}{R_{21}}{R_{22}}{R_{23}}{R_{31}}{R_{32}}{R_{33}} \matt{R_{11}}{R_{12}}{R_{13}}{R_{21}}{R_{22}}{R_{23}}{R_{31}}{R_{32}}{R_{33}} \\[1em]
+& = \vec{R}_z \vec{R}_y \vec{R}_x
+\end{split}
+\end{equation}
+
+ausgedrückt werden. Es ist dabei 
+und und lässt sich mittels der homogenen Transformationsmatrix \red[Quelle?] ausdrücken als:
+
+\begin{equation}
+\tmat{K}{0} = \left( \begin{array}{ccc|c}
+  & \rmat{K}{0} &   & \ve{K}{t} \\
+\hline
+0 &      0      & 0 & 1 \\
+\end{array} \right)
+\end{equation}
+\red[Rotationsmatrix und Translationsvektor vorher beschreiben und Punktabbildung definieren, dann hom. Trafo]
+\subsubsection{Intrinsische Kameramatrix}
+Die intrinsische Kameramatrix beschreibt die Abbildung eines Punktes in dreidimensionalen Koordinaten im Kamerakoordinatensystem auf Pixelkoordinaten der Sensorfläche der Kamera.
+
+
+
+
+
 Die Kalibrierung der RGB- und IR-Kamera unterscheidet sich lediglich bei der Aufnahme der Bilddaten. Der Ablauf des Kalibrierungsverfahren ist jedoch identisch.
 Basierend auf dem von \red[Zhang \cite{Zhang2000}] vorgestellten Verfahren lassen 
 
 \red[Vereinfachung später, dass T-WELT = T-0]
 Kalibrierung der Kamera
-Kameramatrix aufführen, Herleitung ist aber nicht wirklich relevant. Extrinsiche und intrinsische Transformation unterscheiden. Parameter beschreiben und erklären. Lochkameramodell als Grundlage nennen und in ein paar Sätzen erläutern, aber nicht zu detailliert drauf eingehen. Ermittlung der Tiefeninformatinene bechreiben. projektor als inverse Kamera.\\
+Kameramatrix aufführen, Herleitung ist aber nicht wirklich relevant. Extrinsische und intrinsische Transformation unterscheiden. Parameter beschreiben und erklären. Lochkameramodell als Grundlage nennen und in ein paar Sätzen erläutern, aber nicht zu detailliert drauf eingehen. Ermittlung der Tiefeninformationen beschreiben. projektor als inverse Kamera.\\
 Kalibrierung der Kameras (RGB + IR) mit cameracalibration beschreiben und Gesamtsystem mit Matlab box bugouet (gibt extr. und intr. parameter). 
 
 %---------------------------------------------------------------------------------------------
