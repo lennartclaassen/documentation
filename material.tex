@@ -66,7 +66,8 @@ Die Transformation, die einen Punkt vom Koordinatensystem des Projektors ($\ks{P
 \ve{0}{p} = \tmat{0}{P}\ve{P}{p}
 \end{equation}
 ausdrücken.\\
-Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB Darstellung. Die X-Achsen werden somit rot, die Y-Achsen grün und die z-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren wird die Orientierung der körpereigenen Koordinatensysteme darüber hinaus so gewählt, dass die Z-Achse in Richtung der optischen Achse ausgerichtet wird. \abb{fig.coords} verdeutlicht die gewählten Konventionen anhand des \kps{s}.\\
+Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB Darstellung. Die X-Achsen werden somit rot, die Y-Achsen grün und die z-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren wird die Orientierung der körpereigenen Koordinatensysteme darüber hinaus so gewählt, dass die Z-Achse in Richtung der optischen Achse ausgerichtet wird. \abb{fig.coords} verdeutlicht die gewählten Konventionen anhand des \kps{s}.
+
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[scale=1.0]{spacer}
@@ -89,30 +90,33 @@ Unter Verwendung des Lochkameramodells \red[\cite{Jaehne2012}], welches von eine
 
 \begin{equation}
 s \cdot \ve{S}{\tilde{p}} = \tmat{S}{0}\ve{0}{\tilde{P}}
+\label{eq.persp_abb}
 \end{equation}
 
-Dabei wird über den Skalierungsfaktor $s$ die Uneindeutigkeit der Tiefeninformationen beschrieben, da alle Punkte auf der Verbindungslinie zwischen $\ve{0}{\tilde{P}}$ und $\ve{S}{\tilde{p}}$ ebenfalls auf $\ve{S}{\tilde{p}}$ abgebildet werden. Die Transformationsmatrix $\tmat{S}{0}$ beschreibt das Produkt aus der intrinsischen $\tmat{S}{K}$ und extrinsischen $\tmat{K}{0}$ Matrix der Kamera:
-
+Dabei wird über den Skalierungsfaktor $s$ die Uneindeutigkeit der Tiefeninformationen beschrieben, da alle Punkte auf der Verbindungslinie zwischen $\ve{0}{\tilde{P}}$ und $\ve{S}{\tilde{p}}$ ebenfalls auf $\ve{S}{\tilde{p}}$ abgebildet werden. 
 \red[Bild, dass die Uneindeutigkeit zeigt?\\]
+Die Transformationsmatrix $\tmat{S}{0}$ beschreibt das Produkt aus der intrinsischen $\tmat{S}{K}$ und extrinsischen $\tmat{K}{0}$ Matrix der Kamera:
 
 \begin{equation}
 \tmat{S}{0} = \tmat{S}{K} \cdot \tmat{K}{0}
 \end{equation}
 
+\red[Im Folgenden wird eine allgemeine Beschreibung des Kalibrierungsvorgangs/Kalibriervorgang vorgenommen, welche sowohl für die RGB- als auch für die IR-Kamera des Kinect-Sensors gültig ist. Lediglich bezüglich der aufgenommenen Bilder unterscheiden sich die Verfahren, da für die Kalibrierung der IR-Kamera Bilder erforderlich sind, welche mit einer IR-Kamera ausgeleuchtet wurden.]
+
 \subsubsection{Extrinsische Kameramatrix}
 Die extrinsische Kameramatrix definiert die Transformation zwischen dem globalen Koordinatensystem und dem Koordinatensystem der Kamera. Sie gibt damit die Lage von $\ks{K}$ im $\ks{0}$ an und wird über eine Translation und eine Rotation beschrieben.\\
 Während die Translation allgemein über den Verschiebungsvektor zwischen den Koordinatensystemen $\vec{t} = [t_x, t_y, t_z]^T$ angegeben wird, existieren für die Definition der Rotation verschiedene Konventionen.\\
-Allgemein kann jede Rotation im dreidimensionalen Raum als durch eine $(3 \times 3)$ Matrix ausgedrückt werden. Dabei existieren verschiedene Methoden, um eine eindeutige Beschreibung zu erreichen. Die gängigsten beiden sind die Achse-Winkel Darstellung und die Beschreibung durch \red[Euler-Winkel]. Während bei der Achse-Winkel Darstellung die Drehung um eine definierte Achse im Raum durchgeführt wird (\abb{fig.rotations} (a)), erfolgt bei der Euler-Winkel Darstellung eine Verknüpfung von Elementardrehungen, also Rotationen um die Achsen des Koordinatensystems (\abb{fig.rotations} (b)) \cite{Foley1990}. \red[Im folgenden sollen alle beschriebenen Rotationen basierend auf der Euler-Winkel Darstellung durchgeführt werden. Da für diese verschiedene Konventionen existieren, wird die Darstellung im folgenden als ??? festgelegt. Eine Rotation kann danach über die drei Elementardrehungen um die fixierten/mitgedrehten(?) Achsen beschrieben werden:]
+Allgemein kann jede Rotation im dreidimensionalen Raum durch eine Drehung um eine definierte Achse beschrieben und durch eine $(3 \times 3)$ Matrix ausgedrückt werden. Bei der Verwendung körpereigener Systeme ist es jedoch sinnvoll die Rotation als Verknüpfung von Elementardrehungen darzustellen, da so eine direkter Zusammenhang zu den Koordinatenachsen des Körpers erzielt wird. Dabei wird für jede Achse ein Winkel definiert und die Rotationsmatrizen werden durch Multiplikation verknüpft. Diese Winkel werden als Eulersche Winkel bezeichnet \cite{Foley1990}. Zu beachten ist, dass eine Vielzahl verschiedener Konventionen existiert, welche die Elementardrehungen auf verschiedene Weise verknüpfen. Die Unterschiede liegen dabei in der Beschreibung über mitgedrehte oder fixierte Achsen sowie in der Reihenfolge der angewendeten Elementardrehungen.\\
+In dieser Arbeit erfolgt die Beschreibung unter Verwendung der (z,y',x'')-Konvention, welche unter anderem in der Fahrzeugtechnik gebräuchlich ist. Jede Drehung wird dabei anhand der Achsen des körperfesten und damit veränderlichen Koordinatensystems beschrieben. Die erste Rotation wird um den Winkel $\Phi$ um die z-Achse durchgeführt, gefolgt von einer Drehung um den Winkel $\Theta$ um die y-Achse. Abschließend wird um den Winkel $\Psi$ um die x-Achse rotiert. Durch die Verknüpfung der Elementardrehungen lässt sich damit die Rotationsmatrix ausdrücken:
 
 \begin{equation}
 \begin{split}
-\vec{R} & = \matt{R_{11}}{R_{12}}{R_{13}}{R_{21}}{R_{22}}{R_{23}}{R_{31}}{R_{32}}{R_{33}} \matt{R_{11}}{R_{12}}{R_{13}}{R_{21}}{R_{22}}{R_{23}}{R_{31}}{R_{32}}{R_{33}} \matt{R_{11}}{R_{12}}{R_{13}}{R_{21}}{R_{22}}{R_{23}}{R_{31}}{R_{32}}{R_{33}} \\[1em]
+\vec{R} & = \matz{\Phi} \maty{\Theta} \matx{\Psi} \\[1em]
 & = \vec{R}_z \vec{R}_y \vec{R}_x
 \end{split}
 \end{equation}
 
-ausgedrückt werden. Es ist dabei 
-und und lässt sich mittels der homogenen Transformationsmatrix \red[Quelle?] ausdrücken als:
+Durch die Vereinigung von Translation und Rotation in der homogenen Transformationsmatrix $\tmat{K}{0}$ ergibt sich die extrinsische Kameramatrix:
 
 \begin{equation}
 \tmat{K}{0} = \left( \begin{array}{ccc|c}
@@ -121,16 +125,60 @@ und und lässt sich mittels der homogenen Transformationsmatrix \red[Quelle?] au
 0 &      0      & 0 & 1 \\
 \end{array} \right)
 \end{equation}
-\red[Rotationsmatrix und Translationsvektor vorher beschreiben und Punktabbildung definieren, dann hom. Trafo]
+
+Ein in globalen Koordinaten bekannter Punkt lässt sich damit im Koordinatensystem der Kamera abbilden:
+
+\begin{equation}
+\ve{K}{\tilde{P}} = \tmat{K}{0}\ve{0}{\tilde{P}}
+\end{equation}
+
+%\red[Rotationsmatrix und Translationsvektor vorher beschreiben und Punktabbildung definieren, dann hom. Trafo]
+
 \subsubsection{Intrinsische Kameramatrix}
-Die intrinsische Kameramatrix beschreibt die Abbildung eines Punktes in dreidimensionalen Koordinaten im Kamerakoordinatensystem auf Pixelkoordinaten der Sensorfläche der Kamera.
+Ist die Lage eines Punktes im Kamera-Koordinatensystem bekannt, so lässt sich mittels der intrinsischen Kameramatrix die Abbildung der dreidimensionalen Koordinaten auf die Pixelkoordinaten $\ve{S}{p} = [u,v]^T$ der Sensorfläche der Kamera beschreiben.\\
+Mit Rückblick auf das Modell der Lochkamera treffen die Strahlen an einem Punkt $\ve{K}{{p}}$ auf die Bildebene der Kamera in welcher der Sensor sitzt. Die Lage des Punktes ist abhängig von der Brennweite $f$, welche den Abstand zwischen Blendenöffnung und Bildebene angibt. Die Abbildung auf eine Ebene führt zu einer Reduktion der Dimension, wodurch die Bildkoordinaten nur noch zweidimensional angegeben werden können. Dies führt zu dem in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$, durch welchen die Unbestimmtheit der Tiefeninformationen gekennzeichnet ist.\\
+Die Transformation der metrischen Koordinaten in Pixelkoordinaten erfolgt abschließend durch Verschiebung des Koordinatensystems in den Sensorursprung $[u_0,v_0]$ und der Umrechnungsparameter $s_x$ und $s_y$, welche sich aus der Geometrie der Sensorelemente ergeben. \red[später bei Kalibrierung $f_x$ und $f_y$ unterscheiden]\\
+Die Abbildung kann mit der intrinsischen Kameramatrix $\tmat{S}{K}$ anhand dieser Parameter beschrieben werden als
 
+\begin{equation}
+s \cdot \left( \begin{array}{c}
+u\\
+v\\
+1
+\end{array} \right) = 
+\left( \begin{array}{cccc}
+s_x \cdot f & 0 & u_0 & 0\\
+0 & s_y \cdot f & v_0 & 0\\
+0 & 0 & 0 & 1
+\end{array} \right)
+\left( \begin{array}{c}
+X\\
+Y\\
+Z\\
+1
+\end{array} \right)
+\end{equation}
+\begin{equation}
+s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K}\ve{K}{\tilde{P}}
+\end{equation}
 
+\subsubsection{Verzeichnungen}
+In der Realität ist es erforderlich Objektive mit Linsen einzusetzen um das Lochkameramodell anzunähern, gleichzeitig aber ausreichende Belichtung zu gewährleisten. Es kommt dadurch jedoch zu Verzeichungen, resultierend aus der Form der Linsen und ihrer Lage zueinander. Die Verzeichnung mit dem häufig stärksten Einfluss ist die radiale Verzeichnung, welche durch die Krümmung der Linsen entsteht. Parallele Strahlen laufen dabei nicht in einem Brennpunkt zusammen, wodurch es in Abhängigkeit des Radius zu den in \abb{fig.distortions} dargestellten Verzeichnungen kommen kann \red[\cite{Hertzberg2012}].
 
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{Auftretende Formen der Verzeichnung durch Linsen, Kissen, normal, tonnen}
+		\label{fig.distortions}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
 
+Durch geeignete Modelle lassen sich diese Verzeichnungen jedoch softwareseitig korrigieren, so dass Genauigkeit der Abbildung im Subpixelbereich erzielt werden kann. Die Verzeichnungsparameter können zusammen mit den intrinsischen Parametern im Rahmen einer Kalibrierung ermittelt werden. 
 
-Die Kalibrierung der RGB- und IR-Kamera unterscheidet sich lediglich bei der Aufnahme der Bilddaten. Der Ablauf des Kalibrierungsverfahren ist jedoch identisch.
-Basierend auf dem von \red[Zhang \cite{Zhang2000}] vorgestellten Verfahren lassen 
+\subsubsection{Kalibrierung}
+Basierend auf dem von \red[Zhang \cite{Zhang2000}] vorgestellten Verfahren lassen\\
+
 
 \red[Vereinfachung später, dass T-WELT = T-0]
 Kalibrierung der Kamera
@@ -217,11 +265,11 @@ Kalibrierung der Kameras (RGB + IR) mit cameracalibration beschreiben und Gesamt
 
 
 \red[
-Notation\\
-Lochkameramodell\\
-Intrinsische + Extrinsische Parameter\\
+%Notation\\
+%Lochkameramodell\\
+%Intrinsische + Extrinsische Parameter\\
 Kalibrierung Kamera (RGB+IR)\\
-Tiefeninformationen (Epipolargeometrie etc.)\\
+Stereosystem Kinect (Epipolargeometrie etc.), Prinzip kurz erläutern, Buch und Davids Arbeit - Weiter vorne schon?\\
 Projektor als inverse Kamera\\
 Kalibrierung Projektor + Kamera+Projektor\\
 Projektor Linsenverzeichnung!?\\
