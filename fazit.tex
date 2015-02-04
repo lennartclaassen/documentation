@@ -6,3 +6,21 @@ Ergebnisse und Fazit daraus kurz zusammenfassen\\
 Ausblick geben auf erweiterungen des Systems - Um die Einsschränkungen zu beheben - Um das System zu erweitern/verbessern\\
 Ausblick geben auf mögliche Anwendungsfälle/-gebiete\\
 ]
+
+\kps{} erstellt zur Darstellung visueller Zusatzinformationen;\\
+Selbstlokalisation durch Partikelfilter verwendet;\\
+Tracking basierend auf visueller Odometrie verwendet;\\
+Robustheit durch IMU und Kalman-Filter gesteigert;\\
+Projektion von Modelldaten, Projektor als inverse Kamera, die Modellszene betrachtet, eigentlich nicht mehr direkt invers dann;\\
+Gesamtsystem kalibriert;\\
+Grafische Benutzeroberfläche erstellt, welche die Funktionen zugänglich macht, ist aber für Anwendung nicht unbedingt erforderlich, dann muss vorher die Welt definiert werden;\\
+Buttons integriert;\\
+Anbindung an ROS ermöglicht Austausch verschiedener Module;
+
+System ermöglicht Lokalisation und Darstellung visueller Zusatzinformationen;\\
+Anwendung unterliegt ein paar Einschränkungen, die jedoch im geplanten Anwendungsszenario keine Probleme machen sollten; Unter Berücksichtigung der Empfehlungen aus dem vorhergehenden Kapitel;\\
+
+Erweiterungen:\\
+Kinect V2;
+Kompass zur Lagebestimmung yaw -> deutliche Reduzierung der Partikelanzahl möglich;
+Gestenerkennung -> Kinect V2 gut, da bessere Auflösung;
