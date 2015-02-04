@@ -105,11 +105,15 @@
 
 \newcommand{\kps}[1][]{Kamera-Projektor-System{#1}}
 
-\newcommand{\matt}[9]{\left[ \begin{array}{ccc} #1 & #2 & #3 \\ #4 & #5 & #6 \\ #7 & #8 & #9 \end{array} \right]}
+\newcommand{\mat}[2]{\left[ \begin{array}{#1} #2 \end{array} \right]}
 
-\newcommand{\matx}[1]{\left[ \begin{array}{ccc} 1 & 0 & 0 \\ 0 & \cos{#1} & -\sin{#1} \\ 0 & \sin{#1} & \cos{#1} \end{array} \right]}
-\newcommand{\maty}[1]{\left[ \begin{array}{ccc} \cos{#1} & 0 & \sin{#1} \\ 0 & 1 & 0 \\ -\sin{#1} & 0 & \cos{#1} \end{array} \right]}
-\newcommand{\matz}[1]{\left[ \begin{array}{ccc} \cos{#1} & -\sin{#1} & 0 \\ \sin{#1} & \cos{#1} & 0 \\ 0 & 0 & 1 \end{array} \right]}
+\newcommand{\matt}[9]{\mat{ccc}{ #1 & #2 & #3 \\ #4 & #5 & #6 \\ #7 & #8 & #9 }}
+
+\newcommand{\matx}[1]{\mat{ccc}{ 1 & 0 & 0 \\ 0 & \cos{#1} & -\sin{#1} \\ 0 & \sin{#1} & \cos{#1} }}
+\newcommand{\maty}[1]{\mat{ccc}{ \cos{#1} & 0 & \sin{#1} \\ 0 & 1 & 0 \\ -\sin{#1} & 0 & \cos{#1} }}
+\newcommand{\matz}[1]{\mat{ccc}{ \cos{#1} & -\sin{#1} & 0 \\ \sin{#1} & \cos{#1} & 0 \\ 0 & 0 & 1 }}
+
+
 
 
 %\newcommand{\matf}[12]{\left[ \begin{array}{cccc} #1 & #2 & #3 & #4 \\ #5 & #6 & #7 & #8 \\ #9 & #10 & #11 & #12 \end{array} \right]}
@@ -142,9 +146,9 @@
     \include{lokalisation}
     \include{projektion}
     \include{interaktion}
-    \include{datenkopplung}
-    \include{limitierungen}
+    %\include{datenkopplung}
     \include{ergebnisse}
+    \include{limitierungen}
     \include{fazit}
     %\nocite{*}                             % alle Literaturquellen einbinden, sonst werden nur die zitierten
                                             % Quellen im Literaturverzeichnis angezeigt (ist Geschmackssache).

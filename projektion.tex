@@ -36,12 +36,12 @@ Die perspektivische Abbildung einer 3D Umgebung auf eine 2D Ebene wurde bereits 
 Transformation. der. Umgebungspunkte. in. Projektorkoordinaten.
 \end{equation} 
 
-\abb{fig.perspproj_vtk} zeigt die Abbildung eines Modellobjektes auf die Bildebene des als Kamera simulierten Projektors. Die Bildebene ist dabei wie bereits in \abschnitt{chap.pinhole} beschrieben am Brennpunkt gespiegelt dargestellt. Bei Generierung der Abbildung ist zu beachten, dass lediglich die Modellelemente sichtbar sind, die mit dem später projizierten Bild visualisiert werden sollen. Die Modelldaten aller bereits vorhandenen Strukturen können deshalb ausgeblendet werden, um ungewünschten Überlagerungen zu vermeiden. Um die Projektions- oder Lokalisationsgenauigkeit zu überprüfen können allerdings bewusst Überlagerungen von Modelldaten und realen Strukturen erzeugt werden.
+\abb{fig.perspproj_vtk} zeigt die Abbildung eines Modellobjektes auf die Bildebene des als Kamera simulierten Projektors. Die Bildebene ist dabei wie bereits in \abschnitt{chap.pinhole} beschrieben am Brennpunkt gespiegelt dargestellt. Bei Generierung der Abbildung ist zu beachten, dass lediglich die Modellelemente sichtbar sind, die mit dem später projizierten Bild visualisiert werden sollen\red[ (im Bild grün hervorgehoben)]. Die Modelldaten aller bereits vorhandenen Strukturen können deshalb ausgeblendet werden, um ungewünschten Überlagerungen zu vermeiden. Um die Projektions- oder Lokalisationsgenauigkeit zu überprüfen können allerdings bewusst Überlagerungen von Modelldaten und realen Strukturen erzeugt werden.
 
 \begin{figure}[!ht]
 	\begin{center}
 		\includegraphics[scale=1.0]{spacer}
-		\caption{Perspektivische Abbildung der Modelldaten auf die Sensorebene/Pixeldaten des als Kamera simulierten Projektors}
+		\caption{Perspektivische Abbildung der Modelldaten auf die Sensorebene/Pixeldaten des als Kamera simulierten Projektors, grün hervorgehoben das Objekt, das nicht in der Umgebung vorhanden ist aber projiziert werden soll; Rest ausgrauen oder so?}
 		\label{fig.perspproj_vtk}
 	\end{center}
 	%\vspace*{-8mm}
