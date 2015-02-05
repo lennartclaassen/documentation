@@ -80,17 +80,94 @@ Die Bewertung der kontinuierlichen Lokalisation erfolgt gesondert für translato
 
 \section{Projektionsgenauigkeit}
 Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera durchgeführt. Diese wird zunächst analog zum Vorgehen für die RGB-Kamera des Kinect Sensors kalibriert (siehe \kapitel{chap.calib}). Dadurch wird eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht, da diese maßgeblich von der Kalibrierung des \kps{s} abhängt. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sichtfeld der RGB-Kamera des Kinect Sensors platziert. Durch die Erfassung des Markerfeldes und der daraus bestimmten Transformation kann die Position des \kps{s} relativ zum Markerfeld bestimmt werden.\\
-Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht nun die Zuordnung der detektierten 3D Koordinaten des Markerfeldes zu den 2D Bildkoordinaten des Projektors. Um die Projektionsgenauigkeit zu überprüfen wird nun mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. \red[\abb{fig.arprojected}]\\
-Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu erfassen und die Abweichungen zwischen den Feldern bezüglich Position und Orientierung zu bestimmen. Dabei werden die Positionierungen sowohl des \kps{s} als auch der externen Kamera während der Untersuchungen variiert. Die Bestimmung der Fehlerwerte erfolgt erneut über Berechnung des QMW.
+
+Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht nun die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird nun mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. \red[\abb{fig.arprojected}]\\
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
+		\includegraphics[scale=0.5]{board_eval_cropped}
 		\caption{AR Marker real und projiziert}
 		\label{fig.arprojected}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+
+Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu erfassen und die Abweichungen zwischen den Feldern bezüglich Position und Orientierung zu bestimmen. Dabei werden die Positionierungen sowohl des \kps{s} als auch der externen Kamera während der Untersuchungen variiert. Die Bestimmung der Fehlerwerte erfolgt erneut über Berechnung des QMW.\\
+Die Ergebnisse der $n=6$ Messreihen sind in \tab{projection} zusammengefasst.\\
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \begin{axis}[
+    	ytick={0,0.5,...,3.5},
+    		minor y tick num=1,
+    		ymax=3.5,
+    		ylabel=Y-Achse \lbrack mm\rbrack,
+    		xtick={1,...,3},
+    		x tick label style={align=center},
+    		xticklabels={$\Delta X$,$\Delta Y$,$\Delta Z$},
+    		boxplot/draw direction=y,
+    		width=8cm,
+    		height=8cm,
+    		grid=major,
+    		grid style={dotted,lightgray!80!white},
+    ]
+    \addplot+[color=red,mark=x,
+    		boxplot prepared={
+      		lower whisker=0.0133529306,
+      		lower quartile=0.1985780895,
+      		median=0.2542533912,
+      		upper quartile=0.3528155387,
+      		upper whisker=0.7293745875
+    		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+    \addplot+[color=Green,mark=x,
+    		boxplot prepared={
+      		lower whisker=0.0024784356,
+      		lower quartile=0.1018498093,
+      		median=0.2864509821,
+      		upper quartile=0.617288053,
+      		upper whisker=0.6959207356
+		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+    \addplot+[color=blue,mark=x,
+    		boxplot prepared={
+      		lower whisker=0.0467300415,
+      		lower quartile=0.6718873977,
+      		median=1.1176168919,
+      		upper quartile=1.9123554229,
+      		upper whisker=3.0851304531
+		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+  \end{axis}
+\end{tikzpicture}
+\caption{Box-Whisker-Plot}
+\label{fig.error_boxplot}
+\end{center}
+\vspace{-3mm}
+\end{figure}
+
+\red[Nennen, dass Boxplot ganze Messreihe abbildet! Oder umwandeln zu 5/95 Perzentil?\\]
+
+\begin{table}[ht]
+	\centering
+	\caption{Technische Daten der youBot Plattform}\label{tab.TechSpecYouBotBase}
+	\vspace*{-3mm}
+	\begin{tabular}[ht]{|l|c|r|}\hline
+		\rowcolor{Snow2}
+		Bezeichnung						& Formelzeichen	& \\ \hline
+		Gesamtlänge 					&			& \SI{530}{\milli\meter}				\\ \hline
+		Gesamtbreite 					&  		& \SI{350}{\milli\meter}				\\ \hline
+		Höhe									&  		& \SI{106}{\milli\meter}				\\ \hline
+		Radstand							& $l$	& \SI{470}{\milli\meter}				\\
+		\hline
+	\end{tabular} 
+	\vspace*{-3mm}
+\end{table}
+
 
 %Überprüfung der Genauigkeit mit Hilfe externer Kamera. Externe Kamera wird kalibriert um objektive Betrachtung der Projektionsgenauigkeit zu ermöglichen. Kamera Projektor System ist bereits kalibriert. Verwendung von 2 QR Boards. Eins wird auf ebene Unterlage aufgeklebt, das andere wird vom Projektor projiziert. Zunächst wird das aufgeklebte Board durch die Kamera des Kamera Projektor Systems erkannt um daraus die Transformation zu berechnen, welche im Programm verwendet wird um die Projektorsicht zu erzeugen. Das projizierte Board wird anschließend mit der externen Kamera erfasst genauso wie das aufgeklebt. Es wird jeweils die Transformation zur Kamera berechnet um daraus die Differenz der beiden Boards bezüglich Position und Lage zu bestimmen.
 
@@ -101,8 +178,8 @@ Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu er
 \begin{center}
 \begin{tikzpicture}[trim axis left, trim axis right]
 	\begin{axis}[
-		xlabel=Eigenwert,
-		ylabel=Anteil an Gesamtvarianz \lbrack \%\rbrack,
+		xlabel=X,
+		ylabel=Y,
 		xtick={1,...,13},
 		ymin=0,
 		ytick={0,10,...,100},
@@ -115,7 +192,7 @@ Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu er
 		}
 		%axis lines=left
 	]
-	\addplot[color=red,mark=square*] coordinates{
+	\addplot[color=red] coordinates{
 		(1,24.6718)
 		(2,43.7092)
 		(3,54.14785132)
@@ -130,7 +207,7 @@ Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu er
 		(12,98.25885879)
 		(13,100)		
 	};
-	\addplot[color=blue,mark=diamond*] coordinates{
+	\addplot[color=blue] coordinates{
 		(1,26.42529337)
 		(2,51.19458535)
 		(3,63.64859236)
@@ -145,12 +222,80 @@ Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu er
 		(12,100)
 		
 	};
-	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\legend{Testa,Testb}
 	\end{axis}
 \end{tikzpicture}
 \end{center}
 \vspace{-3mm}
-\caption{Eigenwertverlauf der Formmodelle}
-\label{fig.reference_building_eigenvalues_shape}
+\caption{test1}
+\label{fig.test1}
 \vspace{3mm}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+xlabel={Zeit},
+ylabel={Position},
+ymin=0,
+ymax=6,
+width=100mm,
+height=80mm,
+ytick={0,1,...,5},
+legend style={at={(1,1)},	anchor=north east, xshift=-1mm,	yshift=-1mm}
+]
+\pgfplotstableread{plot/test.txt}\datatable
+\addplot[color=red,mark=square*] table[x index=0,y index=1] from \datatable;
+%\addplot[no markers] table[x index=0,y index=3] from \datatable;
+%\addplot[no markers] table[y = Leistung] {plot/test.txt}  ;
+\legend{test}
+\end{axis}
+\end{tikzpicture}
+\caption{test2}
+\label{fig.test2}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \begin{axis}[
+    	ytick={0,0.1,...,1.1},
+    		minor y tick num=5,
+    		ymax=1.1,
+    		ylabel=Y-Achse,
+    		xtick={1,...,4},
+    		x tick label style={align=center},
+    		xticklabels={A, B},
+    		boxplot/draw direction=y,
+    		width=8cm,
+    		height=8cm,
+    		thick,
+    ]
+%    \addplot+[color=red,mark=x,
+%    		boxplot prepared={
+%      		lower whisker=,
+%      		lower quartile=,
+%      		median=,
+%      		upper quartile=,
+%      		upper whisker=
+%    		},
+%    ] %coordinates {};
+%    table[row sep=\\,y index=0] {0.7054\\ 0.9773\\  0.9763\\ 0.9698\\ 0.7118\\ 0.6919\\ 0.9727\\ 0.7006\\ 0.974\\ 0.7077\\}; %Ausreisser
+    \addplot+[color=Green,mark=x,
+    		boxplot prepared={
+      		median=0.3036,
+      		upper quartile=0.34925,
+      		lower quartile=0.2674,
+      		upper whisker=0.5597,
+      		lower whisker=0.18718
+		},
+    ] %coordinates {};
+    table[row sep=\\,y index=0] {0.6045\\ 0.1818\\ 0.5826\\ 0.5688\\ 0.1814\\ 0.1825\\ 0.5750\\ 0.1783\\ 0.6312\\ 0.1793\\}; %Ausreisser
+  \end{axis}
+\end{tikzpicture}
+\caption{Box-Whisker-Plot}
+\label{fig.error_boxplot}
+\end{center}
+\vspace{-3mm}
 \end{figure}

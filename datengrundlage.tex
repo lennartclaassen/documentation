@@ -18,13 +18,13 @@ Liegen bereits Modelldaten der Umgebung vor, so kann das virtuelle Umgebungsmode
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[scale=1.0]{spacer}
-		\caption{Karte Modell}
+		\caption{Karte Modell \red[Blender modellieren]}
 		\label{fig.mapMod}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Für den Einsatz des \kps{s} ohne vorhandene aktuelle Modelldaten kann eine Kartierung \red[(Mapping)] der Umgebung erfolgen. Die Kartierung von 2D- und 3D-Umgebungen ist in aktuellen Forschungen eng mit der Lokalisation innerhalb dieser Umgebungen verknüpft. Ein verbreitetes Forschungsfeld in diesem Zusammenhang ist das simultane Kartieren und Lokalisieren in unbekannten Umgebungen \red[(engl. \textit{Simultaneous Localization And Mapping}, kurz SLAM)]. Dabei existieren verschiedene Algorithmen und Implementierungen zur Lösung der Problemstellungen. Die Kartierung selbst soll in dieser Arbeit nicht näher erläutert werden, für eine detailliertere Darstellung sei deshalb auf \red[\cite{Durrant2006}] verwiesen.\\
+Für den Einsatz des \kps{s} ohne vorhandene aktuelle Modelldaten kann eine Kartierung \red[(Mapping)] der Umgebung erfolgen. Die Kartierung von 2D- und 3D-\red[Umge-bungen] ist in aktuellen Forschungen eng mit der Lokalisation innerhalb dieser Umgebungen verknüpft.\red[ Begriff Karte hier einführen?] Ein verbreitetes Forschungsfeld in diesem Zusammenhang ist das simultane Kartieren und Lokalisieren in unbekannten Umgebungen \red[(engl. \textit{Simultaneous Localization And Mapping}, kurz SLAM)]. Dabei existieren verschiedene Algorithmen und Implementierungen zur Lösung der Problemstellungen. Die Kartierung selbst soll in dieser Arbeit nicht näher erläutert werden, für eine detailliertere Darstellung sei deshalb auf \red[\cite{Durrant2006}] verwiesen.\\
 
 Zur Validierung des Systems wurde die in \abb{fig.mapSLAM} dargestellte Umgebung aufgezeichnet. Dabei wurde eine Implementierung \cite{Rgbdslam} nach Endres \textit{et al.} \cite{Endres2014} verwendet, welche die SLAM Anwendung mittels einer RGB-D Kamera realisiert. Das \kps{} kann somit auch für die Kartierung der Umgebung eingesetzt werden.\\
 
@@ -55,4 +55,4 @@ Anders als die Modellumgebung müssen die Modellobjekte jedoch nicht als reale O
 
 \section{Dateistruktur}
 Um die Szene, bestehend aus der Modellumgebung und allen integrierten Modellobjekten, später wieder in den virtuellen Planungsablauf integrieren zu können wird eine Dateistruktur definiert, welche die Sicherung der aktuellen Modellkonfiguration ermöglicht. Alle Modellelement werden dazu mit ihrer aktuellen Pose, Textur und geometrischen Repräsentation erfasst und aufgezeichnet. Eine Wiederherstellung verschiedener Konfigurationen ist damit ebenfalls jederzeit möglich.\\
-\red[Dateiformat? Eine Datei enthält alle Informationen über die Welt und über die einfügbaren Objekte (Preview Funktion). Hinzufügen/entfernen von Objekten zur Datei möglich, suchen nach vorhandenen Objekten in Datenbank möglich?]
+\red[Dateiformat? YAML? Eine Datei enthält alle Informationen über die Welt und über die einfügbaren Objekte (Preview Funktion). Hinzufügen/entfernen von Objekten zur Datei möglich, suchen nach vorhandenen Objekten in Datenbank möglich?]
