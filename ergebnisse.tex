@@ -95,3 +95,62 @@ Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu er
 %Überprüfung der Genauigkeit mit Hilfe externer Kamera. Externe Kamera wird kalibriert um objektive Betrachtung der Projektionsgenauigkeit zu ermöglichen. Kamera Projektor System ist bereits kalibriert. Verwendung von 2 QR Boards. Eins wird auf ebene Unterlage aufgeklebt, das andere wird vom Projektor projiziert. Zunächst wird das aufgeklebte Board durch die Kamera des Kamera Projektor Systems erkannt um daraus die Transformation zu berechnen, welche im Programm verwendet wird um die Projektorsicht zu erzeugen. Das projizierte Board wird anschließend mit der externen Kamera erfasst genauso wie das aufgeklebt. Es wird jeweils die Transformation zur Kamera berechnet um daraus die Differenz der beiden Boards bezüglich Position und Lage zu bestimmen.
 
 \section{Benutzerinteraktion}
+
+\begin{figure}[!ht]
+\vspace{3mm}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+	\begin{axis}[
+		xlabel=Eigenwert,
+		ylabel=Anteil an Gesamtvarianz \lbrack \%\rbrack,
+		xtick={1,...,13},
+		ymin=0,
+		ytick={0,10,...,100},
+		legend style={
+			at={(1,0.5)},
+			xshift=0.2cm,
+			anchor=north west,
+			nodes=right,
+			draw=none
+		}
+		%axis lines=left
+	]
+	\addplot[color=red,mark=square*] coordinates{
+		(1,24.6718)
+		(2,43.7092)
+		(3,54.14785132)
+		(4,63.1821339)
+		(5,70.60866985)
+		(6,76.45681086)
+		(7,81.7263871)
+		(8,86.97406846)
+		(9,90.86684525)
+		(10,93.72329021)
+		(11,96.11621437)
+		(12,98.25885879)
+		(13,100)		
+	};
+	\addplot[color=blue,mark=diamond*] coordinates{
+		(1,26.42529337)
+		(2,51.19458535)
+		(3,63.64859236)
+		(4,72.13773673)
+		(5,78.8676646)
+		(6,83.94694845)
+		(7,88.06842906)
+		(8,91.7882484)
+		(9,94.19470806)
+		(10,96.53607266)
+		(11,98.45170481)
+		(12,100)
+		
+	};
+	\legend{Fokus-Modell,Post-Fokus-Modell}
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-3mm}
+\caption{Eigenwertverlauf der Formmodelle}
+\label{fig.reference_building_eigenvalues_shape}
+\vspace{3mm}
+\end{figure}
