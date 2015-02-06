@@ -40,7 +40,8 @@ QMW = \sqrt{\frac{1}{n}\sum_{i=1}^nr_i^2}
 Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der Partikel bezüglich der \red[z-Koordinate] der Karte erforderlich. Da das handgeführte \kps{} zu Beginn der Anwendung leicht in einer definierten Höhe bewegt werden kann, wurde dieser Grenzbereich mit einer Toleranz von $\pm$ \SI{0,1}{\meter} zur tatsächlichen Pose definiert.\\
 \red[\abb{fig.error_glob_trans} zeigt den Vergleich der durch die beiden Modelle erzielten Fehlerwerte.\\]
 
-\begin{tikzpicture}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
 \begin{axis}[
 	ybar,
 	ymax=0.4,
@@ -78,10 +79,12 @@ Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der
 \end{axis}
 \label{fig.error_glob_trans}
 \end{tikzpicture}
+\end{center}
 
 \red[Winkelfehler Vergleich:\\]
 
-\begin{tikzpicture}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
 \begin{axis}[
 	ybar,
 	ymax=10,
@@ -93,7 +96,7 @@ Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der
 	anchor=north,legend columns=-1},
 	ylabel={Winkelfehler \lbrack °\rbrack},
 %	symbolic x coords={\Delta,y,z},
-	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$},
+	xticklabels={$\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
 	xtick=data,
 	every node near coord/.style={/pgf/number format/fixed, anchor=west},
 	nodes near coords,
@@ -118,8 +121,37 @@ Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der
 ] coordinates {(-1,3.1694824628) (0,1.6633422885) (1,4.2398218425)};
 \legend{Raycasting,Endpoint}
 \end{axis}
-\label{fig.error_glob_trans}
+\label{fig.error_glob_rot}
 \end{tikzpicture}
+\end{center}
+
+
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\subfigure[1. Formparameter (Fokus-Modell)]{
+%		\begin{tikzpicture}[scale=0.6, baseline]
+%            \begin{axis}[ybar]
+%                \addplot+ coordinates {
+%                    (1,2)
+%                };
+%            \end{axis}
+%        \end{tikzpicture}
+%	}
+%	\hspace{2mm}
+%	\subfigure[1. Formparameter (Post-Fokus-Modell)]{
+%		\begin{tikzpicture}[scale=0.6, baseline]
+%            \begin{axis}[ybar]
+%                \addplot+ coordinates {
+%                    (1,2)
+%                };
+%            \end{axis}
+%        \end{tikzpicture}
+%	}\\
+%	\caption{Variation der ersten beiden Formparameter um $\pm 3 \sqrt{\lambda_i}$}
+%	\label{fig.reference_building_shape_visualization}
+%	\end{center}
+%	\vspace*{-8mm}
+%\end{figure}
 
 Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.loclimits} dargestellt ein Grenzraum um die wahre Position definiert. Darüber hinaus werden ebenfalls Grenzbereiche für die maximal zulässigen Winkelfehler festgelegt. Die zugehörigen Werte sind in \tab{thresh_glob} aufgeführt.\\
 
@@ -152,33 +184,307 @@ Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.locl
 
 \red[Quadratischer Mittelwert QMW statt Root Mean Square RMS überall aktualisieren]
 
-\subsection{Raycasting-Modell}
+%\subsection{Raycasting-Modell}
 
-\subsection{Endpoint-Modell}
+%\subsection{Endpoint-Modell}
 
 \red[Relokalisation bei globaler Lokalisation beschreiben]
 
 \section{Lokale Lokalisation}%Tracking/Kontinuierliche Lokalisation}
 Die Genauigkeit der lokalen Lokalisations wird gesondert von der durch die globale Lokalisation bestimmten Pose betrachtet. Dazu wird ebenfalls das für die Untersuchung der globalen Lokalisation verwendete Markerfeld genutzt. Die wahre Pose des Systems kann so bestimmt und als Initialisierung der Lokalisation verwendet werden.\\
-Die Bewertung der kontinuierlichen Lokalisation erfolgt gesondert für translatorische und rotatorische Bewegungen. Alle Messungen werden dabei separat durchgeführt um eine Beeinflussung der Bewegungen untereinander zu verhindern. Translatorisch werden dabei die Bewegung parallel (x-Achse der Kamera) und orthogonal (z-Achse der Kamera) zu einer Ebene betrachtet. Die parallele Bewegung wird dabei lediglich entlang einer Achse durchgeführt, da diese für beide Achsen parallel zur Ebene äquivalent ist und nur durch die Orientierung der Koordinatensysteme definiert wird. Ähnliches gilt für die Untersuchung der Lokalisationsgenauigkeit bei rotatorischen Bewegungen des Systems, da der Algorithmus der visuellen Odometrie nicht zwischen den Rotationsachsen der Kamera unterscheidet. Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basis der visuellen Odometrie und anschließend allein auf Basis der inertialen Messeinheit durchgeführt. Abschließend erfolgt eine Bewertung der Lokalisation nach Fusion der beiden Sensorsysteme mittels des Erweiterten Kalman Filters.
 
+Die Bewertung der kontinuierlichen Lokalisation erfolgt gesondert für translatorische und rotatorische Bewegungen. Alle Messungen werden dabei separat durchgeführt um eine Beeinflussung der Bewegungen untereinander zu verhindern. Translatorisch werden dabei die Bewegung parallel (x-Achse der Kamera) und orthogonal (z-Achse der Kamera) zu einer Ebene betrachtet. Die parallele Bewegung wird dabei lediglich entlang einer Achse durchgeführt, da diese für beide Achsen parallel zur Ebene äquivalent ist und nur durch die Orientierung der Koordinatensysteme definiert wird. Ähnliches gilt für die Untersuchung der Lokalisationsgenauigkeit bei rotatorischen Bewegungen des Systems, da der Algorithmus der visuellen Odometrie nicht zwischen den Rotationsachsen der Kamera unterscheidet.\\
+
+Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basis der visuellen Odometrie und anschließend allein auf Basis der inertialen Messeinheit durchgeführt. Abschließend erfolgt eine Bewertung der Lokalisation nach Fusion der beiden Sensorsysteme mittels des Erweiterten Kalman Filters.
+
+\red[TransX und TransZ innerhalb vergleichen und Diagramme aufteilen nach translatorischem Fehler und rotatorischem Fehler?\\Oder direkt alles in einem -> 2x6 Balken!?]
+
+%----------------------------------------------------------------------------------------------------------
+%------------------------------------------  Anfang  ------------------------------------------------------
+%--------------------------- Vergleich mit xyz rpy in einem Diagramm --------------------------------------
+%----------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------
+\subsection{Translatorische Bewegung}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+\begin{axis}[
+	ybar,
+	ymax=0.25,
+	ymin=0,
+	bar width=30pt,
+	enlarge x limits=0.4,
+	legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+	ylabel={Positionsfehler \lbrack m\rbrack},
+%	symbolic x coords={\Delta,y,z},
+	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$},
+	xtick=data,
+	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	nodes near coords,
+	nodes near coords align={vertical},
+	width=14cm,
+	height=8cm,
+	grid=major,
+    	grid style={dotted,lightgray!80!white},
+    	scaled y ticks = false,
+	y tick label style={/pgf/number format/fixed},
+]
+\addplot[
+	every node near coord/.append style={xshift=-1.1cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=red,
+	fill=red!30!white
+] coordinates {(-1,0.0942737252) (0,0.0744944439) (1,0.2154737652)};
+\addplot[
+	every node near coord/.append style={xshift=0.0cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=blue,
+	fill=blue!30!white
+] coordinates {(-1,0.0141228693) (0,0.0728502984) (1,0.0578491359)};
+\legend{Translatorsich X,Translatorisch Z}
+\end{axis}
+\label{fig.error_glob_trans}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+\begin{axis}[
+	ybar,
+	ymax=8,
+	ymin=0,
+	bar width=30pt,
+%	enlarge y limits={0.4,upper},
+	enlarge x limits=0.4,
+	legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+	ylabel={Winkelfehler \lbrack °\rbrack},
+%	symbolic x coords={\Delta,y,z},
+	xticklabels={$\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+	xtick=data,
+	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	nodes near coords,
+	nodes near coords align={vertical},
+	width=14cm,
+	height=8cm,
+	grid=major,
+    	grid style={dotted,lightgray!80!white},
+    	scaled y ticks = false,
+	y tick label style={/pgf/number format/fixed},    	
+]
+\addplot[
+	every node near coord/.append style={xshift=-1.1cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=red,
+	fill=red!30!white
+] coordinates {(-1,5.3910094725) (0,0.5944624236) (1,4.7266768476)};
+\addplot[
+	every node near coord/.append style={xshift=0.0cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=blue,
+	fill=blue!30!white
+] coordinates {(-1,3.3292065305) (0,1.4935343647) (1,6.1138224963)};
+\legend{Translatorisch X,Translatorisch Z}
+\end{axis}
+\label{fig.error_loc_trans}
+\end{tikzpicture}
+\end{center}
+%----------------------------------------------------------------------------------------------------------
+%-------------------------------------------  Ende  -------------------------------------------------------
+%--------------------------- Vergleich mit xyz rpy in einem Diagramm --------------------------------------
+%----------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------
+
+
+
+%----------------------------------------------------------------------------------------------------------
+%------------------------------------------  Anfang  ------------------------------------------------------
+%--------------------------- Vergleich mit xyz rpy in einem Diagramm --------------------------------------
+%----------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------
 \subsection{Translation X}
+\begin{tikzpicture}
+\begin{axis}[
+	ybar,
+	ymax=0.3,
+	ymin=0,
+	bar width=30pt,
+	scaled y ticks = false,
+	y tick label style={/pgf/number format/fixed},
+%	enlarge y limits={0.4,upper},
+	enlarge x limits=0.2,
+	legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+	ylabel={Positionsfehler \lbrack m\rbrack},
+%	symbolic x coords={\Delta,y,z},
+	xtick={1,2,3,4,5,6},
+	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+%	xtick=data,
+	bar shift=0pt,
+	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	nodes near coords,
+	nodes near coords align={vertical},
+	width=14cm,
+	height=8cm,
+	grid=major,
+    	grid style={dotted,lightgray!80!white},
+    	scaled y ticks = false,
+]
+\addplot[
+	every node near coord/.append style={xshift=-0.55cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=red,
+	fill=red!30!white
+] coordinates {(1,0.0942737252) (2,0.0744944439) (3,0.2154737652)};
+\addplot[fill opacity=0.0,draw=none,] coordinates {(4,0) (5,0) (6,0)};	%dummy
+%\legend{Raycasting,Endpoint}
+\end{axis}
+
+\begin{axis}[
+%	scale only axis,
+	ybar,
+	ymax=6,
+	ymin=0,
+	bar width=30pt,
+%	enlarge y limits={0.4,upper},
+	enlarge x limits=0.2,
+	legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+	axis y line*=right,
+	axis x line=none,
+	ylabel={Winkelfehler \lbrack °\rbrack},
+%	symbolic x coords={\Delta,y,z},
+	xtick={1,2,3,4,5,6},
+	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+%	xtick=data,
+	bar shift=0pt,
+	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	nodes near coords,
+	nodes near coords align={vertical},
+	width=14cm,
+	height=8cm,
+	grid=major,
+    	grid style={dotted,lightgray!80!white},
+    	scaled y ticks = false,
+]
+\addplot[fill opacity=0.0,draw=none,] coordinates {(1,0) (2,0) (3,0)};	%dummy
+\addplot[
+	every node near coord/.append style={xshift=-0.55cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=blue,
+	fill=blue!30!white,
+%	fill opacity=0.5,
+%	draw=none,
+] coordinates {(4,5.3910094725) (5,0.5944624236) (6,4.7266768476)};
+%\addplot[
+%	every node near coord/.append style={xshift=-1.1cm},
+%	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+%	color=red,
+%	fill=red!30!white
+%] coordinates {(-2,0) (-1,0) (0,0) (1,2.4445637073) (2,0.9069805767) (3,8.4545773848)};
+\end{axis}
+\label{fig.error_glob_trans_x}
+\end{tikzpicture}
 
 \subsection{Translation Z}
+\begin{tikzpicture}
+\begin{axis}[
+	ybar,
+	ymax=0.2,
+	ymin=0,
+	bar width=30pt,
+	scaled y ticks = false,
+	y tick label style={/pgf/number format/fixed},
+%	enlarge y limits={0.4,upper},
+	enlarge x limits=0.2,
+	legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+	ylabel={Positionsfehler \lbrack m\rbrack},
+%	symbolic x coords={\Delta,y,z},
+	xtick={1,2,3,4,5,6},
+	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+%	xtick=data,
+	bar shift=0pt,
+	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	nodes near coords,
+	nodes near coords align={vertical},
+	width=14cm,
+	height=8cm,
+	grid=major,
+    	grid style={dotted,lightgray!80!white},
+    	scaled y ticks = false,
+]
+\addplot[
+	every node near coord/.append style={xshift=-0.55cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=red,
+	fill=red!30!white
+] coordinates {(1,0.0141228693) (2,0.0728502984) (3,0.0578491359)};
+\addplot[fill opacity=0.0,draw=none,] coordinates {(4,0) (5,0) (6,0)};	%dummy
+%\legend{Raycasting,Endpoint}
+\end{axis}
 
-\subsection{Rotation Yaw}
+\begin{axis}[
+%	scale only axis,
+	ybar,
+	ymax=8,
+	ymin=0,
+	bar width=30pt,
+%	enlarge y limits={0.4,upper},
+	enlarge x limits=0.2,
+	legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+	axis y line*=right,
+	axis x line=none,
+	ylabel={Winkelfehler \lbrack °\rbrack},
+%	symbolic x coords={\Delta,y,z},
+	xtick={1,2,3,4,5,6},
+	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+%	xtick=data,
+	bar shift=0pt,
+	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	nodes near coords,
+	nodes near coords align={vertical},
+	width=14cm,
+	height=8cm,
+	grid=major,
+    	grid style={dotted,lightgray!80!white},
+    	scaled y ticks = false,
+]
+\addplot[fill opacity=0.0,draw=none,] coordinates {(1,0) (2,0) (3,0)};	%dummy
+\addplot[
+	every node near coord/.append style={xshift=-0.55cm},
+	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+	color=blue,
+	fill=blue!30!white,
+%	fill opacity=0.5,
+%	draw=none,
+] coordinates {(4,3.3292065305) (5,1.4935343647) (6,6.1138224963)};
+%\addplot[
+%	every node near coord/.append style={xshift=-1.1cm},
+%	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+%	color=red,
+%	fill=red!30!white
+%] coordinates {(-2,0) (-1,0) (0,0) (1,2.4445637073) (2,0.9069805767) (3,8.4545773848)};
+\end{axis}
+\label{fig.error_glob_trans_x}
+\end{tikzpicture}
+%----------------------------------------------------------------------------------------------------------
+%-------------------------------------------  Ende  -------------------------------------------------------
+%--------------------------- Vergleich mit xyz rpy in einem Diagramm --------------------------------------
+%----------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------------
 
-\subsection{Rotation Pitch FOVIS}
 
-\subsection{Rotation Roll FOVIS}
+\subsection{Rotatorische Bewegung}
+%
+%\subsection{Rotation Pitch FOVIS}
+%
+%\subsection{Rotation Roll FOVIS}
 
-\subsection{Rotation Pitch IMU}
+\subsection{Rotatorisch IMU+KALMAN}
 
-\subsection{Rotation Roll IMU}
-
-\subsection{Rotation Pitch KALMAN}
-
-\subsection{Rotation Roll KALMAN}
+%\subsection{Rotation Roll IMU+KALMAN}
 
 %Die globale Lokalisation wird anhand des Boards korrigiert um eine definierte Ausgangslage zu erhalten. Anschließend erfolgt eine Bewegung des Kamera-Projektor Systems entlang der verschiedenen Raumrichtungen und eine Rotation um die jeweiligen Winkel. Alle Messungen werden separat durchgeführt um eine Beeinflussung der Parameter untereinander zu verhindern. Die Bewegung erfolgt so, dass eine Rückkehr zur Ausgangslage stattfindet um eine Bestimmung der Positionsabweichung im Anschluss an die Bewegung durch erneute Detektion des Boards zu ermöglichen. Es ist darauf hinzuweisen, dass aufgrund der getrennten Betrachtung die Validierung zum einen für die visuelle Odometrie (x,y,z,yaw) und zum anderen für die Messdaten der IMU erfolgt (roll, pitch).
 
