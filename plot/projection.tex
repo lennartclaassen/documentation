@@ -1,0 +1,211 @@
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \begin{axis}[
+    	ytick={-30,-20,...,30},
+    		minor y tick num=1,
+    		ymax=35,
+    		ymin=-35,
+    		ylabel=Y-Achse \lbrack mm\rbrack,
+    		xtick={1,2,...,6},
+    		x tick label style={align=center},
+    		xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+    		boxplot/draw direction=y,
+    		width=14cm,
+    		height=8cm,
+    		grid=major,
+    		grid style={dotted,lightgray!80!white},
+    ]
+    \addplot+[color=red,mark=x,
+    		boxplot prepared={
+      		lower whisker=-7.2937458753,
+      		lower quartile=-2.2697057575,
+      		median=-0.5078930408,
+      		upper quartile=2.5787912309,
+      		upper whisker=5.2836090326,
+      		box extend=0.5,
+      		draw position=1,
+    		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+    \addplot+[color=Green,mark=x,
+    		boxplot prepared={
+      		lower whisker=-5.6481547653,
+      		lower quartile=0.8273310959,
+      		median=2.7935747058,
+      		upper quartile=6.1452584341,
+      		upper whisker=6.959207356,
+			box extend=0.5,
+			draw position=2,
+		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+    \addplot+[color=blue,mark=x,
+    		boxplot prepared={
+      		lower whisker=-30.851304531,
+      		lower quartile=-12.757569552,
+      		median=5.149245262,
+      		upper quartile=11.0025405888,
+      		upper whisker=22.670924664,
+			box extend=0.5,
+			draw position=3,
+		},
+    ] coordinates {};
+    \addplot+[color=blue,mark=x,
+    		boxplot prepared={
+      		lower whisker=-30.851304531,
+      		lower quartile=-12.757569552,
+      		median=5.149245262,
+      		upper quartile=11.0025405888,
+      		upper whisker=22.670924664,
+			box extend=0.5,
+			draw position=6,
+			every box/.style={draw=none},
+			every whisker/.style={draw=none},
+			every median/.style={draw=none},
+		},
+    ] coordinates {};
+    \addplot[fill opacity=0.0,draw=none,] coordinates {(4,0) (5,0) (6,0)};	%dummy
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+  \end{axis}
+  
+  \begin{axis}[
+    	ytick={-15,-10,...,15},
+    		minor y tick num=1,
+    		ymax=17.5,
+    		ymin=-17.5,
+    		ylabel=Y-Achse2 \lbrack °\rbrack,
+    		xtick={1,2,...,6},
+    		x tick label style={align=center},
+    		xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+    		boxplot/draw direction=y,
+    		width=14cm,
+    		height=8cm,
+		axis y line*=right,
+%		axis x line=none,
+    		grid=major,
+    		grid style={dotted,lightgray!80!white},
+    ]
+    %\addplot[fill opacity=0.0,draw=none,] coordinates {(1,0) (2,0) (3,0)};	%dummy
+    \addplot+[color=red,mark=x,
+    		boxplot prepared={
+      		lower whisker=-16.4794351302,
+      		lower quartile=-9.598333392,
+      		median=3.2716409046,
+      		upper quartile=9.967066701,
+      		upper whisker=10.9694603209,
+      		box extend=0.5,
+      		draw position=4,
+    		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+    \addplot+[color=Green,mark=x,
+    		boxplot prepared={
+      		lower whisker=-15.2919184736,
+      		lower quartile=-8.5080543959,
+      		median=-3.0498185813,
+      		upper quartile=2.0169290245,
+      		upper whisker=5.2929529487,
+			box extend=0.5,
+			draw position=5,
+		},
+    ] coordinates {};
+        \addplot+[color=blue,mark=x,
+    		boxplot prepared={
+      		lower whisker=-0.7043281462,
+      		lower quartile=-0.1649735629,
+      		median=0.1678607749,
+      		upper quartile=0.4320938776,
+      		upper whisker=2.0949206723,
+			box extend=0.5,
+			draw position=6,
+		},
+    ] coordinates {};
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+    \addplot+[color=blue,mark=x,
+    		boxplot prepared={
+      		lower whisker=-30.851304531,
+      		lower quartile=-12.757569552,
+      		median=5.149245262,
+      		upper quartile=11.0025405888,
+      		upper whisker=22.670924664,
+			box extend=0.5,
+			draw position=1,
+			every box/.style={draw=none},
+			every whisker/.style={draw=none},
+			every median/.style={draw=none},
+		},
+    ] coordinates {};
+    \addplot[fill opacity=0.0,draw=none,] coordinates {(1,1) (2,2) (3,1)};	%dummy
+    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+  \end{axis}
+\end{tikzpicture}
+\caption{Box-Whisker-Plot}
+\label{fig.boxplot_proj}
+\end{center}
+\vspace{-3mm}
+\end{figure}
+
+%\begin{figure}
+%\begin{center}
+%\begin{tikzpicture}[trim axis left, trim axis right]
+%  \begin{axis}[
+%    	ytick={-30,-20,...,30},
+%    		minor y tick num=3,
+%    		ymax=35,
+%    		ymin=-35,
+%    		ylabel=Y-Achse \lbrack mm\rbrack,
+%    		xtick={1,...,3},
+%    		x tick label style={align=center},
+%    		xticklabels={$\Delta X$,$\Delta Y$,$\Delta Z$},
+%    		boxplot/draw direction=y,
+%    		width=14cm,
+%    		height=8cm,
+%    		grid=major,
+%    		grid style={dotted,lightgray!80!white},
+%    ]
+%    \addplot+[color=red,mark=x,
+%    		boxplot prepared={
+%      		lower whisker=-7.2937458753,
+%      		lower quartile=-2.2697057575,
+%      		median=-0.5078930408,
+%      		upper quartile=2.5787912309,
+%      		upper whisker=5.2836090326,
+%      		box extend=0.5,
+%    		},
+%    ] coordinates {};
+%    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+%    \addplot+[color=Green,mark=x,
+%    		boxplot prepared={
+%      		lower whisker=-5.6481547653,
+%      		lower quartile=0.8273310959,
+%      		median=2.7935747058,
+%      		upper quartile=6.1452584341,
+%      		upper whisker=6.959207356,
+%			box extend=0.5,
+%		},
+%    ] coordinates {};
+%    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+%    \addplot+[color=blue,mark=x,
+%    		boxplot prepared={
+%      		lower whisker=-30.851304531,
+%      		lower quartile=-12.757569552,
+%      		median=5.149245262,
+%      		upper quartile=11.0025405888,
+%      		upper whisker=22.670924664,
+%%      		lower whisker=-9.7615455743,
+%%      		lower quartile=-4.0365747411,
+%%      		median=1.6292533837,
+%%      		upper quartile=3.4812726082,
+%%      		upper whisker=7.173222257,
+%			box extend=0.5,
+%		},
+%    ] coordinates {};
+%    %table[row sep=\\,y index=0] {0.0\\}; %Ausreisser
+%  \end{axis}
+%\end{tikzpicture}
+%\caption{Box-Whisker-Plot}
+%\label{fig.boxplot_proj}
+%\end{center}
+%\vspace{-3mm}
+%\end{figure}
