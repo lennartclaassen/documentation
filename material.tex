@@ -213,14 +213,29 @@ Im Weiteren werden die Produkte aus Brennweite und Umrechnungsfaktoren in den ge
 \subsubsection{Verzeichnungen}
 In der Realität ist es erforderlich Objektive mit Linsen einzusetzen um das Lochkameramodell anzunähern, gleichzeitig aber ausreichende Belichtung zu gewährleisten. Es kommt dadurch jedoch zu Verzeichungen, resultierend aus der Form der Linsen und ihrer Lage zueinander. Die Verzeichnung mit dem häufig stärksten Einfluss ist die radiale Verzeichnung, welche durch die Krümmung der Linsen entsteht. Parallele Strahlen laufen dabei nicht in einem Brennpunkt zusammen, wodurch es in Abhängigkeit des Radius zu den in \abb{fig.distortions} dargestellten Verzeichnungen kommen kann \red[\cite{Hertzberg2012}].
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{Auftretende Formen der Verzeichnung durch Linsen, Kissen, normal, tonnen; Schwarzer Hintergrund mit weißem Bild}
-		\label{fig.distortions}
+	\subfigure[Kissenförmige Verzeichnung]{
+		\includesvgnew[0.25]{images/verzeichnungen_kissen}
+		\label{fig.verzKiss}
+	}
+	\hspace{4mm}
+	\subfigure[Abbildung ohne Verzeichnung]{
+		\includesvgnew[0.25]{images/verzeichnungen_normal}
+		\label{fig.verzNorm}
+	}
+	\hspace{4mm}
+	\subfigure[Tonnenförmige Verzeichnung]{
+		\includesvgnew[0.25]{images/verzeichnungen_tonnen}
+		\label{fig.verzTonn}
+	}
+	\caption{Auftretende Formen der Verzeichnung und ihre Auswirkungen auf die Abbildung}
+	\label{fig.distortions}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+
+%\includesvgnew[0.25]{images/verzeichnungen_kissen}
 
 Darüber hinaus treten weiter Formen von Verzeichnungen auf, die aufgrund ihres geringen Einflusses jedoch häufig vernachlässigt werden können und auch in dieser Arbeit nicht behandelt werden sollen. Durch geeignete Modelle lassen sich die Verzeichnungen \red[softwareseitig] korrigieren, so dass eine Abbildungsgenauigkeit im Subpixelbereich erzielt werden kann \red[\cite{}]. Die Verzeichnungsparameter können zusammen mit den intrinsischen Parametern im Rahmen einer Kalibrierung ermittelt werden. \red[Tangentiale Verzeichnungen werden aber auch berechnet in Kalibrierung!]
 

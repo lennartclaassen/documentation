@@ -20,12 +20,19 @@ Zunächst wird ein Würfelvolumen des zu beschreibende Bereiches bestimmt, in di
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{Octree Darstellung - nach paper Hornung et al.}
-		\label{fig.octree}
+	\subfigure[Baumstruktur]{
+		\includegraphics[scale=1.0]{octree_tree}
+	}
+	\hspace{5mm}
+	\subfigure[Volumenstruktur]{
+		\includegraphics[scale=1.0]{octree_box}
+	}
+	\caption{Verfeinerung der \red[Octree] Darstellung mit Erfassung von belegten (schwarz) und freien (weiß) Bereichen. Darstellung nach \cite{Hornung2013} }
+	\label{fig.octree}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+
 
 
 Die Besonderheit des von HORNUNG \textit{et al.} entwickelten Ansatzes liegt darin, dass im Gegensatz zu einer binären Darstellung der Voxelzustände eine probabilistische Bewertung vorgenommen wird. Es können somit bei der Betrachtung der Voxel mehr als zwei Zustände unterschieden werden, so dass zwischen belegten, freien und unbekannten Bereichen differenziert werden kann. Als Grenzwert der Verfeinerung kann eine anwendungsabhängige Auflösung definiert werden. Auch die Kombination verschiedener Strukturbäume mit unterschiedlichen Auflösungen ist bei der Verwendung von \textit{Octomap} möglich. Bei Bedarf können so bestimmte Strukturen feiner aufgelöst werden um die Genauigkeit der Abbildung zu erhöhen.\\
@@ -33,9 +40,15 @@ Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{Vergleich - Octomap Modellumgebung (Pointcloud)}
-		\label{fig.octomap}
+	\subfigure[Octomap]{
+		\includegraphics[scale=0.25]{octomap_rviz}
+	}
+	\hspace{5mm}
+	\subfigure[Punktwolke]{
+		\includegraphics[scale=0.25]{pointcloud_meshlab}	
+	}
+	\caption{Vergleich - Octomap Modellumgebung (Pointcloud)}
+	\label{fig.octomap}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
@@ -105,12 +118,28 @@ Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtun
 
 \subsection{Endpoint-Modell}
 Das \red[Endpoint]-Modell, welches von \red[X] in \cite{Endpoint} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei ein Distanzwert zugewiesen, basierend auf der Entfernung zum nächsten Hindernis. Als Hindernisse gelten dabei alle belegten Zellen der \textit{Octomap}, also neben dem Raum selbst auch alle in der Karte vorhanden weiteren Strukturen. Erfolgt die Lokalisation wie in dieser Arbeit innerhalb einer statischen Umgebung kann die Berechnung der Distanz-Karte \red[Distanzen-Karte?] bereits vor der Lokalisation erfolgen.\\
+\red[Durch Sensormodell erzeugte Unsicherheiten (deshalb verschwommen)\\]
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{Distance Map}
-		\label{fig.dist_map}
+	
+	\subfigure[Original-Karte]{
+		\begingroup\fboxsep=0pt\fboxrule=1pt
+		\fbox{%
+			\includegraphics[scale=0.25]{distance_map_orig}%
+		}
+		\endgroup
+	}
+	\hspace{5mm}
+	\subfigure[Distanz-Karte]{
+		\begingroup\fboxsep=-1pt\fboxrule=2pt
+		\fbox{%
+			\includegraphics[scale=0.25]{distance_map}%	
+		}
+		\endgroup
+	}
+	\caption{Abbildung der Karte als Distanz-Modell}
+	\label{fig.dist_map}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
@@ -134,10 +163,11 @@ Das Endpoint-Modell bildet nicht direkt die physikalische Arbeitsweise eines Ent
 
 \subsection{Raycasting-Modell}
 Beim Raycasting Modell, welches ebenfalls\red[ oder andere quelle?] von \red[X] in \cite{Raycasting} beschrieben wird, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{ref.raycast} dargestellt.\\
+\red[besetzt und unbesetzt farblich kennzeichnen!\\]
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
+		\includegraphics[scale=0.8]{raycasting}
 		\caption{Raycasting-Modell}
 		\label{fig.raycast}
 	\end{center}
