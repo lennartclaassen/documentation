@@ -1,14 +1,14 @@
 \chapter{Lokalisation}
 \label{chap.loc}
 \red[TODO:\\
-Einleitender Absatz\\
+%Einleitender Absatz\\
 Transformationen\\
 Auslösen der globalen und lokalen Lokalisation durch den Anwender jederzeit möglich (erstmal unabhängig von den Buttons)\\
 Englische oder deutsche Bezeichnung der Modelle?\\
 %Auswahl des Ansatzes/der Ansätze für die Lokalisation hier beschreiben/begründen oder schon beim Stand der Technik?\\
 ]
 
-Die Lokalisation des handgeführten \kps{s} bildet die Grundlage für die lagerichtige Projektion der Modelldaten in der realen Umgebung. Die Bestimmung der Pose des Systems erfordert dabei zunächst ein Abbild der realen Umgebung um die Sensordaten mit den Modelldaten abgleichen zu können. In der Lokalisation wird dieses Modell auch als Karte bezeichnet.\red[ Karte schon in 4 definieren?] Zunächst wird deshalb eine geeignete Struktur zur Repräsentation der Karte definiert und aufbauend darauf das Verfahren zur globalen Lokalisation beschrieben. Abschließend wird die Realisierung der kontinuierlichen Bestimmung der Veränderung der Systempose und die dafür durchgeführte Fusion der Sensormesswerte erläutert.
+Die Lokalisation des handgeführten \kps{s} bildet die Grundlage für die lagerichtige Projektion der Modelldaten in der realen Umgebung. Die Bestimmung der Pose des Systems erfordert dabei zunächst ein Abbild der realen Umgebung um die Sensordaten mit den Modelldaten abgleichen zu können. In der Lokalisation wird dieses Modell auch als Karte bezeichnet.\red[ Karte schon in 4 definieren?] Zunächst wird deshalb eine geeignete Struktur zur Repräsentation der Karte definiert und aufbauend darauf das Verfahren zur globalen Lokalisation beschrieben. Abschließend wird die kontinuierliche Bestimmung der Veränderung der Systempose und die dafür durchgeführte Fusion der Sensormesswerte erläutert.
 
 \section{Lokalisatonsumgebung/\red[Karte]}
 \label{chap.map}
@@ -40,7 +40,7 @@ Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap
 	%\vspace*{-8mm}
 \end{figure}
 
-Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen der Karte $\ks{M}$ und des \kps{s} $\ks{KPS}$. \red[($\ks{KPS}$ immer als $\ks{K}$ festlegen? Macht Sinn es gleichzusetzen mit dem KS der RGB-Kamera)]. Da die Karte als statisch betrachtet werden kann wird das Koordinatensystem in den globalen Ursprung gesetzt, so dass gilt:
+Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen der Karte $\ks{M}$ und des \kps{s} $\ks{KPS}$. \red[($\ks{KPS}$ immer als $\ks{K}$ festlegen? Nein, da System-KS angelehnt an Luftfahrt über Roll, Pitch, Yaw beschreiben wird)]. Da die Karte als statisch betrachtet werden kann wird das Koordinatensystem in den globalen Ursprung gesetzt, so dass gilt:
 
 \begin{equation}
 \ks{} = \ks{0}
@@ -121,7 +121,7 @@ Die Lokalisation erfolgt beim Endpoint-Modell durch Betrachtung der Punkte der P
 
 Das Endpoint-Modell bildet nicht direkt die physikalische Arbeitsweise eines Entfernungsmessers ab, da es durch Hindernisse \glqq hindurchsehen\grqq{} kann, wie \abb{fig.endpoint} zeigt. Dennoch ist es in der Lage, eine zuverlässige Approximation der Systempose zu bestimmen \cite{Konolige1999}.\\
 
-\red[An welcher Stelle?: Die Bestimmung erfolgt mittels der Log-Likelihood-Funktion, welche eine statistische Aussage über die Wahrscheinlichkeit der Messung berechnet.\\]
+%\red[An welcher Stelle?: Die Bestimmung erfolgt mittels der Log-Likelihood-Funktion, welche eine statistische Aussage über die Wahrscheinlichkeit der Messung berechnet.\\]
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -133,7 +133,7 @@ Das Endpoint-Modell bildet nicht direkt die physikalische Arbeitsweise eines Ent
 \end{figure}
 
 \subsection{Raycasting-Modell}
-Beim Raycasting Modell, welches ebenfalls\red[oder andere quelle?] von \red[X] in \cite{Raycasting} beschrieben wird, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{ref.raycast} dargestellt.\\
+Beim Raycasting Modell, welches ebenfalls\red[ oder andere quelle?] von \red[X] in \cite{Raycasting} beschrieben wird, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{ref.raycast} dargestellt.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -159,11 +159,11 @@ Im Anschluss an die globale Lokalisation wird die Bewegung des Systems kontinuie
 Da das handgeführte System nicht über Odometriedaten verfügt, wie sie beispielsweise bei einem mobilen Robotersystem durch Messungen der Radumdrehungen zur Verfügung stehen, muss das Tracking auf Basis anderer Eingangswerte durchgeführt werden. Dazu wird die in \abschnitt{chap.unimod} beschriebene visuelle Odometrie eingesetzt und eine Fusionierung mit den Daten der inertialen Messeinheit durchgeführt.\\
 
 \subsection{Visuelle Odometrie}
-Die visuelle Odometrie basiert auf den Bilddaten des Kinect Sensors. Neben dem Farbbild wird auch die aus dem Infrarotbild bestimmte Tiefenkarte ausgewertet. Dabei wird eine Implementierung \cite{Fovis} eingesetzt, welche die visuelle Odometrie unter dem Namen FOVIS als quell-offene Bibliothek für ROS bereitstellt.\\
+Die visuelle Odometrie basiert auf den Bilddaten des Kinect\red[TM] Sensors. Neben dem Farbbild wird auch die aus dem Infrarotbild bestimmte Tiefenkarte ausgewertet. Dabei wird eine Implementierung \cite{Fovis} eingesetzt, welche die visuelle Odometrie unter dem Namen FOVIS als quell-offene Bibliothek für ROS bereitstellt.\\
 Die Bestimmung der visuellen Odometrie erfolgt dabei in sechs aufeinanderfolgenden Schritten \cite{Huang2011}:
 
 \begin{enumerate}
-\item Das Farbbild wird in ein Grauwertbild konvertiert und mittels eines Gauß-Kernels\red[erklären?] geglättet. Es wird außerdem eine Gauß-Pyramide\red[footnote?] angelegt, um eine robustere Detektion der Bildmerkmale zu ermöglichen.
+\item Das Farbbild wird in ein Grauwertbild konvertiert und mittels eines Gauß-Kernels\red[erklären?] geglättet. Es wird außerdem eine Gauß-Pyramide\red[\footnote{Eine Gauß-Pyramide ist eine Sammlung von Bildern, welche ausgehend vom Originalbild durch Tiefpassfilterung und anschließende Verkleinerung der Bilder um den Faktor $\nicefrac{1}{4}$ aufgebaut wird. Sie ermöglicht die effiziente Erkennung relevanter Bildmerkmale, da die Bildanalyse in der obersten Ebene begonnen werden kann und nur bei Bedarf die tiefer liegende, höher aufgelöste Ebene betrachtet wird \cite{Nischwitz20112}.}] angelegt, um eine robustere Detektion der Bildmerkmale zu ermöglichen.
 \item Innerhalb jeder Ebene der Gauß-Pyramide wird eine Merkmalserkennung mit adaptivem Schwellwert durchgeführt. Alle Merkmale ohne korrespondierende Informationen innerhalb des Tiefenbildes werden an dieser Stelle verworfen.
 \item Anhand des aktuellen und des vorangegangenen Bildes wird eine initiale Approximation der Rotation des Systems durchgeführt, um den Suchbereich für anschließende Merkmalsextraktionen eingrenzen zu können. An dieser Stelle ist anzumerken, dass diese Methode für den Anwendungsfall eines autonomen, fliegenden Systems ausgelegt ist. Da ein handgeführtes System jedoch die gleichen Freiheitsgrade besitzt kann das Verfahren ohne Einschränkungen genutzt werden.
 \item Den extrahierten Merkmalen wird ein Deskriptor zugewiesen, welcher einen Vergleich der Merkmale in aufeinander folgenden Bildern ermöglicht. Durch Minimierung der Fehlerquadrate der einander zugeordneten Deskriptoren kann anschließend die Lokalisation des Merkmals verfeinert und somit ein Abgleich im sub-pixel Bereich durchgeführt werden.
