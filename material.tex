@@ -16,18 +16,20 @@ Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet um Tiefe
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
+		\includesvgnew[1]{images/epipolar_3d_03}
+		%\includegraphics[scale=1.0]{spacer}
 		\caption{Tiefenwerte aus Epipolargeometrie Subfigures: 3d: epipolarlinien entsprechen horizontalen Linien der Bilder, 2d: Bestimmung der Tiefenwerte aus der Disparität}
 		\label{fig.kinect_depth}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Wird der korrespondierende Punkt im Kamerabild identifiziert kann die Disparität $d = x - x'$ berechnet und darüber der Tiefenwert des Punktes bestimmt werden:
+Wird der korrespondierende Punkt im Kamerabild identifiziert kann die Disparität $d = x - x'$ berechnet und zusammen mit dem Basisabstand $D$ und der Brennweite $f$ darüber der Tiefenwert des Punktes bestimmt werden:
 
 \begin{equation}
 z = \frac{D}{d}\cdot f
 \end{equation}
+\red[Brennweite f, Basisabstand D]
 
 Die bekannte Relation zwischen der RGB- und IR-Kamera ermöglicht abschließend die Zuordnung von Farb- und Tiefenwerten.\red[(engl. Depth values)] Sensoren dieser Art werden daher auch als RGB-D\red[footnote] Kameras bezeichnet.\\
 
@@ -46,7 +48,8 @@ Neben der geringen Größe zeichnet sich der pico Projektor ShowWX von der Firma
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
+		\includesvgnew[1]{images/projector_tech_03}
+%		\includegraphics[scale=1.0]{projector_tech_02}
 		\caption{Projektionsprinzip}
 		\label{fig.projtech}
 	\end{center}
@@ -85,8 +88,9 @@ Aus der verwendeten Hardware wurde das in Bild \ref{fig.kinpro} dargestellte \kp
 Um eine lagerichtige Projektion in der Umgebung zu ermöglichen werden darüber hinaus weitere Transformationen bestimmt. Die extrinsische Projektor-Transformation beschreibt die Lage des Projektors bezüglich der Kamera und darüber auch bezüglich der Umgebung. Abbildungen zwischen Umgebungspunkten und Projektorkoordinaten werden über die intrinsische Projektor-Transformation charakterisiert. Bei bekannten Kalibrierungsparametern der Kamera lassen sich beide Transformationen durch eine gekoppelte Kalibrierung des \kps{s} bestimmen. Im Folgenden werden die einzelnen Schritte zur Kalibrierung des Gesamtsystems beschrieben werden.
 
 \begin{figure}[ht]
-	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
+	\begin{center}%
+		\includesvgnew[1]{images/kinpro_overview_pathes}%
+%		\includegraphics[scale=1.0]{projector_tech_02}
 		\caption{Das KinPro System}
 		\label{fig.kinpro}
 	\end{center}
@@ -108,9 +112,10 @@ Die Transformation, die einen Punkt vom globalen Koordinatensystem in das Koordi
 Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB Darstellung. Die X-Achsen werden somit rot, die Y-Achsen grün und die z-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren wird die Orientierung der körpereigenen Koordinatensysteme darüber hinaus so gewählt, dass die Z-Achse in Richtung der optischen Achse ausgerichtet wird. Die gewählten Konventionen sind in \abb{fig.coords} anhand des \kps{s} dargestellt.
 
 \begin{figure}[ht]
-	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{Darstellung von Koordinatensystemen am Beispiel des \kps{s}}
+	\begin{center}%
+		\includesvgnew[1]{images/coordinate_systems_KS}%
+		%\includegraphics[scale=1.0]{coordinate_systems}
+		\caption{Darstellung von Koordinatensystemen,\red[ Punkten] und Transformationen am Beispiel des \kps{s}}
 		\label{fig.coords}
 	\end{center}
 	%\vspace*{-8mm}
