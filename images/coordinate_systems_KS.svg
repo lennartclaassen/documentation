@@ -24,7 +24,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="281.55948"
+     inkscape:cx="237.11277"
      inkscape:cy="59.175934"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -608,7 +608,7 @@
        inkscape:connector-curvature="0"
        id="path7499"
        d="M 239.72043,98.837939 C 328.472,102.57557 389.94952,170.33524 365.7322,221.58472"
-       style="fill:none;stroke:#9c9c9c;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4865-2-9e)" />
+       style="fill:none;stroke:#9c9c9c;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4865-2-9e);stroke-miterlimit:4;stroke-dasharray:none" />
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
@@ -748,7 +748,7 @@
          sodipodi:role="line"
          x="365.82602"
          y="372.60922"
-         id="tspan6758-3">$\ks{K_{IR}}$</tspan></text>
+         id="tspan6758-3">$\ks{K}$</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
@@ -759,7 +759,7 @@
          sodipodi:role="line"
          x="394.98682"
          y="324.53329"
-         id="tspan6758-6">$\ks{K}$</tspan></text>
+         id="tspan6758-6">$\ks{K_{IR}}$</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"

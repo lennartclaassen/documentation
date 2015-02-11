@@ -1,6 +1,6 @@
 %% Creator: Inkscape inkscape 0.48.4, www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'coordinate_systems_KS.pdf' (pdf, eps, ps)
+%% Accompanies image file 'projection_validation_cropped.pdf' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{348.27227783bp}%
+    \setlength{\unitlength}{403.32434543bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,14 +48,17 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.61960427)%
-    \put(0,0){\includegraphics[width=\unitlength]{coordinate_systems_KS.pdf}}%
-    \put(0.66504444,0.07284708){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\ve{0}{P}$}}}%
-    \put(0.80497002,0.01699149){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{0}$}}}%
-    \put(0.28247058,0.22616957){\color[rgb]{1,1,1}\makebox(0,0)[b]{\smash{$\ks{P_{IR}}$}}}%
-    \put(0.46250094,0.13936517){\color[rgb]{1,1,1}\makebox(0,0)[b]{\smash{$\ks{K}$}}}%
-    \put(0.52948485,0.24979814){\color[rgb]{1,1,1}\makebox(0,0)[b]{\smash{$\ks{K_{IR}}$}}}%
-    \put(0.55021995,0.41972204){\color[rgb]{1,1,1}\makebox(0,0)[b]{\smash{$\ks{P}$}}}%
-    \put(0.78808337,0.16393673){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\tmat{P}{0}$}}}%
+  \begin{picture}(1,1.0421806)%
+    \put(0,0){\includegraphics[width=\unitlength]{projection_validation_cropped.pdf}}%
+    \put(0.25172407,0.28402382){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K}$}}}%
+    \put(0.16493629,0.39386679){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{P}$}}}%
+    \put(0.4957324,0.12940334){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K_{ext}}$}}}%
+    \put(0.83500686,0.59768473){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{AR_1}$}}}%
+    \put(0.73919655,0.80342372){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{AR_2}$}}}%
+    \put(0.84657587,0.18755978){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{AR_2}$}}}%
+    \put(0.75161156,0.27284658){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{AR_1}$}}}%
+    \put(0.49985167,0.37261616){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{AR_1}$}}}%
+    \put(0.33918693,0.59774508){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{P}{AR_2}$}}}%
+    \put(0.30943421,0.40931113){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{P}$}}}%
   \end{picture}%
 \endgroup%
