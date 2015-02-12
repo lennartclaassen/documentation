@@ -12,7 +12,7 @@ Bilder von Systemen?\\
 
 Da sich die geplante Anwendung des \kps{s} in verschiedene Funktionsbereiche gliedern lässt, soll im Folgenden ein Überblick über den aktuellen Forschungsstand innerhalb der jeweiligen Bereiche gegeben werden. Abschließend werden Systeme vorgestellt, welche eine mit dem in dieser Arbeit entwickelten \kps{} vergleichbare Funktionalität in einem oder mehreren Bereichen bieten.
 
-\section{Lokalisation}
+\section{Lokalisation\red[/Lokalisationsverfahren]}
 \label{chap:mcl}
 Die Lokalisation mobiler Systeme in bekannten Umgebungen ist Gegenstand aktueller Forschungsvorhaben. Aufgrund des Anwendungsgebietes des entwickelten \kps{s} beschränkt sich der folgende Überblick auf die Lokalisation mobiler Systeme in Innenräumen. Darüber hinaus werden ebenfalls keien Verfahren betrachtet, die auf der Verwendung von externer Sensorik zur Bestimmung der Systempose basieren.\\
 
@@ -39,8 +39,8 @@ Ein weiteres unimodales Lokalisationsverfahren ist die Schätzung und Verfolgung
 %Anwendung des Kalman-Filters auf mehrere Hypothesen führt zu multimodalen Lokalisationsverfahren. 
 %EKF approximiert Verteilung lokal als Gaußverteilung
 \subsection{Multimodale Lokalisationsverfahren}
-Multimodale Lokalisationsverfahren erhalten stets mehrere Hypothesen möglicher Systemposen aufrecht. Neben einer globalen Lokalisation ohne Anfangshypothese ermöglichen sie dadurch auch das Wiedererlangen richtiger Posen nach fälschlicher Lokalisation.\\
-Im Falle einer fehlerhaften Lokalisation ist beispielsweise das Scan Matching zwar in der Lage die Überdeckung zwischen Sensordaten und lokaler Kartenumgebung zu minimieren, der Algorithmus erkennt jedoch nicht, ob es sich um lokale oder globale Minima handelt. Wichtig wird dieser Aspekt insbesondere\red[ bei komplexen Umgebungen/größeren Karten und] beim sogenannten \textit{kidnapped robot scenario}, bei welchem das System im Betrieb aus seiner bekannten Pose in eine unbekannten Pose gebracht wird \cite{Yic2011} ohne dabei Sensordaten auszuwerten. Multimodale Verfahren können dem begegnen, indem sie stets eine gewisse Anzahl an Posen betrachten und in jedem Lokalisationsschritt zufällige Posen in die Betrachtung integrieren.\\
+Multimodale Lokalisationsverfahren erhalten stets mehrere Hypothesen möglicher Systemposen aufrecht. Neben einer globalen Lokalisation ohne Anfangshypothese ermöglichen sie dadurch auch das Wiedererlangen richtiger Posen nach fälschlicher\red[/fehlgeschlagener] Lokalisation.\\
+Im Falle einer fehlerhaften Lokalisation ist beispielsweise das Scan Matching zwar in der Lage die Überdeckung zwischen Sensordaten und lokaler Kartenumgebung zu minimieren, der Algorithmus erkennt jedoch nicht, ob es sich um lokale oder globale Minima handelt. Wichtig wird dieser Aspekt insbesondere\red[ bei komplexen Umgebungen/größeren Karten und] beim sogenannten \textit{kidnapped robot scenario}, bei welchem das System im Betrieb aus seiner bekannten Pose in eine unbekannten Pose gebracht wird ohne dabei Sensordaten auszuwerten \cite{Yic2011}. Multimodale Verfahren können dem begegnen, indem sie stets eine gewisse Anzahl an Posen betrachten und in jedem Lokalisationsschritt zufällige Posen in die Betrachtung integrieren.\\
 
 Das bei der \red[Markov Lokalisation] angewendete Prinzip basiert auf einer Diskretisierung des Posenraums. Für jeden Freiheitsgrad des Systems wird eine Rasterkarte erstellt, in welcher die Gitterzellen mögliche Posen innerhalb des diskreten Raumes repräsentieren. Jede Hypothese wird über eine Wahrscheinlichkeitsdichte abgebildet, welche auf Basis von Varianten des Bayes-Filter \red[erklären? wo?] bestimmt wird, zu denen auch das Kalman-Filter gehört \cite{Hertzberg2012}.\\
 In jedem Lokalisationsschritt werden Odometrie- \red[schon erklärt?] und Sensordaten verarbeitet und die Wahrscheinlichkeitsdichte der Gitterzellen basierend darauf angepasst. Da selbst bei deutlichem Anstieg der Probabilität einer Pose auch die weiteren diskreten Posen in der Betrachtung erhalten bleiben, ist das System stets in der Lage auf fälschliche Lokalisationen zu reagieren.\\
@@ -57,12 +57,14 @@ Durch die geringen Einschränkungen bezüglich der als Basis verwendeten Wahrsch
 %\red[Welche Lokalisationsverfahren gibt es. Allgemein und speziell für handgeführte Systeme.]\\
 
 
-\section{RGB-D Kameras/Tiefenkameras(?)}
-Die beschriebenen Verfahren und Algorithmen haben sich besonders im Bereich der 2D-Lokalisation bewährt, obwohl sie prinzipiell unabhängig von der Anzahl an Dimensionen sind. Die größer werdende Verbreitung von zugleich kostengünstigen und leistungsfähigen Tiefenkameras wie dem Microsoft Kinect\red[Tm] Sensor führt jedoch dazu, dass die Anwendungen vermehrt auch auf 3D-Umgebungen erweitert werden. Die Lokalisation in dreidimensionalen Umgebungen ist besonders dann von Bedeutung, wenn das System sich in mehr als einer Ebene bewegen kann. Die Anzahl der Freiheitsgrade (in der 2D-Lokalisation meist drei) steigt dadurch auf sechs an, da die Pose des Systems nun über drei translatorische sowie drei rotatorische Freiheitsgerade beschrieben wird.\\
+\section{RGB-D Kameras/Tiefenkameras(?)/Tiefenkameras in der Lokalisation}
+Die beschriebenen Verfahren und Algorithmen haben sich besonders im Bereich der 2D-Lokalisation bewährt, obwohl sie prinzipiell unabhängig von der Anzahl an Dimensionen sind. Die größer werdende Verbreitung von zugleich kostengünstigen und leistungsfähigen Tiefenkameras wie dem Microsoft Kinect\red[Tm] Sensor führt jedoch dazu, dass die Anwendungen vermehrt auch auf 3D-Umgebungen erweitert werden.\\
+Die Lokalisation in dreidimensionalen Umgebungen ist besonders dann von Bedeutung, wenn das System sich in mehr als einer Ebene bewegen kann. Die Anzahl der Freiheitsgrade (in der 2D-Lokalisation meist drei) steigt dadurch auf sechs an, da die Pose des Systems nun über drei translatorische sowie drei rotatorische Freiheitsgerade beschrieben wird.\\
 
 Die Erhöhung der Freiheitsgrade führt dazu, dass geeignete 3D-Modellumgebungen erstellt werden müssen. Darüber hinaus können bei Bewegungen im dreidimensionalen Raum, insbesondere bei fliegenden \cite{Huang2011} und hand- oder körpergeführten Systemen \cite{Fallon2012}, häufig keine Odometriedaten mehr ermittelt werden. Die Auswertung von Tiefen- und Farbinformationen ermöglicht es jedoch, dies durch \red[die zuvor beschriebene] visuelle Odometrie zu kompensieren \cite{Whelan2013robust}.\\
 
 Auch die Integration in traditionelle Robotersysteme zeigt, dass Tiefenkameras eine sinnvolle Alternative zu bisherigen Sensoren wie Laser-Entfernungsmessern darstellen können \cite{Cunha2011} \cite{Eriksson2012}. Anzumerken ist, dass der \red[beobachtbare] Bildbereich bezüglich Distanz und Sichtfeld meist kleiner ist als bei Laser-Sensoren. Die Eignung von Tiefenkameras für Lokalisationsaufgaben ist daher anwendungsabhängig zu überprüfen.\\
+\red[kein Ersatz für Laser-Scanner etc, sondern eher anwendungsabhängig eine Alternative zu bisherigen Möglichkeiten]
 
 %\red[Featurebasierte Lokalisation (RGB-D SLAM, Fovis)\\
 %Markerbasierte Lokalisation]\\
@@ -70,8 +72,10 @@ Auch die Integration in traditionelle Robotersysteme zeigt, dass Tiefenkameras e
 \section{Augmented Reality}
 Die Überlagerung oder Vereinigung von virtuellen und realen Umgebungen wird als Augmented Reality (AR) bezeichnet \cite{Azuma1997}. Durch eine dreidimensionale Registrierung wird die Interaktion zwischen den Objekten der beiden Welten ermöglicht. Die Umgebung des menschlichen Beobachters wird somit um virtuelle Elemente ergänzt. Neben herkömmlichen und transparenten Bildschirmen \red[quellen? google glass!?] werden insbesondere Projektoren zur Visualisierung der virtuellen Daten eingesetzt.\\
 
-Anwendungen finden sich in der Medizin als Unterstützung von Ärzten in der Chirurgie \cite{Gavaghan2012} \cite{Hoppe2001} oder als Hilfe bei der Kommunikation zwischen Arzt und Patient \cite{Bluteau2005}. Durch Zusatzinformationen kann AR die Interaktionsmöglichkeiten mit Robotersystemen erweitern \cite{DeTommaso2012} oder statische Objekte animieren \cite{Raskar1999}. In Alltagssituationen entsteht durch die Visualisierung von Informationen eine interaktive Benutzerschnittstelle \cite{Linder2010} \cite{Huber2012}.\\
+Anwendungen finden sich in der Medizin als Unterstützung von Ärzten in der Chirurgie\red[ (spezifizieren, z.B. visualisierung von Operationsstrukturen etc. cite{Kob})] \cite{Gavaghan2012} \cite{Hoppe2001} oder als Hilfe bei der Kommunikation zwischen Arzt und Patient \cite{Bluteau2005}. Durch Zusatzinformationen kann AR die Interaktionsmöglichkeiten mit Robotersystemen erweitern \cite{DeTommaso2012} oder statische Objekte animieren \cite{Raskar1999}. In Alltagssituationen entsteht durch die Visualisierung von Informationen eine interaktive Benutzerschnittstelle \cite{Linder2010} \cite{Huber2012}.\\
 Durch Kombination mehrerer Projektoren können virtuelle Umgebungen auf realen Geometrien erzeugt \cite{Low2001} oder der Interaktionsbereich auf multiple Oberflächen ausgedehnt werden \cite{Wilson2010}.
+
+\red[Erweiterte Definition der AR durch Einblendung von visuellen Informationen\\]
 
 %\red[Low - Life-Sized Projector Based Dioramas -> Hausumgebung auf leere Wände projiziert]\\
 %\red[Oh - Projektion von Entertainment/Filmen etc. auf Oberflächen]\\

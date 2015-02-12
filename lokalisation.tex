@@ -57,18 +57,20 @@ Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap
 Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen der Karte $\ks{M}$ und des \kps{s} $\ks{KPS}$. \red[($\ks{KPS}$ immer als $\ks{K}$ festlegen? Nein, da System-KS angelehnt an Luftfahrt über Roll, Pitch, Yaw beschreiben wird)]. Da die Karte als statisch betrachtet werden kann wird das Koordinatensystem in den globalen Ursprung gesetzt, so dass gilt:
 
 \begin{equation}
-\ks{} = \ks{0}
+\ks{M} = \ks{0}
 \end{equation}
 
 
 \section{Ermittlung der Initialpose}
 \label{chap.globloc}
-Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \kps{s} in der Karte. Um anschließend die kontinuierliche Veränderung der Systempose ermitteln zu können wird zunächst ein Odometrie-Koordinatensystem $\ks{Odom}$ als Referenzsystem der Bewegung des Systems eingeführt. Um die Abbildung zwischen \red[Kamera-] und Karten-Koordinatensystem vollständig zu beschreiben wird außerdem die Transformation $\tmat{Odom}{K}$ zwischen dem Referenzsystem $\ks{Odom}$ und dem \red[Kamera-Koordinatensystem $\ks{}$] definiert. Allgemein kann die Abbildung von Punkten im Koordinatensystem der Kamera ins Koordinatensystem der Karte damit beschrieben werden als:
+Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \kps{s} in der Karte. Um anschließend die kontinuierliche Veränderung der Systempose ermitteln zu können wird zunächst ein Odometrie-Koordinatensystem $\ks{Odom}$ als Referenzsystem der Bewegung des Systems eingeführt. Um die Abbildung zwischen \red[Kamera-] und Karten-Koordinatensystem vollständig zu beschreiben wird außerdem die Transformation $\tmat{Odom}{K}$ zwischen dem Referenzsystem $\ks{Odom}$ und dem \red[Kamera-Koordinatensystem $\ks{K}$, System-Koordinatensystem $\ks{KPS}$?] definiert. Allgemein kann die Abbildung von Punkten im Koordinatensystem der Kamera ins Koordinatensystem der Karte damit beschrieben werden als:
 
 \begin{equation}
 \ve{M}{\tilde{P}} = \tmat{M}{Odom}\tmat{Odom}{K}\ve{K}{\tilde{P}}
 \label{eq.globloc}
 \end{equation}
+
+\red[System-Koordinatensystem $\ks{KPS}$?\\]
 
 Während der globalen Lokalisation gilt dabei $\tmat{Odom}{K} = \vec{I}$, so dass die Koordinatensysteme $\ks{Odom}$ und $\ks{K}$ zusammenfallen.\\
 
@@ -175,6 +177,8 @@ Beim Raycasting Modell, welches ebenfalls\red[ oder andere quelle?] von \red[X] 
 	%\vspace*{-8mm}
 \end{figure}
 
+\red[isometrisch besser?\\]
+
 Die Entfernung zwischen dem ermittelten Punkt und dem betrachteten Partikel wird berechnet und anschließend mit der Entfernung des zugehörigen Sensorwertes verglichen. Die Differenz $\Delta d$ der beiden Distanzen wird anschließend verwendet um die Wahrscheinlichkeit zu bestimmen, dass der Sensorwert an dieser Stelle aufgenommen wurde. Die Berechnung der jeweiligen Wahrscheinlichkeit erfolgt dabei wie auch beim Endpoint-Modell mittels der Log-Likelihood-Funktion.\\
 
 Als zusätzliches Bewertungsmaß wurde eine Root Mean Square (RMS) Berechnung der Distanzen implementiert. Die Ergebnisse korrelieren aufgrund der zugeordneten Wahrscheinlichkeiten bei fehlenden Distanzwerten nicht exakt mit den berechneten Wahrscheinlichkeitswerten, erlauben jedoch eine Bewertung der Güte der Anpassung zwischen Karten- und Sensordaten. Im Gegensatz zu den absoluten Gewichten der Partikel bietet dieses Maß damit eine Möglichkeit Lokalisationen mit unterschiedlichen Modellparametern zu vergleichen.\\
@@ -221,7 +225,7 @@ Als Ergänzung der visuellen Odometrie werden die Messdaten der inertialen Messe
 \subsection{Erweitertes Kalman-Filter}
 Das Kalman-Filter stellt eine in der Praxis bewährte Methode zur Fusionierung von Sensordaten dar. Es handelt sich beim Kalman-Filter \cite{Kalman1960} um die spezielle Implementierung eines Bayes-Filters, welcher eine statistische Approximation des aktuellen Systemzustands ermöglicht. Der Ausgang jeder auf ein System wirkende Aktion, beispielsweise die Drehung der Räder, kann in der Realität nicht ohne Unsicherheiten vorhergesagt werden. Der neue Systemzustand ist deshalb allein auf Basis der Odometriedaten nur mit großer Varianz bestimmbar. Messungen können dazu verwendet werden, diese Unsicherheiten zu korrigieren um den realen Zustand mit höherer Genauigkeit schätzen zu können.\\
 
-Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. \abb{fig.kalman}\red[in anlehung an Hertzberg s.134] zeigt das Prinzip der Zustandsannäherung und die auf Basis der Messwerte durchgeführte Korrektur. \red[verschieben nach Stand der Technik?]\red[Beschreibuns!]\\
+Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. \abb{fig.kalman}\red[in anlehung an Hertzberg s.134] zeigt das Prinzip der Zustandsannäherung und die auf Basis der Messwerte durchgeführte Korrektur. \red[verschieben nach Stand der Technik?]\red[Beschreibung!]\\
 
 \begin{figure}[ht]
 	\begin{center}%
@@ -232,6 +236,8 @@ Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Mes
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+
+\red[plot?\\]
 
 Durch das Erweiterte Kalman-Filter (EKF) kann dieses Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert.\\
 Mit Hilfe der inertialen Messeinheit kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nickwinkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert um die Bewegung des Systems zu schätzen.\\

@@ -4,6 +4,7 @@
 \kps{} auslagern oder in Material beschreiben?\\
 \kps{} Kalibrierung etc. inkl. Grundlagenteil, wie ausführlich?\\
 GUI Struktur auslagern oder hier beschreiben?\\
+Einleitender Absatz: Kapitel umfasst den Aufbau des \kps{s} und die verwendete Software, sowie die entwickelte Programmstruktur\\
 ]
 \section{Hardware}
 Das erstellte System wurde aus verschiedenen Hardwarekomponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. \red[TODO: PC Beschreibung]
@@ -24,12 +25,13 @@ Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet um Tiefe
 	%\vspace*{-8mm}
 \end{figure}
 
+\red[Punktlinien der Linsen mit größerem Abstand!\\]
+
 Wird der korrespondierende Punkt im Kamerabild identifiziert kann die Disparität $d = x - x'$ berechnet und zusammen mit dem Basisabstand $D$ und der Brennweite $f$ darüber der Tiefenwert des Punktes bestimmt werden:
 
 \begin{equation}
 z = \frac{D}{d}\cdot f
 \end{equation}
-\red[Brennweite f, Basisabstand D]
 
 Die bekannte Relation zwischen der RGB- und IR-Kamera ermöglicht abschließend die Zuordnung von Farb- und Tiefenwerten.\red[(engl. Depth values)] Sensoren dieser Art werden daher auch als RGB-D\red[footnote] Kameras bezeichnet.\\
 
@@ -148,6 +150,7 @@ Die Transformationsmatrix $\tmat{S}{0}$ beschreibt das Produkt aus der intrinsis
 \red[Im Folgenden wird eine allgemeine Beschreibung des Kalibrierungsvorgangs/Kalibriervorgang vorgenommen, welche sowohl für die RGB- als auch für die IR-Kamera des Kinect-Sensors gültig ist. Lediglich bezüglich der aufgenommenen Bilder unterscheiden sich die Verfahren, da für die Kalibrierung der IR-Kamera Bilder erforderlich sind, welche mit einer IR-Kamera ausgeleuchtet wurden.]
 
 \subsubsection{Extrinsische Kameramatrix}
+\red[Bilder der Kalibrierung?\\]
 Die extrinsische Kameramatrix definiert die Transformation zwischen dem globalen Koordinatensystem und dem Koordinatensystem der Kamera. Sie gibt damit die Lage von $\ks{K}$ im $\ks{0}$ an und wird über eine Translation und eine Rotation beschrieben.\\
 Während die Translation allgemein über den Verschiebungsvektor zwischen den Koordinatensystemen $\vec{t} = [t_x, t_y, t_z]^T$ angegeben wird, existieren für die Definition der Rotation verschiedene Konventionen.\\
 
@@ -242,7 +245,7 @@ In der Realität ist es erforderlich Objektive mit Linsen einzusetzen um das Loc
 
 %\includesvgnew[0.25]{images/verzeichnungen_kissen}
 
-Darüber hinaus treten weiter Formen von Verzeichnungen auf, die aufgrund ihres geringen Einflusses jedoch häufig vernachlässigt werden können und auch in dieser Arbeit nicht behandelt werden sollen. Durch geeignete Modelle lassen sich die Verzeichnungen \red[softwareseitig] korrigieren, so dass eine Abbildungsgenauigkeit im Subpixelbereich erzielt werden kann \red[\cite{}]. Die Verzeichnungsparameter können zusammen mit den intrinsischen Parametern im Rahmen einer Kalibrierung ermittelt werden. \red[Tangentiale Verzeichnungen werden aber auch berechnet in Kalibrierung!]
+Darüber hinaus treten weiter Formen von Verzeichnungen auf, die aufgrund ihres geringen Einflusses jedoch häufig vernachlässigt werden können und auch in dieser Arbeit nicht behandelt werden sollen\red[ bzw. nicht näher spezifiziert werden sollen -> Verweis auf Informationen?]. Durch geeignete Modelle lassen sich die Verzeichnungen \red[softwareseitig] korrigieren, so dass eine Abbildungsgenauigkeit im Subpixelbereich erzielt werden kann \red[\cite{}]. Die Verzeichnungsparameter können zusammen mit den intrinsischen Parametern im Rahmen einer Kalibrierung ermittelt werden. \red[Tangentiale Verzeichnungen werden aber auch berechnet in Kalibrierung!]
 
 \subsubsection{Kalibriervorgang}
 Basierend auf dem von \red[Zhang \cite{Zhang2000}] vorgestellten Verfahren lassen sich die intrinsischen Kameraparameter bestimmen und die radialen Verzeichnungen modellieren. Die Kalibrierung erfolgt dabei durch Betrachtung eines planaren Musters aus verschiedenen Kameraperspektiven. Im folgenden werden die Schritte erläutert, welche zur Bestimmung der Parameter erforderlich sind.\\
@@ -317,7 +320,7 @@ v\\
 }
 \end{equation}
 
-Die $(3 \times 3)$ Matrix $\vec{H}$ wird als Homographie-Matrix bezeichnet und beschreibt die Abbildung von Punkten einer Ebene auf eine andere. Aufgrund des frei wählbaren Skalierungsfaktors $s$ besitzt die Homographie-Matrix bei neun Einträgen insgesamt acht Freiheitsgrade. Jeder detektierte Punkt des Musters liefert zwei Korrespondenzen. Aus vier Punkten ergeben sich damit acht Gleichungen, aus welchen ein Gleichungssystem zur Lösung der Homographie-Matrix erstellt werden kann.\red[ Homographie beschreibt Transformation eines Quadrilaterals, damit würde auch die Bestimmung von mehr als vier Punkten keine zusätzlichen Informationen liefern.]\\
+Die $(3 \times 3)$ Matrix $\vec{H}$ wird als Homographie-Matrix bezeichnet und beschreibt die Abbildung von Punkten einer Ebene auf eine andere\red[ Abb. zwischen den Punkten zweier Ebenen? Klingt irgendwie komisch!?]. Aufgrund des frei wählbaren Skalierungsfaktors $s$ besitzt die Homographie-Matrix bei neun Einträgen insgesamt acht Freiheitsgrade. Jeder detektierte Punkt des Musters liefert zwei Korrespondenzen. Aus vier Punkten ergeben sich damit acht Gleichungen, aus welchen ein Gleichungssystem zur Lösung der Homographie-Matrix erstellt werden kann.\red[ Homographie beschreibt Transformation eines Quadrilaterals, damit würde auch die Bestimmung von mehr als vier Punkten keine zusätzlichen Informationen liefern.]\\
 
 Da die Betrachtung des Musters aus verschiedenen Perspektiven erfolgt, müssen zunächst für jede Aufnahme die sechs räumlichen Freiheitsgrade bestimmt werden. Es verbleiben damit jeweils zwei Parameter zur Bestimmung der intrinsischen Parameter. Da die intrinsische Kameramatrix nach \eq{eq.intrinsic} vier Freiheitsgrade besitzt, werden $n = 2$ Aufnahmen benötigt um die intrinsischen Parameter eindeutig festlegen zu können. In der Praxis sollten jedoch $n \geq 10$ Aufnahmen verwendet werden um numerische Stabilität der Lösung zu gewährleisten und Messrauschen zu kompensieren \cite{Bradsky2008}.\\
 
@@ -334,7 +337,8 @@ Abschließend erfolgt eine Optimierung aller ermittelten Parameter durch Minimie
 %\red[Vereinfachung später, dass T-WELT = T-0]
 %Kalibrierung der Kamera
 %Kameramatrix aufführen, Herleitung ist aber nicht wirklich relevant. Extrinsische und intrinsische Transformation unterscheiden. Parameter beschreiben und erklären. Lochkameramodell als Grundlage nennen und in ein paar Sätzen erläutern, aber nicht zu detailliert drauf eingehen. Ermittlung der Tiefeninformationen beschreiben. projektor als inverse Kamera.\\
-\red[Kalibrierung der Kameras (RGB + IR) mit cameracalibration beschreiben und Gesamtsystem mit Matlab box bouguet (gibt extr. und intr. parameter).\\]
+\red[Kalibrierung der Kameras (RGB + IR) mit cameracalibration beschreiben und Gesamtsystem mit Matlab box bouguet (gibt extr. und intr. parameter).\\
+Isometrische Ansicht als Prinzip der Kalibrierung? Schachbrett fest und 3 Ansichten des Systems (der Kamera) mit Koordinatensystemen!?\\]
 
 \subsection{Projektorkalibrierung}
 Um die Darstellung visueller Informationen an definierten Stellen im Raum zu ermöglichen ist eine Kalibrierung des Projektors erforderlich. Betrachtet man die Projektion des Projektors in umgekehrter Richtung, wird ersichtlich, dass der Projektor als inverse Kamera betrachtet werden kann. Das Verfahren zur Kamera-Kalibrierung lässt sich dadurch auf den Projektor erweitern \cite{Falcao2008}. Aufgrund der in \kapitel{chap.projector} beschriebenen Projektionstechnologie können die Verzeichnungen vernachlässigt werden, da keine Optik zur Fokussierung des Bildes verwendet wird. Die Kalibrierung kann damit auf die Bestimmung der intrinsischen und extrinsischen Parameter des Projektors beschränkt werden.\\
@@ -356,6 +360,7 @@ Um die gemeinsame Kalibrierebene zu bestimmen ist die Aufnahme beider Muster in 
 Zunächst ist es erforderlich, die Lage der Kamera bezüglich der Kalibrierebene zu ermitteln. Mit Hilfe der bestimmten intrinsischen Parameter können die globalen Koordinaten der Eckpunkte und die aufgespannte Ebene des realen Schachbretts leicht bestimmt werden. Die Pixel-Koordinaten des projizierten Musters können ebenfalls extrahiert werden. Da die Kalibrierebene bekannt ist, kann der in \eq{eq.persp_abb} eingeführte Skalierungsfaktor in den Abbildungsgleichungen bestimmt und somit die räumliche Position der projizierten Eckpunkte ermittelt werden.\\
 
 Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang\red[Groß?] anwendbar und die intrinsischen und extrinsischen Parameter des Projektors können bestimmt werden.\\
+\red[Auch hier isometrische Ansicht mit Gesamtsystem? Transformationen lassen sich dort gut zeigen\\]
 Da für jede Aufnahme nun die Transformationen zwischen dem globalen Koordinatensystem und den Koordinatensystemen von Kamera und Projektor vorliegen kann die statische Transformation zwischen Kamera und Projektor ebenfalls bestimmt werden:
 
 \begin{equation}
@@ -373,6 +378,8 @@ Da für jede Aufnahme nun die Transformationen zwischen dem globalen Koordinaten
 %Projektor Linsenverzeichnung!?\\
 Toolboxen und verwendete Kalibrierungsnode nennen?\\
 Transformationen zwischen den Koordinatensystemen angeben wenn möglich (oder in Kapiteln erst?)]\\
+
+\red[Gemeinsames Koordinatensystem des Gesamtsystems definieren, über welches die Lage in der Umgebung beschrieben wird. $\ks{KPS}$\\]
 
 %\red[Wichtig sind die Transformationen zwischen den Koordinatensystemen und die Abbildung des Projektors. Die Transformation erfolgt allerdings immer über die Kamera, da diese im Weltkoordinatensystem lokalisiert wird. Für die Kalibrierung sind die intrinsischen und extrinsischen Parameter relevant, aber auch die Herkunft?\\]
 

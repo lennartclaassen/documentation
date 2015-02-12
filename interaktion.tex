@@ -17,6 +17,8 @@ Innerhalb des Softwaremoduls \mInteraction \red[Module schon beschrieben oder er
 	%\vspace*{-8mm}
 \end{figure}
 
+\red[Bemaßung?\\]
+
 Basierend auf den verbleibenden Punkte wird anschließend eine Ebenendetektion nach \cite{Fischler1981} durchgeführt. Alle Punkte innerhalb eines definierten Abstandes werden daraufhin auf die \red[approximierte] Ebene projiziert, wodurch Messwertrauschen geglättet wird. Außerhalb der Ebene liegende Punkte werden für die weiteren Schritte aus der Betrachtung entfernt. Dazu gehören deutliche Ausreißer im detektierten Interaktionsobjekt sowie weitere Artefakte in der Punktwolke.\\
 
 Um eine gleichmäßige Objektstruktur zu erhalten wird eine Hüllkurve um die verbleibenden Punkte gelegt und die vorhandene Struktur mittels einer äquidistanten Verteilung von Punkten angenähert. Aus dieser Hüllkurve wird der geometrische Schwerpunkt (Basis) sowie der vom \kps{} am weitesten entfernte Punkt (Spitze) bestimmt. Der Verbindungsvektor zwischen Basis und Spitze bildet damit die Zeigerichtung des Anwenders ab.\\

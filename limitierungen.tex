@@ -1,4 +1,9 @@
 \chapter{Limitierungen \red[und Erweiterungen ]des Systems}
+
+\red[TODO:\\
+verschieben nach Ausblick!\\
+Lokalisation erfordert eindeutige features in der Karte -> schon während der Lokalisation nennen?\\]
+
 Ergänzend zu den zuvor aufgeführten Ergebnissen sollen in diesem Kapitel weitere Fehlereinflüsse und Limitierungen des \kps{s} diskutiert werden. Die vorgestellten Verfahren zur Selbstlokalisation und Darstellung visueller Zusatzinformationen für den Anwender sind allgemein anwendbar und hardwareunabhängig. Wie gezeigt wurde, konnte auf dem verwendeten System ein funktionierender Anwendungsablauf implementiert werden. Eine Erhöhung der Rechenleistung der verwendeten Komponenten würde sich demnach nicht auf das Funktionsprinzip des \kps{s} auswirken, könnte jedoch in verschiedenen Bereichen zu einer \red[Verbesserungen der Performance] führen. Durch den modularen Aufbau der Hard- und Software ist es jederzeit möglich einzelne Komponenten auszutauschen um die Robustheit oder Leistung des Gesamtsystems zu steigern.
 
 \section{Lokalisation}
@@ -61,7 +66,7 @@ Das gekapselte Projektionsmodul bestehend aus dem Raspberry Pi und dem Microvisi
 \red[Delay bzgl. raspberry -> Übertragung an anderen Rechner testen und Delay ebenfalls aufzeichnen\\]
 
 \section{Interaktion}
-Durch den minimalen aufgelösten Tiefenwert des Microsoft Kinect Sensors von \red[ABSTAND 0,8m?] ergibt sich eine Limitierung der aktuellen Systemkonfiguration bezüglich der Benutzerinteraktion. Um die Zeigerichtung robust erkennen zu können, ist es erforderlich, dass der Nutzer die Auswahl und Modifikation der Modellobjekte mit ausgestrecktem Arm durchführt. Eine kürzere minimale Distanz würde den Komfort bei der Eingabe deutlich erhöhen, da so die Interaktion bei verschiedenen Haltungen möglich wäre und der Benutzer bei längerer Interaktionsdauer entlastet werden würde.\\
+Durch den minimalen aufgelösten Tiefenwert des Microsoft Kinect Sensors von \red[ABSTAND 0,5m?] ergibt sich eine Limitierung der aktuellen Systemkonfiguration bezüglich der Benutzerinteraktion. Um die Zeigerichtung robust erkennen zu können, ist es erforderlich, dass der Nutzer die Auswahl und Modifikation der Modellobjekte mit ausgestrecktem Arm durchführt. Eine kürzere minimale Distanz würde den Komfort bei der Eingabe deutlich erhöhen, da so die Interaktion bei verschiedenen Haltungen möglich wäre und der Benutzer bei längerer Interaktionsdauer entlastet werden würde.\\
 
 Der minimale Tiefenwert definiert darüber hinaus auch den minimalen Abstand zur Projektionsfläche, da sowohl der globalen als auch der lokalen Lokalisation bei Unterschreiten dieses Abstands keine Umgebungsinformationen mehr zur Verfügung stehen. Es ergibt sich daraus zusammen mit dem definierten maximalen Projektionsabstand der in \abb{fig.optdist} dargestellte optimale Anwendungsabstand.\\
 \red[Interaktionsbereich hier auch einzeichnen! Wand anstelle rotem Endbereich!?\\]

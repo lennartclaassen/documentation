@@ -37,6 +37,8 @@ Zur Validierung des Systems wurde die in \abb{fig.mapSLAM} dargestellte Umgebung
 	%\vspace*{-8mm}
 \end{figure}
 
+\red[Boden und Decke nicht modelliert, Limitierungen der Kartenerstellung -> nicht wirklich relevant und führt zu ungenauer Abbildung\\]
+
 Das Ergebnis der Kartierung entspricht einer texturierten Punktwolke. Im Gegensatz zu der Ableitung aus vorhandenen Modelldaten handelt es sich daher nicht um geschlossene Geometrien. Da die Umgebung selbst jedoch ohnehin nicht als Teil der Projektion eingesetzt wird hat dies keine Auswirkungen auf die Funktionalität des Systems. Nachteiligen Einfluss können jedoch die im Vergleich zu Modelldaten geringere Auflösung sowie die Rauscheinflüsse des Kinect-Sensors zeigen. Die Güte eines Modells aus der Kartierung liegt meist unter der Modellgüte bei Ableitung aus vorhandenen 3D-Daten. Durch Verwendung der selben Sensoren während der Kartierung und der Lokalisation können die Fehlereinflüsse jedoch leicht verringert werden, da wiederkehrende Sensoreinflüsse so bei beiden Verfahren auftreten.\\
 
 \section{Modellobjekte}
@@ -63,6 +65,10 @@ Anders als die Modellumgebung müssen die Modellobjekte jedoch nicht als reale O
 	%\vspace*{-8mm}
 \end{figure}
 
+\red[Modellobjekte ruhig in CAD Umgebung einfügen!\\Vielleicht das Bild von später nehmen?\\]
+
 \section{Dateistruktur}
 Um die Szene, bestehend aus der Modellumgebung und allen integrierten Modellobjekten, später wieder in den virtuellen Planungsablauf integrieren zu können wird eine Dateistruktur definiert, welche die Sicherung der aktuellen Modellkonfiguration ermöglicht. Alle Modellelement werden dazu mit ihrer aktuellen Pose, Textur und geometrischen Repräsentation erfasst und aufgezeichnet. Eine Wiederherstellung verschiedener Konfigurationen ist damit ebenfalls jederzeit möglich.\\
-\red[Dateiformat? YAML? Eine Datei enthält alle Informationen über die Welt und über die einfügbaren Objekte (Preview Funktion). Hinzufügen/entfernen von Objekten zur Datei möglich, suchen nach vorhandenen Objekten in Datenbank möglich?]
+\red[Dateiformat? YAML? Eine Datei enthält alle Informationen über die Welt und über die einfügbaren Objekte (Preview Funktion). Hinzufügen/entfernen von Objekten zur Datei möglich, suchen nach vorhandenen Objekten in Datenbank möglich?\\]
+
+\red[Struktur der Datei abbilden in Diagramm oder Listing oder so?]
