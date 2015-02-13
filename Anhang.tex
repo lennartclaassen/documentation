@@ -151,6 +151,47 @@ Gewicht & 31g\\
 
 \clearpage{}
 
+\section{Datenstruktur zur Repräsentation der Modellszene}
+\label{app.datastructure}
+\begin{lstlisting}[label=source.data,caption=Datenstruktur zur Repräsentation der Modellszene]
+<?xml version="1.0"?>
+<modelscene>
+     <name>Model World</name>
+     <object>
+          <name>Map</name>
+          <position>
+          	<x> 0 </x>
+          	<y> 0 </y>
+          	<z> 0 </z>
+          </position>
+          <orientation>
+          	<x> 0 </x>
+          	<y> 0 </y>
+          	<z> 0 </z>
+          </orientation>
+          <texture> map.jpg </texture>
+          <geometry> map.obj </geometry>
+     </object>
+          <object>
+          <name>Power Outlet</name>
+          <position>
+          	<x> 3.15 </x>
+          	<y> 1.8 </y>
+          	<z> 0.4 </z>
+          </position>
+          <orientation>
+          	<x> 90 </x>
+          	<y> 0 </y>
+          	<z> 180 </z>
+          </orientation>
+          <texture> outlet.jpg </texture>
+          <geometry> outlet.obj </geometry>
+     </object>
+</modelscene>
+\end{lstlisting}
+
+\clearpage{}
+
 \section{Bayes Filter}
 \label{app:bayes}
 

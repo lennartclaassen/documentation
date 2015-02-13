@@ -4,19 +4,19 @@
 %Einleitender Absatz\\
 Transformationen\\
 Auslösen der globalen und lokalen Lokalisation durch den Anwender jederzeit möglich (erstmal unabhängig von den Buttons)\\
-Englische oder deutsche Bezeichnung der Modelle?\\
+%Englische oder deutsche Bezeichnung der Modelle?\\
 %Auswahl des Ansatzes/der Ansätze für die Lokalisation hier beschreiben/begründen oder schon beim Stand der Technik?\\
 ]
 
-Die Lokalisation des handgeführten \kps{s} bildet die Grundlage für die lagerichtige Projektion der Modelldaten in der realen Umgebung. Die Bestimmung der Pose des Systems erfordert dabei zunächst ein Abbild der realen Umgebung um die Sensordaten mit den Modelldaten abgleichen zu können. In der Lokalisation wird dieses Modell auch als Karte bezeichnet.\red[ Karte schon in 4 definieren?] Zunächst wird deshalb eine geeignete Struktur zur Repräsentation der Karte definiert und aufbauend darauf das Verfahren zur globalen Lokalisation beschrieben. Abschließend wird die kontinuierliche Bestimmung der Veränderung der Systempose und die dafür durchgeführte Fusion der Sensormesswerte erläutert.
+In diesem Kapitel wird das Vorgehen zur Bestimmung der Systempose innerhalb der realen Umgebung beschrieben. Die Lokalisation des handgeführten \kps{s} bildet die Grundlage für die lagerichtige Projektion der Modelldaten. Basierend auf der Modellumgebung wird zunächst eine geeignete Struktur zur Repräsentation der Lokalisationsumgebung (Karte) definiert. Aufbauend darauf werden die Verfahren zur Bestimmung der initialen Systempose erläutert. Abschließend wird die kontinuierliche Verfolgung der Systempose und die dafür durchgeführte Fusion der Sensormesswerte beschrieben.
 
-\section{Lokalisatonsumgebung/\red[Karte]}
+\section{Lokalisatonsumgebung}
 \label{chap.map}
 Als Grundlage von Karten werden häufig Entfernungsmessungen verwendet, die im Rahmen von Verfahren wie dem in \abschnitt{chap.slam} beschriebenen SLAM eingesetzt werden. Dabei ist das Resultat meist eine Repräsentation der Umgebung in Form einer Punktwolke.\\
 Da diese Darstellung je nach Größe und Auflösung der Karte zu einem hohen Rechenaufwand führen kann wird in dieser Arbeit eine darauf aufbauende Implementierung \cite{Octomap} verwendet, welche eine kompakte und effiziente Beschreibung der Umgebung ermöglicht.\\
 
-Die von Hornung \textit{et al.} \cite{Hornung2013} beschriebene Datenstruktur, genannt \textit{Octomap}, basiert auf der Abbildung der Karte über eine \textit{octree} genannte Baumstruktur.\\
-Zunächst wird ein Würfelvolumen des zu beschreibende Bereiches bestimmt, in diesem Fall die maximalen Abmessungen des Umgebungsmodells. Dieser Würfel wird anschließend in acht äquivalente Volumenelemente (Voxel) unterteilt. Für jedes Voxel erfolgt eine Bestimmung, ob sich ein Messpunkt der Punktwolke in diesem Volumen befindet. Dabei erfolgt eine Betrachtung entlang der Sensorstrahlen, so dass gleichzeitig nicht belegte Voxel bestimmt werden können. Alle belegten Voxel werden anschließend erneut auf gleiche Weise unterteilt. Rekursiv erfolgt somit die in \abb{fig.octree} dargestellte Verfeinerung der Baum- und Volumenstruktur. Freie Bereiche müssen dabei nicht weiter verfeinert werden, wodurch eine effiziente Darstellung erreicht wird.\\
+Die von Hornung \textit{et al.} \cite{Hornung2013} beschriebene Datenstruktur \textit{Octomap} basiert auf der Abbildung der Umgebung über eine \textit{octree} genannte Baumstruktur.\\
+Zunächst wird ein Würfelvolumen über den zu beschreibenden Bereich gelegt, welcher den maximalen Abmessungen des Umgebungsmodells entspricht. Dieser Würfel wird anschließend in acht äquivalente Volumenelemente (Voxel) unterteilt. Für jedes Voxel erfolgt eine Bestimmung, ob sich ein Messpunkt der Punktwolke in diesem Volumen befindet. Dabei erfolgt eine Betrachtung entlang der Sensorstrahlen, so dass gleichzeitig freie Voxel bestimmt werden können. Alle besetzten Voxel werden anschließend erneut auf gleiche Weise unterteilt. Rekursiv erfolgt somit die in \abb{fig.octree} dargestellte Verfeinerung der Baum- und Volumenstruktur. Freie Bereiche müssen dabei nicht weiter verfeinert werden, wodurch eine effiziente Darstellung erreicht wird.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -33,10 +33,8 @@ Zunächst wird ein Würfelvolumen des zu beschreibende Bereiches bestimmt, in di
 	%\vspace*{-8mm}
 \end{figure}
 
-
-
-Die Besonderheit des von HORNUNG \textit{et al.} entwickelten Ansatzes liegt darin, dass im Gegensatz zu einer binären Darstellung der Voxelzustände eine probabilistische Bewertung vorgenommen wird. Es können somit bei der Betrachtung der Voxel mehr als zwei Zustände unterschieden werden, so dass zwischen belegten, freien und unbekannten Bereichen differenziert werden kann. Als Grenzwert der Verfeinerung kann eine anwendungsabhängige Auflösung definiert werden. Auch die Kombination verschiedener Strukturbäume mit unterschiedlichen Auflösungen ist bei der Verwendung von \textit{Octomap} möglich. Bei Bedarf können so bestimmte Strukturen feiner aufgelöst werden um die Genauigkeit der Abbildung zu erhöhen.\\
-Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap} zeigt \abb{fig.octomap}.
+Die Besonderheit des von HORNUNG \textit{et al.} entwickelten Ansatzes liegt darin, dass im Gegensatz zu einer binären Darstellung der Voxelzustände eine probabilistische Bewertung vorgenommen wird. Es können somit bei der Betrachtung der Voxel mehr als zwei Zustände unterschieden werden, so dass zwischen besetzten, freien und unbekannten Bereichen differenziert werden kann. Als Grenzwert der Verfeinerung kann eine anwendungsabhängige Auflösung definiert werden. Dabei ist auch die Kombination verschiedener Strukturbäume mit unterschiedlichen Auflösungen bei der Verwendung von \textit{Octomap} möglich, so dass bei Bedarf bestimmte Strukturen feiner aufgelöst werden können um die Abbildungsgenauigkeit zu erhöhen.\\
+Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap} zeigt \abb{fig.octomap}. Freie Voxel sind in der Abbildung nicht dargestellt, die Farbkodierung der Octomap bezieht sich daher auf die Höhenwerte der Modelldaten.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -51,19 +49,17 @@ Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap
 	\label{fig.octomap}
 	\end{center}
 	%\vspace*{-8mm}
-\end{figure}
-\red[Farbkodierung ist Höhe, sonst keine Bedeutung]
+\end{figure}%
 
-Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen der Karte $\ks{M}$ und des \kps{s} $\ks{KPS}$. \red[($\ks{KPS}$ immer als $\ks{K}$ festlegen? Nein, da System-KS angelehnt an Luftfahrt über Roll, Pitch, Yaw beschreiben wird)]. Da die Karte als statisch betrachtet werden kann wird das Koordinatensystem in den globalen Ursprung gesetzt, so dass gilt:
+Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen der Karte $\ks{M}$ und des \kps{s} $\ks{KPS}$. Die Transformation $\tmat{0}{M}$ ist konstant, da die Karte als statische Referenz bezüglich des globalen Koordinatensystems betrachtet werden kann. Die Lage kann somit beliebig gewählt werden, weshalb das Koordinatensystem im Folgenden in den globalen Ursprung gesetzt, so dass gilt:
 
 \begin{equation}
-\ks{M} = \ks{0}
+\ks{0} = \ks{M}
 \end{equation}
-
 
 \section{Ermittlung der Initialpose}
 \label{chap.globloc}
-Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \kps{s} in der Karte. Um anschließend die kontinuierliche Veränderung der Systempose ermitteln zu können wird zunächst ein Odometrie-Koordinatensystem $\ks{Odom}$ als Referenzsystem der Bewegung des Systems eingeführt. Um die Abbildung zwischen \red[Kamera-] und Karten-Koordinatensystem vollständig zu beschreiben wird außerdem die Transformation $\tmat{Odom}{K}$ zwischen dem Referenzsystem $\ks{Odom}$ und dem \red[Kamera-Koordinatensystem $\ks{K}$, System-Koordinatensystem $\ks{KPS}$?] definiert. Allgemein kann die Abbildung von Punkten im Koordinatensystem der Kamera ins Koordinatensystem der Karte damit beschrieben werden als:
+Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \kps{s} in der Karte. Um anschließend die kontinuierliche Veränderung der Systempose ermitteln zu können wird zunächst ein Odometrie-Koordinatensystem $\ks{Odom}$ als Referenzsystem der Bewegung des Systems eingeführt. Um die Abbildung zwischen \red[Kamera-] und Karten-Koordinatensystem vollständig zu beschreiben wird außerdem die Transformation $\tmat{Odom}{K}$ zwischen dem Referenzsystem $\ks{Odom}$ und dem System-Koordinatensystem $\ks{KPS}$ definiert. Allgemein kann die Abbildung von Punkten im Koordinatensystem der Kamera ins Koordinatensystem der Karte damit beschrieben werden als:
 
 \begin{equation}
 \ve{M}{\tilde{P}} = \tmat{M}{Odom}\tmat{Odom}{K}\ve{K}{\tilde{P}}
@@ -72,12 +68,15 @@ Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \
 
 \red[System-Koordinatensystem $\ks{KPS}$?\\]
 
-Während der globalen Lokalisation gilt dabei $\tmat{Odom}{K} = \vec{I}$, so dass die Koordinatensysteme $\ks{Odom}$ und $\ks{K}$ zusammenfallen.\\
+Für die globale Lokalisation gilt dabei $\tmat{Odom}{KPS} = \vec{I}$, so dass die Koordinatensysteme $\ks{Odom}$ und $\ks{KPS}$ zusammenfallen.\\
 
 Für die globale Lokalisation wurde in dieser Arbeit ein Ansatz gewählt, welcher auf dem Monte Carlo Algorithmus basiert \cite{Dellaert1999}. Dieser Ansatz entspricht wie bereits in \abschnitt{chap:mcl} beschrieben einem Partikelfilter. \red[Begründung! ]
 Dazu wurde eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. Als Referenz wird die zuvor beschriebene aus der Modellumgebung erzeugte \textit{Octomap} verwendet. \red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
 
-In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Zufallsverteilung generiert. Jeder Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \red[Endpoint]-Modell und dem \red[Raycasting]-Modell. Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
+In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Zufallsverteilung generiert. Jeder Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \red[Endpoint]-Modell (EPM) und dem \red[Raycasting]-Modell (RCM). Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
+
+\nomenclature[a]{EPM}{Endpoint-Modell}
+\nomenclature[a]{RCM}{Raycasting-Modell}
 
 \subsection{Log-Likelihood-Funktion}
 \label{chap.loglik}
@@ -120,7 +119,7 @@ Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtun
 \red[Anpassung der Varianz in Abhängigkeit der Entfernung als Ausblick]
 
 \subsection{Endpoint-Modell}
-Das \red[Endpoint]-Modell, welches von \red[X] in \cite{Endpoint} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei ein Distanzwert zugewiesen, basierend auf der Entfernung zum nächsten Hindernis. Als Hindernisse gelten dabei alle belegten Zellen der \textit{Octomap}, also neben dem Raum selbst auch alle in der Karte vorhanden weiteren Strukturen. Erfolgt die Lokalisation wie in dieser Arbeit innerhalb einer statischen Umgebung kann die Berechnung der Distanz-Karte \red[Distanzen-Karte?] bereits vor der Lokalisation erfolgen.\\
+Das EPM, welches von \red[X] in \cite{Endpoint} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei ein Distanzwert zugewiesen, basierend auf der Entfernung zum nächsten Hindernis. Als Hindernisse gelten dabei alle belegten Zellen der \textit{Octomap}, also neben dem Raum selbst auch alle in der Karte vorhanden weiteren Strukturen. Erfolgt die Lokalisation wie in dieser Arbeit innerhalb einer statischen Umgebung kann die Berechnung der Distanz-Karte \red[Distanzen-Karte?] bereits vor der Lokalisation erfolgen.\\
 \red[Durch Sensormodell erzeugte Unsicherheiten (deshalb verschwommen)\\]
 
 \begin{figure}[!ht]
@@ -149,9 +148,9 @@ Das \red[Endpoint]-Modell, welches von \red[X] in \cite{Endpoint} beschrieben wu
 
 Durch die vorhergehende Berechnung der \red[Distanzen-Karte?] ergibt sich eine deutliche Verringerung des Rechenaufwands bei jedem Lokalisationsschritt. Anzumerken bleibt, dass die Distanz-Karte während der gesamten Programmlaufdauer im Speicher behalten wird und bezüglich des Speicherbedarfs die Ausgangskarte deutlich übersteigen kann.\\
 
-Die Lokalisation erfolgt beim Endpoint-Modell durch Betrachtung der Punkte der Punktewolke. Diese werden als Endpunkte der Strahlen interpretiert, welche von der Kamera an der jeweiligen Partikelpose ausgesendet werden. Durch Abbildung auf die zuvor berechnete Distanz-Karte können die darin gespeicherten Werte für $\Delta d$ ausgelesen werden. Die Wahrscheinlichkeiten, dass die Punktwolke von der Stelle des betrachteten Partikels aus aufgenommen wurde lässt sich anschließend anhand der Distanzwerte bestimmen. Die berechneten Wahrscheinlichkeiten aller Strahlen werden innerhalb der unter \abschnitt{chap.loglik} beschriebenen Log-Likelihood-Funktion addiert um den Partikel mit der höchsten Gewichtung zu ermitteln.\\
+Die Lokalisation erfolgt beim EPM durch Betrachtung der Punkte der Punktewolke. Diese werden als Endpunkte der Strahlen interpretiert, welche von der Kamera an der jeweiligen Partikelpose ausgesendet werden. Durch Abbildung auf die zuvor berechnete Distanz-Karte können die darin gespeicherten Werte für $\Delta d$ ausgelesen werden. Die Wahrscheinlichkeiten, dass die Punktwolke von der Stelle des betrachteten Partikels aus aufgenommen wurde lässt sich anschließend anhand der Distanzwerte bestimmen. Die berechneten Wahrscheinlichkeiten aller Strahlen werden innerhalb der unter \abschnitt{chap.loglik} beschriebenen Log-Likelihood-Funktion addiert um den Partikel mit der höchsten Gewichtung zu ermitteln.\\
 
-Das Endpoint-Modell bildet nicht direkt die physikalische Arbeitsweise eines Entfernungsmessers ab, da es durch Hindernisse \glqq hindurchsehen\grqq{} kann, wie \abb{fig.endpoint} zeigt. Dennoch ist es in der Lage, eine zuverlässige Approximation der Systempose zu bestimmen \cite{Konolige1999}.\\
+Das EPM bildet nicht direkt die physikalische Arbeitsweise eines Entfernungsmessers ab, da es durch Hindernisse \glqq hindurchsehen\grqq{} kann, wie \abb{fig.endpoint} zeigt. Dennoch ist es in der Lage, eine zuverlässige Approximation der Systempose zu bestimmen \cite{Konolige1999}.\\
 
 %\red[An welcher Stelle?: Die Bestimmung erfolgt mittels der Log-Likelihood-Funktion, welche eine statistische Aussage über die Wahrscheinlichkeit der Messung berechnet.\\]
 
@@ -165,7 +164,7 @@ Das Endpoint-Modell bildet nicht direkt die physikalische Arbeitsweise eines Ent
 \end{figure}
 
 \subsection{Raycasting-Modell}
-Beim Raycasting Modell, welches ebenfalls\red[ oder andere quelle?] von \red[X] in \cite{Raycasting} beschrieben wird, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{ref.raycast} dargestellt.\\
+Beim RCM, welches ebenfalls\red[ oder andere quelle?] von \red[X] in \cite{Raycasting} beschrieben wird, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{ref.raycast} dargestellt.\\
 \red[besetzt und unbesetzt farblich kennzeichnen!\\]
 
 \begin{figure}[!ht]
@@ -179,7 +178,7 @@ Beim Raycasting Modell, welches ebenfalls\red[ oder andere quelle?] von \red[X] 
 
 \red[isometrisch besser?\\]
 
-Die Entfernung zwischen dem ermittelten Punkt und dem betrachteten Partikel wird berechnet und anschließend mit der Entfernung des zugehörigen Sensorwertes verglichen. Die Differenz $\Delta d$ der beiden Distanzen wird anschließend verwendet um die Wahrscheinlichkeit zu bestimmen, dass der Sensorwert an dieser Stelle aufgenommen wurde. Die Berechnung der jeweiligen Wahrscheinlichkeit erfolgt dabei wie auch beim Endpoint-Modell mittels der Log-Likelihood-Funktion.\\
+Die Entfernung zwischen dem ermittelten Punkt und dem betrachteten Partikel wird berechnet und anschließend mit der Entfernung des zugehörigen Sensorwertes verglichen. Die Differenz $\Delta d$ der beiden Distanzen wird anschließend verwendet um die Wahrscheinlichkeit zu bestimmen, dass der Sensorwert an dieser Stelle aufgenommen wurde. Die Berechnung der jeweiligen Wahrscheinlichkeit erfolgt beim RCM wie auch beim EPM mittels der Log-Likelihood-Funktion.\\
 
 Als zusätzliches Bewertungsmaß wurde eine Root Mean Square (RMS) Berechnung der Distanzen implementiert. Die Ergebnisse korrelieren aufgrund der zugeordneten Wahrscheinlichkeiten bei fehlenden Distanzwerten nicht exakt mit den berechneten Wahrscheinlichkeitswerten, erlauben jedoch eine Bewertung der Güte der Anpassung zwischen Karten- und Sensordaten. Im Gegensatz zu den absoluten Gewichten der Partikel bietet dieses Maß damit eine Möglichkeit Lokalisationen mit unterschiedlichen Modellparametern zu vergleichen.\\
 

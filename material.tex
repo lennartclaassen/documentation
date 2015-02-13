@@ -365,12 +365,13 @@ Die Kalibrierung erfolgt anhand des von Falcao \textit{et al.} beschriebenen Ver
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+\red[Bild 90 grad rotieren\\]
 
 Um die gemeinsame Kalibrierebene zu bestimmen ist die Aufnahme beider Muster in einem Bild erforderlich. Da durch die Kalibrierung auch die Transformation zwischen den Koordinatensystemen der Kamera und des Projektors bestimmt werden soll, werden die Muster mit der zuvor kalibrierten Kamera des Systems aufgezeichnet.\\
 
 Zunächst ist es erforderlich, die Lage der Kamera bezüglich der Kalibrierebene zu ermitteln. Mit Hilfe der bestimmten intrinsischen Parameter können die globalen Koordinaten der Eckpunkte und die aufgespannte Ebene des realen Schachbretts leicht bestimmt werden. Die Pixel-Koordinaten des projizierten Musters können ebenfalls extrahiert werden. Da die Kalibrierebene bekannt ist, kann der in \eq{eq.persp_abb} eingeführte Skalierungsfaktor in den Abbildungsgleichungen bestimmt und somit die räumliche Position der projizierten Eckpunkte ermittelt werden.\\
 
-Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang\red[Groß?] anwendbar und die intrinsischen und extrinsischen Parameter des Projektors können bestimmt werden.\\
+Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang anwendbar und die intrinsischen und extrinsischen Parameter des Projektors können bestimmt werden.\\
 \red[Auch hier isometrische Ansicht mit Gesamtsystem? Transformationen lassen sich dort gut zeigen\\]
 Da für jede Aufnahme nun die Transformationen zwischen dem globalen Koordinatensystem und den Koordinatensystemen von Kamera und Projektor vorliegen kann die statische Transformation zwischen Kamera und Projektor ebenfalls bestimmt werden:
 
@@ -416,7 +417,8 @@ World -> Objects\\
 World -> ARMarker (eq. to Objects)\\
 ]
 
-\section{Software}
+\section{Verwendete Softwarebibliotheken/Software}
+\red[GUI auslagern als eigenen Punkt!?\\]
 Zur Realisierung der einzelnen Systemfunktionen wurden Komponenten erstellt, welche auf verschiedenen Softwarebibliotheken aufbauen.
 Bevor die Programmstruktur näher erläutert wird sollen deshalb zunächst die verwendeten Bibliotheken und Softwareumgebungen dargestellt werden.
 Anschließend erfolgt eine Beschreibung der erstellten Programmstruktur und der innerhalb einer grafischen Benutzeroberfläche zusammengefassten Bedienfunktionen des Systems.
@@ -439,24 +441,47 @@ Das Visualization Toolkit (VTK) stellt eine auf dem C++ Standard basierende Bibl
 \red[Versionen!\\]
 
 \subsection{GUI/Programmstruktur}
-\red[Mit aufnehmen in dieser Liste? Oder ganz am Ende (nach Interaktion) Komplettes GUI und alle Transformationen zusammenfassen?\\]%
+%\red[Mit aufnehmen in dieser Liste? Oder ganz am Ende (nach Interaktion) Komplettes GUI und alle Transformationen zusammenfassen?\\]%
 Die für die Anwendung des \kps{s} als selbstlokalisierendes, handgeführtes Projektionssystem entwickelte Software umfasst verschiedene Module, welche durch ROS verknüpft werden. Dies ermöglicht den Informationsaustausch zwischen den Komponenten auf Basis definierter Daten- und Kommunikationsstrukturen. Der Austausch einzelner Komponenten ist damit jederzeit möglich, sodass die Entwicklung und Integration optimierter Module je nach Anwendungsgebiet vorgenommen werden kann.\\
-Einen Überblick über die einzelnen Funktionsmodule, ihre Verknüpfung untereinander und die Schnittstelle zum Benutzer zeigt Abbildung \ref{fig.modules}.\\
-
-Module: \mLocalization - EKF Odometrie (Tracking) - Visuelle Odometrie - IMU - Visualisierung - Transformation - Interaktion - Benutzeroberfläche - Projektion - Kartenserver\\
+Einen %\red[abstrahierten] 
+Überblick über die Softwaremodule, ihre Verknüpfung untereinander und die Beziehungen zur realen und modellierten Umgebung zeigt Abbildung \ref{fig.modules}.\\
 
 \begin{figure}[ht]
-	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{Funktionsmodule der Anwendungssoftware}
+	\begin{center}%
+		\includesvgnew[1]{images/modules_solo}%
+		\caption{Übersicht der Softwaremodule}
 		\label{fig.modules}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Das \mLocalization bestimmt und überwacht die aktuelle Position des \kps{s}. Es ermittelt die initiale Position mittels globaler Lokalisation auf Basis der vom \mMapserver zur Verfügung gestellten Karte. Als weitere Eingangsgröße verwendet es die Odometriedaten, welche vom \mEkf zur Verfügung gestellt werden um Veränderungen in der Position während der Bedienung zu erkennen und die Positionsdaten dementsprechend zu aktualisieren. Das \mEkf selbst verwendet und filtert dabei die visuellen Odometriedaten des \mFovis und die Lagedaten des \mImu \red[TODO Moduls] um die kombinierten Odometriedaten zu bestimmen.\\
-Diese so vom \mLocalization bestimmten Positionsdaten werden dem \mTransformation übermittelt, welches alle Koordinatentransformationen zwischen der ermittelten Kameraposition, dem Projektor und den relevanten Objekten der Umgebung berechnet. Diese Berechnungen werden dann vom \mVisualization verwendet, um ein Abbild der aktuellen Projektorsicht innerhalb der 3D Umgebung zu erstellen. Dem Benutzer wird diese Ansicht anschließend sowohl über die Benutzeroberfläche durch das \mGui als auch über die Projektion durch das \mProjection dargestellt. \\
-Das \mInteraction erkennt vom Benutzer durchgeführte Gesten oder Bewegungen, über welche er auf Basis der projizierten Daten mit der Modellumgebung interagiert. Die Steuerungsbefehle werden dann über das \mTransformation an das \mVisualization übertragen, wo diese interpretiert werden und in Form von Modifikationen der Modellumgebung umgesetzt werden.\\
-Die jeweilige Realisierung der Module wird in den folgenden Kapiteln näher spezifiziert.\\
-\red[Buttons eingebaut, kurz als Möglichkeit der Interaktion erwähnen- Aber welches Modul managed das?]
+%\begin{figure}[ht]
+%	\begin{center}
+%		\includegraphics[scale=1.0]{spacer}
+%		\caption{Funktionsmodule der Anwendungssoftware}
+%		\label{fig.modules}
+%	\end{center}
+%	%\vspace*{-8mm}
+%\end{figure}
+
+Das Modul \textit{Lokalisation} umfasst die Implementierungen zur Bestimmung der Pose des \kps{s} innerhalb der realen Umgebung. Es empfängt die Farb- und Tiefeninformationen der Kameras der Kinect und ermittelt durch den Abgleich mit der Modellumgebung die aktuelle Systempose. Definiert wird die Pose dabei durch den Benutzer über Bewegung des \kps{s}.\\
+Die kontinuierlich bestimmte Pose wird an das Modul \textit{Visualisierung} übertragen, welches daraufhin die Lage des \kps{s} innerhalb der Modellumgebung ermittelt. Durch Bestimmung der perspektivisches Abbildung ausgewählter Modelldaten wird anschließend die Projektorsicht simuliert und dem Benutzer über das \kps{} durch Projektion visualisiert.\\ 
+
+%Dazu werden im Modul \textit{Visualisierung} alle Transformationen bestimmt, welche die Pose  der Modellumgebung definieren.\\
+Das Modul \textit{Interaktion} ermöglicht dem Benutzer die Modifikation der visualisierten Modelldaten indem die Tiefeninformationen der Kinect ausgewertet werden. Die Befehle des Benutzers können so erkannt und anschließend an das Modul \textit{Visualisierung} übertragen werden. Durch die Rückkopplung zu den Modelldaten können diese daraufhin angepasst werden.\\
+Das Modul \textit{Visualisierung} integriert die Benutzerinteraktion in die Darstellung der Modelldaten, so dass eine visuelle Rückmeldung während der Interaktion erfolgt.\\
+
+Darüber hinaus wurde eine grafische Benutzeroberfläche implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht damit dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurden in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Benutzeroberfläche lauffähig ist.\\
+
+\red[In den folgenden Kapiteln erfolgt eine Spezifizierung der Module und ihrer Komponenten.\\]
+
+\red[Wie KPS, Benutzer und Modelldaten bezeichnen?\\]
+
+%Module: \mLocalization - EKF Odometrie (Tracking) - Visuelle Odometrie - IMU - Visualisierung - Transformation - Interaktion - Benutzeroberfläche - Projektion - Kartenserver\\
+
+%Das \mLocalization bestimmt und überwacht die aktuelle Position des \kps{s}. Es ermittelt die initiale Position mittels globaler Lokalisation auf Basis der vom \mMapserver zur Verfügung gestellten Karte. Als weitere Eingangsgröße verwendet es die Odometriedaten, welche vom \mEkf zur Verfügung gestellt werden um Veränderungen in der Position während der Bedienung zu erkennen und die Positionsdaten dementsprechend zu aktualisieren. Das \mEkf selbst verwendet und filtert dabei die visuellen Odometriedaten des \mFovis und die Lagedaten des \mImu \red[TODO Moduls] um die kombinierten Odometriedaten zu bestimmen.\\
+%Diese so vom \mLocalization bestimmten Positionsdaten werden dem \mTransformation übermittelt, welches alle Koordinatentransformationen zwischen der ermittelten Kameraposition, dem Projektor und den relevanten Objekten der Umgebung berechnet. Diese Berechnungen werden dann vom \mVisualization verwendet, um ein Abbild der aktuellen Projektorsicht innerhalb der 3D Umgebung zu erstellen. Dem Benutzer wird diese Ansicht anschließend sowohl über die Benutzeroberfläche durch das \mGui als auch über die Projektion durch das \mProjection dargestellt. \\
+%Das \mInteraction erkennt vom Benutzer durchgeführte Gesten oder Bewegungen, über welche er auf Basis der projizierten Daten mit der Modellumgebung interagiert. Die Steuerungsbefehle werden dann über das \mTransformation an das \mVisualization übertragen, wo diese interpretiert werden und in Form von Modifikationen der Modellumgebung umgesetzt werden.\\
+%Die jeweilige Realisierung der Module wird in den folgenden Kapiteln näher spezifiziert.\\
+\red[Buttons eingebaut, hier als Möglichkeit der Interaktion erwähnen(?)- Aber welches Modul managed das?]
 
