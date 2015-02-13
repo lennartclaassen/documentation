@@ -30,10 +30,10 @@ Die grafische Benutzeroberfläche ermöglicht die individuelle Positionierung un
 \red[Bilder für Modellumgebung und Modellobjekte (z.B. Steckdosen, Leitungen)\\]
 
 \section{Ermittlung der Projektorposition}
-Durch die in \abschnitt{chap.proj_calibration} durchgeführte Kalibrierung des \kps{s} ist die externe Transformation $\tmat{K}{P}$ zwischen der Kamera des Kinect Sensors und dem Projektor bekannt. Die kontinuierlich durchgeführte Lokalisation des \kps{s} liefert die Pose der Kamera innerhalb der Umgebung worüber sich somit auch die Pose des Projektors bestimmen lässt. Ist diese bekannt, kann durch die Kopplung zwischen den Kartendaten der Lokalisation und den verwendeten Modelldaten die Pose des Projektors innerhalb der simulierten Umgebung bestimmt werden:
+Durch die in \abschnitt{chap.perspproj} durchgeführte Kalibrierung des \kps{s} ist die externe Transformation $\tmat{K}{P}$ zwischen der Kamera des Kinect Sensors und dem Projektor bekannt. Die kontinuierlich durchgeführte Lokalisation des \kps{s} liefert die Pose der Kamera innerhalb der Umgebung worüber sich somit auch die Pose des Projektors bestimmen lässt. Ist diese bekannt, kann durch die Kopplung zwischen den Kartendaten der Lokalisation und den verwendeten Modelldaten die Pose des Projektors innerhalb der simulierten Umgebung bestimmt werden:
 
 \begin{equation}
-\tmat{M}{P} = \tmat{M}{Odom}\tmat{Odom}{K}\tmat{K}{P}
+\tmat{M}{P} = \tmat{M}{Odom}\tmat{Odom}{KPS}\tmat{KPS}{P}
 \end{equation}
 
 \section{Perspektivische Transformation}
