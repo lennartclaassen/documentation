@@ -39,14 +39,14 @@ Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap
 
 \begin{figure}[!ht]
 	\begin{center}
-	\subfigure[Octomap]{
+	\subfigure[\textit{Octomap}]{
 		\includegraphics[scale=0.25]{octomap_rviz}
 	}
 	\hspace{5mm}
 	\subfigure[Punktwolke]{
 		\includegraphics[scale=0.25]{pointcloud_meshlab}	
 	}
-	\caption{Vergleich - Octomap Modellumgebung (Pointcloud)}
+	\caption{\textit{Octomap}-Struktur der Modellumgebung (a) abgeleitet aus der aufgezeichneten Punktwolke (b)}
 	\label{fig.octomap}
 	\end{center}
 	%\vspace*{-8mm}
@@ -141,7 +141,7 @@ Das EPM, welches von Konolige und Chou in \cite{Konolige1999} beschrieben wurde,
 		}
 		\endgroup
 	}
-	\caption{Abbildung der Karte als Distanz-Modell}
+	\caption{Abbildung der Karte (a) als Distanz-Modell (b)}
 	\label{fig.dist_map}
 	\end{center}
 	%\vspace*{-8mm}
@@ -181,7 +181,7 @@ Beim RCM, beschrieben von Thrun \textit{et al.} in \cite{Thrun2005}, werden für
 
 Die Entfernung zwischen dem ermittelten Punkt und dem betrachteten Partikel wird anschließend berechnet und mit der Entfernung des zugehörigen Sensorwertes verglichen. Die Differenz $\Delta d$ der beiden Distanzen wird verwendet um die Wahrscheinlichkeit zu bestimmen, dass der Sensorwert an dieser Stelle aufgenommen wurde. Die Berechnung der jeweiligen Wahrscheinlichkeit erfolgt beim RCM wie auch beim EPM mittels der Log-Likelihood-Funktion.\\
 
-Als zusätzliches Bewertungsmaß der globalen Lokalisation wurde die Berechnung des Quadratischen Mittelwertes der Distanzen implementiert. Die Ergebnisse korrelieren aufgrund der unterschiedlichen Berechnungsweisen nicht exakt mit den ermittelten Wahrscheinlichkeitswerten, erlauben jedoch eine Bewertung der Überdeckung zwischen Karten- und Sensordaten. Im Gegensatz zu den absoluten Gewichten der Partikel bietet dieses Maß damit eine Möglichkeit Lokalisationen mit unterschiedlichen Modellparametern zu vergleichen.
+Als zusätzliches Bewertungsmaß der globalen Lokalisation wurde die Berechnung des Quadratischen Mittelwertes (QMW) der Distanzen implementiert. Die Ergebnisse korrelieren aufgrund der unterschiedlichen Berechnungsweisen nicht exakt mit den ermittelten Wahrscheinlichkeitswerten, erlauben jedoch eine Bewertung der Überdeckung zwischen Karten- und Sensordaten. Im Gegensatz zu den absoluten Gewichten der Partikel bietet dieses Maß damit eine Möglichkeit Lokalisationen mit unterschiedlichen Modellparametern zu vergleichen.
 
 %PreviewVersion
 %\red[Markerbasierte Lokalisation\\]
@@ -212,7 +212,7 @@ Die visuelle Odometrie liefert durch das beschrieben Verfahren ein Ergebnis für
 
 \begin{figure}[!ht]
 	\begin{center}
-	\subfigure[RGB-Kamerabild (oben) und Tiefenwerte (unten)]{
+	\subfigure[RGB-Kamerabild (oben) und zugehörige Tiefenwerte (unten)]{
 		\includegraphics[width=5cm]{fovis_combined}
 	}
 	\hspace{5mm}
@@ -229,7 +229,7 @@ Die Pose des \kps{s} wird im Rahmen der lokalen Lokalisation mit Bezug auf das R
 
 \begin{equation}
 \ve{M}{\tilde{P}} = \tmat{M}{Odom}\tmat{Odom}{KPS}\ve{KPS}{\tilde{P}}
-\label{eq.globloc}
+\label{eq.locloc}
 \end{equation}
 
 %PreviewVersion

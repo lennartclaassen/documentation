@@ -52,13 +52,13 @@ Die Kinect stellt eine kostengünstige Möglichkeit zur parallelen Aufnahme von 
 
 \subsection{Microvision ShowWX+\textsuperscript{\texttrademark}}%Pico Laser Projektor}
 \label{chap.projector}
-Der ShowWX+\textsuperscript{\texttrademark} Projektor der Firma Microvision (Microvison Inc., Redmond, USA) zeichnet sich neben der geringen Größe dadurch aus, dass als Lichtquellen drei Laser in den Farben rot, grün und blau eingesetzt werden. Die Strahlen werden wie in \abb{fig.projtech} gezeigt durch Optiken kombiniert um alle Farben des sichtbaren Spektrums abzubilden. Der Bildaufbau erfolgt durch Ablenkung des kombinierten Strahls an einem MEMS\footnote{Ein MEMS (Mikro-elektromechanisches System) ist ein technisches System, welches aus Komponenten aufgebaut ist, deren Abmessungen im Mikrometerbereich liegen.}-Spiegel.
+Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Microvision (Microvison Inc., Redmond, USA) zeichnet sich neben der geringen Größe dadurch aus, dass als Lichtquellen drei Laser in den Farben rot, grün und blau eingesetzt werden. Die Strahlen werden wie in \abb{fig.projtech} gezeigt durch Optiken kombiniert um alle Farben des sichtbaren Spektrums abzubilden. Der Bildaufbau erfolgt durch Ablenkung des kombinierten Strahls an einem MEMS\footnote{Ein MEMS (Mikro-elektromechanisches System) ist ein technisches System, welches aus Komponenten aufgebaut ist, deren Abmessungen im Mikrometerbereich liegen.}-Spiegel.
 
 \begin{figure}[ht]
 	\begin{center}
 		\includesvgnew[1]{images/projector_tech_03}
 %		\includegraphics[scale=1.0]{projector_tech_02}
-		\caption{Projektionsprinzip}
+		\caption{Projektionsprinzip des Pico-Laser-Projektors}
 		\label{fig.projtech}
 	\end{center}
 	%\vspace*{-8mm}
@@ -101,7 +101,7 @@ Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellt
 	\begin{center}%
 		\includesvgnew[1]{images/kinpro_overview_pathes}%
 %		\includegraphics[scale=1.0]{projector_tech_02}
-		\caption{Das KinPro System}
+		\caption{Das \kps{}}
 		\label{fig.kinpro}
 	\end{center}
 	%\vspace*{-8mm}
@@ -370,6 +370,7 @@ Basierend auf den ermittelten intrinsischen Parametern können nun die radialen 
 %Isometrische Ansicht als Prinzip der Kalibrierung? Schachbrett fest und 3 Ansichten des Systems (der Kamera) mit Koordinatensystemen!?\\]
 
 \subsection{Projektorkalibrierung}
+\label{chap.projcalib}
 Um die Darstellung visueller Informationen an definierten Stellen im Raum zu ermöglichen ist eine Kalibrierung des Projektors erforderlich. Indem die Projektion in umgekehrter Richtung betrachtet wird, kann ein Projektor wie in \kapitel{chap.kinect} erwähnt als inverse Kamera aufgefasst werden. Das Verfahren zur Kamera-Kalibrierung lässt sich dadurch auf den Projektor erweitern \cite{Falcao2008}. Aufgrund der in \kapitel{chap.projector} beschriebenen Projektionstechnologie können die Verzeichnungen dabei vernachlässigt werden, da keine Optik zur Fokussierung des Bildes verwendet wird. Die Kalibrierung kann damit auf die Bestimmung der intrinsischen und extrinsischen Parameter des Projektors beschränkt werden.\\
 
 Aufgrund der Fixierung des Projektors im \kps{} ist die Lage bezüglich des Kamera-Koordinatensystems unveränderlich. Anstelle einer globalen Positionsbestimmung ist daher insbesondere die Ermittlung der konstanten, relativen Transformation zwischen den Koordinatensystemen der Kamera und des Projektors von Interesse. Ziel der Kalibrierung des Projektors ist daher die Bestimmung der konstanten Parameter der intrinsischen und extrinsischen Projektormatrix.\\
@@ -392,12 +393,12 @@ Um die gemeinsame Kalibrierebene zu bestimmen ist die Aufnahme beider Muster in 
 
 Zunächst ist es erforderlich, die Lage der Kamera bezüglich der Kalibrierebene zu ermitteln. Mit Hilfe der bestimmten intrinsischen Parameter können die globalen Koordinaten der Eckpunkte und die aufgespannte Ebene des realen Schachbretts leicht bestimmt werden. Die Pixel-Koordinaten des projizierten Musters können ebenfalls extrahiert werden. Da die Kalibrierebene bekannt ist, kann der in \eq{eq.persp_abb} eingeführte Skalierungsfaktor in den Abbildungsgleichungen bestimmt und somit die räumliche Position der projizierten Eckpunkte ermittelt werden.\\
 
-Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang anwendbar und die intrinsischen und extrinsischen Parameter des Projektors können bestimmt werden.\\
+Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang anwendbar, wodurch die intrinsische Projektormatrix $\tmat{SP}{P}$ bestimmt werden kann.\\
 
 %PreviewVersion
 %\red[Auch hier isometrische Ansicht mit Gesamtsystem? Transformationen lassen sich dort gut zeigen\\]
 
-Da für jede Aufnahme nun die Transformationen zwischen dem globalen Koordinatensystem und den Koordinatensystemen von Kamera und Projektor vorliegen kann die statische Transformation zwischen Kamera und Projektor ebenfalls bestimmt werden:
+Da für jede Aufnahme während der Kalibrierungsvorgänge die Transformationen zwischen dem globalen Koordinatensystem und den Koordinatensystemen von Kamera und Projektor ermittelt wurden, kann die statische Transformation zwischen Kamera und Projektor ebenfalls bestimmt werden:
 
 \begin{equation}
 \tmat{K}{P} = \left( \tmat{0}{K} \right)^{-1} \tmat{0}{P} = \tmat{K}{0} \tmat{0}{P}
@@ -466,13 +467,15 @@ Die Struktur von Punktwolken wird verwendet um die von der Kinect aufgenommenen 
 Die von der Firma Trolltech entwickelte und mittlerweile von der Firma Digia verwaltete Qt Bibliothek ermöglicht eine plattformunabhängige Entwicklung von grafischen Benutzerschnittstellen im C++ Standard \cite{Qt}. Die Qt Bibliothek wurde in dieser Arbeit verwendet um die Schnittstelle zu realisieren mit welcher der Benutzer Zugriff auf die Funktionen der verschiedenen Programmkomponenten erhält.
 
 \subsection{Visualization Toolkit}
+\label{chap.vtk}
 Das Visualization Toolkit (VTK) stellt eine auf dem C++ Standard basierende Bibliothek dar, welche für die Verarbeitung und Visualisierung von 3D Bilddaten entwickelt wurde. Die Firma Kitware entwickelt die Bibliothek ständig weiter und stellt sie als quelloffene Software zur Verfügung \cite{VTK}. Verschiedene Schnittstellen zwischen VTK und PCL ermöglichen neben der Darstellung von 3D-Objekten auch die Integration und Visualisierung von Punktwolken. 
 
 %PreviewVersion
 %\red[Ausführlicher?\\]
 %\red[Versionen!\\]
 
-\subsection{GUI/Programmstruktur}
+\subsection{Programmstruktur}
+\label{chap.softwarestruct}
 %\red[Mit aufnehmen in dieser Liste? Oder ganz am Ende (nach Interaktion) Komplettes GUI und alle Transformationen zusammenfassen?\\]%
 Die für die Anwendung des \kps{s} als selbstlokalisierendes, handgeführtes Projektionssystem entwickelte Software umfasst verschiedene Module, welche durch ROS verknüpft werden. Dies ermöglicht den Informationsaustausch zwischen den Komponenten auf Basis definierter Daten- und Kommunikationsstrukturen. Der Austausch einzelner Komponenten ist damit jederzeit möglich, sodass die Entwicklung und Integration optimierter Module je nach Anwendungsgebiet vorgenommen werden kann.\\
 Einen %\red[abstrahierten] 
@@ -503,7 +506,9 @@ Die kontinuierlich bestimmte Pose wird an das Modul \textit{Visualisierung} übe
 Das Modul \textit{Interaktion} ermöglicht dem Benutzer die Modifikation der visualisierten Modelldaten indem die Tiefeninformationen der Kinect ausgewertet werden. Die Befehle des Benutzers können so erkannt und anschließend an das Modul \textit{Visualisierung} übertragen werden. Durch die Rückkopplung zu den Modelldaten können diese daraufhin angepasst werden.\\
 Das Modul \textit{Visualisierung} integriert die Benutzerinteraktion in die Darstellung der Modelldaten, so dass eine visuelle Rückmeldung während der Interaktion erfolgt.\\
 
-Darüber hinaus wurde eine grafische Benutzeroberfläche implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht damit dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurden in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Benutzeroberfläche lauffähig ist.\\
+Darüber hinaus wurde eine grafische Benutzeroberfläche (GUI) implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht damit dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurden in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Benutzeroberfläche lauffähig ist.\\
+
+\red[GUI nomenclature]
 
 %PreviewVersion
 %\red[In den folgenden Kapiteln erfolgt eine Spezifizierung der Module und ihrer Komponenten.\\]
