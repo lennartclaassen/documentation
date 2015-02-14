@@ -1,4 +1,4 @@
-\chapter{\red[Experimentelle ]Auswertung und Ergebnisse}
+\chapter{Experimentelle Auswertung und Ergebnisse}
 \label{chap.results}
 \red[TODO:\\
 PGFPlots einfügen\\
@@ -11,7 +11,8 @@ Um die Funktionalität des \kps{s} bewerten und verschiedene Anwendungsfälle ve
 
 Zunächst erfolgt eine Betrachtung der globalen Lokalisationsgenauigkeit, indem die zwei in \kapitel{chap.globloc} beschriebenen Modelle gegenübergestellt werden. Anschließend wird die Genauigkeit der lokalen Lokalisation bewertet, wobei die visuelle Odometrie und die mittels des EKF fusionierten Messdaten betrachtet werden. Abschließend wird eine gesonderte Auswertung des Projektionsvorgangs durchgeführt, welcher durch die Transformation zwischen Kamera und Projektor beschrieben wird.\\
 
-Als Bewertungsreferenz \red[(Ground Truth)] der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Durch Erfassung in Kamerabildern können Orientierung und Ursprung der Felder bestimmt werden \red[näher erläuteren?]. Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Die jeweilige Positionierung der Felder ist abhängig von der jeweiligen Untersuchung und wird innerhalb der folgenden Abschnitte detaillierter beschrieben.\\
+Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Durch Erfassung in Kamerabildern können Orientierung und Ursprung der Felder bestimmt werden \cite{arsys}.\\
+Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Die Positionierung der Felder ist abhängig von der jeweiligen Untersuchung und wird innerhalb der folgenden Abschnitte detaillierter beschrieben.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -31,13 +32,13 @@ Als Bewertungsreferenz \red[(Ground Truth)] der Lokalisation werden die in \abb{
 		}
 		\endgroup
 	}
-	\caption{AR Markerfelder}
+	\caption{Markerfelder zur Lagevalidierung}
 	\label{fig.armarker}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Die betrachten Fehlerwerte $E$ werden dabei für alle Untersuchungen über die jeweiligen Einzeldifferenzen $r_i$ der $n$ Messungen als Quadratischer Mittelwert bestimmt:
+Die betrachten Fehlerwerte $E$ werden dabei für alle Untersuchungen als Quadratisches Mittel über die jeweiligen Einzeldifferenzen $r_i$ der $n$ Messungen bestimmt:
 
 \begin{equation}
 E = \sqrt{\frac{1}{n}\sum_{i=1}^nr_i^2}
@@ -45,39 +46,30 @@ E = \sqrt{\frac{1}{n}\sum_{i=1}^nr_i^2}
 
 
 \section{Globale Lokalisation}
-Die globale Lokalisation bildet die Basis der Lagebestimmung des \kps{s}. Im folgenden werden das \red[Raycasting-] und das \red[Endpoint]-Modell verglichen und auf ihre Eignung als globales Lokalisationsverfahren geprüft. Neben der möglichst exakten Annäherung ist dabei auch eine approximative Bestimmung der Systempose von Bedeutung. Wird die Pose innerhalb eines Grenzbereiches angenähert, kann die verbleibende Abweichung durch anschließende Optimierungsschritte verringert werden. Im Falle einer fehlerhaften initialen Lokalisation kann jedoch trotz lokaler Optimierung nicht von einer Verringerung der Abweichung zur wahren Pose ausgegangen werden. Als zusätzliches Bewertungskriterium der globalen Lokalisation wird deshalb im Folgenden neben der Abweichung zur realen Pose auch die Erfolgsquote der Approximation erfasst. Als drittes Vergleichskriterium wird abschließend die für den Lokalisationsvorgang benötigte Rechenzeit ausgewertet.\\
+Die globale Lokalisation bildet die Basis der Lagebestimmung des \kps{s}. Im folgenden werden das RCM und das EPM verglichen und auf ihre Eignung als globales Lokalisationsverfahren des \kps{s} geprüft.\\
+Neben der möglichst exakten Annäherung ist dabei auch eine approximative Bestimmung der Systempose von Bedeutung. Wird die Pose innerhalb eines Grenzbereiches angenähert, kann die verbleibende Abweichung durch anschließende Optimierungsschritte verringert werden. Im Falle einer fehlerhaften initialen Lokalisation kann jedoch trotz lokaler Optimierung nicht von einer Verringerung der Abweichung zur wahren Pose ausgegangen werden. Als zusätzliches Bewertungskriterium der globalen Lokalisation wird deshalb im Folgenden neben der Abweichung zur realen Pose auch die Erfolgsquote der Approximation erfasst.\\
+Als drittes Vergleichskriterium wird abschließend die für den Lokalisationsvorgang benötigte Rechenzeit ausgewertet.\\
 
 %Dabei ist besonders eine approximative Bestimmung der Systempose von Bedeutung. Die Bestimmung einer möglichst exakten Annäherung der Pose ist zwar prinzipiell ebenso Ziel der globalen Lokalisation, kann jedoch bei korrekter initialer Approximation auch durch anschließende Optimierungsschritte erreicht werden. Im Falle einer fehlerhaften initialen Lokalisation kann trotz einer lokalen Optimierung nicht von einer Verringerung der Abweichung zur wahren Pose ausgegangen werden. Als zusätzliches Bewertungskriterium der globale Lokalisation wird deshalb im Folgenden neben der Abweichung zur realen Pose auch die Erfolgswahrscheinlichkeit der Approximation erfasst.\\
 
 Um die wahre Pose des \kps{s} zu bestimmen wird das Markerfeld innerhalb der realen Umgebung auf einer glatten Fläche befestigt. Der Abgleich zwischen der daraus bestimmten Pose und der durch die Lokalisation ermittelten Pose ist dabei nur möglich, wenn die Pose des Markerfeldes auch in der Modellumgebung bekannt ist. Dies kann entweder durch Anbringung der Markerfelder vor der Kartierung oder durch Definition der Markerpose anhand eindeutiger Landmarken der Umgebung erreicht werden.\\
 
-Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit der Kamera des Systems erfolgen. Dazu wird das \kps{} in einer Pose fixiert und die Transformation zwischen dem Markerfeld und dem \kps{} bestimmt. Durch die vorhandene Verknüpfung zwischen der realen und der Modellumgebung ist die Transformation zwischen den Koordinaten der Karte und dem Markerfeld beschrieben\red[ Bild?]. Es lässt sich somit die Transformation zwischen \kps{} und Karte bestimmen zu:
+Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit der Kamera des Systems erfolgen. Dazu wird das \kps{} in einer Pose fixiert und die Transformation zwischen dem Markerfeld und dem \kps{} bestimmt. Durch die vorhandene Verknüpfung zwischen der realen und der Modellumgebung ist die Transformation $\tmat{M}{MF}$ zwischen den Koordinaten der Karte und dem Markerfeld beschrieben\red[ Bild?]. Es lässt sich somit die Transformation zwischen \kps{} und Karte bestimmen zu:
 
 \begin{equation}
-\tmat{M}{K} = \tmat{M}{AR}\tmat{AR}{K}
+\tmat{M}{K} = \tmat{M}{MF}\tmat{MF}{K}
 \end{equation}
 
-Auch die globale Lokalisation wird durchgeführt während sich das \kps{} in der fixierten Pose befindet. Für beide Modelle werden insgesamt $n=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzposition verglichen. Die quadratischen Mittelwerte der Fehler bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems sind in \abb{fig.glob_loc} in Abhängigkeit des verwendeten Modells aufgeführt.\\
+Aus der fixierten Pose wird anschließend die globale Lokalisation durchgeführt. Für beide Modelle werden insgesamt $n=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzposition verglichen. Dazu wird das quadratische Mittel der Fehler bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems bestimmt.\\
 
-
-\red[\abb{fig.error_glob_trans} zeigt den Vergleich der durch die beiden Modelle erzielten Fehlerwerte.\\]
-\red[Versuchsparameter, Partikelzahl etc.]
-
-\input{plot/glob_loc}
-
-Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der Partikel bezüglich der \red[z-Koordinate] der Karte erforderlich. Da das handgeführte \kps{} zu Beginn der Anwendung leicht in einer definierten Höhe bewegt werden kann, wurde dieser Grenzbereich mit einer Toleranz von $\pm$ \SI{0,1}{\meter} zur tatsächlichen Pose definiert. Die Fehlerwerte bezüglich dieses Freiheitsgrades können aufgrund dieser Vorgabe nicht über der gewählten Toleranz liegen.\\
-
-\red[Ergebnisse beschreiben und interpretieren\\]
-
-\red[Definition, welche als erfolgreich gelten müsste eigentlich vorher schon kommen um daraus die Fehlerwerte zu berechnen!\\]
-
-Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.loclimits} dargestellt ein Grenzraum um die wahre Position des \kps{s} definiert. Für die maximal zulässigen Winkelfehler werden ebenfalls Grenzbereiche festgelegt. Die Grenzwerte sind in \tab{thresh_glob} aufgeführt und orientieren sich an den Fehlerwerten, aus welchen durch das von Forster \textit{et al.} \cite{Forster2013} vorgestellte Verfahren eine Optimierung der Pose erreicht werden konnte.\\
+In der Fehlerbetrachtung sollen nur die ermittelten Posen berücksichtigt werden, welche eine Annäherung an die tatsächliche Pose innerhalb bestimmter Grenzen darstellen. Außerhalb dieses Bereiches wird von einer fehlerhaften Lokalisation ausgegangen.\\
+Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.loclimits} dargestellt deshalb ein Grenzraum um die wahre Position des \kps{s} definiert. Die maximal zulässigen translatorischen und rotatorischen Fehler sind in \tab{thresh_glob} aufgeführt. Die Definition der Grenzwerte erfolgt orientiert an Fehlerwerten, aus welchen in der Literatur die angenäherte Pose optimiert werden konnte \cite{Forster2013}.\\
 %\red[Festgelegt nach \cite{Forster2013}\\]
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{glob_loc_thresh_02}
-		\caption{Grenzbereich der Lokalisation}
+		\includegraphics[scale=0.5]{glob_loc_thresh_02}
+		\caption{Grenzbereich der Lokalisation mit korrekt angenäherter Pose (grün) und fehlerhafter Lokalisation (rot)}
 		\label{fig.loclimits}
 	\end{center}
 	%\vspace*{-8mm}
@@ -91,17 +83,19 @@ Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.locl
 	\begin{tabular}[ht]{|l|r|}\hline
 		\rowcolor{Snow2}
 		Dimension		& Grenzwert 					\\ \hline
-		X				& \SI{0,35}{\meter}			\\ \hline		
-		Y				& \SI{0,35}{\meter}			\\ \hline
-		Z				& \SI{0,35}{\meter}			\\ \hline
-		Yaw				& \SI{7}{°}					\\ \hline
-		Pitch			& \SI{7}{°}					\\ \hline
-		Roll 			& \SI{7}{°}					\\ \hline
+		translatorisch  	& \SI{0,35}{\meter}			\\ \hline
+		rotatorisch		& \SI{7}{°}					\\ \hline
+%		$X_{lim}$		& \SI{0,35}{\meter}			\\ \hline		
+%		$Y_{lim}$		& \SI{0,35}{\meter}			\\ \hline
+%		$Z_{lim}$		& \SI{0,35}{\meter}			\\ \hline
+%		$\Psi_{lim}$		& \SI{7}{°}					\\ \hline
+%		$\Theta_{lim}$	& \SI{7}{°}					\\ \hline
+%		$\Phi_{lim}$		& \SI{7}{°}					\\ \hline
 	\end{tabular} 
-	\vspace*{-3mm}
+	%\vspace*{-3mm}
 \end{table}
 
-Die Erfolgsquote der Annäherung der wahren Systempose berechnet sich aus dem Quotienten der fehlgeschlagenen und insgesamt durchgeführten Lokalisationen. Als fehlgeschlagen werden dabei alle Lokalisationen betrachtet, bei welchen einer der definierten Grenzwerte überschritten wurde. Die Ergebnisse sind zusammen mit der durchschnittlich für die globale Lokalisation benötigten Rechenzeit $\bar{t}$ in \tab{approx_time} aufgeführt.
+Die Erfolgsquote der Annäherung der wahren Systempose berechnet sich aus dem Quotienten der fehlgeschlagenen und insgesamt durchgeführten Lokalisationen. Als fehlgeschlagen werden dabei alle Lokalisationen betrachtet, bei welchen einer der definierten Grenzwerte überschritten wurde. Die Ergebnisse sind zusammen mit der für die globale Lokalisation durchschnittlich benötigten Rechenzeit $\bar{t}$ in \tab{approx_time} aufgeführt.
 
 \begin{table}[ht]
 	\centering
@@ -112,23 +106,62 @@ Die Erfolgsquote der Annäherung der wahren Systempose berechnet sich aus dem Qu
 		\rowcolor{Snow2}
 		Modell			& Erfolgsquote [$\%$]	&	Rechenzeit $\bar{t}$	 [s]	\\ \hline
 		Raycasting		& 56,25					&	\SI{532,89}{}			\\ \hline		
-		Endpoint			& 75					&	\SI{55,66}{}			\\ \hline
+		Endpoint			& 75						&	\SI{55,66}{}			\\ \hline
 	\end{tabular} 
-	\vspace*{-3mm}
+	%\vspace*{-3mm}
 \end{table}
 
-\red[Erfolgsquote interpretieren\\]
+In der benötigten Rechenzeit zeigt sich deutlich der erwartete höhere Rechenaufwand bei der Verwendung des RCM. Sie beträgt nahezu das \SI{10}{}-fache der für das EPM benötigten Zeit.\\
+Die berechnete Erfolgsquote hingegen bestätigt nicht die durch den Rechenaufwand erwartete Genauigkeit des Modells. Nur etwa die Hälfte der Lokalisationsvorgänge des RCM wurde nach den definierten Kriterien als erfolgreich gewertet. Das EPM hingegen schaffte es in zwei drittel der Messungen, die Systempose zu approximieren.\\
 
-Wie aus \tab{approx_time} darüber hinaus ersichtlich wird, beträgt die benötigte Rechenzeit des \red[Raycasting]-Modells fast das \SI{10}{}-fache der vom \red[Endpoint]-Model benötigten Zeit. 
-\red[Zeit der Lokalisation auswerten\\]
+%\red[Erfolgsquote interpretieren\\]
+%
+%Wie aus \tab{approx_time} darüber hinaus ersichtlich wird, beträgt die benötigte Rechenzeit des \red[Raycasting]-Modells fast das \SI{10}{}-fache der vom \red[Endpoint]-Model benötigten Zeit. 
+%\red[Zeit der Lokalisation auswerten\\]
 
-\red[Fazit daraus ableiten, welches besser geeignet ist? oder erst im Fazit/Zusammenfassung?\\]
+Da die Erfolgsquote allein kein ausreichendes Maß darstellt um die Präzision der Annäherung zu bewerten wird das Quadratische Mittel der Differenzen zwischen tatsächlicher und angenäherter Pose bestimmt. Dabei wurden für jedes Modell $k=12$ gültige Messungen ausgewertet. Die Ergebnisse sind in \abb{fig.glob_loc} in Abhängigkeit des verwendeten Modells aufgeführt.\\
+
+%Auch die globale Lokalisation wird durchgeführt während sich das \kps{} in der fixierten Pose befindet. Für beide Modelle werden insgesamt $n=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzposition verglichen. Das quadratische Mittel der Fehler aus jeweils \red[$n$] Messungen ist bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems sind in \abb{fig.glob_loc} in Abhängigkeit des verwendeten Modells aufgeführt.\\
+
+%PreviewVersion
+%\red[\abb{fig.error_glob_trans} zeigt den Vergleich der durch die beiden Modelle erzielten Fehlerwerte.\\]
+%\red[Versuchsparameter, Partikelzahl etc.]
+
+\begin{figure}
+\input{plot/glob_loc}
+\caption{Quadratisches Mittel der Fehlerwerte in der globalen Lokalisation}
+\end{figure}
+
+Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der Partikel bezüglich der Höhe ($Z$-Achse des $\ks{M}$) erforderlich. Da das handgeführte \kps{} zu Beginn der Anwendung leicht in einer definierten Höhe gehalten werden kann, wurde dieser Grenzbereich mit einer Toleranz von $\pm$ \SI{0,1}{\meter} zur tatsächlichen Pose definiert. Die Fehlerwerte bezüglich $\Delta Z$ können aufgrund dieser Vorgabe nicht über der gewählten Toleranz liegen.\\
+Darüber hinaus verwendet die globale Lokalisation die Daten der inertialen Messeinheit um die Orientierung bezüglich des Roll- ($\Psi$) und Nickwinkels ($\Theta$) zu bestimmen.\\
+Bezüglich dieser drei Freiheitsgrade sind die Fehlerwerte damit nicht abhängig vom verwendeten Modell, wodurch sich die geringen Differenzen zwischen den Modellen in diesen Bereichen erklären.\\
+
+Für die modellabhängigen Fehlerwerte zeigen sich zwischen dem RCM und dem EPM jedoch deutliche Unterschiede in der Genauigkeit der ermittelten Pose. Die translatorischen Fehlerwerte betragen für das RCM mehr als das doppelte der bei Einsatz des EPM verbleibenden Fehler. Auch in der Bestimmung des Gierwinkels liegt der Fehlerwert des RCM signifikant über dem des EPM.\\
+Wie bereits durch die Erfolgsquote zeigt sich damit, dass das RCM deutlich ungenauere Approximationen der Systempose bestimmt als das EPM.\\
+
+Eine mögliche Ursache dafür liegt in der größeren Toleranz des EPM gegenüber kleineren Abweichungen beim Abgleich zwischen Modell und Messwerten ist. Als Beispiel wird ein Partikel betrachtet, für welches die Messwerte einige Zentimeter in ein Hindernis hinein abgebildet werden. Durch Nichtbeachtung des Strahlenverlaufs unterscheidet sich die Bewertung durch das EPM in diesem Fall nicht von der Bewertung eines Partikels, für welches die Messwerte direkt mit der Außenfläche der Wand abgeglichen werden.\\
+Das RCM liefert durch den Abgleich entlang des Sensorstrahls für diese beiden Partikel jedoch deutlich unterschiedliche Fehlerwerte, weshalb das Partikel unter Umständen verworfen wird. Durch Verwendung einer größeren Varianz innerhalb des Sensormodells kann dieser Tatsache zwar entgegengewirkt werden, die Ungenauigkeit in der bestimmten Pose würde sich dadurch jedoch vergrößern.\\
+
+Anzumerken ist, dass aufgrund der Funktionsweise eines Partikelfilters durch Erhöhung der Partikelanzahl das Raster und damit die Auflösung der betrachteten Posen nahezu infinitesimal verfeinert werden kann. Die Durchgeführte Fehlerbetrachtung dient daher insbesondere als Vergleich der beiden Modelle.\\
+Die höhere Genauigkeit des EPM in der Approximation zeigt zusammen mit der größeren Erfolgswahrscheinlichkeit und der deutlich geringeren Rechenzeit, dass es für den vorliegenden Anwendungsfall gegenüber dem RCM bevorzugt werden sollte.\\
+Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in gradlinigen Umgebungen mit geringer Komplexität in den Hintergrund. Da diese Arbeit insbesondere derartige Umgebungen betrachtet, ist das EPM besser als globales Lokalisationsverfahren für das erstellte \kps{} geeignet als das RCM.\\
+
+%Partikelfilter, deshalb immer Verbesserung theoretisch möglich, bei gleichen Prozessparametern soll jedoch vergleichbarkeit gewährleistet sein. Ziel ist anwendugnsfähiges Modell einzusetzen
 
 
-\red[Quadratischer Mittelwert QMW statt Root Mean Square RMS überall aktualisieren\\]
+%\red[Ergebnisse beschreiben und interpretieren\\]
+
+%\red[Definition, welche als erfolgreich gelten müsste eigentlich vorher schon kommen um daraus die Fehlerwerte zu berechnen!\\]
 
 
-\red[Relokalisation bei globaler Lokalisation beschreiben. Besser später als Ergänzung um die lokale Lokalisation zu korrigieren!\\]
+
+%\red[Fazit daraus ableiten, welches besser geeignet ist? oder erst im Fazit/Zusammenfassung?\\]
+
+
+%\red[Quadratischer Mittelwert QMW statt Root Mean Square RMS überall aktualisieren\\]
+
+
+%\red[Relokalisation bei globaler Lokalisation beschreiben. Besser später als Ergänzung um die lokale Lokalisation zu korrigieren!\\]
 
 \section{Lokale Lokalisation}%Tracking/Kontinuierliche Lokalisation}
 Die Genauigkeit der lokalen Lokalisation wird gesondert von der durch die globale Lokalisation bestimmten Pose betrachtet. Dazu wird ebenfalls das für die Untersuchung der globalen Lokalisation verwendete Markerfeld genutzt. Die wahre Pose des Systems kann so wie zuvor bestimmt und als Initialisierung der Lokalisation verwendet werden.\\
@@ -196,7 +229,7 @@ Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglich
 \begin{figure}[!ht]
 	\begin{center}
 		\includegraphics[scale=0.5]{board_eval_cropped}
-		\caption{AR Marker real und projiziert}
+		\caption{Markerfelder real und projiziert}
 		\label{fig.arprojected}
 	\end{center}
 	%\vspace*{-8mm}

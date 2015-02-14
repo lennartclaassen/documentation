@@ -50,7 +50,7 @@ Um eine gleichmäßige Objektstruktur zu erhalten wird anschließend eine Hüllk
 	%\vspace*{-8mm}
 \end{figure}
 
-Um die ermittelte Zeigerichtung zu glätten wird der gleitende Mittelwert der Punkte bestimmt. Auch die Differenz zwischen zwei Punkten aus aufeinander folgenden Messungen wird überwacht, um zu große Sprünge in der Bewegung aufgrund von Fehldetektionen erkennen zu können.\\
+Um das Signal der ermittelte Linie zu glätten wird der gleitende Mittelwert der Punkte bestimmt. Auch die Differenz zwischen zwei Punkten aus aufeinander folgenden Messungen wird überwacht, um Sprünge in der Bewegung aufgrund von Fehldetektionen erkennen zu können.\\
 Aufgrund des Implementierten Ansatzes wurde für die Kommunikation eine Nachrichtenstruktur definiert, welche die erkannte Linie abbildet. Das Modul \textit{Interaktion} stellt die ermittelte Linie über diese Nachricht zur Verfügung, so dass sie vom Modul \textit{Visualisierung} ausgewertet werden kann.\\
 
 %Da die Kamera des Kinect Sensors auch von dem \mFovis verwendet wird besteht die Gefahr der Beeinflussung zwischen der Benutzereingabe und der lokalen Lokalisation. Um diese zu vermeiden sendet das \mInteraction Modul einen Befehl zum Pausieren der visuellen Odometrie sobald Punkte innerhalb des Interaktionsbereiches erkannt werden. Die visuelle Odometrie wird somit für die Dauer der Benutzerinteraktion unterbrochen. Sobald keine Punkte mehr innerhalb des Interaktionsbereiches detektiert werden, sendet das \mInteraction ein Signal zur Wiederaufnahme der visuellen Odometrie an das \mFovis .

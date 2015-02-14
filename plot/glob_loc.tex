@@ -1,8 +1,9 @@
 \begin{center}
 \begin{tikzpicture}
+\tikzstyle{every node}=[font=\small]
 \begin{axis}[
 	ybar,
-	ymax=0.3,
+	ymax=0.35,
 	ymin=0,
 	bar width=20pt,
 	scaled y ticks = false,
@@ -10,13 +11,14 @@
 %	enlarge y limits={0.4,upper},
 	enlarge x limits=0.15,
 	legend style={at={(0.5,-0.15)},
+	legend style={/tikz/every even column/.append style={column sep=0.5cm}},
 	anchor=north,legend columns=-1},
 	ylabel={Positionsfehler \lbrack m\rbrack},
 %	symbolic x coords={\Delta,y,z},
 	xtick={1,2,3,4,5,6},
 	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
 %	xtick=data,
-	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	every node near coord/.style={/pgf/number format/fixed,/pgf/number format/use comma, anchor=west},
 	nodes near coords,
 	nodes near coords align={vertical},
 	width=14cm,
@@ -31,7 +33,7 @@
 	color=red,
 	fill=red!30!white,
 	bar shift=-11pt,
-] coordinates {(1,0.3105647208) (2,0.3388888731) (3,0.0473358078)};
+] coordinates {(1,0.292348411) (2,0.2408529538) (3,0.0473358078)};
 \addplot[
 	every node near coord/.append style={xshift=-0.12cm},
 	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
@@ -40,13 +42,13 @@
 	bar shift=11pt,	
 ] coordinates {(1,0.1315834135) (2,0.1156007492) (3,0.0283533047)};
 \addplot[fill opacity=0.0,draw=none,] coordinates {(4,0) (5,0) (6,0)};	%dummy
-\legend{Raycasting,Endpoint}
+\legend{Raycasting-Modell,Endpoint-Modell}
 \end{axis}
 
 \begin{axis}[
 %	scale only axis,
 	ybar,
-	ymax=6,
+	ymax=7,
 	ymin=0,
 	bar width=20pt,
 %	enlarge y limits={0.4,upper},
@@ -61,7 +63,7 @@
 	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
 %	xtick=data,
 %	bar shift=0pt,
-	every node near coord/.style={/pgf/number format/fixed, anchor=west},
+	every node near coord/.style={/pgf/number format/fixed,/pgf/number format/use comma, anchor=west},
 	nodes near coords,
 	nodes near coords align={vertical},
 	width=14cm,
@@ -77,7 +79,7 @@
 	color=Red,
 	fill=Red!30!white,
 	bar shift=-11pt,	
-] coordinates {(4,2.4445637073) (5,0.9069805767) (6,8.4545773848)};
+] coordinates {(4,2.4445637073) (5,0.9069805767) (6,5.2399830339)};
 \addplot[
 	every node near coord/.append style={xshift=-0.12cm},
 	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
