@@ -33,14 +33,14 @@
 	color=red,
 	fill=red!30!white,
 	bar shift=-11pt,
-] coordinates {(1,0.292348411) (2,0.2408529538) (3,0.0473358078)};
+] coordinates {(1,0.29) (2,0.24) (3,0.05)};
 \addplot[
 	every node near coord/.append style={xshift=-0.12cm},
 	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
 	color=blue,
 	fill=blue!30!white,
 	bar shift=11pt,	
-] coordinates {(1,0.1315834135) (2,0.1156007492) (3,0.0283533047)};
+] coordinates {(1,0.13) (2,0.12) (3,0.03)};
 \addplot[fill opacity=0.0,draw=none,] coordinates {(4,0) (5,0) (6,0)};	%dummy
 \legend{Raycasting-Modell,Endpoint-Modell}
 \end{axis}
@@ -76,19 +76,18 @@
 \addplot[
 	every node near coord/.append style={xshift=-0.9cm},
 	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
-	color=Red,
-	fill=Red!30!white,
+	color=red,
+	fill=red!30!white,
 	bar shift=-11pt,	
-] coordinates {(4,2.4445637073) (5,0.9069805767) (6,5.2399830339)};
+] coordinates {(4,2.44) (5,0.90) (6,5.24)};
 \addplot[
 	every node near coord/.append style={xshift=-0.12cm},
 	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
-	color=Blue,
-	fill=Blue!30!white,
+	color=blue,
+	fill=blue!30!white,
 	bar shift=11pt,	
-] coordinates {(4,3.1097896867) (5,1.5883227312) (6,3.4716845667)};
+] coordinates {(4,3.11) (5,1.59) (6,3.47)};
 \end{axis}
-\label{fig.glob_loc}
 \end{tikzpicture}
 \end{center}
 

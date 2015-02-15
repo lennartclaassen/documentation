@@ -7,9 +7,12 @@ Ergebnisse vergleichen/auswerten\\
 Versuchsdurchführungen beschreiben!? Skizzen?\\
 ]
 
-Um die Funktionalität des \kps{s} bewerten und verschiedene Anwendungsfälle vergleichen zu können wird eine experimentelle Evaluation durchgeführt. Diese soll besonders dazu dienen, Fehlereinflüsse der aufeinander aufbauenden Transformationen zwischen der Lokalisation des Systems und der Darstellung der visuellen Zusatzinformationen zu quantifizieren.\\
 
-Zunächst erfolgt eine Betrachtung der globalen Lokalisationsgenauigkeit, indem die zwei in \kapitel{chap.globloc} beschriebenen Modelle gegenübergestellt werden. Anschließend wird die Genauigkeit der lokalen Lokalisation bewertet, wobei die visuelle Odometrie und die mittels des EKF fusionierten Messdaten betrachtet werden. Abschließend wird eine gesonderte Auswertung des Projektionsvorgangs durchgeführt, welcher durch die Transformation zwischen Kamera und Projektor beschrieben wird.\\
+Um die Funktionalität des \kps{s} bewerten \red[und verschiedene Anwendungsfälle vergleichen] zu können wird eine experimentelle Evaluation durchgeführt. Diese soll besonders dazu dienen, Fehlereinflüsse der aufeinander aufbauenden Transformationen zwischen der Lokalisation des Systems und der Darstellung der visuellen Zusatzinformationen zu quantifizieren.\\
+
+\red[Gesamte Transformation hier angeben!?\\Globale Lokalisation: Map -> Odom\\Lokale Lokalisation: Odom -> KPS\\Projektionsgenauigkeit: KPS -> Projektor\\]
+
+Zunächst erfolgt eine Betrachtung der globalen Lokalisationsgenauigkeit, indem die zwei in \kapitel{chap.globloc} beschriebenen Modelle gegenübergestellt werden. Anschließend wird die Genauigkeit der lokalen Lokalisation bewertet, wobei die visuelle Odometrie und die mittels des EKF fusionierten Sensordaten betrachtet werden. Abschließend wird eine gesonderte Auswertung des Projektionsvorgangs durchgeführt, welcher durch die Transformation zwischen Kamera und Projektor beschrieben wird.\\
 
 Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Durch Erfassung in Kamerabildern können Orientierung und Ursprung der Felder bestimmt werden \cite{arsys}.\\
 Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Die Positionierung der Felder ist abhängig von der jeweiligen Untersuchung und wird innerhalb der folgenden Abschnitte detaillierter beschrieben.\\
@@ -38,10 +41,10 @@ Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöh
 	%\vspace*{-8mm}
 \end{figure}
 
-Die betrachten Fehlerwerte $E$ werden dabei für alle Untersuchungen als Quadratisches Mittel über die jeweiligen Einzeldifferenzen $r_i$ der $n$ Messungen bestimmt:
+Die betrachten Fehlerwerte werden dabei für alle Bewertungen der Lokalisation als Quadratisches Mittel über $k$ Messungen aus den jeweiligen Einzeldifferenzen $r_i$ der Freiheitsgrade der Posen bestimmt:
 
 \begin{equation}
-E = \sqrt{\frac{1}{n}\sum_{i=1}^nr_i^2}
+QM = \sqrt{\frac{1}{k}\sum_{i=1}^kr_i^2}
 \end{equation}
 
 
@@ -130,9 +133,10 @@ Da die Erfolgsquote allein kein ausreichendes Maß darstellt um die Präzision d
 \begin{figure}
 \input{plot/glob_loc}
 \caption{Quadratisches Mittel der Fehlerwerte in der globalen Lokalisation}
+\label{fig.glob_loc}
 \end{figure}
 
-Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der Partikel bezüglich der Höhe ($Z$-Achse des $\ks{M}$) erforderlich. Da das handgeführte \kps{} zu Beginn der Anwendung leicht in einer definierten Höhe gehalten werden kann, wurde dieser Grenzbereich mit einer Toleranz von $\pm$ \SI{0,1}{\meter} zur tatsächlichen Pose definiert. Die Fehlerwerte bezüglich $\Delta Z$ können aufgrund dieser Vorgabe nicht über der gewählten Toleranz liegen.\\
+Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der Partikel bezüglich der Höhe ($z$-Achse des $\ks{M}$) erforderlich. Da das handgeführte \kps{} zu Beginn der Anwendung leicht in einer definierten Höhe gehalten werden kann, wurde dieser Grenzbereich mit einer Toleranz von $\pm$ \SI{0,1}{\meter} zur tatsächlichen Pose definiert. Die Fehlerwerte bezüglich $\Delta Z$ können aufgrund dieser Vorgabe nicht über der gewählten Toleranz liegen.\\
 Darüber hinaus verwendet die globale Lokalisation die Daten der inertialen Messeinheit um die Orientierung bezüglich des Roll- ($\Psi$) und Nickwinkels ($\Theta$) zu bestimmen.\\
 Bezüglich dieser drei Freiheitsgrade sind die Fehlerwerte damit nicht abhängig vom verwendeten Modell, wodurch sich die geringen Differenzen zwischen den Modellen in diesen Bereichen erklären.\\
 
@@ -144,7 +148,9 @@ Das RCM liefert durch den Abgleich entlang des Sensorstrahls für diese beiden P
 
 Anzumerken ist, dass aufgrund der Funktionsweise eines Partikelfilters durch Erhöhung der Partikelanzahl das Raster und damit die Auflösung der betrachteten Posen nahezu infinitesimal verfeinert werden kann. Die Durchgeführte Fehlerbetrachtung dient daher insbesondere als Vergleich der beiden Modelle.\\
 Die höhere Genauigkeit des EPM in der Approximation zeigt zusammen mit der größeren Erfolgswahrscheinlichkeit und der deutlich geringeren Rechenzeit, dass es für den vorliegenden Anwendungsfall gegenüber dem RCM bevorzugt werden sollte.\\
-Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in gradlinigen Umgebungen mit geringer Komplexität in den Hintergrund. Da diese Arbeit insbesondere derartige Umgebungen betrachtet, ist das EPM besser als globales Lokalisationsverfahren für das erstellte \kps{} geeignet als das RCM.\\
+Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in gradlinigen Umgebungen mit geringer Komplexität in den Hintergrund. Da diese Arbeit insbesondere derartige Umgebungen betrachtet, ist das EPM besser als globales Lokalisationsverfahren für das erstellte \kps{} geeignet als das RCM.
+
+\red[Tiefenauflösung von Distanz abhängig \cite{Khoshelham2012}]
 
 %Partikelfilter, deshalb immer Verbesserung theoretisch möglich, bei gleichen Prozessparametern soll jedoch vergleichbarkeit gewährleistet sein. Ziel ist anwendugnsfähiges Modell einzusetzen
 
@@ -169,73 +175,119 @@ Die Genauigkeit der lokalen Lokalisation wird gesondert von der durch die global
 Die Bewertung der kontinuierlichen Lokalisation erfolgt für translatorische und rotatorische Veränderungen der Systempose. Alle Messungen werden dabei separat durchgeführt um eine Beeinflussung der Bewegungen untereinander zu vermeiden.\\
 
 \subsection{Translatorische Bewegung}
-Die translatorischen Bewegungen werden parallel (x-Achse der Kamera, y-Achse des Systems) und orthogonal (z-Achse der Kamera, x-Achse des Systems) zu der Betrachtungsebene durchgeführt. Die parallele Bewegung entlang der zweiten zur Ebene parallelen Achse (y-Achse der Kamera, z-Achse des Systems) wird nicht gesondert betrachtet, da diese äquivalent zu der Bewegung entlang der ersten ist. \abb{fig.transmove} verdeutlicht dies und zeigt die Durchführung der Untersuchungen anhand eines beispielhaften Versuchsaufbaus.\\
+Die translatorischen Bewegungen werden parallel ($y$-Achse des Systems) und orthogonal ($x$-Achse des Systems) zu der Betrachtungsebene durchgeführt. Die parallele Bewegung entlang der zweiten zur Ebene parallelen Achse ($z$-Achse des Systems) wird nicht gesondert betrachtet, da diese äquivalent zu der Bewegung entlang der ersten ist. \abb{fig.transmove} verdeutlicht dies und zeigt die Durchführung der Untersuchungen anhand eines modellhaften Beispiels des Versuchsaufbaus.\\
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{loc_loc_lin}
+		\includegraphics[scale=0.5]{loc_loc_lin}
 		\caption{Translatorische Bewegung}
 		\label{fig.transmove}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Die quadratischen Mittelwerte der Lokalisationsfehler bei translatorischen Bewegungen parallel und orthogonal zur Betrachtungsebene sind in \abb{fig.loc_loc_trans} dargestellt.
+Bei jeder Messung wird das \kps{} entlang der betrachteten Achse um \SI{1}{\meter} translatorisch verschoben. Insgesamt werden für jede Achse $k=20$ Messungen ausgewertet. Die quadratischen Mittel der Lokalisationsfehler bei translatorischen Bewegungen parallel und orthogonal zur Betrachtungsebene sind in \abb{fig.loc_loc_trans} dargestellt.\\
 
+\begin{figure}
 \input{plot/loc_loc_trans}
+\caption{trans}
+\label{fig.loc_loc_trans}
+\end{figure}
 
-\red[Ergebnisse interpretieren\\]
+Beide Messreihen zeigen einen erhöhten Fehlerwert entlang der jeweiligen Translationsrichtung. Die Positionsfehler betragen dabei für die Bewegung parallel zur Betrachtungsebene $15\%$ und für die Bewegung orthogonal zur Betrachtungsebene sogar über $20\%$. Doch auch entlang der zur Translationsrichtung orthogonalen Ebene liegen die Fehlerwerte der Messungen bei etwa $10\%$. Es ergibt sich damit ein deutlicher translatorischer Fehler der durch die visuelle Odometrie bestimmten Pose.\\
+
+Auffällig sind die trotz der rein translatorisch ausgeführten Bewegung hohen Fehler in den ermittelten Achswinkeln. Da sich aus den Ergebnissen kein direkter Zusammenhang mit der Translationsrichtung ableiten lässt, kann von einem grundlegenden Fehler in der durch die visuelle Odometrie ermittelten Orientierung ausgegangen werden.\\
+Zur vollständigen Überprüfung sollen dazu im Folgenden die Messungen der rein rotatorischen Bewegungen betrachtet werden.
+
+%\red[Ergebnisse interpretieren\\]
 %\red[TransX und TransZ innerhalb vergleichen und Diagramme aufteilen nach translatorischem Fehler und rotatorischem Fehler?\\Oder direkt alles in einem -> 2x6 Balken!?]
 
 \subsection{Rotatorische Bewegung}
-\red[Vergleich zwischen Fovis und Fovis+IMU direkt zusammen in Diagramm aufführen? Erstmal nur Fovis würde dazu dienen, die Bewegungen untereinander zu vergleichen, aber was für Erkenntnisse erhält man daraus? Nick schlechter als Roll ; Nick durch IMU verbessert? -> Kompass sinnvoll! Dann evtl. aber ruhig auch Gierwinkelbewegung aufführen!\\]
-Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basis der visuellen Odometrie durchgeführt. Um die Fusion der Sensordaten mit den Daten der inertialen Messeinheit zu bewerten erfolgt anschließend ein Vergleich mit der Lokalisation auf Basis des Erweiterten Kalman Filters.\\
-\red[Analog zur Auswertung der translatorischen Bewegungen werden lediglich die resultierenden Fehler aus den Rotationen um die Roll- und Nickachse ausgewertet. Die Rotation des Systems um die Gier-Achse unterscheidet sich für den Algorithmus der visuellen Odometrie nicht von der Rotation um die Nickachse, weshalb keine gesonderte Betrachtung durchgeführt wird.] Die Versuchsdurchführung der Bewegungen zur Bewertung der rotatorischen Fehlereinflüsse zeigt \abb{fig.rotmove}\\
-\red[ypr alle aufführen oder nur roll und pitch, da yaw äquivalent zu pitch ist!? s.o.\\]
+%\red[Vergleich zwischen Fovis und Fovis+IMU direkt zusammen in Diagramm aufführen? Erstmal nur Fovis würde dazu dienen, die Bewegungen untereinander zu vergleichen, aber was für Erkenntnisse erhält man daraus? Nick schlechter als Roll ; Nick durch IMU verbessert? -> Kompass sinnvoll! Dann evtl. aber ruhig auch Gierwinkelbewegung aufführen!\\]
+
+Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basis der visuellen Odometrie durchgeführt. Analog zur Auswertung der translatorischen Bewegungen werden lediglich die resultierenden Fehler aus den Rotationen um die Roll- und Nick-Achse ausgewertet. Die Rotation des Systems um die Gier-Achse unterscheidet sich für den Algorithmus der visuellen Odometrie nicht von der Rotation um die Nick-Achse, weshalb keine gesonderte Betrachtung durchgeführt wird.\\
+Die Versuchsdurchführung der Bewegungen zur Bewertung der rotatorischen Fehlereinflüsse zeigt \abb{fig.rotmove} anhand eines modellhaften Aufbaus.\\
+
+%PreviewVersion
+%\red[ypr alle aufführen oder nur roll und pitch, da yaw äquivalent zu pitch ist!? s.o.\\]
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1.0]{loc_loc_rot}
+		\includegraphics[scale=0.5]{loc_loc_rot}
 		\caption{Rotatorische Bewegung}
 		\label{fig.rotmove}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-\red[Bilder des Aufbaus als subfigures!]
+\red[Bilder des Aufbaus als subfigures!\\]
+\red[Doch nur zwei Freiheitsgrade betrachtet?\\]
 
-\subsubsection{Visuelle Odometrie}
-Die aus den rotatorischen Bewegungen resultierenden Fehler in der ermittelten Systempose zeigt \abb{fig.loc_loc_rot_fovis_roll} für die Rotation um die Roll- und \abb{fig.loc_loc_rot_fovis_pitch} für die Rotation um die Nickachse.
+%PreviewVersion
+%\subsubsection{Visuelle Odometrie}
+Für alle Messungen wird eine Rotation des \kps{s} von \SI{45}{°} um die betrachtete Achse ausgeführt. Die Quadratischen Mittel der in jeweils $k=20$ Messungen ermittelten Fehler zeigt \abb{fig.loc_loc_rot_fovis}.
 
+\begin{figure}
 \input{plot/loc_loc_rot_fovis}
+\caption{rot fovis}
+\label{fig.loc_loc_rot_fovis}
+\end{figure}
 
-\red[Ergebnisse interpretieren\\]
+%\red[Ergebnisse interpretieren\\]
 
-\subsubsection{Erweitertes Kalman-Filter}
+Die Ergebnisse zeigen für alle Achsen einen verbleibenden translatorischen Fehler von unter $10\%$. Die Quadratischen Mittel der rotatorischen Differenzen betragen ebenfalls um $10\%$ und liegen damit nur geringfügig unter den gemessenen Winkelfehlern der translatorischen Bewegungen.\\
+Es zeigt sich damit, dass die innerhalb der vorliegenden Rahmenbedingungen über die visuelle Odometrie bestimmten Positionen und Orientierungen unabhängig von der ausgeführten Bewegung mit deutlichen Fehlern behaftet sind.\\
+
+%\red[Allgemein stark abhängig von Features]\\
+Eine Erklärung dafür könnte die relativ geringe Anzahl an zuverlässig ermittelten Deskriptoren innerhalb der Kamerabilder sein. Je weniger Merkmale in der Umgebung erkannt werden, desto größer wird der Einfluss fehlerhafter Detektionen auf das Resultat.\\
+Die visuelle Odometrie basiert wie in \kapitel{chap.fovis} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
+
+Eine weitere Fehlerursache bezüglich der bestimmten Orientierung ergibt sich aus den Anforderungen der verwendeten Implementierung. Diese erfordert eine hohe Frequenz in der Berechnung um Rotationen korrekt anzunähern \cite{Fovis}. Obwohl die Kinect Bilddaten mit einer Rate von \SI{30}{} Bildern pro Sekunde liefert konnten auf dem verwendeten System während der Anwendung nur etwa \SI{5}{} Bilder pro Sekunde ausgewertet werden.\\
+Dies ist zum einen auf die Komplexität der Berechnungen zur Bestimmung der visuellen Odometrie und zum anderen auf die hohe Auslastung der Rechenkapazität aufgrund der weiteren verwendeten Softwarekomponenten zurückzuführen.\\ 
+
+%\red[-> Korrektur durch EKF möglich!?\\]
+Insgesamt zeigen die Ergebnisse, dass das Verfahren der visuellen Odometrie alleine nicht in der Lage ist die Veränderungen der Systempose präzise zu bestimmen. Als Vergleich werden die Untersuchungen der rotatorischen Bewegungen daher unter Einsatz des EKF wiederholt. Die Daten der visuellen Odometrie werden dabei mit den Lage- und Beschleunigungsdaten der IMU fusioniert.\\
+
+\subsection{Erweitertes Kalman-Filter}
+Die Messungen werden auf gleiche Weise wie zuvor durchgeführt. Verglichen werden die Fehler in der ermittelten Systempose auf Basis der visuellen Odometrie und unter Verwendung des EKF. In \abb{fig.loc_loc_rot_ekf_roll} ist der Vergleich bezüglich der Rotation um die Roll- und in \abb{fig.loc_loc_rot_ekf_pitch} bezogen auf die Nick-Achse dargestellt.
+
+%\red[Um die Fusion der Sensordaten mit den Daten der inertialen Messeinheit zu bewerten erfolgt anschließend ein Vergleich mit der Lokalisation auf Basis des Erweiterten Kalman Filters.\\]
+
+\begin{figure}
 \input{plot/loc_loc_rot_ekf_roll}
+\caption{rot ekf roll}
+\label{fig.loc_loc_rot_ekf_roll}
+\end{figure}
 
+\begin{figure}
 \input{plot/loc_loc_rot_ekf_pitch}
+\caption{rot ekf pitch}
+\label{fig.loc_loc_rot_ekf_pitch}
+\end{figure}
 
-\red[Ergebnisse interpretieren\\]
+%\red[Ergebnisse interpretieren\\]
+
+In beiden Messreihen zeigen sich deutliche Auswirkungen auf die Freiheitsgrade, für welche die IMU Lagedaten bereitstellt. Die Fusion der Sensorwerte führt zu einer starken Verringerung der Fehler in der Winkelbestimmung bezüglich der Roll- und Nick-Achse.\\
+
+Die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose konnte damit für zwei der sechs Freiheitsgrade erhöht werden.
+
+\red[Globale Lokalisation mit weniger Partikel als lokale Lokalisation verwenden! -> Hier aufführen? Ohne Messungen?]
+
+\red[(englisch inertial measurement unit, IMU) -> IMU überall ersetzen\\]
 
 %\subsection{Rotation Roll IMU+KALMAN}
 
-\section{Projektionsgenauigkeit}
-Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera durchgeführt. Diese wird zunächst analog zum Vorgehen für die RGB-Kamera des Kinect Sensors kalibriert (siehe \kapitel{chap.calib}), wodurch eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht wird. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sicht- und Projektionsfeld des \kps{s} platziert. Das Markerfeld wird mittels der RGB-Kamera erfasst um die Transformation des \kps{s} relativ zum Markerfeld zu bestimmen.\\
 
-Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht daraufhin die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. \red[\abb{fig.arprojected}]\\
-\red[Umweg über Modellumgebung beschreiben?\\]
+\red[Mögliche Lösungsansätze hier thematisieren?\\] 
 
-\begin{figure}[!ht]
-	\begin{center}
-		\includegraphics[scale=0.5]{board_eval_cropped}
-		\caption{Markerfelder real und projiziert}
-		\label{fig.arprojected}
-	\end{center}
-	%\vspace*{-8mm}
-\end{figure}
+\section{Visualisierung}
+Um die präzise Abbildung der visuellen Zusatzinformationen in der realen Umgebung zu ermöglichen ist über die Lokalisation hinaus auch eine hohe Genauigkeit der Projektion erforderlich. Die Interaktion des Benutzers mit der Projektion erfordert zudem eine dynamische Darstellung mit geringer Verzögerung\\
+Im Folgenden soll deshalb im Rahmen experimenteller Untersuchungen zunächst die Projektionsgenauigkeit und abschließend die Latenzzeit der Visualisierung ermittelt werden.
 
-Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu erfassen und die Abweichungen zwischen den Feldern bezüglich Position und Orientierung zu bestimmen. Dabei werden die Positionierungen sowohl des \kps{s} als auch der externen Kamera während der Untersuchungen variiert. Der gesamte Aufbau der durchgeführten Untersuchung ist in \abb{fig.projsetup} dargestellt.
+\subsection{Projektionsgenauigkeit}
+Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera analysiert. Diese wird zunächst analog zu dem in \kapitel{chap.calib} beschriebenen Vorgehen für die RGB-Kamera der Kinect kalibriert, wodurch eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht wird. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sicht- und Projektionsfeld des \kps{s} platziert. Das Markerfeld wird mittels der RGB-Kamera der Kinect erfasst um die Transformation des \kps{s} relativ zum Markerfeld zu bestimmen.\\
+
+Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht daraufhin die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. Dazu werden beide Markerfelder in der Modellumgebung dargestellt und überlagert. Die externe Kamera wird anschließend so positioniert, dass sie in der Lage ist das reale und das projizierte Markerfeld zu erfassen. Es ergibt sich daraus der in \abb{fig.arprojected} dargestellte Versuchsaufbau.\\
 
 \begin{figure}[ht]
 	\begin{center}%
@@ -245,15 +297,69 @@ Die externe Kamera wird nun eingesetzt, um beide Markerfelder gleichzeitig zu er
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+\red[Projiziertes Feld: Kästchen entfernen!\\]
 
-\red[Die Ergebnisse der $n=6$ Messreihen mit insgesamt $X$ Messungen sind als Box-Whisker-Plot in \abb{fig.boxplot_proj} dargestellt.]
+Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb{fig.projsetup} ihre Posen ermittelt werden. Aus der relativen Transformation zwischen den Feldern lassen sich die Abweichungen bezüglich Position und Orientierung bestimmen. Sowohl die Positionierung des \kps{s} als auch der externen Kamera wird dabei während der Untersuchungen variiert.\\
+
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[scale=0.4]{board_eval_cropped}
+		\caption{Markerfelder real und projiziert}
+		\label{fig.arprojected}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
+
+Die relativen Fehler der $n=6$ Messreihen mit insgesamt $k=229$ Messungen sind als Box-Whisker-Plot in \abb{fig.boxplot_proj} dargestellt. Dabei wurde die Gesamtheit der Messwerte in die Darstellung aufgenommen. Die farbliche Abbildung der Messungen dient der besseren Übersicht und wurde in Orientierung an die verwendete RGB-Darstellung der Koordinatensysteme gewählt.
 
 \input{plot/projection}
 
+Die ermittelte Projektionsgenauigkeit zeigt deutliche Unterschiede zwischen den Freiheitsgraden der Markerposen. Die Fehlerwerte der Abbildung in $x$-Richtung liegen gleichmäßig verteilt um die Nulllinie mit einem Median von \SI{-0.5}{\milli\meter}. Die Hälfte der Messwerte zeigt dabei einen absoluten Projektionsfehler von weniger als \SI{3}{\milli\meter}.\\
+Auch die Fehler bezüglich der $y$-Richtung liegen in einem vergleichbaren Bereich. Der Median der Messwerte ist jedoch leicht verschoben und liegt knapp unter \SI{3}{\milli\meter}. Die Verschiebung deutet auf einen systematischen Fehler hin. Eine genauere Betrachtung der Messreihen konnte dies jedoch nicht bestätigen.\\
+
+Sehr viel höhere Fehler in der Abbildung liegen bezüglich der $z$-Richtung vor. Die absoluten Fehler betragen dabei bis zu \SI{30}{\milli\meter}. Die Streuung der Messwerte ist ebenfalls sehr viel größer. Zusammen mit den ebenfalls hohen Winkelfehlern bezüglich der $x$- und $y$-Achse der Markerfelder zeigt dies, dass die Tiefenwerte durch die Projektion nur sehr ungenau abgebildet werden.\\
+Die Orientierung und Lage innerhalb der Ebene der Markerfelder selbst wird hingegen mit guter Genauigkeit wiedergegeben. Dies wird auch durch den Nahe an Null liegenden Median und die geringe Streuung der Messwerte der Winkelfehler bezüglich der $z$-Achse abgebildet.\\
+
+Insgesamt beträgt die Ungenauigkeit der Projektion innerhalb der Darstellungsebene damit nur wenige Millimeter und weist einen sehr geringen Winkelfehler auf. Für die Projektion auf ebene Flächen wie in der geplanten Anwendung des \kps{s} resultieren daraus geringe Fehler in der Positionierung und Orientierung der Objekte. Die großen Abweichungen bezüglich der $z$-Koordinate führen zu einem Abbildungsfehler in der Skalierung der Objekte, welcher zwar prinzipiell ebenso unerwünscht ist, für die Anwendung selbst jedoch weniger Relevanz besitzt als die korrekte Abbildung der Position und Orientierung bezüglich der Projektionsebene.\\
+
+\red[Legende!?\\]
+
 \red[Öffnungswinkel $\sim$ 30°, dadurch Faktor 16/9 für Fehlerwerte in z-Richtung. Sogar (16/9)²!! für Detektion+Projektion? Dann würden sich die Werte auf jeden Fall stark annähern\\Bereinigtes Diagramm zeigen? welchen Nutzen?\\]
 
-\red[Nennen, dass Boxplot ganze Messreihe abbildet! Oder umwandeln zu 5/95 Perzentil?\\]
+%\red[Nennen, dass Boxplot ganze Messreihe abbildet! Oder umwandeln zu 5/95 Perzentil?\\]
 
 %\section{Benutzerinteraktion}
 
 %\input{plot/tests}
+
+\subsection{Latenzzeit der Visualisierung}
+Voraussetzung für die dynamische Interaktion des Benutzers mit den visualisierten Zusatzinformationen ist eine geringe Verzögerung im Visualisierungsvorgang. Nachdem die darzustellenden Bilddaten wie in \kapitel{chap.vis} beschrieben generiert wurden, werden diese über eine Netzwerkverbindung \red[Ethernet 10-100MBit!? Raspberry nur 10!?] an das gekapselte Projektionsmodul übertragen, welches aus dem Pico-Laser-Projektor und dem RPi \red[Bezeichnung in Material] besteht.\\
+
+Die Bestimmung der Latenzzeit wird mittels einer externen Kamera durchgeführt, um die Projektion und die Visualisierung innerhalb der grafischen Benutzeroberfläche gleichzeitig betrachten zu können. Die Kamera zeichnet die Bilddaten mit einer Frequenz $f$ von \SI{50}{\Hz} auf, so dass die Dauer zwischen zwei aufgenommenen Bildern \SI{20}{\milli\second} beträgt. Dementsprechend wird auch die erreichbare Auflösung der ermittelten Latenzzeit über diese Dauer definiert.\\
+Um die Latenzzeit zu bestimmen werden die aufgezeichneten Einzelbilder ausgewertet und die Anzahl der Bilder $n_B$ ermittelt, welche zwischen eindeutigen Abbildungen der Visualisierung liegt. Damit kann die Latenzzeit über die bekannte Aufnahmefrequenz ermittelt werden:
+
+\begin{equation}
+t_{lat} = \frac{n_B}{f}
+\end{equation}
+
+Um den Einfluss des gekapselten Projektionssystems bewerten zu können wird eine Vergleichsuntersuchung durchgeführt, bei welcher die Visualisierung direkt auf dem PC \red[Material!] erfolgt auf welchem die weiteren Softwarekomponenten ausgeführt werden. Die durchschnittliche bestimmte Latenzzeit der beiden Analysen ist in \tab{latency} aufgeführt.
+
+\begin{table}[ht]
+	\centering
+	\caption{Durchschnittliche Latenzzeit der Visualisierung}
+	\label{tab.latency}
+	\vspace*{-3mm}
+	\begin{tabular}[ht]{|l|r|}\hline
+		\rowcolor{Snow2}
+		System			& Durchschnittliche Latenzzeit $\bar{t}_{lat}$ [\SI{}{\milli\second}]	\\ \hline
+		Raspberry Pi 	& \SI{216}{}						\\ \hline		
+		PC				& \SI{40}{}						\\ \hline
+	\end{tabular} 
+	%\vspace*{-3mm}
+\end{table}
+
+Die Ergebnisse zeigen, dass sich durch die Verwendung des gekapselten Projektionssystems deutliche Verzögerungen in der Visualisierung ergeben. Eine Latenzzeit von \SI{216}{\milli\second} ist für den Benutzer wahrnehmbar und kann bei der Interaktion mit den visualisierten Daten störend wirken.\\
+Die Latenzzeit der Visualisierung durch den Computer liegt hingegen bei \SI{40}{\milli\second} und sollte damit keinen merklichen Einfluss auf die Dynamik der Interaktion haben.\\
+Ein Grund für die Ausgliederung des Projektionsvorgangs mittels des Raspberry\red[Bezeichnung!] lag darin, ein Projektionsmodul zur Verfügung zu stellen, welches in beliebigen auf ROS basierenden Anwendungen eingesetzt werden kann. Darüber hinaus sollte die Rechenkapazität des \red[Raspberry] genutzt werden um die verfügbaren Ressourcen des verwendeten Computers auf die anderen Softwaremodule aufzuteilen.\\
+
+Im Zusammenhang mit der entwickelten Anwendung für das \kps{s} sind die zusätzlichen Rechenressourcen gegenüber der Dynamik der Interaktion abzuwägen. In einigen Anwendungsfällen sollte daher unter Umständen auf die Auslagerung der Projektion verzichtet werden um eine dynamischere Projektion zu ermöglichen.

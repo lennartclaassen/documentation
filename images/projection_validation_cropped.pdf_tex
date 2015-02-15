@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{403.32434543bp}%
+    \setlength{\unitlength}{287.32390321bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,17 +48,17 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,1.0421806)%
+  \begin{picture}(1,1.02405599)%
     \put(0,0){\includegraphics[width=\unitlength]{projection_validation_cropped.pdf}}%
-    \put(0.25172407,0.28402382){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K}$}}}%
-    \put(0.16493629,0.39386679){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{P}$}}}%
-    \put(0.4957324,0.12940334){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K_{ext}}$}}}%
-    \put(0.83500686,0.59768473){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{AR_1}$}}}%
-    \put(0.73919655,0.80342372){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{AR_2}$}}}%
-    \put(0.84657587,0.18755978){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{AR_2}$}}}%
-    \put(0.75161156,0.27284658){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{AR_1}$}}}%
-    \put(0.49985167,0.37261616){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{AR_1}$}}}%
-    \put(0.33918693,0.59774508){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{P}{AR_2}$}}}%
-    \put(0.30943421,0.40931113){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{P}$}}}%
+    \put(0.26959795,0.27351574){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K}$}}}%
+    \put(0.16204498,0.39258562){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{P}$}}}%
+    \put(0.52050002,0.1215842){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K_{ext}}$}}}%
+    \put(0.83716825,0.57615313){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{MF_1}$}}}%
+    \put(0.72074963,0.80615721){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{MF_2}$}}}%
+    \put(0.84853603,0.17872925){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{MF_2}$}}}%
+    \put(0.55475266,0.26253279){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{MF_1}$}}}%
+    \put(0.49670445,0.37170462){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{MF_1}$}}}%
+    \put(0.31655933,0.59291833){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{P}{MF_2}$}}}%
+    \put(0.30959855,0.39662418){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{P}$}}}%
   \end{picture}%
 \endgroup%
