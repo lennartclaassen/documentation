@@ -1,5 +1,5 @@
 \chapter{Material und Methoden}
-\label{chap:material}
+\label{chap.material}
 %PreviewVersion
 %\red[TODO:\\
 %Anwendung nicht als System zur detektion der Projektion, sondern als gekoppeltes System. Dadurch Lichtstärke nur für den Anwender relevant, nicht aber für die Erkennung von Strukturen o.ä.\\
@@ -7,7 +7,7 @@
 %\kps{} Kalibrierung etc. inkl. Grundlagenteil, wie ausführlich?\\
 %GUI Struktur auslagern oder hier beschreiben?\\
 %]%
-In diesem Kapitel werden die Elemente erläutert, aus welchen das entwickelte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten wird der Aufbau und die Kalibrierung des \kps{s} beschrieben. Darüber hinaus werden die verwendeten Softwarebibliotheken und die damit entwickelte Programmstruktur dargestellt.
+In diesem Kapitel werden die Elemente erläutert, aus welchen das entwickelte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten wird der Aufbau und die Kalibrierung des \kps{s} beschrieben. Darüber hinaus werden die verwendeten Softwarebibliotheken und die entwickelte Programmstruktur dargestellt.
 
 \section{Technische Komponenten}
 Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. 
@@ -96,7 +96,7 @@ Der Raspberry Pi\textsuperscript{\texttrademark} Computer\footnote{Im Folgenden 
 
 Der Raspberry wird für diese Arbeit mit einer angepassten Version des Meta-Betriebssystems ROS (siehe Kapitel \ref{chap:ros}) betrieben um die Anbindung an die entwickelte Programmstruktur zu gewährleisten. Der Raspberry dient dabei dazu, das Signal des zu projizierenden Bildes zu empfangen und über den Projektor darzustellen. Durch die direkte Anbindung des Projektors an den Raspberry entsteht ein gekapseltes System, welches damit in jeder auf ROS basierenden Anwendung eingesetzt werden kann.
 
-\section{Das \kps{}}
+\section{\red[Das \kps{}]}
 Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellte handführbare \kps{} aufgebaut. Die Lage des Projektors wurde dabei so gewählt, dass eine Überdeckung des Projektionsfeldes mit dem Sichtfeld der RGB-Kamera der \kin erreicht wird. Im Zentrum des Systems ist eine Platine positioniert, über welche die Kommunikationsverbindung zwischen der inertialen Messeinheit und dem Arduino realisiert wird.\\
 
 \begin{figure}[ht]
@@ -493,6 +493,8 @@ Einen %\red[abstrahierten]
 	%\vspace*{-8mm}
 \end{figure}
 
+\red[Modelldaten an Überschrift von Kapitel 4 anpassen! Datengrundlage/Datenbasis/Modelldaten. Und gesondert darstellen (andere Farbe+Form)\\]
+\red[handgeführtes ersetzen durch handführbares?\\]
 %\begin{figure}[ht]
 %	\begin{center}
 %		\includegraphics[scale=1.0]{spacer}

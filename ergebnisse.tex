@@ -136,9 +136,10 @@ Da die Erfolgsquote allein kein ausreichendes Maß darstellt um die Präzision d
 \label{fig.glob_loc}
 \end{figure}
 
+Die bei der Lokalisation eingesetzte \textit{Octomap} wurde mit einer Auflösung von \SI{0,02}{\meter} aus der vermessenen Umgebung generiert. Diese Unsicherheit ist daher bei der Bewertung der Lokalisationsgüte zu berücksichtigen.\\
 Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der Partikel bezüglich der Höhe ($z$-Achse des $\ks{M}$) erforderlich. Da das handgeführte \kps{} zu Beginn der Anwendung leicht in einer definierten Höhe gehalten werden kann, wurde dieser Grenzbereich mit einer Toleranz von $\pm$ \SI{0,1}{\meter} zur tatsächlichen Pose definiert. Die Fehlerwerte bezüglich $\Delta Z$ können aufgrund dieser Vorgabe nicht über der gewählten Toleranz liegen.\\
 Darüber hinaus verwendet die globale Lokalisation die Daten der inertialen Messeinheit um die Orientierung bezüglich des Roll- ($\Psi$) und Nickwinkels ($\Theta$) zu bestimmen.\\
-Bezüglich dieser drei Freiheitsgrade sind die Fehlerwerte damit nicht abhängig vom verwendeten Modell, wodurch sich die geringen Differenzen zwischen den Modellen in diesen Bereichen erklären.\\
+Bezüglich dieser drei Freiheitsgrade sind die Fehlerwerte damit nicht abhängig vom verwendeten Modell, wodurch sich die geringeren Differenzen zwischen den Modellen in diesen Bereichen erklären.\\
 
 Für die modellabhängigen Fehlerwerte zeigen sich zwischen dem RCM und dem EPM jedoch deutliche Unterschiede in der Genauigkeit der ermittelten Pose. Die translatorischen Fehlerwerte betragen für das RCM mehr als das doppelte der bei Einsatz des EPM verbleibenden Fehler. Auch in der Bestimmung des Gierwinkels liegt der Fehlerwert des RCM signifikant über dem des EPM.\\
 Wie bereits durch die Erfolgsquote zeigt sich damit, dass das RCM deutlich ungenauere Approximationen der Systempose bestimmt als das EPM.\\
@@ -148,7 +149,7 @@ Das RCM liefert durch den Abgleich entlang des Sensorstrahls für diese beiden P
 
 Anzumerken ist, dass aufgrund der Funktionsweise eines Partikelfilters durch Erhöhung der Partikelanzahl das Raster und damit die Auflösung der betrachteten Posen nahezu infinitesimal verfeinert werden kann. Die Durchgeführte Fehlerbetrachtung dient daher insbesondere als Vergleich der beiden Modelle.\\
 Die höhere Genauigkeit des EPM in der Approximation zeigt zusammen mit der größeren Erfolgswahrscheinlichkeit und der deutlich geringeren Rechenzeit, dass es für den vorliegenden Anwendungsfall gegenüber dem RCM bevorzugt werden sollte.\\
-Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in gradlinigen Umgebungen mit geringer Komplexität in den Hintergrund. Da diese Arbeit insbesondere derartige Umgebungen betrachtet, ist das EPM besser als globales Lokalisationsverfahren für das erstellte \kps{} geeignet als das RCM.
+Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in gradlinigen Umgebungen mit geringer Komplexität in den Hintergrund. Da diese Arbeit insbesondere derartige Umgebungen betrachtet, ist das EPM besser als globales Lokalisationsverfahren für diesen Anwendungsfall geeignet als das RCM.
 
 \red[Tiefenauflösung von Distanz abhängig \cite{Khoshelham2012}]
 
@@ -170,9 +171,9 @@ Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in gradlinigen Um
 %\red[Relokalisation bei globaler Lokalisation beschreiben. Besser später als Ergänzung um die lokale Lokalisation zu korrigieren!\\]
 
 \section{Lokale Lokalisation}%Tracking/Kontinuierliche Lokalisation}
-Die Genauigkeit der lokalen Lokalisation wird gesondert von der durch die globale Lokalisation bestimmten Pose betrachtet. Dazu wird ebenfalls das für die Untersuchung der globalen Lokalisation verwendete Markerfeld genutzt. Die wahre Pose des Systems kann so wie zuvor bestimmt und als Initialisierung der Lokalisation verwendet werden.\\
+Die Genauigkeit der lokalen Lokalisation wird gesondert von der durch die globale Lokalisation bestimmten Pose betrachtet. Dazu wird ebenfalls das für die Untersuchung der globalen Lokalisation verwendete Markerfeld genutzt. Die Referenzpose des Systems kann darüber wie zuvor bestimmt und als Initialisierung der Lokalisation verwendet werden.\\
 
-Die Bewertung der kontinuierlichen Lokalisation erfolgt für translatorische und rotatorische Veränderungen der Systempose. Alle Messungen werden dabei separat durchgeführt um eine Beeinflussung der Bewegungen untereinander zu vermeiden.\\
+Zur Bewertung der kontinuierlichen Lokalisation werden translatorische und rotatorische Veränderungen der Systempose vorgenommen. Um eine Beeinflussung der Bewegungen untereinander zu vermeiden erfolgt eine separate Durchführung aller Messungen.\\
 
 \subsection{Translatorische Bewegung}
 Die translatorischen Bewegungen werden parallel ($y$-Achse des Systems) und orthogonal ($x$-Achse des Systems) zu der Betrachtungsebene durchgeführt. Die parallele Bewegung entlang der zweiten zur Ebene parallelen Achse ($z$-Achse des Systems) wird nicht gesondert betrachtet, da diese äquivalent zu der Bewegung entlang der ersten ist. \abb{fig.transmove} verdeutlicht dies und zeigt die Durchführung der Untersuchungen anhand eines modellhaften Beispiels des Versuchsaufbaus.\\
@@ -221,7 +222,7 @@ Die Versuchsdurchführung der Bewegungen zur Bewertung der rotatorischen Fehlere
 \end{figure}
 
 \red[Bilder des Aufbaus als subfigures!\\]
-\red[Doch nur zwei Freiheitsgrade betrachtet?\\]
+\red[Doch nur zwei Freiheitsgrade betrachtet!\\]
 
 %PreviewVersion
 %\subsubsection{Visuelle Odometrie}
@@ -240,13 +241,13 @@ Es zeigt sich damit, dass die innerhalb der vorliegenden Rahmenbedingungen über
 
 %\red[Allgemein stark abhängig von Features]\\
 Eine Erklärung dafür könnte die relativ geringe Anzahl an zuverlässig ermittelten Deskriptoren innerhalb der Kamerabilder sein. Je weniger Merkmale in der Umgebung erkannt werden, desto größer wird der Einfluss fehlerhafter Detektionen auf das Resultat.\\
-Die visuelle Odometrie basiert wie in \kapitel{chap.fovis} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
+Die visuelle Odometrie basiert wie in \kapitel{locloc} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
 
 Eine weitere Fehlerursache bezüglich der bestimmten Orientierung ergibt sich aus den Anforderungen der verwendeten Implementierung. Diese erfordert eine hohe Frequenz in der Berechnung um Rotationen korrekt anzunähern \cite{Fovis}. Obwohl die Kinect Bilddaten mit einer Rate von \SI{30}{} Bildern pro Sekunde liefert konnten auf dem verwendeten System während der Anwendung nur etwa \SI{5}{} Bilder pro Sekunde ausgewertet werden.\\
 Dies ist zum einen auf die Komplexität der Berechnungen zur Bestimmung der visuellen Odometrie und zum anderen auf die hohe Auslastung der Rechenkapazität aufgrund der weiteren verwendeten Softwarekomponenten zurückzuführen.\\ 
 
 %\red[-> Korrektur durch EKF möglich!?\\]
-Insgesamt zeigen die Ergebnisse, dass das Verfahren der visuellen Odometrie alleine nicht in der Lage ist die Veränderungen der Systempose präzise zu bestimmen. Als Vergleich werden die Untersuchungen der rotatorischen Bewegungen daher unter Einsatz des EKF wiederholt. Die Daten der visuellen Odometrie werden dabei mit den Lage- und Beschleunigungsdaten der IMU fusioniert.\\
+Insgesamt zeigen die Ergebnisse, dass das Verfahren der visuellen Odometrie alleine auf dem verwendeten System nicht in der Lage ist die Veränderungen der Systempose präzise zu bestimmen. Um eine Möglichkeit zur Erhöhung der Robustheit zu betrachten, werden die Untersuchungen der rotatorischen Bewegungen unter Einsatz des EKF wiederholt. Die Daten der visuellen Odometrie werden dabei mit den Lage- und Beschleunigungsdaten der IMU fusioniert.\\
 
 \subsection{Erweitertes Kalman-Filter}
 Die Messungen werden auf gleiche Weise wie zuvor durchgeführt. Verglichen werden die Fehler in der ermittelten Systempose auf Basis der visuellen Odometrie und unter Verwendung des EKF. In \abb{fig.loc_loc_rot_ekf_roll} ist der Vergleich bezüglich der Rotation um die Roll- und in \abb{fig.loc_loc_rot_ekf_pitch} bezogen auf die Nick-Achse dargestellt.
@@ -268,17 +269,19 @@ Die Messungen werden auf gleiche Weise wie zuvor durchgeführt. Verglichen werde
 %\red[Ergebnisse interpretieren\\]
 
 In beiden Messreihen zeigen sich deutliche Auswirkungen auf die Freiheitsgrade, für welche die IMU Lagedaten bereitstellt. Die Fusion der Sensorwerte führt zu einer starken Verringerung der Fehler in der Winkelbestimmung bezüglich der Roll- und Nick-Achse.\\
+Die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose konnte damit für zwei der sechs Freiheitsgrade erhöht werden.\\
 
-Die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose konnte damit für zwei der sechs Freiheitsgrade erhöht werden.
+Um die Fehlerfortpflanzung im Verlauf der lokalen Lokalisation zu verringern wurde die Implementierung der globalen Lokalisation um zusätzliche Funktionalität erweitert. Dabei wird die Ausführung einer modifizierten Variante der globalen Lokalisation ermöglicht.\\
+In einem definierten Parameterbereich werden Partikel um die aktuelle Pose gestreut, so dass das lokale Optimum neu ermittelt wird. Die verwendete Anzahl Partikel kann dabei geringer gewählt werden als bei der globalen Lokalisation, wodurch dieser Schritt mit deutlich geringerer Rechenzeit verbunden ist. Diese Funktion kann automatisch oder manuell durch den Benutzer aufgerufen werden, so dass zu definierten Zeitpunkten eine Korrektur der ermittelten Pose erzielt wird. Dabei ermöglicht die in \kapitel{chap.projection} beschriebene visuelle Rückmeldung über den aktuellen Überdeckungsfehler eine direkte Bewertung der korrigierten Pose.
 
-\red[Globale Lokalisation mit weniger Partikel als lokale Lokalisation verwenden! -> Hier aufführen? Ohne Messungen?]
+%\red[Globale Lokalisation mit weniger Partikel als lokale Lokalisation verwenden! -> Hier aufführen? Ohne Messungen?]
 
 \red[(englisch inertial measurement unit, IMU) -> IMU überall ersetzen\\]
 
 %\subsection{Rotation Roll IMU+KALMAN}
 
 
-\red[Mögliche Lösungsansätze hier thematisieren?\\] 
+%\red[Mögliche Lösungsansätze hier thematisieren?\\] 
 
 \section{Visualisierung}
 Um die präzise Abbildung der visuellen Zusatzinformationen in der realen Umgebung zu ermöglichen ist über die Lokalisation hinaus auch eine hohe Genauigkeit der Projektion erforderlich. Die Interaktion des Benutzers mit der Projektion erfordert zudem eine dynamische Darstellung mit geringer Verzögerung\\
@@ -297,7 +300,7 @@ Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglich
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
-\red[Projiziertes Feld: Kästchen entfernen!\\]
+%\red[Projiziertes Feld: Kästchen entfernen!\\]
 
 Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb{fig.projsetup} ihre Posen ermittelt werden. Aus der relativen Transformation zwischen den Feldern lassen sich die Abweichungen bezüglich Position und Orientierung bestimmen. Sowohl die Positionierung des \kps{s} als auch der externen Kamera wird dabei während der Untersuchungen variiert.\\
 
@@ -342,24 +345,45 @@ Um die Latenzzeit zu bestimmen werden die aufgezeichneten Einzelbilder ausgewert
 t_{lat} = \frac{n_B}{f}
 \end{equation}
 
-Um den Einfluss des gekapselten Projektionssystems bewerten zu können wird eine Vergleichsuntersuchung durchgeführt, bei welcher die Visualisierung direkt auf dem PC \red[Material!] erfolgt auf welchem die weiteren Softwarekomponenten ausgeführt werden. Die durchschnittliche bestimmte Latenzzeit der beiden Analysen ist in \tab{latency} aufgeführt.
+Um den Einfluss des gekapselten Projektionssystems bewerten zu können wird eine Vergleichsuntersuchung durchgeführt, bei welcher die Visualisierung direkt auf dem PC \red[Material!] erfolgt auf welchem die weiteren Softwarekomponenten ausgeführt werden. Die durchschnittliche bestimmte Latenzzeit der beiden Analysen ist zusammen mit den Leistungsdaten der Systeme in \tab{latency} aufgeführt.
+
+%\begin{table}[ht]
+%	\centering
+%	\caption{Durchschnittliche Latenzzeit der Visualisierung}
+%	\label{tab.latency}
+%	\vspace*{-3mm}
+%	\begin{tabular}[ht]{|l|r|}\hline
+%		\rowcolor{Snow2}
+%		System			& Durchschnittliche Latenzzeit $\bar{t}_{lat}$ [\SI{}{\milli\second}]	\\ \hline
+%		Raspberry Pi 	& \SI{216}{}						\\ \hline		
+%		PC				& \SI{40}{}						\\ \hline
+%	\end{tabular} 
+%	%\vspace*{-3mm}
+%\end{table}
 
 \begin{table}[ht]
-	\centering
-	\caption{Durchschnittliche Latenzzeit der Visualisierung}
-	\label{tab.latency}
-	\vspace*{-3mm}
-	\begin{tabular}[ht]{|l|r|}\hline
-		\rowcolor{Snow2}
-		System			& Durchschnittliche Latenzzeit $\bar{t}_{lat}$ [\SI{}{\milli\second}]	\\ \hline
-		Raspberry Pi 	& \SI{216}{}						\\ \hline		
-		PC				& \SI{40}{}						\\ \hline
-	\end{tabular} 
-	%\vspace*{-3mm}
+\caption{Vergleich der Performanz von Raspberry Pi und PC}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\rowcolor{lightgray} & \multicolumn{1}{|c|}{\textbf{Raspberry Pi}} & \multicolumn{1}{|c|}{\textbf{Computer}}\\
+\hline
+Taktfrequenz [\SI{}{\GHz}] & 0,7 & 3,2 \\
+\hline
+Prozessor-Kerne & 1 & 4\\
+\hline
+Arbeitsspeicher [\SI{}{GB}] & 0,5 & 8\\
+\hline
+Durchschnittliche Latenzzeit [\SI{}{\milli\second}] & 216 & 40 \\
+\hline
+\end{tabular}
+\end{center}
+\label{tab.latency}
 \end{table}
 
 Die Ergebnisse zeigen, dass sich durch die Verwendung des gekapselten Projektionssystems deutliche Verzögerungen in der Visualisierung ergeben. Eine Latenzzeit von \SI{216}{\milli\second} ist für den Benutzer wahrnehmbar und kann bei der Interaktion mit den visualisierten Daten störend wirken.\\
-Die Latenzzeit der Visualisierung durch den Computer liegt hingegen bei \SI{40}{\milli\second} und sollte damit keinen merklichen Einfluss auf die Dynamik der Interaktion haben.\\
+Die Latenzzeit der Visualisierung durch den Computer liegt hingegen bei \SI{40}{\milli\second} und sollte damit keinen merklichen Einfluss auf die Dynamik der Interaktion haben. Der ermittelte Unterschied in den Latenzzeiten ergibt sich dabei aus der Kombination von höherer Rechenleistung des Computers und der  durch die Netzwerkverbindung hervorgerufene Verzögerung.\\
+
 Ein Grund für die Ausgliederung des Projektionsvorgangs mittels des Raspberry\red[Bezeichnung!] lag darin, ein Projektionsmodul zur Verfügung zu stellen, welches in beliebigen auf ROS basierenden Anwendungen eingesetzt werden kann. Darüber hinaus sollte die Rechenkapazität des \red[Raspberry] genutzt werden um die verfügbaren Ressourcen des verwendeten Computers auf die anderen Softwaremodule aufzuteilen.\\
 
-Im Zusammenhang mit der entwickelten Anwendung für das \kps{s} sind die zusätzlichen Rechenressourcen gegenüber der Dynamik der Interaktion abzuwägen. In einigen Anwendungsfällen sollte daher unter Umständen auf die Auslagerung der Projektion verzichtet werden um eine dynamischere Projektion zu ermöglichen.
+Im Zusammenhang mit der entwickelten Anwendung für das \kps{} sind die zusätzlichen Rechenressourcen gegenüber der Dynamik der Interaktion abzuwägen. In Anwendungsfällen, in denen ausreichend Rechenkapazität zur Verfügung steht, sollte daher unter Umständen auf die Auslagerung der Projektion verzichtet werden um eine dynamischere Interaktion zu ermöglichen.
