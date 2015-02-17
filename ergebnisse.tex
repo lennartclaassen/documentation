@@ -126,9 +126,10 @@ Da die Erfolgsquote allein kein ausreichendes Maß darstellt um die Präzision d
 
 %Auch die globale Lokalisation wird durchgeführt während sich das \kps{} in der fixierten Pose befindet. Für beide Modelle werden insgesamt $n=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzposition verglichen. Das quadratische Mittel der Fehler aus jeweils \red[$n$] Messungen ist bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems sind in \abb{fig.glob_loc} in Abhängigkeit des verwendeten Modells aufgeführt.\\
 
-%PreviewVersion
-%\red[\abb{fig.error_glob_trans} zeigt den Vergleich der durch die beiden Modelle erzielten Fehlerwerte.\\]
-%\red[Versuchsparameter, Partikelzahl etc.]
+\prever{
+\red[\abb{fig.error_glob_trans} zeigt den Vergleich der durch die beiden Modelle erzielten Fehlerwerte.\\]
+\red[Versuchsparameter, Partikelzahl etc.]
+}
 
 \begin{figure}
 \input{plot/glob_loc}
@@ -191,7 +192,7 @@ Bei jeder Messung wird das \kps{} entlang der betrachteten Achse um \SI{1}{\mete
 
 \begin{figure}
 \input{plot/loc_loc_trans}
-\caption{trans}
+\caption{Quadratisches Mittel der Fehlerwerte in der lokalen Lokalisation auf Basis der visuellen Odometrie bei translatorischer Bewegung}
 \label{fig.loc_loc_trans}
 \end{figure}
 
@@ -209,8 +210,9 @@ Zur vollständigen Überprüfung sollen dazu im Folgenden die Messungen der rein
 Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basis der visuellen Odometrie durchgeführt. Analog zur Auswertung der translatorischen Bewegungen werden lediglich die resultierenden Fehler aus den Rotationen um die Roll- und Nick-Achse ausgewertet. Die Rotation des Systems um die Gier-Achse unterscheidet sich für den Algorithmus der visuellen Odometrie nicht von der Rotation um die Nick-Achse, weshalb keine gesonderte Betrachtung durchgeführt wird.\\
 Die Versuchsdurchführung der Bewegungen zur Bewertung der rotatorischen Fehlereinflüsse zeigt \abb{fig.rotmove} anhand eines modellhaften Aufbaus.\\
 
-%PreviewVersion
-%\red[ypr alle aufführen oder nur roll und pitch, da yaw äquivalent zu pitch ist!? s.o.\\]
+\prever{
+\red[ypr alle aufführen oder nur roll und pitch, da yaw äquivalent zu pitch ist!? s.o.\\]
+}
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -224,13 +226,14 @@ Die Versuchsdurchführung der Bewegungen zur Bewertung der rotatorischen Fehlere
 \red[Bilder des Aufbaus als subfigures!\\]
 \red[Doch nur zwei Freiheitsgrade betrachtet!\\]
 
-%PreviewVersion
-%\subsubsection{Visuelle Odometrie}
+\prever{
+\subsubsection{Visuelle Odometrie}
+}
 Für alle Messungen wird eine Rotation des \kps{s} von \SI{45}{°} um die betrachtete Achse ausgeführt. Die Quadratischen Mittel der in jeweils $k=20$ Messungen ermittelten Fehler zeigt \abb{fig.loc_loc_rot_fovis}.
 
 \begin{figure}
 \input{plot/loc_loc_rot_fovis}
-\caption{rot fovis}
+\caption{Quadratisches Mittel der Fehlerwerte in der lokalen Lokalisation auf Basis der visuellen Odometrie bei rotatorischer Bewegung}
 \label{fig.loc_loc_rot_fovis}
 \end{figure}
 
@@ -256,13 +259,13 @@ Die Messungen werden auf gleiche Weise wie zuvor durchgeführt. Verglichen werde
 
 \begin{figure}
 \input{plot/loc_loc_rot_ekf_roll}
-\caption{rot ekf roll}
+\caption{Vergleich zwischen den Fehlerwerten der lokalen Lokalisation bei Verwendung der visuellen Odometrie und des EKF. Durchführung einer rotatorischen Bewegung um die Roll-Achse}
 \label{fig.loc_loc_rot_ekf_roll}
 \end{figure}
 
 \begin{figure}
 \input{plot/loc_loc_rot_ekf_pitch}
-\caption{rot ekf pitch}
+\caption{Vergleich zwischen den Fehlerwerten der lokalen Lokalisation bei Verwendung der visuellen Odometrie und des EKF. Durchführung einer rotatorischen Bewegung um die Nick-Achse}
 \label{fig.loc_loc_rot_ekf_pitch}
 \end{figure}
 
@@ -307,7 +310,7 @@ Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb
 \begin{figure}[!ht]
 	\begin{center}
 		\includegraphics[scale=0.4]{board_eval_cropped}
-		\caption{Markerfelder real und projiziert}
+		\caption{Detektion des realen und projizierten Markerfeldes im Bild der externen Kamera}
 		\label{fig.arprojected}
 	\end{center}
 	%\vspace*{-8mm}
@@ -366,7 +369,7 @@ Um den Einfluss des gekapselten Projektionssystems bewerten zu können wird eine
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
-\rowcolor{lightgray} & \multicolumn{1}{|c|}{\textbf{Raspberry Pi}} & \multicolumn{1}{|c|}{\textbf{Computer}}\\
+\rowcolor{lightgray} & \multicolumn{1}{|c|}{\textbf{Raspberry Pi}} & \multicolumn{1}{|c|}{\textbf{PC}}\\
 \hline
 Taktfrequenz [\SI{}{\GHz}] & 0,7 & 3,2 \\
 \hline
@@ -380,6 +383,8 @@ Durchschnittliche Latenzzeit [\SI{}{\milli\second}] & 216 & 40 \\
 \end{center}
 \label{tab.latency}
 \end{table}
+
+\nomenclature[a]{PC}{Personal Computer}
 
 Die Ergebnisse zeigen, dass sich durch die Verwendung des gekapselten Projektionssystems deutliche Verzögerungen in der Visualisierung ergeben. Eine Latenzzeit von \SI{216}{\milli\second} ist für den Benutzer wahrnehmbar und kann bei der Interaktion mit den visualisierten Daten störend wirken.\\
 Die Latenzzeit der Visualisierung durch den Computer liegt hingegen bei \SI{40}{\milli\second} und sollte damit keinen merklichen Einfluss auf die Dynamik der Interaktion haben. Der ermittelte Unterschied in den Latenzzeiten ergibt sich dabei aus der Kombination von höherer Rechenleistung des Computers und der  durch die Netzwerkverbindung hervorgerufene Verzögerung.\\

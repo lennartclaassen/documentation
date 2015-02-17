@@ -1,13 +1,14 @@
 \chapter{Lokalisation}
 \label{chap.loc}
-%PreviewVersion
-%\red[TODO:\\
-%%Einleitender Absatz\\
-%Transformationen\\
-%Auslösen der globalen und lokalen Lokalisation durch den Anwender jederzeit möglich (erstmal unabhängig von den Buttons)\\
-%%Englische oder deutsche Bezeichnung der Modelle?\\
-%%Auswahl des Ansatzes/der Ansätze für die Lokalisation hier beschreiben/begründen oder schon beim Stand der Technik?\\
-%]
+\prever{
+\red[TODO:\\
+%Einleitender Absatz\\
+Transformationen\\
+Auslösen der globalen und lokalen Lokalisation durch den Anwender jederzeit möglich (erstmal unabhängig von den Buttons)\\
+%Englische oder deutsche Bezeichnung der Modelle?\\
+%Auswahl des Ansatzes/der Ansätze für die Lokalisation hier beschreiben/begründen oder schon beim Stand der Technik?\\
+]
+}
 
 In diesem Kapitel wird das Vorgehen zur Bestimmung der Systempose innerhalb der realen Umgebung beschrieben. Die Lokalisation des handgeführten \kps{s} bildet die Grundlage für die lagerichtige Projektion der Modelldaten. Basierend auf der Modellumgebung wird zunächst eine geeignete Struktur zur Repräsentation der Lokalisationsumgebung (Karte) definiert. Aufbauend darauf werden die Verfahren zur Bestimmung der initialen Systempose erläutert. Abschließend wird die kontinuierliche Verfolgung der Systempose (Tracking) und die dafür durchgeführte Fusion der Sensormesswerte beschrieben.
 
@@ -28,7 +29,7 @@ Zunächst wird ein Würfelvolumen über den zu beschreibenden Bereich gelegt, we
 	\subfigure[Volumenstruktur]{
 		\includegraphics[scale=1.0]{octree_box}
 	}
-	\caption{Verfeinerung der \textit{octree} Darstellung mit Erfassung von besetzten (schwarz) und freien (weiß) Bereichen. Darstellung nach \cite{Hornung2013} }
+	\caption{Verfeinerung der \textit{octree} Darstellung durch Erfassung von besetzten (schwarz) und freien (weiß) Bereichen \cite{Hornung2013}. }
 	\label{fig.octree}
 	\end{center}
 	%\vspace*{-8mm}
@@ -74,8 +75,9 @@ Allgemein kann die Abbildung von Punkten im Koordinatensystem des \kps{s} ins Ko
 Das in dieser Arbeit gewählte Verfahren zur globalen Lokalisation basiert auf dem \textit{Monte-Carlo-Algorithmus} \cite{Dellaert1999} und stellt damit wie in \abschnitt{chap:mcl} beschrieben einen partikelbasierten Ansatz dar.\\
 Es wurde dazu eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. Als Referenz wird die zuvor beschriebene, aus der Modellumgebung erzeugte \textit{Octomap} verwendet.\\
 
-%PreviewVersion
-%\red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
+\prever{
+\red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
+}
 
 In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Zufallsverteilung generiert. Jeder Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \textit{Endpoint}-Modell (EPM) und dem \textit{Raycasting}-Modell (RCM). Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
 
@@ -176,17 +178,17 @@ Beim RCM, beschrieben von Thrun \textit{et al.} in \cite{Thrun2005}, werden für
 	%\vspace*{-8mm}
 \end{figure}
 
-%PreviewVersion
-%\red[isometrisch besser?\\]
-
+\prever{
+\red[isometrisch besser?\\]
+}
 Die Entfernung zwischen dem ermittelten Punkt und dem betrachteten Partikel wird anschließend berechnet und mit der Entfernung des zugehörigen Sensorwertes verglichen. Die Differenz $\Delta d$ der beiden Distanzen wird verwendet um die Wahrscheinlichkeit zu bestimmen, dass der Sensorwert an dieser Stelle aufgenommen wurde. Die Berechnung der jeweiligen Wahrscheinlichkeit erfolgt beim RCM wie auch beim EPM mittels der Log-Likelihood-Funktion.\\
 
 Als zusätzliches Bewertungsmaß der globalen Lokalisation wurde die Berechnung des Quadratischen Mittels der Distanzen implementiert. Die Ergebnisse korrelieren aufgrund der unterschiedlichen Berechnungsweisen nicht exakt mit den ermittelten Wahrscheinlichkeitswerten, erlauben jedoch eine Bewertung der Überdeckung zwischen Karten- und Sensordaten. Im Gegensatz zu den absoluten Gewichten der Partikel bietet dieses Maß damit eine Möglichkeit Lokalisationen mit unterschiedlichen Modellparametern zu vergleichen.
 
-%PreviewVersion
-%\red[Markerbasierte Lokalisation\\]
-%\red["Tracking" durch Verringerung der Partikelanzahl möglich, da sich die Rechenzeit deutlich verringert]
-
+\prever{
+\red[Markerbasierte Lokalisation\\]
+\red["Tracking" durch Verringerung der Partikelanzahl möglich, da sich die Rechenzeit deutlich verringert]\\
+}
 
 \section{Lokale Lokalisation}
 \label{locloc}
@@ -194,8 +196,9 @@ Im Anschluss an die globale Lokalisation wird die Bewegung des Systems kontinuie
 
 Da das handgeführte System nicht über Odometriedaten verfügt, wie sie beispielsweise bei einem mobilen Robotersystem durch Messungen der Radumdrehungen zur Verfügung stehen, muss das Tracking auf Basis anderer Sensordaten durchgeführt werden. Dazu wird die in \abschnitt{chap.unimod} beschriebene visuelle Odometrie eingesetzt und eine Fusionierung mit den Daten der inertialen Messeinheit durchgeführt.\\
 
-%PreviewVersion
-%\subsection{Visuelle Odometrie}
+\prever{
+\subsection{Visuelle Odometrie}
+}
 Die visuelle Odometrie basiert auf den Bilddaten der Kinect. Neben dem Farbbild wird wie in \abb{fig.fovis} (a) auch die aus dem Infrarotbild bestimmte Tiefenkarte ausgewertet. Dabei wird eine Implementierung \cite{Fovis} eingesetzt, welche die visuelle Odometrie als quelloffene Bibliothek für ROS bereitstellt.\\
 Die Bestimmung der visuellen Odometrie erfolgt dabei in sechs aufeinanderfolgenden Schritten \cite{Huang2011}:
 
@@ -232,12 +235,13 @@ Die Pose des \kps{s} wird im Rahmen der lokalen Lokalisation mit Bezug auf das R
 \label{eq.locloc}
 \end{equation}
 
-%PreviewVersion
-%\red[Um eine höhere Genauigkeit zu erreichen werden ergänzend die Messdaten einer inertialen Messeinheit betrachtet.\\]
-%\red[IMU eigentlich in beiden Verfahren eingesetzt!?]
-
-%PreviewVersion
-%\subsection{Inertiale Messeinheit}
+\prever{
+\red[Um eine höhere Genauigkeit zu erreichen werden ergänzend die Messdaten einer inertialen Messeinheit betrachtet.\\]
+\red[IMU eigentlich in beiden Verfahren eingesetzt!?]
+}
+\prever{
+\subsection{Inertiale Messeinheit}
+}
 \section{Inertiale Messeinheit}
 Die in \abschnitt{chap.imu} beschriebene inertiale Messeinheit ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von Mahony \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}.\\
 Um die Messdaten in die Programmstruktur einzubinden wurde die Implementierung um eine Schnittstelle für ROS erweitert. Darüber hinaus wurde eine Gravitationskompensation implementiert, welche neben der Bestimmung des Roll- und Nick-Winkels des \kps{s} auch das Auslesen der relativen Beschleunigungen des Systems ermöglicht.\\
@@ -246,19 +250,21 @@ Die globale Lokalisation verwendet die bestimmten Winkel bezüglich der Roll- un
 
 Als Ergänzung der visuellen Odometrie werden die Messdaten der inertialen Messeinheit mit den Odometriedaten fusioniert. Dabei werden sowohl die Werte des Roll- und Nick-Winkels als auch die ermittelten Beschleunigungswerte entlang der Koordinatenachsen des \kps{s} berücksichtigt. Die Fusionierung der Sensordaten wird durch ein Erweitertes-Kalman-Filter realisiert.
 
-%PreviewVersion
-%\subsection{Erweitertes Kalman-Filter}
+\prever{
+\subsection{Erweitertes Kalman-Filter}
+}
 \section{Erweitertes Kalman-Filter}
 \label{chap.kalman}
 Das Kalman-Filter \cite{Kalman1960} stellt eine in der Praxis bewährte Methode zur Fusionierung von Sensordaten dar. Es ermöglicht die Vorhersage des aktuellen Systemzustands durch statistische Approximation. Der Ausgang jeder auf ein System wirkende Aktion, beispielsweise die Drehung der Räder, kann in der Realität nicht ohne Unsicherheiten vorhergesagt werden. Der neue Systemzustand ist deshalb allein auf Basis der Odometriedaten nur mit großer Varianz bestimmbar. Messungen können dazu verwendet werden, diese Unsicherheiten zu korrigieren um den realen Zustand mit höherer Genauigkeit schätzen zu können.\\
 
 Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. \abb{fig.kalman} 
-%PreviewVersion
-%\red[in anlehung an Hertzberg s.134] 
+\prever{
+\red[in anlehung an Hertzberg s.134] 
+}
 zeigt das Prinzip der Zustandsannäherung und die auf Basis der Messwerte durchgeführte Korrektur. 
-%PreviewVersion
-%\red[verschieben nach Stand der Technik?]\red[Beschreibung!]\\
-
+\prever{
+\red[verschieben nach Stand der Technik?]\red[Beschreibung!]\\
+}
 \begin{figure}[ht]
 	\begin{center}%
 		\includesvgnew[1]{images/kalman}%
@@ -269,31 +275,34 @@ zeigt das Prinzip der Zustandsannäherung und die auf Basis der Messwerte durchg
 	\vspace*{-8mm}
 \end{figure}
 
-%PreviewVersion
-%\red[plot?\\]
-
+\prever{
+\red[plot?\\]
+}
 Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert.\\
 Mit Hilfe der inertialen Messeinheit kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nickwinkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert um die Bewegung des Systems zu schätzen.\\
 
+\nomenclature[a]{EKF}{Erweitertes Kalman-Filter}
+
 %\red[Ergebnis der Lokalisation in Darstellung zusammenfassen? EKF kombiniert Messwerte und liefert $\tmat{Odom}{K}$, globale Lokalisatoin liefert $\tmat{M}{Odom}$, kombiniert ergibt sich $\tmat{M}{K}$\\]
 
 
-%PreviewVersion
-%\begin{figure}[!ht]
-%	\begin{center}
-%		\includegraphics[scale=1.0]{spacer}
-%		\caption{EKF Übersicht - Kombination der Messwerte und ausgegebene Transformation}
-%		\label{fig.ekf}
-%	\end{center}
-%	%\vspace*{-8mm}
-%\end{figure}
-%
-%\red[Ergebnis der Lokalisation in Darstellung zusammenfassen? EKF kombiniert Messwerte und liefert $\tmat{Odom}{K}$, globale Lokalisatoin liefert $\tmat{M}{Odom}$, kombiniert ergibt sich $\tmat{M}{K}$\\]
-%
-%\red[odometrie auch Messung...Varianz der -sensoren aber klein gegenüber dem Umgebungseinfluss]
-%Partikelbasiertes Tracking\\
-%Featurebasiertes Tracking\\
-%Beschleunigungsdatenbasiertes Tracking\\
-%Kombination der Odometriedaten durch Extended Kalman Filter \red[Buch Hertzberg]\\
-%\red[Ergebnisse der Kalman Einbindung mit und ohne IMU auswerten]
-%\red[Fovis differential auf true und imu auf false?]
+\prever{
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{EKF Übersicht - Kombination der Messwerte und ausgegebene Transformation}
+		\label{fig.ekf}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
+
+\red[Ergebnis der Lokalisation in Darstellung zusammenfassen? EKF kombiniert Messwerte und liefert $\tmat{Odom}{K}$, globale Lokalisatoin liefert $\tmat{M}{Odom}$, kombiniert ergibt sich $\tmat{M}{K}$\\]
+
+\red[odometrie auch Messung...Varianz der -sensoren aber klein gegenüber dem Umgebungseinfluss]
+Partikelbasiertes Tracking\\
+Featurebasiertes Tracking\\
+Beschleunigungsdatenbasiertes Tracking\\
+Kombination der Odometriedaten durch Extended Kalman Filter \red[Buch Hertzberg]\\
+\red[Ergebnisse der Kalman Einbindung mit und ohne IMU auswerten]
+\red[Fovis differential auf true und imu auf false?]
+}

@@ -1,46 +1,44 @@
 \chapter{Stand der Technik}
 \label{chap.tech}
-%PreviewVersion
-%\red[TODO:\\
-%%Lokalisation mobiler Systeme in Gebäuden etc.\\
-%%Augmented Reality inkl. Interaktion mit Projektionen\\
-%%Handgeführte Lokalisationssysteme (Ohne Projektion)\\
-%Bilder von Systemen?\\
-%]
-%\red[Viele Forschungsgruppen beschäftigen sich mit der Problematik, sowohl Lokalisation in bekannter als auch unbekannter Umgebung.
-%Da das Ziel des entwickelten Systems in der Lokalisation in bekannter Umgebung liegt wird sich bei der Darstellung der bisherigen Forschungsansätze auf diesen Bereich konzentriert. Da das entwickelte System aufgrund seiner Komponenten dafür ausgelegt ist, die Lokalisation auf Basis von Tiefen- und Farbinformationen durchzuführen werden an dieser Stelle Ansätze, welche auf anderen Verfahren wie Ortung von Funkwellen basieren, ebenfalls nicht näher ausgeführt.]\\
-
+\prever{
+\red[TODO:\\
+%Lokalisation mobiler Systeme in Gebäuden etc.\\
+%Augmented Reality inkl. Interaktion mit Projektionen\\
+%Handgeführte Lokalisationssysteme (Ohne Projektion)\\
+Bilder von Systemen?\\
+]
+\red[Viele Forschungsgruppen beschäftigen sich mit der Problematik, sowohl Lokalisation in bekannter als auch unbekannter Umgebung.
+Da das Ziel des entwickelten Systems in der Lokalisation in bekannter Umgebung liegt wird sich bei der Darstellung der bisherigen Forschungsansätze auf diesen Bereich konzentriert. Da das entwickelte System aufgrund seiner Komponenten dafür ausgelegt ist, die Lokalisation auf Basis von Tiefen- und Farbinformationen durchzuführen werden an dieser Stelle Ansätze, welche auf anderen Verfahren wie Ortung von Funkwellen basieren, ebenfalls nicht näher ausgeführt.]\\
+}
 
 Da sich die geplante Anwendung des \kps{s} in verschiedene Funktionsbereiche gliedern lässt, soll im Folgenden ein Überblick über den aktuellen Forschungsstand innerhalb der jeweiligen Bereiche gegeben werden. Darüber hinaus werden Systeme vorgestellt, welche eine mit dem in dieser Arbeit entwickelten \kps{} vergleichbare Funktionalität in einem oder mehreren Bereichen bieten.
 
 \section{Lokalisationsverfahren}
 \label{chap:mcl}
-Die Lokalisation mobiler Systeme in bekannten Umgebungen ist Gegenstand aktueller Forschungsvorhaben. Aufgrund des Anwendungsgebietes des entwickelten \kps{s} beschränkt sich der folgende Überblick auf die Lokalisation mobiler Systeme in Innenräumen. Da die Lokalisation des Systems auf Basis der eigenen Sensordaten erfolgen soll, werden darüber hinaus nur Verfahren und Algorithmen betrachtet, welche die Pose\footnote{Die Pose eine Systems umfasst die Beschreibung seiner Position und Orientierung bezogen auf die sechs räumlichen Freiheitsgrade.
-%PreviewVersion
-% \red[Formel oder Quelle?]
-} des Systems ohne externe Sensorik bestimmen.\\
+Die Lokalisation mobiler Systeme in bekannten Umgebungen ist Gegenstand aktueller Forschungsvorhaben. Aufgrund des Anwendungsgebietes des entwickelten \kps{s} beschränkt sich der folgende Überblick auf die Lokalisation mobiler Systeme in Innenräumen. Da die Lokalisation des Systems auf Basis der eigenen Sensordaten erfolgen soll, werden darüber hinaus nur Verfahren und Algorithmen betrachtet, welche die Pose des Systems ohne externe Sensorik bestimmen.\\
 
 Besonders in der Robotik hat sich die Selbstlokalisation mobiler Systeme in den letzten Jahrzehnten zu einem wichtigen Forschungsbereich entwickelt, da sie eine Voraussetzung für die autonome Navigation von Robotersystemen darstellt.\\
-%PreviewVersion
-%\red[Andere Forschungsbereiche?]\\
+\prever{
+\red[Andere Forschungsbereiche?]\\
+}
 Die Anwendungsbereiche werden dabei nach Verfahren zur globalen und lokalen Lokalisation unterschieden. Bei der globalen Lokalisation soll die absolute Pose des Systems innerhalb seiner Umgebung ermittelt werden. Als lokale Lokalisation wird hingegen die Bestimmung einer relativen Transformation zwischen dem vorhergehenden und dem aktuellen Zustand bezeichnet. Während die globale Lokalisation damit meist angewendet wird um die initiale Pose in einer bekannten Umgebung festzulegen dient die lokale Lokalisation dazu die Veränderungen der Systempose kontinuierlich zu verfolgen.\\
-%PreviewVersion
-%\red[Begriff Tracking nennen? Eigentlich nicht relevant! -> Umschreiben]\\
-
-Die zur gleichen Zeit betrachtete Anzahl möglicher Posen des Systems (Hypothesen) führt zu einer Kategorisierung innerhalb der Verfahren. Während unimodale Lokalisationsverfahren sich auf eine Hypothese zur Bestimmung der Systempose beschränken, werden bei multimodalen Lokalisationsverfahren verschiedene Hypothesen parallel betrachtet.
+\prever{
+\red[Begriff Tracking nennen? Eigentlich nicht relevant! -> Umschreiben]\\
+}
+Die zur gleichen Zeit betrachtete Anzahl möglicher Posen des Systems (Hypothesen) führt zu einer Kategorisierung innerhalb der Verfahren. Während unimodale Lokalisationsverfahren sich auf eine Hypothese zur Bestimmung der Systempose beschränken, werden bei multimodalen Lokalisationsverfahren verschiedene Hypothesen parallel betrachtet \red[\cite{Hertzberg2012}].
 %Im Folgenden soll ein Überblick über verbreitete Lokalisationsansätze gegeben werden.
 %Unimodale Ansätze berücksichtigen jeweils nur eine Pose, während bei multimodalen Verfahren mehrere Posen gleichzeitig aufrechterhalten werden.
 \subsection{Unimodale Lokalisationsverfahren}
 \label{chap.unimod}
-Da bei unimodalen Verfahren nur eine mögliche Pose des Systems betrachtet wird, erfordert der Einsatz im Rahmen einer globalen Lokalisation damit meist eine  plausible Hypothese eines Anfangszustands. Vornehmliche Anwendung finden sie daher im Bereich der lokalen Lokalisation.\\
+Da bei unimodalen Verfahren nur eine mögliche Pose des Systems betrachtet wird, erfordert der Einsatz im Rahmen einer globalen Lokalisation damit meist eine  plausible Hypothese des Anfangszustands. Vornehmliche Anwendung finden sie daher im Bereich der lokalen Lokalisation.\\
 
 Einen grundlegenden Ansatz stellt das sogenannte \textit{Scan Matching} dar. Dieses Verfahren bezeichnet den Abgleich (Matching) von Messungen der Umgebungen mit vorangegangenen Messungen \cite{Gutmann1996} oder zuvor aufgezeichneten Vergleichsdaten \cite{Gutmann1998}. Durch Bestimmung der maximalen Überlappung kann die translatorische und rotatorische Veränderung der Pose bezüglich der Referenz berechnet werden. Die betrachteten Messwerte sind dabei meist Distanzen, welche beispielsweise mit Laser- \cite{Diosi2007} oder Ultraschall-Entfernungsmessern \cite{Burguera2005} aufgezeichnet wurden. Die Berechnung der Transformationsvorschrift zwischen den Zuständen erfolgt auf Basis verschiedener Algorithmen wie dem \textit{Iterative Closest Point} Verfahren \cite{Besl1992}\cite{Lu1994} oder der \textit{Normal Distributions Transformation} \cite{Biber2003}.\\
 
-Das \textit{Line Matching} erweitert diesen Ansatz, indem es die häufig geradlinige Struktur von Innenräumen nutzt. Anstelle einzelner Messpunkte werden Linien aufeinander abgeglichen, wodurch die Robustheit der Lokalisation gesteigert werden kann. Die Linien werden dabei aus den Messwerten extrahiert und mit zuvor erstellten Liniendaten aus Umgebungskarten verglichen \cite{Cox1991}\cite{Gutmann1999}.\\
-Auch ein umgekehrtes Vorgehen ist möglich, in welchem die Liniendaten der Karten in äquidistante Punktmengen transformiert und mit den Daten der Entfernungsmessung abgeglichen werden. In diesem Fall reduziert sich die Berechnung der Überdeckung auf das Abgleichen von Punkten, welches mit den Algorithmen des \textit{Scan Matching} gelöst werden kann.\\
+Das \textit{Line Matching} erweitert diesen Ansatz, indem es die häufig geradlinige Struktur von Innenräumen nutzt. Anstelle einzelner Messpunkte werden Linien aufeinander abgeglichen, wodurch die Robustheit der Lokalisation gesteigert werden kann. Die Linien werden dabei aus den Messwerten extrahiert und mit zuvor erstellten Liniendaten aus Umgebungs\red[karten] verglichen \cite{Cox1991}\cite{Gutmann1999}.\\
+Auch ein umgekehrtes Vorgehen ist möglich, in welchem die Liniendaten der \red[Karten] in äquidistante Punktmengen transformiert und mit den Daten der Entfernungsmessung abgeglichen werden. In diesem Fall reduziert sich die Berechnung der Überdeckung auf das Abgleichen von Punkten, welches mit den Algorithmen des \textit{Scan Matching} gelöst werden kann.\\
 
-Eine Erhöhung der Komplexität wird durch die Betrachtung von Polylinien, also zusammenhängenden Linienelementen erreicht \cite{Wolter2004}. Zur Lösung können dabei Algorithmen angewendet werden, welche im Rahmen der der computergestützen Bildverarbeitung für das Abgleichen von Formen entwickelt wurden.\\
-Eine andere Art von Ansätzen des \textit{Line Matching} verfolgt die Beschreibung der Liniendaten mittels verschiedener Deskriptoren wie Länge, Abstand und Winkel \cite{Frey2014}\cite{Garulli2005}. Dieses Vorgehen ermöglicht eine kompaktere Darstellung der relevanten Umgebungsmerkmale und bildet den Übergang zu den merkmalsbasierten Lokalisationsverfahren.\\
+Eine Erhöhung der Komplexität wird durch die Betrachtung von Polylinien, also zusammenhängenden Linienelementen erreicht \cite{Wolter2004}. Zur Lösung können dabei Algorithmen angewendet werden, welche im Rahmen der computergestützen Bildverarbeitung für das Abgleichen von Formen entwickelt wurden.\\
+Eine andere Art von Ansatz des \textit{Line Matching} verfolgt die Beschreibung der Liniendaten mittels verschiedener Deskriptoren wie Länge, Abstand und Winkel \cite{Frey2014}\cite{Garulli2005}. Dieses Vorgehen ermöglicht eine kompaktere Darstellung der relevanten Umgebungsmerkmale und bildet den Übergang zu den merkmalsbasierten Lokalisationsverfahren.\\
 
 Die allgemeine Anwendung des Prinzips von Deskriptoren (Features) zur Ermittlung der aktuellen Pose eines Systems beschreibt die merkmalsbasierte Lokalisation (\textit{Feature Matching}). Betrachtet werden je nach Anwendungsfall und verwendeter Sensorik individuelle Merkmale.\\
 Neben Distanzmessungen \cite{Tomono2004} werden insbesondere auch Kamerasysteme verwendet um Features aus der Umgebung zu extrahieren \cite{Se2001}.\\
@@ -48,8 +46,8 @@ Da die Definition geeigneter Deskriptoren bei der Verwendung von Entfernungsmess
 Die kontinuierliche Bestimmung der Systempose auf Basis visueller Features wird unter dem Begriff der visuellen Odometrie\footnote{Als Odometrie wird in der Robotik die fortlaufende Ableitung der Orientierung und Geschwindigkeit aus Messungen der Raddrehwinkel bezeichnet \cite{Hertzberg2012}.} \cite{Mccarthy2003} zusammengefasst.\\
 %Definition der Deskriptoren bei Laserscan etc. schwierig und Anwendungsabhängig -> hauptsächlicher Einsatz von merkmalsbasierter Lokalisation bei visuellen Daten (Kamerabildern) \red[visuelle Odometrie fällt darunter!] SIFT/SURF, PCA.
 
-Ein weiteres unimodales Lokalisationsverfahren stellt die Schätzung und Verfolgung der Systempose mittels eines Kalman-Filters dar (siehe \kapitel{chap.kalman}. Dieses Verfahren kann auf den bisher beschriebenen Matching Verfahren aufbauen, ist jedoch nicht auf diese limitiert. Das Kalman-Filter ermöglicht eine eine Fusionierung der Sensordaten mit der Odometrie. Ein großer Vorteil dieses Lokalisationsverfahrens liegt somit darin, mehrere Datenquellen in einem Modell vereinen zu können. Die Sensordaten können dabei beispielsweise aus globalen Kartenmerkmalen ermittelt werden \cite{Leonard1991} oder aus der Kombination verschiedener Sensoren \cite{Roumeliotis1997} resultieren.\\
-Da das Kalman-Filter die Pose mittels einer Wahrscheinlichkeitsdichtefunktion annähert eignet er sich besonders unter der Voraussetzung, dass eine Approximation der initialen Pose vorliegt. Als globales Lokalisationsverfahren bei unbekannter Startpose eignet sich der Kalman-Filter dagegen nur bedingt. Der Einsatz multimodaler Lokalisationsverfahren ermöglicht es jedoch, diese Limitierung durch parallele Verwendung multipler Kalman-Filter zu überwinden.
+Ein weiteres unimodales Lokalisationsverfahren stellt die Schätzung und Verfolgung der Systempose mittels eines Kalman-Filters dar, welches in \kapitel{chap.kalman} näher beschrieben wird. Dieses Verfahren kann auf den bisher beschriebenen Matching Verfahren aufbauen, ist jedoch nicht auf diese limitiert. Das Kalman-Filter ermöglicht eine Fusionierung der Sensordaten mit der Odometrie. Ein großer Vorteil dieses Lokalisationsverfahrens liegt somit darin, mehrere Datenquellen in einem Modell vereinen zu können. Die Sensordaten können dabei beispielsweise aus globalen Kartenmerkmalen ermittelt werden \cite{Leonard1991} oder aus der Kombination verschiedener Sensoren \cite{Roumeliotis1997} resultieren.\\
+Da das Kalman-Filter die Pose mittels einer Wahrscheinlichkeitsdichtefunktion annähert, eignet er sich besonders unter der Voraussetzung, dass eine Approximation der initialen Pose vorliegt. Als globales Lokalisationsverfahren bei unbekannter Startpose eignet sich der Kalman-Filter dagegen nur bedingt. Der Einsatz multimodaler Lokalisationsverfahren ermöglicht es jedoch, diese Limitierung durch parallele Verwendung multipler Kalman-Filter zu überwinden.
 %Anwendung des Kalman-Filters auf mehrere Hypothesen führt zu multimodalen Lokalisationsverfahren. 
 %EKF approximiert Verteilung lokal als Gaußverteilung
 
@@ -59,30 +57,31 @@ Im Falle einer fehlerhaften Lokalisation ist beispielsweise das \textit{Scan Mat
 
 Das bei der \textit{Markov-Lokalisation} angewendete Prinzip basiert auf einer Diskretisierung des Posenraums. Für jeden Freiheitsgrad des Systems wird eine Rasterkarte erstellt, in welcher die Gitterzellen mögliche Posen innerhalb des diskreten Raumes repräsentieren. Jede Hypothese wird über eine Wahrscheinlichkeitsdichte abgebildet, welche beispielsweise auf Basis des Kalman-Filters bestimmt wird \cite{Hertzberg2012}.\\
 Initialisiert wird die \textit{Markov-Lokalisation} entweder als eine Gleichverteilung über alle Zellen oder als Normalverteilung um definierte Startpositionen \cite{Hertzberg2012}.\\
-In jedem Schritt der Lokalisation werden anschließend Odometrie- und Sensordaten verarbeitet um die Wahrscheinlichkeitsdichte der Gitterzellen anzupassen. Da selbst bei deutlichem Anstieg der Probabilität einer Pose auch die weiteren Posen in der Betrachtung erhalten bleiben, ist das Verfahren stets in der Lage auf eine fehlerhafte Lokalisation zu reagieren.\\
+In jedem Schritt der Lokalisation werden anschließend Odometrie- und Sensordaten verarbeitet, um die Wahrscheinlichkeitsdichte der Gitterzellen anzupassen. Da selbst bei deutlichem Anstieg der Probabilität einer Pose auch die weiteren Posen in der Betrachtung erhalten bleiben, ist das Verfahren stets in der Lage auf eine fehlerhafte Lokalisation zu reagieren.\\
 
 %Die globale Lokalisation erfolgt bei der \textit{Markov-Lokalisation} entweder durch Initialisierung mit einer Gleichverteilung über alle Zellen, oder durch eine Initialisierung mit Normalverteilung und geringer Varianz um die Hypothesen der Startpositionen \cite{Hertzberg2012}.\\
 
 Die Diskretisierung und gleichzeitige Betrachtung aller möglichen Posen ist mit großem Rechenaufwand verbunden. Die \textit{Monte-Carlo-Lokalisation} verringert den benötigten Aufwand, indem anstelle aller möglichen Posen nur ausgewählte Stichproben betrachtet werden. Jede dieser Stichproben entspricht einer Pose und wird auch als Partikel bezeichnet. Die Partikel können dabei neben dem diskreten auch aus dem kontinuierlichen Posenraum gewählt werden, wie er häufig bei mobilen Systemen vorliegt \cite{Fox2001}. Die Kontrolle über die Partikelanzahl ermöglicht es zudem, den Algorithmus auf die verfügbaren Rechenressourcen abzustimmen \cite{Thrun2001}.\\
-Darüber hinaus kann eine Vielzahl verschiedener Wahrscheinlichkeitsverteilungen als Basis des Verfahrens verwendet werden. Die \textit{Monte-Carlo-Lokalisation} ist dadurch in der Lage die globale und lokale Lokalisation mit hoher Genauigkeit zu realisieren \cite{Thrun2005}. Zusammen mit der hohen Effizienz des Ansatzes führt dies dazu, dass er bei der Lokalisation mobiler Systeme der \textit{Markov-Lokalisation} überlegen ist \cite{Fox2001}.
+Darüber hinaus kann eine Vielzahl verschiedener Wahrscheinlichkeitsverteilungen als Basis des Verfahrens verwendet werden. Die \textit{Monte-Carlo-Lokalisation} ist dadurch in der Lage, die globale und lokale Lokalisation mit hoher Genauigkeit zu realisieren \cite{Thrun2005}. Zusammen mit der hohen Effizienz des Ansatzes führt dies dazu, dass er bei der Lokalisation mobiler Systeme der \textit{Markov-Lokalisation} überlegen ist \cite{Fox2001}.
 
 %\red[Monte Carlo etc. ->Buch\\]
 %\red[smartphone lokalisierung thematisieren aber verwendet externe Sensorik zur Positionsbestimmung]
 
 %\red[In der Robotik wird die fortlaufende Ableitung der Orientierung und Geschwindigkeit aus Messungen der Raddrehwinkel als Odometrie bezeichnet. \cite{Hertzberg2012}\\]
 
-%PreviewVersion
-%\red[Wie Quelle \cite{Hertzberg2012} für gesamten Lokalisationsabsatz referenzieren?]
-
+\prever{
+\red[Wie Quelle \cite{Hertzberg2012} für gesamten Lokalisationsabsatz referenzieren?]
+}
 %\red[Welche Lokalisationsverfahren gibt es. Allgemein und speziell für handgeführte Systeme.]\\
 
-%Preview Version
-%\section{\red[3D-Kameras in der Lokalisation]}
+\prever{
+\section{\red[3D-Kameras in der Lokalisation]}
+}
 \section{3D-Kameras in der Lokalisation}
-Die beschriebenen Verfahren und Algorithmen haben sich besonders bei der Lokalisation in zweidimensionalen Umgebungen bewährt, obwohl sie unabhängig von der Anzahl an Dimensionen sind. Die größer werdende Verbreitung von zugleich kostengünstigen und leistungsfähigen 3D-Kameras% 
+Die beschriebenen Verfahren und Algorithmen haben sich besonders bei der Lokalisation in zweidimensionalen Umgebungen bewährt, obwohl sie unabhängig von der Anzahl an Dimensionen sind. Die größer werdende Verbreitung von zugleich kostengünstigen und leistungsfähigen 3D-Kameras 
 %\red[wie dem Microsoft Kinect\red[Tm] Sensor] 
 führt jedoch dazu, dass der Anwendungsbereich vermehrt auch auf dreidimensionale Umgebungen erweitert wird.\\
-Die dreidimensionale Lokalisation ist insbesondere dann von Bedeutung, wenn das System sich in mehr als einer Ebene bewegen kann. Die Anzahl möglicher Freiheitsgrade steigt dadurch im Vergleich zu zweidimensionalen Umgebungen von drei auf sechs an. Die Pose des Systems wird somit über drei translatorische sowie drei rotatorische Freiheitsgrade beschrieben.\\
+Die dreidimensionale Lokalisation ist insbesondere dann von Bedeutung, wenn das System sich in mehr als einer Ebene bewegen kann. Die Anzahl möglicher Freiheitsgrade verdoppelt sich dadurch im Vergleich zur zweidimensionalen Umgebungen von drei auf sechs. Die Pose des Systems wird somit über drei translatorische sowie drei rotatorische Freiheitsgrade beschrieben.\\
 
 Die dreidimensionale Lokalisation erfordert geeignete dreidimensionale Modellumgebungen. Da diese bei Innenräumen häufig nicht vorliegen, werden diese häufig auf Basis von Sensordaten rekonstruiert. 3D-Kameras werden dabei in Verfahren eingesetzt, welche die Lokalisation während der Rekonstruktion der Umgebung durchführen \cite{Durrant2006}.\\
 Bewegungen im dreidimensionalen Raum führen darüber hinaus häufig dazu, dass keine Odometriedaten mehr ermittelt werden können. Dies ist insbesondere bei fliegenden \cite{Huang2011} und hand- oder körpergeführten Systemen \cite{Fallon2012} der Fall. Die Auswertung von Tiefen- und Farbinformationen ermöglicht es jedoch, dies durch die zuvor beschriebene visuelle Odometrie zu kompensieren \cite{Whelan2013robust}.\\
@@ -92,9 +91,9 @@ Dabei sollten sie jedoch weniger als Ersatz sondern vielmehr als anwendungsabhä
 %Markerbasierte Lokalisation]\\
 
 \section{Augmented Reality}
-Die Überlagerung oder Vereinigung von virtuellen und realen Umgebungen wird als \textit{Augmented Reality} (AR) bezeichnet \cite{Azuma1997}. Durch eine dreidimensionale Registrierung wird die Interaktion zwischen den Objekten der beiden Welten ermöglicht. Die Umgebung des menschlichen Beobachters wird somit um virtuelle Elemente ergänzt. Neben normalen oder transparenten Bildschirmen werden dabei insbesondere Projektoren zur Visualisierung der virtuellen Daten eingesetzt.\\
+Die Überlagerung oder Vereinigung von virtueller und realer Umgebung wird als \textit{Augmented Reality} (AR) bezeichnet \cite{Azuma1997}. Durch eine dreidimensionale Registrierung wird die Interaktion zwischen den Objekten der beiden Welten ermöglicht. Die Umgebung des menschlichen Beobachters wird somit um virtuelle Elemente ergänzt. Neben normalen oder transparenten Bildschirmen werden dabei insbesondere Projektoren zur Visualisierung der virtuellen Daten eingesetzt.\\
 
-Anwendungsmöglichkeiten für AR finden sich dabei in verschiedensten Gebieten. In der Medizin können Ärzte durch Visualisierung von Gefäßstrukturen und Informationen zur Operationsplanung in der Chirurgie unterstützt werden \cite{Kobler2010}\cite{Gavaghan2012}. Auch die Kommunikationsmöglichkeiten zwischen Arzt und Patient lassen sich durch den Einsatz von AR erweitern \cite{Bluteau2005}.\\
+Anwendungsmöglichkeiten für AR finden sich dabei in verschiedensten Gebieten. In der Medizin können Ärzte durch Visualisierung von Gefäßstrukturen und Informationen zur Operationsplanung in der Chirurgie unterstützt werden \cite{Gavaghan2012}. Auch die Kommunikationsmöglichkeiten zwischen Arzt und Patient lassen sich durch den Einsatz von AR erweitern \cite{Bluteau2005}.\\
 Durch visualisierte Zusatzinformationen ermöglicht AR ein interaktives Trainieren von Robotersystemen \cite{DeTommaso2012}. Auch in Alltagssituationen lassen sich somit interaktive Benutzerschnittstellen realisieren \cite{Linder2010} \cite{Huber2012}.\\ 
 Virtuelle Modelle lassen sich durch Projektion auf statische Objekte visualisieren \cite{Raskar1999}. Durch Kombination mehrerer Projektoren können darüber hinaus ganze Modellumgebungen auf realen Geometrien abgebildet \cite{Low2001} oder der Interaktionsbereich auf multiple Oberflächen ausgedehnt werden \cite{Wilson2010}.
 
@@ -118,42 +117,50 @@ Virtuelle Modelle lassen sich durch Projektion auf statische Objekte visualisier
 %\subsection{Lokalisation}
 %\red[Ein handgeführtes Scanning System, entwickelt von Mair \textit{et al.} \cite{Mair2010}, fusioniert IMU Daten und  \\]
 
-%PreviewVersion
-%\red[Absätze kombinieren?]
+\prever{
+\red[Absätze kombinieren?]
+}
 
 %\subsection{Projektion}
 Die Miniaturisierung der Projektionstechnologie hat zu einer Entwicklung mobilerer, handgeführter Systeme geführt. In den letzten Jahren wurden verschiedene Ansätze untersucht, welche sich mit der Projektion virtueller Zusatzinformationen durch tragbare Systeme befassen. Dabei werden sowohl Miniprojektoren als auch in Smartphones integrierte Projektionssysteme eingesetzt.\\
 % Im Folgenden soll ein Überblick über vorhandene handgeführte Projektionssysteme und ihre Anwendungsbereiche gegeben werden.\\
 
+\prever{
+\cite{Kobler2010}\\
+}
+
 Die Navigation innerhalb eines Museums wird von Wecker \textit{et al.} \cite{Wecker2013} mittels handgeführter Projektionssysteme durch die Visualisierung von Karten- und Wegdaten unterstützt.\\
-Ein System mit ähnlichem Ziel haben Chung \textit{et al.} \cite{Chung2011} entwickelt. Dieses soll dem Anwender bei der Navigation innerhalb von Gebäuden behilflich sein. Ein Miniprojektor wird dabei in Kombination mit einem Smartphone verwendet um zusätzliche Informationen bei der Erkennung von Visitenkarten oder Gebäudeplänen zu visualisieren. Die Funktionalität soll dabei an eine Taschenlampe erinnern, welche die Zusatzinformationen sichtbar macht.\\
+Ein System mit ähnlichem Ziel haben Chung \textit{et al.} \cite{Chung2011} entwickelt. Dieses soll dem Anwender bei der Navigation innerhalb von Gebäuden behilflich sein. Ein Miniprojektor wird dabei in Kombination mit einem Smartphone verwendet, um zusätzliche Informationen bei der Erkennung von Visitenkarten oder Gebäudeplänen zu visualisieren. Die Funktionalität soll dabei an eine Taschenlampe erinnern, welche die Zusatzinformationen sichtbar macht.\\
 Auch Li \textit{et al.} \cite{Li2013} stellen ein handgeführtes Projektionssystem vor, welches im Konzept an eine Taschenlampe angelehnt ist. Durch Projektion von Karten- und Wegdaten auf den Boden vor dem Benutzer wird dieser entlang eines Pfades geführt. Im Gegensatz zu Chung \textit{et al.} erfolgt dabei eine kontinuierliche Aktualisierung der Projektion in Abhängigkeit der Position entlang des Weges, welche manuell durch eine Begleitperson erfasst wird.\\
 Molyneaux \textit{et al.} \cite{Molyneaux2012} erweitern die Metapher der Taschenlampe und integrieren darüber hinaus eine automatische Lokalisation des handgeführten Projektionssystems. Eine Infrastruktur aus 3D-Kameras erkennt und verfolgt die Systempose und ermöglicht dadurch die verzerrungsfreie Projektion beliebiger Zusatzinformationen innerhalb eines Raumes. Durch Infrarot Kameras am Projektionssystem selbst wird zudem eine Interaktion mit den visualisierten Daten realisiert.\\
 
 Das \textit{SideBySide} Projekt von Willis \textit{et al.} \cite{Willis2011} ermöglicht die Interaktion zwischen Benutzern über handgeführte Projektionssysteme. Jedes System projiziert dabei sowohl ein Bild im sichtbaren Lichtspektrum als auch einen Marker im Infrarot Spektrum. Die Erkennung der Marker durch die Systeme erlaubt das Zusammenspiel der jeweiligen Projektionen der Anwender. Anwendungen findet das System im Austausch von Informationen oder Dateien und in kooperativen Spielen.\\
-Einen weiteren Ansatz für kooperative Projektionssysteme liefern Robinson \textit{et al.} \cite{Robinson2012} mit \textit{PicoTales}. Dabei werden handgeführte Projektionssysteme verwendet um gemeinsam animierte Videos zu erstellen. Die Lokalisation erfolgt dabei über das Aufzeichnen von Bewegungsdaten durch eine inertiale Messeinheit. Die Auswertung und Fusionierung zu einem gemeinsamen Video erfolgt separat nach Abschluss der Interaktion.\\
+Einen weiteren Ansatz für kooperative Projektionssysteme liefern Robinson \textit{et al.} \cite{Robinson2012} mit \textit{PicoTales}. Dabei werden handgeführte Projektionssysteme eingesetzt, um gemeinsam animierte Videos zu erstellen. Die Lokalisation erfolgt dabei über das Aufzeichnen von Bewegungsdaten durch eine inertiale Messeinheit. Die Auswertung und Fusionierung zu einem gemeinsamen Video erfolgt separat nach Abschluss der Interaktion.\\
 
 Das von Harrison \textit{et al.\ }\cite{Harrison2011} entwickelte \textit{Omnitouch} ist ein körpergeführtes System, welches die Projektion grafischer Benutzeroberflächen auf typische im Alltag vorhandene Oberflächen ermöglicht. Das System verfügt neben einem Projektor auch über eine 3D-Kamera zur Detektion von Benutzereingaben. Dadurch wird die Funktionalität von Touchscreens abgebildet, so dass typische Anwendungen implementiert werden können, die sonst beispielsweise auf Smartphones oder Tablets genutzt werden.\\
-Ein vergleichbarer Aufbau wird von Tan \textit{et al.} \cite{Tan2013} verwendet um virtuelle Modelldaten auf reale Modelle zu projizieren. Dies ermöglicht die korrekte Darstellung der virtuellen Daten auch bei einem Wechsel der Beobachterperspektive. Die Lokalisation des Systems erfolgt dabei anhand des Abgleichs zwischen Modell und Sensordaten.\\
+Ein vergleichbarer Aufbau wird von Tan \textit{et al.} \cite{Tan2013} verwendet, um virtuelle Modelldaten auf reale Modelle zu projizieren. Dies ermöglicht die korrekte Darstellung der virtuellen Daten auch bei einem Wechsel der Beobachterperspektive. Die Lokalisation des Systems erfolgt dabei anhand des Abgleichs zwischen Modell und Sensordaten.\\
 
-%PreviewVersion
-%\red[Abbildungen der Systeme?\\]
+\prever{
+\red[Abbildungen der Systeme?\\]
+}
 
 %Warum der Ansatz?
 Wenige der handgeführten Systeme ermitteln ihre Pose innerhalb der Umgebung. Häufig ist lediglich die relative Pose bezüglich definierter Oberflächen oder Objekte Bestandteil der Betrachtung. Systeme, welche eine globale Lokalisation erfordern, verwenden dagegen entweder manuelle oder auf externen Sensoren basierende Lokalisationsverfahren.\\
-Die Selbstlokalisation mobiler Systeme ist seit einiger Zeit Forschungsthema und es existiert eine Vielzahl von Ansätzen um eine zuverlässige Lokalisation in zwei- und dreidimensionalen, bekannten Umgebungen zu realisieren. Eine Übertragung auf den Anwendungsbereich handgeführter Projektionssysteme fand bisher jedoch nicht statt.\\
+Die Selbstlokalisation mobiler Systeme ist seit einiger Zeit Forschungsthema und es existiert eine Vielzahl von Ansätzen, um eine zuverlässige Lokalisation in zwei- und dreidimensionalen, bekannten Umgebungen zu realisieren. Eine Übertragung auf den Anwendungsbereich handgeführter Projektionssysteme fand bisher jedoch nicht statt.\\
 
 Die vorliegende Arbeit soll die Lücke zwischen der Lokalisation mobiler Systeme und der projektorbasierten AR schließen. Die Anwendungsgebiete werden vereint, indem die Selbstlokalisation eines handgeführten \kps{s} realisiert und darauf aufbauend die Projektion visueller Zusatzinformationen in der realen Umgebung ermöglicht wird.\\
 
-%PreviewVersion
-%\red[Zwei Lokalisationsansätze verwendet, globale Lokalisation und visuelle Odometrie]
+\prever{
+\red[Zwei Lokalisationsansätze verwendet, globale Lokalisation und visuelle Odometrie]
+}
 
 %\red[Verschiedene handgeführte Systeme, welche jedoch entweder auf manueller, externer Lokalisation, oder markerbasierter Lokalisation beruhen. Bei anderen Systemen wird lediglich eine Ausrichtung bzgl der Projektionsoberfläche durchgeführt. Selbstlokalisation ohne Hilfsmittel (externe Sensorik, Marker in Form von KArten o.ä.) bisher nicht behandelt. Lokalisation von mobilen Systemen allerdings seit einiger Zeit Forschungsthema, neuer ist jedoch die 3D Lokalisation. System soll die Brücke bilden zwischen mobilen, autonomen Lokalisationssystemen und handgeführten Projektionssystemen\\]
 
-%PreviewVersion
-%\red[OHNE HILFSMITTEL nochmal aufgreifen wenn alternative Lokalisation über Muster o.ä. aufgeführt wird]
-%\red[Tan - iSarProjection -> Handgeführtes System, Aufbau sehr ähnlich Kinpro, Lokalisation aber anhand der Modelle auf die dann projiziert wird, eher wie David]\\
-%\red[Welche Systeme gibt es zur Projektion von (Modell-)Daten.]\\
-%\red[Kobler zitieren]
+\prever{
+\red[OHNE HILFSMITTEL nochmal aufgreifen wenn alternative Lokalisation über Muster o.ä. aufgeführt wird]
+\red[Tan - iSarProjection -> Handgeführtes System, Aufbau sehr ähnlich Kinpro, Lokalisation aber anhand der Modelle auf die dann projiziert wird, eher wie David]\\
+\red[Welche Systeme gibt es zur Projektion von (Modell-)Daten.]\\
+\red[Kobler zitieren]
+}
 
 %\includesvgnew[1]{test}

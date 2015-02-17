@@ -7,7 +7,7 @@
 %\kps{} Kalibrierung etc. inkl. Grundlagenteil, wie ausführlich?\\
 %GUI Struktur auslagern oder hier beschreiben?\\
 %]%
-In diesem Kapitel werden die Elemente erläutert, aus welchen das entwickelte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten wird der Aufbau und die Kalibrierung des \kps{s} beschrieben. Darüber hinaus werden die verwendeten Softwarebibliotheken und die entwickelte Programmstruktur dargestellt.
+In diesem Kapitel werden die Elemente erläutert, aus welchen das entwickelte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten werden der Aufbau und die Kalibrierung des \kps{s} beschrieben. Darüber hinaus werden die verwendeten Softwarebibliotheken und die entwickelte Programmstruktur dargestellt.
 
 \section{Technische Komponenten}
 Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. 
@@ -23,7 +23,7 @@ Die Technik zur Ermittlung der Tiefeninformationen stammt von der Firma PrimeSen
 	\begin{center}
 		\includesvgnew[1]{images/epipolar_3d_03}
 		%\includegraphics[scale=1.0]{spacer}
-		\caption{Bestimmung der Tiefenwerte über die Epipolargeometrie}
+		\caption{Bestimmung der Tiefenwerte über die Epipolargeometrie am Beispiel der Kinect}
 		\label{fig.kinect_depth}
 	\end{center}
 	%\vspace*{-8mm}
@@ -41,7 +41,7 @@ z = \frac{D}{d}\cdot f
 
 Die bekannte Relation zwischen der RGB- und IR-Kamera ermöglicht abschließend die Zuordnung von Farb- und Tiefenwerten (englisch \textbf{d}epth values). Sensoren dieser Art werden daher auch als RGB-D Kameras bezeichnet.\\
 
-Die Kinect stellt eine kostengünstige Möglichkeit zur parallelen Aufnahme von Tiefen- und Farbinformationen dar. Da seit der Veröffentlichung verschiedene quelloffene Treiber entwickelt wurden eignet sich die Kinect besonders auch für die Anwendung in der Forschung. In dieser Arbeit werden neben den Daten der RGB-Kamera auch die Tiefeninformationen sowie die daraus generierten Punktwolken\footnote{Punktwolken sind Datenstrukturen, welche eine Sammlung multidimensionaler Punkte repräsentieren.
+Die Kinect stellt eine kostengünstige Möglichkeit zur parallelen Aufnahme von Tiefen- und Farbinformationen dar. Da seit der Veröffentlichung verschiedene quelloffene Treiber entwickelt wurden, eignet sich die Kinect besonders auch für die Anwendung in der Forschung. In dieser Arbeit werden neben den Daten der RGB-Kamera auch die Tiefeninformationen sowie die daraus generierten Punktwolken\footnote{Punktwolken sind Datenstrukturen, welche eine Sammlung multidimensionaler Punkte repräsentieren.
 %Als Punktwolke wird die Repräsentation der Tiefenwerte durch eine Menge aus Punkten mit dreidimensionalen Koordinaten bezeichnet.
 } verwendet.
 
@@ -54,7 +54,9 @@ Die Kinect stellt eine kostengünstige Möglichkeit zur parallelen Aufnahme von 
 
 \subsection{Microvision ShowWX+\textsuperscript{\texttrademark}}%Pico Laser Projektor}
 \label{chap.projector}
-Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Microvision (Microvison Inc., Redmond, USA) zeichnet sich neben der geringen Größe dadurch aus, dass als Lichtquellen drei Laser in den Farben rot, grün und blau eingesetzt werden. Die Strahlen werden wie in \abb{fig.projtech} gezeigt durch Optiken kombiniert um alle Farben des sichtbaren Spektrums abzubilden. Der Bildaufbau erfolgt durch Ablenkung des kombinierten Strahls an einem MEMS\footnote{Ein MEMS (Mikro-elektromechanisches System) ist ein technisches System, welches aus Komponenten aufgebaut ist, deren Abmessungen im Mikrometerbereich liegen.}-Spiegel.
+Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Microvision (Microvison Inc., Redmond, USA) zeichnet sich neben der geringen Größe dadurch aus, dass als Lichtquellen drei Laser in den Farben rot, grün und blau eingesetzt werden. Die Strahlen werden wie in \abb{fig.projtech} gezeigt durch Optiken kombiniert, um alle Farben des sichtbaren Spektrums abzubilden. Der Bildaufbau erfolgt durch Ablenkung des kombinierten Strahls an einem MEMS\footnote{Ein MEMS (Mikro-elektromechanisches System) ist ein technisches System, welches aus Komponenten aufgebaut ist, deren Abmessungen im Mikrometerbereich liegen.}-Spiegel.
+
+\nomenclature[a]{MEMS}{Mikro-elektromechanisches System}
 
 \begin{figure}[ht]
 	\begin{center}
@@ -66,14 +68,14 @@ Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Micro
 	%\vspace*{-8mm}
 \end{figure}
 
-Die Verwendung von Lasern führt dazu, dass die Schärfe des Bildes unabhängig vom Abstand zur Projektionsfläche. Der Einsatz von Linsen zur Fokussierung der Strahlen ist daher ebenso wie eine manuelle Anpassung der Fokuseinstellungen nicht erforderlich. Genauere Spezifikationen des ShowWX+\textsuperscript{\texttrademark} finden sich in Anhang \ref{app:projector}.
+Die Verwendung von Lasern führt dazu, dass die Schärfe des Bildes unabhängig vom Abstand zur Projektionsfläche ist. Der Einsatz von Linsen zur Fokussierung der Strahlen ist daher ebenso wie eine manuelle Anpassung der Fokuseinstellungen nicht erforderlich. Genauere Spezifikationen des ShowWX+\textsuperscript{\texttrademark} finden sich in Anhang \ref{app:projector}.
 
 
 \subsection{Arduino\textsuperscript{\texttrademark} Nano}
 \label{chap.arduino}
 Der Arduino\textsuperscript{\texttrademark} Nano\footnote{Im Folgenden als Arduino bezeichnet.} ist ein quelloffenes Mikrocontroller Board, welches durch Schnittstellen in Form von analogen und digitalen Ein- und Ausgängen die Steuerung, Kontrolle und Kommunikation mit elektronischen Komponenten wie Sensoren oder Aktoren ermöglicht. Eine detaillierte Auflistung der Spezifikationen des Arduino findet sich in \anhang{app:arduino}.\\
-Die zur Erstellung von Programmen bereitgestellte, ebenfalls quell-offene, Software bildet im Zusammenhang mit der Hardware eine ganzheitliche Entwicklungsumgebung mittels derer sich eine Vielzahl von Projekten unterschiedlicher Komplexität realisieren lassen. Der Arduino verfügt dazu über eine USB-Schnittstelle welche sowohl die Übertragung der erstellten Software auf den Arduino als auch den Empfang von Kommunikationsdaten ermöglicht.\\
-Damit zusätzliche Lageinformationen für die Lokalisation des \kps{s} zur Verfügung gestellt werden können wird in dieser Arbeit der Arduino verwendet um eine inertiale Messeinheit in das System zu integrieren, welche im folgenden näher beschrieben wird.
+Die zur Erstellung von Programmen bereitgestellte, ebenfalls quell-offene, Software bildet im Zusammenhang mit der Hardware eine ganzheitliche Entwicklungsumgebung mittels derer sich eine Vielzahl von Projekten unterschiedlicher Komplexität realisieren lassen. Der Arduino verfügt dazu über eine USB-Schnittstelle, welche sowohl die Übertragung der erstellten Software auf den Arduino als auch den Empfang von Kommunikationsdaten ermöglicht.\\
+Damit zusätzliche Lageinformationen für die Lokalisation des \kps{s} zur Verfügung gestellt werden können, wird in dieser Arbeit der Arduino verwendet um eine inertiale Messeinheit in das System zu integrieren, welche im folgenden näher beschrieben wird.
 
 %PreviewVersion
 %\red[Auf Berechnung der Lagedaten näher eingehen?]\\
@@ -92,26 +94,29 @@ Die Anbindung an das System erfolgt wie zuvor beschrieben durch den Arduino, wel
 %\cite{http://www.invensense.com/mems/gyro/mpu6500.html}
 
 \subsection{Raspberry Pi\textsuperscript{\texttrademark}}
-Der Raspberry Pi\textsuperscript{\texttrademark} Computer\footnote{Im Folgenden als Raspberry bezeichnet.} wurde von der Raspberry Pi Foundation (Caldecote, Vereinigtes Königreich) entwickelt und ist ein ARM\footnote{ARM (Advanced RISC Machines) ist eine von der Firma ARM (ARM Limited, Cambridge, Vereinigtes Königreich) entwickelte Systemarchitektur für Mikroprozessoren, welche sich durch geringen Energiebedarf bei hoher Leistungsfähigkeit auszeichnet.}-basierter Mini-Computer welcher auf einer einzigen Platine aufgebaut ist. Das Ziel der Entwicklung des Raspberry liegt in der Realisierung eines voll funktionsfähigen Computers mit geringen Kosten um die Verbreitung besonders in Schulen und Bildungseinrichtungen zu ermöglichen und so das Erlernen von Programmier- und Computerkenntnissen bei Kindern und Jugendlichen zu fördern. Detaillierte Spezifikationen des Raspberry sind in \anhang{app:raspberry} aufgeführt.\\
+Der Raspberry Pi\textsuperscript{\texttrademark} Computer\footnote{Im Folgenden als Raspberry bezeichnet.} wurde von der Raspberry Pi Foundation (Caldecote, Vereinigtes Königreich) entwickelt und ist ein ARM\footnote{ARM (Advanced RISC Machines) ist eine von der Firma ARM (ARM Limited, Cambridge, Vereinigtes Königreich) entwickelte Systemarchitektur für Mikroprozessoren, welche sich durch geringen Energiebedarf bei hoher Leistungsfähigkeit auszeichnet.}-basierter Mini-Computer, welcher auf einer einzigen Platine aufgebaut ist. Das Ziel der Entwicklung des Raspberry liegt in der Realisierung eines voll funktionsfähigen Computers mit geringen Kosten, um die Verbreitung besonders in Schulen und Bildungseinrichtungen zu ermöglichen und so das Erlernen von Programmier- und Computerkenntnissen bei Kindern und Jugendlichen zu fördern. Detaillierte Spezifikationen des Raspberry sind in \anhang{app:raspberry} aufgeführt.\\
 
-Der Raspberry wird für diese Arbeit mit einer angepassten Version des Meta-Betriebssystems ROS (siehe Kapitel \ref{chap:ros}) betrieben um die Anbindung an die entwickelte Programmstruktur zu gewährleisten. Der Raspberry dient dabei dazu, das Signal des zu projizierenden Bildes zu empfangen und über den Projektor darzustellen. Durch die direkte Anbindung des Projektors an den Raspberry entsteht ein gekapseltes System, welches damit in jeder auf ROS basierenden Anwendung eingesetzt werden kann.
+Der Raspberry wird für diese Arbeit mit einer angepassten Version des Meta-Betriebssystems ROS (siehe Kapitel \ref{chap:ros}) betrieben, um die Anbindung an die entwickelte Programmstruktur zu gewährleisten. Der Raspberry dient dabei dazu, das Signal des zu projizierenden Bildes zu empfangen und über den Projektor darzustellen. Durch die direkte Anbindung des Projektors an den Raspberry entsteht ein gekapseltes System, welches damit in jeder auf ROS basierenden Anwendung eingesetzt werden kann.
 
-\section{\red[Das \kps{}]}
+\nomenclature[a]{ARM}{Advanced RISC Machines}
+\nomenclature[a]{RISC}{Reduced Instruction Set Computer}
+
+\section{Aufbau des \kps{s}}
 Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellte handführbare \kps{} aufgebaut. Die Lage des Projektors wurde dabei so gewählt, dass eine Überdeckung des Projektionsfeldes mit dem Sichtfeld der RGB-Kamera der \kin erreicht wird. Im Zentrum des Systems ist eine Platine positioniert, über welche die Kommunikationsverbindung zwischen der inertialen Messeinheit und dem Arduino realisiert wird.\\
 
 \begin{figure}[ht]
 	\begin{center}%
 		\includesvgnew[1]{images/kinpro_overview_pathes}%
 %		\includegraphics[scale=1.0]{projector_tech_02}
-		\caption{Das \kps{}}
+		\caption{Komponenten des aufgebauten \kps{s}}
 		\label{fig.kinpro}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Die Selbstlokalisation des Systems basiert auf einem Abgleich zwischen Umgebung und Modelldaten. Voraussetzung dafür ist die Kenntnis über die Abbildungstransformation zwischen den Punkten der Umgebung und den Koordinaten der Kinect. Es wird daher eine Kalibrierung der Kameras der Kinect durchgeführt um die Abbildungsgleichungen zu bestimmen.\\
+Die Selbstlokalisation des Systems basiert auf einem Abgleich zwischen Umgebung und Modelldaten. Voraussetzung dafür ist die Kenntnis über die Abbildungstransformation zwischen den Punkten der Umgebung und den Koordinaten der Kinect. Es wird daher eine Kalibrierung der Kameras der Kinect durchgeführt, um die Abbildungsgleichungen zu bestimmen.\\
 
-Auch die lagerichtige Projektion in der Umgebung erfordert die Ermittlung von Koordinatentransformationen. Die Pose des Projektors kann aufgrund der fixierten Lage im \kps{} durch eine Transformation zwischen den Projektor-Koordinaten und den Kamera-Koordinaten beschrieben werden. Da der Projektor als inverse Kamera beschrieben ist eine weitere Kalibrierung erforderlich. Neben der Ermittlung der Transformationsvorschrift zwischen Kamera und Projektor kann dabei auch die Abbildungsgleichung zwischen der Bildebene des Projektors und den räumlichen Punkten bestimmt werden.\\
+Auch die lagerichtige Projektion in der Umgebung erfordert die Ermittlung von Koordinatentransformationen. Die Pose des Projektors kann aufgrund der fixierten Lage im \kps{} durch eine Transformation zwischen den Projektor-Koordinaten und den Kamera-Koordinaten beschrieben werden. Da der Projektor als inverse Kamera beschrieben wird, ist eine weitere Kalibrierung erforderlich. Neben der Ermittlung der Transformationsvorschrift zwischen Kamera und Projektor kann dabei auch die Abbildungsgleichung zwischen der Bildebene des Projektors und den räumlichen Punkten bestimmt werden.\\
 Der Ablauf der sequentiellen Kalibrierung des Gesamtsystems wird im Folgenden näher beschrieben. Zunächst werden dafür einige Begriffe und Notationen definiert, welche im Verlauf dieser Arbeit verwendet werden.\\
 
 % werden darüber hinaus weitere Transformationen bestimmt. Die extrinsische Projektor-Transformation beschreibt die Lage des Projektors bezüglich der Kamera und darüber auch bezüglich der Umgebung. Abbildungen zwischen Umgebungspunkten und Projektorkoordinaten werden über die intrinsische Projektor-Transformation charakterisiert. Bei bekannten Kalibrierungsparametern der Kamera lassen sich beide Transformationen durch eine gekoppelte Kalibrierung des \kps{s} bestimmen. 
@@ -247,7 +252,7 @@ s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K}\ve{K}{\tilde{P}}
 Im Weiteren werden die Produkte aus Brennweite und Umrechnungsfaktoren in den gemeinsamen Parametern $f_x := s_x \cdot f$ und $f_y := s_y \cdot f$ zusammengefasst, da diese im Rahmen der folgenden Kalibrierung nicht unabhängig voneinander zu bestimmen sind.
 
 \subsubsection{Verzeichnungen}
-In der Realität ist es erforderlich Objektive mit Linsen einzusetzen um das Lochkameramodell anzunähern, gleichzeitig aber ausreichende Belichtung zu gewährleisten. Es kommt dadurch jedoch zu Verzeichungen, resultierend aus der Form der Linsen und ihrer Lage zueinander. Die Verzeichnung mit dem häufig stärksten Einfluss ist die radiale Verzeichnung, welche durch die Krümmung der Linsen entsteht. Parallele Strahlen laufen dabei nicht in einem Brennpunkt zusammen, wodurch es in Abhängigkeit des Radius zu den in \abb{fig.distortions} dargestellten Verzeichnungen kommen kann \cite{Hertzberg2012}.
+In der Realität ist es erforderlich, Objektive mit Linsen einzusetzen, um das Lochkameramodell anzunähern, gleichzeitig aber ausreichende Belichtung zu gewährleisten. Es kommt dadurch jedoch zu Verzeichungen, resultierend aus der Form der Linsen und ihrer Lage zueinander. Die Verzeichnung mit dem häufig stärksten Einfluss ist die radiale Verzeichnung, welche durch die Krümmung der Linsen entsteht. Parallele Strahlen laufen dabei nicht in einem Brennpunkt zusammen, wodurch es in Abhängigkeit des Radius zu den in \abb{fig.distortions} dargestellten Verzeichnungen kommen kann \cite{Hertzberg2012}.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -284,13 +289,13 @@ Zunächst wird ein geeignetes Muster erstellt und auf eine planare Fläche aufge
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[scale=0.5]{chessboard_small}
-		\caption{Durch Schachbrettmuster definierte Kalibrierebene}
+		\caption{Kalibrierebene definiert durch Schachbrettmuster auf planarer Oberfläche}
 		\label{fig.chesscalib}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
-Aus verschiedenen Lagen werden anschließend mit der Kamera Bilder des Musters aufgenommen. Dabei spielt es keine Rolle, ob die Lage der Kamera oder des Musters zwischen den Aufnahmen variiert wird. Zu beachten ist jedoch, dass das Muster in allen Aufnahmen vollständig im Bild abgebildet wird. Darüber hinaus sollten sowohl translatorische als auch rotatorische Veränderungen der Pose vorgenommen werden um signifikant verschiedene Perspektiven abzubilden.\\
+Aus verschiedenen Lagen werden anschließend mit der Kamera Bilder des Musters aufgenommen. Dabei spielt es keine Rolle, ob die Lage der Kamera oder des Musters zwischen den Aufnahmen variiert wird. Zu beachten ist jedoch, dass das Muster in allen Aufnahmen vollständig im Bild abgebildet wird. Darüber hinaus sollten sowohl translatorische als auch rotatorische Veränderungen der Pose vorgenommen werden, um signifikant verschiedene Perspektiven abzubilden.\\
 
 Die Kalibrierung erfordert die Bestimmung der Ebene des Musters und darauf befindlicher, eindeutig zu identifizierender Punkte. Das Schachbrettmuster eignet sich besonders als Kalibriermuster, da zwischen den Feldern ein hoher Kontrast besteht. Die Eckpunkte können somit robust erkannt und extrahiert werden, woraufhin sich die Kalibrierebene bestimmen lässt.\\
 %PreviewVersion
@@ -354,12 +359,12 @@ v\\
 Die $(3 \times 3)$ Matrix $\vec{H}$ wird als Homographie-Matrix bezeichnet und beschreibt die Abbildung zwischen den Punkten zweier Ebenen. Aufgrund des frei wählbaren Skalierungsfaktors $s$ besitzt die Homographie-Matrix bei neun Einträgen insgesamt acht Freiheitsgrade. Da jeder detektierte Punkt des Musters zwei Korrespondenzen liefert, ergeben sich aus vier Punkten damit acht Gleichungen, aus welchen ein Gleichungssystem zur Lösung der Homographie-Matrix erstellt werden kann.\\
 %\red[ Homographie beschreibt Transformation eines Quadrilaterals, damit würde auch die Bestimmung von mehr als vier Punkten keine zusätzlichen Informationen liefern.]\\
 
-Da die Betrachtung des Musters aus verschiedenen Perspektiven erfolgt, müssen zunächst für jede Aufnahme die sechs räumlichen Freiheitsgrade bestimmt werden. Es verbleiben damit jeweils zwei Parameter zur Bestimmung der intrinsischen Parameter. Da die intrinsische Kameramatrix nach \eq{eq.intrinsic} vier Freiheitsgrade besitzt, werden $n = 2$ Aufnahmen benötigt um die intrinsischen Parameter eindeutig festlegen zu können. In der Praxis sollten jedoch $n \geq 10$ Aufnahmen verwendet werden um numerische Stabilität der Lösung zu gewährleisten und Messrauschen zu kompensieren \cite{Bradsky2008}.\\
+Da die Betrachtung des Musters aus verschiedenen Perspektiven erfolgt, müssen zunächst für jede Aufnahme die sechs räumlichen Freiheitsgrade bestimmt werden. Es verbleiben damit jeweils zwei Parameter zur Bestimmung der intrinsischen Parameter. Da die intrinsische Kameramatrix nach \eq{eq.intrinsic} vier Freiheitsgrade besitzt, werden $n = 2$ Aufnahmen benötigt um die intrinsischen Parameter eindeutig festlegen zu können. In der Praxis sollten jedoch $n \geq 10$ Aufnahmen verwendet werden, um numerische Stabilität der Lösung zu gewährleisten und Messrauschen zu kompensieren \cite{Bradsky2008}.\\
 
 %Homographie bildet 2D auf 2D ab; Gesamtabbildung angeben, reduzieren durch z = 0; Homographiematrix aufstellen; Anzahl freier Parameter nennen (8) -> mindestens 2 Aufnahmen erforderlich; Besser mehr als 10; \red[Formeln!?]; Verweis auf Lösung reicht eigentlich, Parameter können damit bestimmt werden; Dann weiter zur Bestimmung der (radialen) Verzeichnungsparameter.
 %Obwohl theoretisch $n = 2$ Aufnahmen für eine eindeutige Lösung ausreichend sind, sollten für eine robuste Bestimmung der Parameter insgesamt $n \geq 10$ Bilder aufgezeichnet werden \cite{Bradsky2008}.\\
 
-Basierend auf den ermittelten intrinsischen Parametern können nun die radialen Verzeichnungsparameter angenähert werden. Unter der Annahme, dass die radiale Verzeichnung klein ist, kann davon ausgegangen werden, dass die intrinsischen Parameter bereits hinreichend genau bestimmt wurden. Die ermittelten Werte können damit als initale Approximation verwendet werden um die Verzeichnungsparameter zu bestimmen. In einem abschließenden Optimierungsschritt werden alle ermittelten Parameter verfeinert. Dazu erfolgt eine Minimierung der Fehler zwischen den aufgenommenen und den auf Basis des ermittelten Modells bestimmten Pixelwerten des Musters.\\
+Basierend auf den ermittelten intrinsischen Parametern können nun die radialen Verzeichnungsparameter angenähert werden. Unter der Annahme, dass die radiale Verzeichnung klein ist, kann davon ausgegangen werden, dass die intrinsischen Parameter bereits hinreichend genau bestimmt wurden. Die ermittelten Werte können damit als initale Approximation verwendet werden, um die Verzeichnungsparameter zu bestimmen. In einem abschließenden Optimierungsschritt werden alle ermittelten Parameter verfeinert. Dazu erfolgt eine Minimierung der Fehler zwischen den aufgenommenen und den auf Basis des ermittelten Modells bestimmten Pixelwerten des Musters.
 
 %Es erfolgt eine Verfeinerung der Parameter durch Minimierung der \red[GLEICHUNG!?].%
 
@@ -378,7 +383,7 @@ Um die Darstellung visueller Informationen an definierten Stellen im Raum zu erm
 
 Aufgrund der Fixierung des Projektors im \kps{} ist die Lage bezüglich des Kamera-Koordinatensystems unveränderlich. Anstelle einer globalen Positionsbestimmung ist daher insbesondere die Ermittlung der konstanten, relativen Transformation zwischen den Koordinatensystemen der Kamera und des Projektors von Interesse. Ziel der Kalibrierung des Projektors ist daher die Bestimmung der konstanten Parameter der intrinsischen und extrinsischen Projektormatrix.\\
 
-Die Kalibrierung erfolgt anhand des von Falcao \textit{et al.} beschriebenen Verfahrens \cite{Falcao2008}. dabei wird zur Definition der Kalibrierebene erneut ein Muster auf einer Platte verwendet. Ein weiteres Kalibriermuster wird als digitales Bild erstellt und wie in \abb{fig.projcalib} gezeigt durch den Projektor neben das reale Muster auf die Platte projiziert.
+Die Kalibrierung erfolgt anhand des von Falcao \textit{et al.} beschriebenen Verfahrens \cite{Falcao2008}. Dabei wird zur Definition der Kalibrierebene erneut ein Muster auf einer Platte verwendet. Ein weiteres Kalibriermuster wird als digitales Bild erstellt und wie in \abb{fig.projcalib} gezeigt durch den Projektor neben das reale Muster auf die Platte projiziert.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -407,7 +412,7 @@ Da für jede Aufnahme während der Kalibrierungsvorgänge die Transformationen z
 \tmat{K}{P} = \left( \tmat{0}{K} \right)^{-1} \tmat{0}{P} = \tmat{K}{0} \tmat{0}{P}
 \end{equation}
 
-Da das \kps{} damit als Gesamtsystem kalibriert ist wird ein gemeinsames Basis-Koordinatensystem $\ks{KPS}$ definiert. Dieses unveränderliche Koordinatensystem dient als Referenz um die externen Transformationen zu beschreiben. Die Orientierung wird entsprechend der ($z$,$y'$,$x''$)-Konvention gewählt und die Position wie in \abb{fig.coords_kps} dargestellt in Abhängigkeit der Kinect definiert. Die Transformation $\tmat{KPS}{K}$ ergibt sich damit aus den geometrischen Beziehungen, woraufhin sich $\tmat{KPS}{P}$ ebenfalls bestimmen lässt.
+Da das \kps{} damit als Gesamtsystem kalibriert ist, wird ein gemeinsames Basis-Koordinatensystem $\ks{KPS}$ definiert. Dieses unveränderliche Koordinatensystem dient als Referenz, um die externen Transformationen zu beschreiben. Die Orientierung wird entsprechend der ($z$,$y'$,$x''$)-Konvention gewählt und die Position wie in \abb{fig.coords_kps} dargestellt in Abhängigkeit der Kinect definiert. Die Transformation $\tmat{KPS}{K}$ ergibt sich damit aus den geometrischen Beziehungen, woraufhin sich $\tmat{KPS}{P}$ ebenfalls bestimmen lässt.
 
 
 \begin{figure}[ht]
@@ -450,12 +455,14 @@ Da das \kps{} damit als Gesamtsystem kalibriert ist wird ein gemeinsames Basis-K
 \section{Verwendete Softwarebibliotheken/Software}
 %\red[GUI auslagern als eigenen Punkt!?\\]
 Zur Realisierung der einzelnen Systemfunktionen wurden Komponenten erstellt, welche auf verschiedenen Softwarebibliotheken aufbauen.
-Bevor die Programmstruktur näher erläutert wird sollen deshalb zunächst die verwendeten Bibliotheken und Softwareumgebungen dargestellt werden.
+Bevor die Programmstruktur näher erläutert wird, sollen deshalb zunächst die verwendeten Bibliotheken und Softwareumgebungen dargestellt werden.
 Anschließend erfolgt eine Beschreibung der erstellten Programmstruktur und der innerhalb einer grafischen Benutzeroberfläche zusammengefassten Bedienfunktionen des Systems.
 
 \subsection{ROS}
 \label{chap:ros}
-Das Robot Operating System (ROS) ist eine speziell für die Anwendung in der Robotik entwickelte, quelloffene Sammlung aus Softwarebibliotheken \cite{ROS}. Neben Treibern für verschiedene Hardwarekomponenten und speziellen Algorithmen bietet ROS eine Umgebung, welche die Integration von und Kommunikation zwischen verschiedenen Modulen vereinfacht um komplexe und robuste Anwendungen zu realisieren. 
+Das Robot Operating System (ROS) ist eine speziell für die Anwendung in der Robotik entwickelte, quelloffene Sammlung aus Softwarebibliotheken \cite{ROS}. Neben Treibern für verschiedene Hardwarekomponenten und speziellen Algorithmen bietet ROS eine Umgebung, welche die Integration von und Kommunikation zwischen verschiedenen Modulen vereinfacht, um komplexe und robuste Anwendungen zu realisieren. 
+
+\nomenclature[a]{ROS}{Robot Operating System}
 
 %PreviewVersion
 %\red[Hertzberg Buch detaillierter]
@@ -463,16 +470,21 @@ Das Robot Operating System (ROS) ist eine speziell für die Anwendung in der Rob
 \subsection{Open Source Computer Vision Library}
 Die Open Source Computer Vision Library (OpenCV) ist eine quelloffene Bibliothek aus Funktionen und Algorithmen zur Anwendung in der Bild- und Videoverarbeitung \cite{OpenCV}. Nachdem OpenCV ursprünglich von einer Forschungsgruppe bei Intel entwickelt wurde \cite{Laganiere2011}, wird die Bibliothek heute von einer großen Anzahl an Firmen und Entwicklern verwendet und ständig weiterentwickelt. Sie umfasst mittlerweile mehr als 2500 optimierte Algorithmen zur Anwendung in Bereichen wie Objekterkennung, Segmentierung oder Navigation.
 
+\nomenclature[a]{OpenCV}{Open Source Computer Vision Library}
+
 \subsection{Point Cloud Library}
-Die Struktur von Punktwolken wird verwendet um die von der Kinect aufgenommenen Tiefeninformationen darzustellen und weiterverarbeiten zu können. Die Point Cloud Library (PCL) wurde mit dem Ziel entwickelt, ein Rahmenwerk zu schaffen, welches die Verarbeitung von Punktwolken mittels verschiedener Algorithmen ermöglicht. Ähnlich wie OpenCV für die 2D Bildverarbeitung wird PCL bezogen auf Punktwolken in den Bereichen Objekterkennung, Segmentierung oder Filterung angewendet. Auch PCL ist eine quelloffene Bibliothek, welche von einer Vielzahl an Firmen und Entwicklern ständig überarbeitet und erweitert wird \cite{PCL}.
+Die Struktur von Punktwolken wird verwendet, um die von der Kinect aufgenommenen Tiefeninformationen darzustellen und weiterverarbeiten zu können. Die Point Cloud Library (PCL) wurde mit dem Ziel entwickelt, ein Rahmenwerk zu schaffen, welches die Verarbeitung von Punktwolken mittels verschiedener Algorithmen ermöglicht. Ähnlich wie OpenCV für die 2D Bildverarbeitung wird PCL bezogen auf Punktwolken in den Bereichen Objekterkennung, Segmentierung oder Filterung angewendet. Auch PCL ist eine quelloffene Bibliothek, welche von einer Vielzahl an Firmen und Entwicklern ständig überarbeitet und erweitert wird \cite{PCL}.
+
+\nomenclature[a]{PCL}{Point Cloud Library}
 
 \subsection{Qt}
-Die von der Firma Trolltech entwickelte und mittlerweile von der Firma Digia verwaltete Qt Bibliothek ermöglicht eine plattformunabhängige Entwicklung von grafischen Benutzerschnittstellen im C++ Standard \cite{Qt}. Die Qt Bibliothek wurde in dieser Arbeit verwendet um die Schnittstelle zu realisieren mit welcher der Benutzer Zugriff auf die Funktionen der verschiedenen Programmkomponenten erhält.
+Die von der Firma Trolltech entwickelte und mittlerweile von der Firma Digia verwaltete Qt Bibliothek ermöglicht eine plattformunabhängige Entwicklung von grafischen Benutzerschnittstellen im C++ Standard \cite{Qt}. Die Qt Bibliothek wurde in dieser Arbeit verwendet, um die Schnittstelle zu realisieren mit welcher der Benutzer Zugriff auf die Funktionen der verschiedenen Programmkomponenten erhält.
 
 \subsection{Visualization Toolkit}
 \label{chap.vtk}
 Das Visualization Toolkit (VTK) stellt eine auf dem C++ Standard basierende Bibliothek dar, welche für die Verarbeitung und Visualisierung von 3D Bilddaten entwickelt wurde. Die Firma Kitware entwickelt die Bibliothek ständig weiter und stellt sie als quelloffene Software zur Verfügung \cite{VTK}. Verschiedene Schnittstellen zwischen VTK und PCL ermöglichen neben der Darstellung von 3D-Objekten auch die Integration und Visualisierung von Punktwolken. 
 
+\nomenclature[a]{VTK}{Visualization Toolkit}
 %PreviewVersion
 %\red[Ausführlicher?\\]
 %\red[Versionen!\\]
@@ -493,27 +505,21 @@ Einen %\red[abstrahierten]
 	%\vspace*{-8mm}
 \end{figure}
 
-\red[Modelldaten an Überschrift von Kapitel 4 anpassen! Datengrundlage/Datenbasis/Modelldaten. Und gesondert darstellen (andere Farbe+Form)\\]
-\red[handgeführtes ersetzen durch handführbares?\\]
-%\begin{figure}[ht]
-%	\begin{center}
-%		\includegraphics[scale=1.0]{spacer}
-%		\caption{Funktionsmodule der Anwendungssoftware}
-%		\label{fig.modules}
-%	\end{center}
-%	%\vspace*{-8mm}
-%\end{figure}
+%PreviewVersion
+%\red[Modelldaten an Überschrift von Kapitel 4 anpassen! Datengrundlage/Datenbasis/Modelldaten. Und gesondert darstellen (andere Farbe+Form)\\]
+%\red[handgeführtes ersetzen durch handführbares?\\]
 
 Das Modul \textit{Lokalisation} umfasst die Implementierungen zur Bestimmung der Pose des \kps{s} innerhalb der realen Umgebung. Es empfängt die Farb- und Tiefeninformationen der Kameras der Kinect und ermittelt durch den Abgleich mit der Modellumgebung die aktuelle Systempose. Definiert wird die Pose dabei durch den Benutzer über Bewegung des \kps{s}.\\
-Die kontinuierlich bestimmte Pose wird an das Modul \textit{Visualisierung} übertragen, welches daraufhin die Lage des \kps{s} innerhalb der Modellumgebung ermittelt. Durch Bestimmung der perspektivisches Abbildung ausgewählter Modelldaten wird anschließend die Projektorsicht simuliert und dem Benutzer über das \kps{} durch Projektion visualisiert.\\ 
+Die kontinuierlich bestimmte Pose wird an das Modul \textit{Visualisierung} übertragen, welches daraufhin die Lage des \kps{s} innerhalb der Modellumgebung ermittelt. Durch Bestimmung der perspektivischen Abbildung ausgewählter Modelldaten wird anschließend die Projektorsicht simuliert und dem Benutzer über das \kps{} durch Projektion visualisiert.\\ 
 
 %Dazu werden im Modul \textit{Visualisierung} alle Transformationen bestimmt, welche die Pose  der Modellumgebung definieren.\\
 Das Modul \textit{Interaktion} ermöglicht dem Benutzer die Modifikation der visualisierten Modelldaten indem die Tiefeninformationen der Kinect ausgewertet werden. Die Befehle des Benutzers können so erkannt und anschließend an das Modul \textit{Visualisierung} übertragen werden. Durch die Rückkopplung zu den Modelldaten können diese daraufhin angepasst werden.\\
 Das Modul \textit{Visualisierung} integriert die Benutzerinteraktion in die Darstellung der Modelldaten, so dass eine visuelle Rückmeldung während der Interaktion erfolgt.\\
 
-Darüber hinaus wurde eine grafische Benutzeroberfläche (GUI) implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht damit dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurden in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Benutzeroberfläche lauffähig ist.\\
+Darüber hinaus wurde eine grafische Benutzeroberfläche (GUI) implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht damit dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurde in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Benutzeroberfläche lauffähig ist.\\
 
-\red[GUI nomenclature]
+%PreviewVersion
+\nomenclature[a]{GUI}{Grafische Benutzeroberfläche (englisch Graphical User Interface}
 
 %PreviewVersion
 %\red[In den folgenden Kapiteln erfolgt eine Spezifizierung der Module und ihrer Komponenten.\\]
