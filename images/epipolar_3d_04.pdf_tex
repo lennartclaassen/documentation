@@ -1,6 +1,6 @@
 %% Creator: Inkscape inkscape 0.48.4, www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'modules_solo.pdf' (pdf, eps, ps)
+%% Accompanies image file 'epipolar_3d_04.pdf' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{430.9051024bp}%
+    \setlength{\unitlength}{362.84462034bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,13 +48,17 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.51748028)%
-    \put(0,0){\includegraphics[width=\unitlength]{modules_solo.pdf}}%
-    \put(0.87286317,0.25388678){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Benutzer}}}%
-    \put(0.1264168,0.25367862){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Datengrundlage}}}%
-    \put(0.69298074,0.44917425){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Interaktion}}}%
-    \put(0.30263413,0.45048605){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Visualisierung}}}%
-    \put(0.30198979,0.05818328){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Lokalisation}}}%
-    \put(0.38829932,0.27895351){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.21836752\unitlength}\centering Kamera-Projektor-System\end{minipage}}}%
+  \begin{picture}(1,0.56272863)%
+    \put(0,0){\includegraphics[width=\unitlength]{epipolar_3d_04.pdf}}%
+    \put(0.65755421,0.54597732){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\vec{P}$}}}%
+    \put(0.62107346,0.31689984){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$x'$}}}%
+    \put(0.44730164,0.36459506){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$x$}}}%
+    \put(0.47902855,0.19167877){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$D$}}}%
+    \put(0.84082226,0.15775533){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$f$}}}%
+    \put(0.00406393,0.42571355){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{IR-Kamera}}}%
+    \put(0.00406393,0.09904767){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{RGB-Kamera}}}%
+    \put(0.00406393,0.02788526){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{IR-Projektor}}}%
+    \put(0.98201064,0.4347011){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$z$}}}%
+    \put(0.27955863,0.41007701){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$e$}}}%
   \end{picture}%
 \endgroup%

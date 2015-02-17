@@ -1,11 +1,11 @@
-\chapter{Modelldaten\red[Datengrundlage]}
+\chapter{Datengrundlage}
 \label{chap.modeldata}
 \prever{
-\red[TODO:\\
-%Verschiedenen Dateitypen nennen?\\
-%Verwendete Programme nennen? Binvox, blender etc.?\\
-Dateistruktur -> Sichern von Daten/Rückkopplung des veränderten Modells hier einfügen?\\
-]
+%\red[TODO:\\
+%%Verschiedenen Dateitypen nennen?\\
+%%Verwendete Programme nennen? Binvox, blender etc.?\\
+%%Dateistruktur -> Sichern von Daten/Rückkopplung des veränderten Modells hier einfügen?\\
+%]
 }
 
 Das Ziel der Anwendung liegt in der Darstellung von Modelldaten durch das \kps{} innerhalb der realen Umgebung. Als Grundlage für die spätere Lokalisation ist es daher erforderlich, ein möglichst originalgetreues Abbild der realen Umgebung zu erstellen. Diese Modellumgebung ermöglicht bei hoher Modellgüte die präzise Positionierung virtueller Objekte in der realen Umgebung.\\
@@ -35,7 +35,7 @@ Existieren keine Modelldaten der Umgebung, oder sind diese nicht mehr aktuell, k
 
 \nomenclature[a]{SLAM}{Simultaneous Localization and Mapping}
 
-Zur experimentellen Analyse des Systems wurde die in \abb{fig.mapSLAM} dargestellte Umgebung aufgezeichnet. Dabei wurde eine Implementierung \cite{Rgbdslam} nach Endres \textit{et al.} \cite{Endres2014} verwendet, welche die SLAM Anwendung mittels einer RGB-D Kamera realisiert. Das \kps{} kann somit auch für die Kartierung der Umgebung eingesetzt werden.\\
+Um die experimentelle Analyse des Systems zu ermöglichen wurde eine reale Versuchsumgebung kartiert. Dabei wurde eine Implementierung \cite{Rgbdslam} nach Endres \textit{et al.} \cite{Endres2014} verwendet, welche die SLAM Anwendung mittels einer RGB-D Kamera realisiert. Das \kps{} kann somit auch für die Kartierung der Umgebung eingesetzt werden. Das Ergebnis der Kartierung ist in Form der aufgezeichneten, texturierten Punktwolke in \abb{fig.mapSLAM} dargestellt.\\
 
 \begin{figure}[ht]
 	\begin{center}
@@ -48,34 +48,47 @@ Zur experimentellen Analyse des Systems wurde die in \abb{fig.mapSLAM} dargestel
 
 %\red[Boden und Decke nicht modelliert, Limitierungen der Kartenerstellung -> nicht wirklich relevant und führt zu ungenauer Abbildung\\]
 
-Das Ergebnis der Kartierung entspricht einer texturierten Punktwolke. Im Gegensatz zu der Ableitung aus vorhandenen Modelldaten handelt es sich daher nicht um geschlossene Geometrien. Ungenauigkeiten in der Abbildung können damit durch im Vergleich zu Modelldaten geringere Auflösung und die Rauscheinflüsse des Kinect-Sensors auftreten. Die Güte eines Modells aus der Kartierung liegt damit meist unter der Modellgüte einer aus vorhandenen 3D-Daten abgeleiteten Darstellung. Um die Fehlereinflüsse zu verringern ist es daher ratsam, die selben Sensoren während der Kartierung und der Lokalisation zu verwenden, da wiederkehrende Sensoreinflüsse so bei beiden Verfahren auftreten.\\
+Im Gegensatz zu der Ableitung aus vorhandenen Modelldaten handelt es sich bei kartierten Umgebungen nicht um geschlossene Geometrien. Ungenauigkeiten in der Abbildung können damit durch die im Vergleich zu Modelldaten geringere Auflösung und die Rauscheinflüsse des Entfernungsmessers auftreten. Die Güte eines Modells aus der Kartierung liegt damit meist unter der Modellgüte einer aus vorhandenen 3D-Daten abgeleiteten Darstellung. Um die Fehlereinflüsse zu verringern ist es daher ratsam, dieselben Sensoren während der Kartierung und der Lokalisation zu verwenden, da wiederkehrende Sensoreinflüsse so bei beiden Verfahren auftreten.\\
 
-Die erstellte Modellumgebung dient als Basis der späteren Lokalisation und kann zur Visualisierung der Umgebung innerhalb der grafischen Benutzeroberfläche verwendet werden. Die Projektion der Modellumgebung hingegen besitzt außerhalb von Validierungen des \kps{s} keine Relevanz, da sie innerhalb der realen Umgebung lediglich zu Überlagerungen gleicher Strukturen führen würde.\\
+Die erstellte Modellumgebung dient als Basis der späteren Lokalisation und kann zur Visualisierung der Umgebung innerhalb der grafischen Benutzeroberfläche verwendet werden. Die Projektion der Modellumgebung hingegen besitzt außerhalb von Validierungen des \kps{s} keine Relevanz, da sie innerhalb der realen Umgebung lediglich zu Überlagerungen gleicher Strukturen führen würde.
 
 \section{Modellobjekte}
-Die Projektion visueller Zusatzinformationen basiert auf zu Grunde liegenden virtuellen Modelldaten. Als Modellobjekte werden daher alle Strukturen und Objekte bezeichnet, welche keine Elemente der realen Umgebung abbilden. Zur Modellierung der Objekte können ebenfalls die bei der Erstellung der Modellumgebung eingesetzten Verfahren verwendet werden. Anstelle von Algortihmen zur Kartierung der Umgebung existieren dabei jedoch spezielle Verfahren zur Erfassung dreidimensionaler Objekte, wie beispielsweise von Xu \textit{et al.} \cite{Xu2012} beschrieben.\\
+Die Projektion visueller Zusatzinformationen basiert auf virtuellen Modelldaten. Als Modellobjekte werden daher alle Strukturen und Objekte bezeichnet, welche keine Elemente der realen Umgebung abbilden. Zur Modellierung der Objekte können ebenfalls die bei der Erstellung der Modellumgebung eingesetzten Verfahren verwendet werden. Anstelle von Algortihmen zur Kartierung der Umgebung existieren dabei jedoch spezielle Verfahren zur Erfassung dreidimensionaler Objekte, wie beispielsweise von Xu \textit{et al.} \cite{Xu2012} beschrieben.\\
 
 Anders als die Modellumgebung müssen die Modellobjekte nicht als reale Objekte vorhanden sein, weshalb die Modellgüte auch keine Auswirkungen auf die Lokalisations- oder Projektionsgenauigkeit hat. Es können somit beliebige Objekte modelliert werden, um diese später in der realen Umgebung zu visualisieren.  Für die Visualisierung ist jedoch eine ausreichende Auflösung der Modellstrukturen und -texturen anzustreben. \abb{fig.modobj} zeigt ein beispielhaftes Modellobjekt und die Integration von Objekten in die Modellumgebung.\\
-Die zu visualisierenden Modellobjekte werden anhand der virtuellen Umgebungsdaten orientiert und positioniert und können damit über die im Rahmen der Lokalisation durchgeführte Bestimmung der Systempose in die reale Umgebung projiziert werden.\\
+Die zu visualisierenden Modellobjekte werden anhand der virtuellen Umgebungsdaten orientiert und positioniert und können damit über die im Rahmen der Lokalisation durchgeführte Bestimmung der Systempose in die reale Umgebung projiziert werden.
 
 \begin{figure}[ht]
 	\begin{center}
-	\subfigure[Modellobjekt]{
-		\includegraphics[scale=0.05]{steckdose}
-	}
-	\hspace{3mm}
-%	\subfigure[Modellobjekt elektrische Leitung]{
-%			\includegraphics[scale=1.0]{spacer}
-%	}
-%	\hspace{3mm}
-	\subfigure[In die Modellumgebung integriertes Modellobjekt]{
-		\includegraphics[scale=0.5]{model_obj_cad}
-	}
+	\includegraphics[scale=1.0]{model_obj_pc}
 	\caption{Integration eines virtuellen Modellobjektes in die Modellumgebung}
 	\label{fig.modobj}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
+
+%\begin{figure}[ht]
+%	\begin{center}
+%	\subfigure[Modellobjekt]{
+%		\begingroup\fboxsep=5pt\fboxrule=0pt
+%		\fbox{%
+%			\includegraphics[scale=0.05]{steckdose}
+%		}
+%		\endgroup
+%	}
+%	\hspace{3mm}
+%%	\subfigure[Modellobjekt elektrische Leitung]{
+%%			\includegraphics[scale=1.0]{spacer}
+%%	}
+%%	\hspace{3mm}
+%	\subfigure[In die Modellumgebung integriertes Modellobjekt]{
+%		\includegraphics[scale=0.2]{model_obj_pointcloud}
+%	}
+%	\caption{Integration eines virtuellen Modellobjektes in die Modellumgebung}
+%	\label{fig.modobj}
+%	\end{center}
+%	%\vspace*{-8mm}
+%\end{figure}
 
 %\red[Modellobjekte ruhig in CAD Umgebung einfügen!\\Vielleicht das Bild von später nehmen?\\]
 

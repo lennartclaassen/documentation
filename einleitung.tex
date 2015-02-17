@@ -1,51 +1,51 @@
 \chapter{Einleitung und Motivation}
 
 \prever{
-\red[TODO:\\
-Struktur überarbeiten\\
-Ausformulieren\\
-]
-Struktur:\\
-Was ist das Problem, das gelöst werden soll?\\
-Visualisierung in bekannten Umgebungen, AR, Planungsphase von Gebäuden
-Was gibt es für ähnliche Ansätze? Wo kommt der Lösungsansatz her?\\
-Am imes entwickelte Projektor und Lokalisaitonssysteme
-Wie sieht die Lösung aus? Also was wird gemacht?\\
-Daten werden visualisert und modifiziert
-Wie funktioniert die Lösung? Wie wird sie umgesetzt?\\
-kamera-projektoir system zur lokalisatoin und visualisierung und interaktion
-In welcher Weise wird das Problem gelöst?\\
-interaktion merherer beobachter durch projektion möglich, darstellung virtueller Planungsdaten
-Wie ist der Aufbau der Arbeit?\\
-stand der technik, 
-Komponenten, KPS, Software
-lokalisation
-visualisierung
-interaktion
-auswertung
-asublick
+%\red[TODO:\\
+%%Struktur überarbeiten\\
+%%Ausformulieren\\
+%]
+%Struktur:\\
+%Was ist das Problem, das gelöst werden soll?\\
+%Visualisierung in bekannten Umgebungen, AR, Planungsphase von Gebäuden
+%Was gibt es für ähnliche Ansätze? Wo kommt der Lösungsansatz her?\\
+%Am imes entwickelte Projektor und Lokalisaitonssysteme
+%Wie sieht die Lösung aus? Also was wird gemacht?\\
+%Daten werden visualisert und modifiziert
+%Wie funktioniert die Lösung? Wie wird sie umgesetzt?\\
+%kamera-projektoir system zur lokalisatoin und visualisierung und interaktion
+%In welcher Weise wird das Problem gelöst?\\
+%interaktion merherer beobachter durch projektion möglich, darstellung virtueller Planungsdaten
+%Wie ist der Aufbau der Arbeit?\\
+%stand der technik, 
+%Komponenten, KPS, Software
+%lokalisation
+%visualisierung
+%interaktion
+%auswertung
+%asublick
 }
 
 Die Visualisierung von Informationen nimmt seit jeher einen großen Stellenwert in der menschlichen Kommunikation und Interaktion ein. Komplexe Sachverhalte lassen sich durch bildliche Darstellung häufig vereinfacht darstellen. Durch Fortschritte in der Computergrafik konnte die Visualisierung virtueller Daten in den Alltag integriert werden. Neue technologische Entwicklungen kombinieren im Rahmen von Virtueller und Erweiterter Realität reale Wahrnehmungen mit computergenerierten Bilddaten.\\
 
 Die Anwendungsbereiche komplexer Visualiserungstechniken reichen von Computerspielen über industrielle Planungsvorgänge bis hin zur Unterstützung bei medizinischen Eingriffen. Mittels neuer Projektions- und Bildschirmkonzepte werden die möglichen Einsatzgebiete dabei stetig erweitert.\\
-Am Institut für Mechatronische Systeme der Leibniz Universität Hannover wurde ein handgeführtes Projektionssystem aufgebaut, welches die Visualisierung von Zusatzinformationen in der Chirurgie ermöglicht. Darüber hinaus wurde ein Verfahren zur Registrierung vermessener Oberflächen mit virtuellen Modelldaten entwickelt.\\
+Am Institut für Mechatronische Systeme der Leibniz Universität Hannover wurde ein handgeführtes Projektionssystem aufgebaut, welches die Visualisierung von Zusatzinformationen in der Chirurgie ermöglicht. Darüber hinaus wurde ein Verfahren entwickelt, um dreidimensionale Oberflächen zu vermessen und mit virtuellen Modelldaten zu registrieren.\\
 
-Aufbauend auf diesen Forschungsarbeiten beschäftigt sich die vorliegende Arbeit mit dem Aufbau eines handführbaren \kps{s}, welches die Darstellung virtueller Zusatzinformationen in der Umgebung ermöglicht.\\
-Durch einen Abgleich zwischen Sensor- und Modelldaten der Umgebung wird eine Selbstlokalisation des Systems realisiert. Darauf aufbauend können Zusatzinformationen basierend auf virtuellen Modelldaten in der Umgebung abgebildet und dem Anwender visualisiert werden. Die Interaktion des Benutzers mit den projizierten Daten erlaubt darüber hinaus eine Modifikation der virtuellen Datengrundlage.\\
+Aufbauend auf diesen Forschungsarbeiten beschäftigt sich die vorliegende Arbeit mit dem Aufbau eines handführbaren \kps{s}, welches die Darstellung visueller Zusatzinformationen in der realen Umgebung ermöglicht.\\
+Durch einen Abgleich zwischen Sensordaten der Umgebung und virtuellen Modelldaten wird eine Selbstlokalisation des Systems realisiert. Darauf aufbauend können Zusatzinformationen basierend auf virtuellen Modelldaten lagerichtig in der Umgebung abgebildet und dem Anwender visualisiert werden. Die Interaktion des Benutzers mit den projizierten Daten erlaubt darüber hinaus eine Modifikation der virtuellen Datengrundlage.\\
 
-Das entwickelte Konzept orientiert sich dabei an einem realistischen Anwendungsfall. Im Bauwesen werden Visualisierungen in den virtuellen Planungsprozessen von Neu- und Umbauten genauso wie bei Sanierungen und Innenausbauten von Gebäuden eingesetzt. In allen Bereichen kommt es dabei zur regelmäßigen Kommunikation zwischen den beteiligten Personen, zu denen unter anderem Architekten, Bauingenieure, Techniker und Bauherren zählen. Konzeptions- und Bewertungstreffen innerhalb der Objekte sind deshalb fester Bestandteil der Planungs- und Ausführungsvorgänge.\\
-Häufig liegen dabei Innenräume vor, in denen sich wenige weitere Strukturen finden. Das aufgebaute \kps{} erlaubt es, die virtuellen Planungsdaten in diesen Umgebungen zu visualisieren. Durch die Interaktion der Beobachter mit der Projektion werden Modifikationen der Modellumgebung ermöglicht, welche direkt in den virtuellen Planungsprozess zurückgeführt werden können.\\
-Die Projektion ist dabei insbesondere als Basis der Kommunikation geeignet, da die Visualisierungen so allen Beteiligten zur gleichen Zeit zugänglich sind.\\
+Das entwickelte Konzept orientiert sich dabei an einem realistischen Anwendungsfall. Im Bauwesen werden Visualisierungen in den virtuellen Planungsprozessen von Neu- und Umbauten genauso wie bei Sanierungen und Innenausbauten eingesetzt. In allen Bereichen kommt es dabei zur regelmäßigen Kommunikation zwischen den am Prozess beteiligten Personen, zu denen unter anderem Architekten, Bauingenieure, Techniker und Bauherren zählen. Konzeptions- und Bewertungstreffen innerhalb der Objekte sind deshalb fester Bestandteil der Planungs- und Ausführungsvorgänge.\\
+Planungsgegenstand sind dabei häufig Innenräume, in denen sich wenige weitere Strukturen befinden. Das aufgebaute \kps{} erlaubt es, die virtuellen Planungsdaten in diesen Umgebungen zu visualisieren. Durch die Interaktion der Beobachter mit der Projektion werden Modifikationen der Modellumgebung ermöglicht, welche direkt in den virtuellen Planungsprozess zurückgeführt werden können.\\
+Die Methode der Projektion ist dabei besonders als Basis der Kommunikation und Kooperation geeignet, da die Visualisierungen so allen beteiligten Personen zur gleichen Zeit zugänglich sind.\\
 
-Ein Überblick über den Forschungsstand relevanter Bereiche wird in \kapitel{chap.tech} gegeben. Dabei werden insbesondere Forschungen bezüglich der Lokalisation mobiler Systeme und handgeführter Projektionssysteme betrachtet. In \kapitel{chap.material} werden die technologischen Komponenten und das daraus aufgebaute \kps{} beschrieben. Es wird eine Kalibrierung der 3D-Kamera und des Projektors durchgeführt um die Abbildungstransformationen bezüglich der Umgebung zu bestimmen. Anschließend werden die verwendeten Softwarebibliotheken und die entwickelte Programmstruktur erläutert.\\
+Zunächst wird in \kapitel{chap.tech} ein Überblick über den aktuellen Forschungsstand relevanter Bereiche gegeben. Dabei werden insbesondere Forschungen bezüglich der Lokalisation mobiler Systeme und handgeführter Projektionssysteme betrachtet. In \kapitel{chap.material} werden die technologischen Komponenten und das daraus aufgebaute \kps{} beschrieben. Es wird eine Kalibrierung der 3D-Kamera und des Projektors durchgeführt um die Abbildungstransformationen bezüglich der Umgebung zu bestimmen. Anschließend werden die verwendeten Softwarebibliotheken und die entwickelte Programmstruktur erläutert.\\
 Die Datengrundlage für die Modellumgebung und die virtuellen Modellobjekte wird in \kapitel{chap.modeldata} erläutert. \kapitel{chap.loc} beschreibt die eingesetzten Lokalisationsverfahren zur Bestimmung und Verfolgung der Pose\footnote{Die Pose eine Systems umfasst die Beschreibung seiner Position und Orientierung bezogen auf die räumlichen Freiheitsgrade.
 \prever{
-\red[Formel oder Quelle?]
+%\red[Formel oder Quelle?]
 }
 }
- des \kps{s} innerhalb der Umgebung. Der Visualisierungsvorgang wird in \kapitel{chap.vis} beschrieben, indem der Vorgang zur Bestimmung der perspektivisch korrekten Projektion virtueller Objekte und die Ergänzung der Visualiserung um zusätzliche Informationen erläutert werden.\\
-Die Implementierung zur Erfassung der Benutzerinteraktion beschreibt \kapitel{chap.interaction}. Um eine Bewertung der Robustheit und Performanz des Systems zu ermöglichen werden in \kapitel{chap.results} experimentelle Untersuchungen durchgeführt. Dabei wird die Genauigkeit der Lokalisation und Projektion sowie die Latenzzeit der Visualisierung analysiert und bewertet. Abschließend fasst \kapitel{chap.zusammenfassung} die durchgeführten Arbeiten zusammen und gibt eine Ausblick auf mögliche zukünftige Erweiterungen und Optimierungen des aufgebauten \kps{s}.
+ des \kps{s} innerhalb der Umgebung. Der Visualisierungsvorgang wird in \kapitel{chap.vis} beschrieben, indem der Ablauf zur Bestimmung der perspektivisch korrekten Projektion virtueller Objekte und die Ergänzung der Visualisierung um zusätzliche Informationen erläutert werden.\\
+Die Implementierung zur Erfassung der Benutzerinteraktion wertet die Tiefeninformationen der 3D-Kamera aus und wird in \kapitel{chap.interaction} beschrieben. Um eine Bewertung der Robustheit und Performanz des Systems zu ermöglichen werden in \kapitel{chap.results} experimentelle Untersuchungen durchgeführt. Dabei wird die Genauigkeit der Lokalisation und Projektion sowie die Latenzzeit der Visualisierung analysiert und bewertet. Abschließend fasst \kapitel{chap.zusammenfassung} die durchgeführten Arbeiten zusammen und gibt eine Ausblick auf mögliche zukünftige Erweiterungen und Optimierungen des aufgebauten \kps{s}.
 
 %Bauwesen als Oberbegriff
 %Innenarchitekt(ur), Architekt, Bauingenieur, Bauherr
@@ -69,6 +69,6 @@ Die Implementierung zur Erfassung der Benutzerinteraktion beschreibt \kapitel{ch
 %Sobald eine Benutzereingabe erkannt wurde, wird diese ausgewertet und entsprechend verarbeitet. Je nach Auswahl können somit die Modellelemente modifiziert werden.\\
 
 \prever{
-Allgemeine Einführung zu Piko Projektoren und welche Möglichkeiten sie bieten.\\%
-Projektion ermöglicht die Kooperation zwischen Personen, da sie von allen Parteien zu sehen ist!
+%\red[Allgemeine Einführung zu Piko Projektoren und welche Möglichkeiten sie bieten.]\\%
+%Projektion ermöglicht die Kooperation zwischen Personen, da sie von allen Parteien zu sehen ist!
 }

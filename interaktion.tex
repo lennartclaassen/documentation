@@ -3,9 +3,9 @@
 Um aus der Visualisierung ausgewählter Strukturen und Informationen eine interaktive Projektion zu erzeugen ist es erforderlich Benutzereingaben zu erfassen und auszuwerten. Die in diesem Kapitel beschriebene Interaktion ermöglicht dem Benutzer die Projektion und die damit gekoppelten Modelldaten zu modifizieren.
 
 \section{Detektion der Benutzerinteraktion}
-Für die Erkennung der Benutzereingaben werden die durch die Kinect gewonnenen Tiefeninformationen in Form der erzeugten Punktwolken ausgewertet. Während der Benutzer das \kps{} in der einen Hand hält, kann die andere Hand verwendet werden um mit der Projektion zu interagieren. Darüber hinaus können auch weitere Benutzer mit dem System interagieren.\\
+Für die Erkennung der Benutzereingaben werden die durch die Kinect gewonnenen Tiefeninformationen in Form der erzeugten Punktwolken ausgewertet. Während der Benutzer das \kps{} in der einen Hand hält, kann die andere Hand verwendet werden, um mit der Projektion zu interagieren. Darüber hinaus ist auch die Interaktion weiterer Benutzer mit dem System möglich.\\
 \prever{
-\red[sofern sie bei der Benutzereingabe die Rahmenbedingungen der Funktionsweise beachten].\\
+%\red[sofern sie bei der Benutzereingabe die Rahmenbedingungen der Funktionsweise beachten].\\
 }
 
 Der implementierte Interaktionsansatz basiert auf der Analogie zu einem Laserpointer. Ziel ist es, dem Benutzer durch Zeigebewegungen die Interaktion mit der projizierten Modellumgebung zu ermöglichen.\\
@@ -23,11 +23,11 @@ Innerhalb des Softwaremoduls \textit{Interaktion} (\kapitel{chap.softwarestruct}
 \end{figure}
 
 \prever{
-\red[Bemaßung!\\]
+%\red[Bemaßung!\\]
 }
 Der minimale Abstand $z_{min}$ beträgt \SI{0,5}{\meter} und wird durch die Spezifikationen der Kinect definiert. Der maximale Interaktionsabstand $z_{int}$ ist parametrierbar und kann damit anwendungsspezifisch definiert werden.\\
 
-Basierend auf den nach der Filterung verbleibenden Punkte wird eine Ebenendetektion nach \cite{Fischler1981} durchgeführt. Alle Punkte innerhalb eines definierten Abstandes werden daraufhin auf die ermittelte Ebene projiziert, wodurch eine zweidimensionale Abbildung erzeugt und Messwertrauschen geglättet wird. Außerhalb der Ebene liegende Punkte werden für die weiteren Schritte aus der Betrachtung entfernt. Dazu gehören deutliche Ausreißer innerhalb der detektierten Interaktionsstruktur sowie weitere Artefakte in der Punktwolke.\\
+Basierend auf den nach der Filterung verbleibenden Punkten wird eine Ebenendetektion nach \cite{Fischler1981} durchgeführt. Alle Punkte innerhalb eines definierten Abstandes werden daraufhin auf die ermittelte Ebene projiziert, wodurch eine zweidimensionale Abbildung erzeugt und Messwertrauschen geglättet wird. Außerhalb der Ebene liegende Punkte werden für die weiteren Schritte aus der Betrachtung entfernt. Dazu gehören deutliche Ausreißer innerhalb der detektierten Interaktionsstruktur sowie weitere Artefakte in der Punktwolke.\\
 
 Um eine gleichmäßige Objektstruktur zu erhalten wird anschließend eine Hüllkurve um die verbleibenden Punkte gelegt und die vorhandene Struktur mittels einer äquidistanten Verteilung von Punkten angenähert. Aus dieser Hüllkurve wird der geometrische Schwerpunkt (Basis) sowie der vom \kps{} am weitesten entfernte Punkt (Spitze) bestimmt. Der Verbindungsvektor zwischen Basis und Spitze bildet damit die Zeigerichtung des Anwenders ab. Der gesamte Ablauf zur Bestimmung der Zeigerichtung ist in \abb{fig.intdir} dargestellt.\\
 
@@ -63,11 +63,11 @@ Im Falle kleiner Posenänderungen während der Benutzereingabe ist die Lokalisat
 \section{Erkennung von Befehlen}
 Die Auswertung der auf Basis der Zeigebewegung ermittelten Linie erfolgt innerhalb des Moduls \textit{Visualisierung}. Die Detektion der Linie erfolgte im Koordinatensystem der Kamera $\ks{K}$, so dass diese für die Auswertung zunächst über $\tmat{M}{K}$ in das Koordinatensystem der Karte $\ks{M}$ transformiert wird.\\
 
-Um zu determinieren auf welches Modellobjekt der Benutzer gezeigt hat werden entlang der Linie alle Schnittpunkte mit den virtuellen Modelldaten bestimmt. Dazu wird die Visualisierungsumgebung VTK verwendet, welche die Ermittlung von Schnittpunkten zwischen den Modellobjekten und Linien als Funktion zur Verfügung stellt. Aus den Schnittpunkten kann somit ermittelt werden, welches Objekt der Benutzer ausgewählt hat. Um die Auswahl eines Objektes, analog einer \glqq Klick\grqq -Aktion, zu ermöglichen wurden zwei Verfahren implementiert.\\
+Um zu determinieren, auf welches Modellobjekt der Benutzer gezeigt hat werden entlang der Linie alle Schnittpunkte mit den virtuellen Modelldaten bestimmt. Dazu wird die Visualisierungsumgebung VTK verwendet, welche die Ermittlung von Schnittpunkten zwischen den Modellobjekten und Linien als Funktion zur Verfügung stellt. Aus den Schnittpunkten kann somit ermittelt werden, welches Objekt der Benutzer ausgewählt hat. Um die Auswahl eines Objektes, analog einer \glqq Klick\grqq -Aktion, zu ermöglichen wurden zwei Verfahren implementiert.\\
 Die erste Implementierung erfolgt durch Überprüfung der Verweildauer des simulierten Zeigers auf dem Objekt. Überschreitet diese einen definierten Grenzwert wird dies als Auswahlbefehl gewertet und das Objekt in den Zustand \textit{aktiv} versetzt.\\
 Für das zweite Verfahren wurde die Software des Arduino um einen zusätzliche Schnittstelle erweitert. Durch die Anbindung eines Tasters wird die Möglichkeit einer echten \glqq Klick\grqq -Aktion zur Befehlseingabe realisiert.
 \prever{
-\red[Oder im Ausblick aufführen?\\]
+%\red[Oder im Ausblick aufführen?\\]
 }
 Durch Veränderung der Textur erhält der Anwender wie in \abb{fig.intintersect} dargestellt das visuelle Feedback, dass ein Objekt ausgewählt und in den neuen Status versetzt wurde.
 
@@ -108,8 +108,8 @@ Innerhalb der Modellumgebung können nun temporäre Interaktionsobjekte wie in \
 
 Durch Auswahl der Interaktionsobjekte ist der Benutzer in der Lage das aktuell als \textit{aktiv} gewählte Objekt innerhalb der Modellumgebung zu modifizieren. \abb{fig.intarrows} (b) zeigt dies am Beispiel der Translation des Modellobjektes. Die Anzahl und Funktion der Interaktionsobjekte kann dabei je nach Anwendungsfall spezifiziert werden, so dass eine Modifikation der Objekte bezüglich aller sechs räumlichen Freiheitsgrade möglich ist.\\
 
-Durch die Erkennung der Benutzereingabe können somit Objekte der Modellumgebung ausgewählt und bezüglich ihrer Pose modifiziert werden. Die Integration der Interaktion in die Visualisierung ermöglicht die direkte Modifikation der zugrunde liegenden Modelldaten. Das aktualisierte Modell kann abschließend gesichert werden wodurch eine Rückführung in den virtuellen Modellierungs- und Planungsprozess erreicht wird.
+Durch die Erkennung der Benutzereingabe können somit Objekte der Modellumgebung ausgewählt und bezüglich ihrer Pose modifiziert werden. Die Integration der Interaktion in die Visualisierung ermöglicht die direkte Modifikation der zugrunde liegenden Modelldaten. Das aktualisierte Modell kann abschließend gesichert werden, wodurch eine Rückführung in den virtuellen Modellierungs- und Planungsprozess erreicht wird.
 
 \prever{
-\red[Intersection sollte auch mit Modellumgebung möglich sein, damit der Pointer realistisch abgebildet wird!? Vielleicht Modell (obj) der Karte mit schwarzer Textur?]
+%\red[Intersection sollte auch mit Modellumgebung möglich sein, damit der Pointer realistisch abgebildet wird!? Vielleicht Modell (obj) der Karte mit schwarzer Textur?]
 }
