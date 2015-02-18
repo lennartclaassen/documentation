@@ -54,7 +54,7 @@ Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap
 \end{figure}%
 
 Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen des \kps{s} $\ks{KPS}$ und der Karte $\ks{M}$.\\
-Die Transformation $\tmat{0}{M}$ ist konstant, da die Karte als statische Referenz bezüglich des globalen Koordinatensystems betrachtet werden kann. Die Lage kann somit beliebig gewählt werden, weshalb das Koordinatensystem im Folgenden in den globalen Ursprung gesetzt, so dass gilt:
+Die Transformation $\tmat{0}{M}$ ist konstant, da die Karte als statische Referenz bezüglich des globalen Koordinatensystems betrachtet werden kann. Die Lage kann somit beliebig gewählt werden, weshalb das Koordinatensystem im Folgenden in den globalen Ursprung gesetzt wird, so dass gilt:
 
 \begin{equation}
 \ks{0} = \ks{M}
@@ -88,38 +88,52 @@ In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Zufallsver
 \label{chap.loglik}
 Ideale Entfernungsmesser würden bei einer Messung die exakten Distanzen zu den Hindernissen in ihrem Messbereich ermitteln. In der Realität sind jedoch alle Messungen mit einem Fehler durch lokales Messrauschen behaftet, welches im Fall der Kinect als Gaußverteilung modelliert werden kann \cite{Nguyen2012}.\\
 
-Es wird nun die Pose $\vek{x}{}{t}$ eines Partikels innerhalb der Karte $m$ betrachtet. Die Wahrscheinlichkeit $p$, ob ein Messwert $d_m^i$ aus einem bekannten Hindernis in der Entfernung $d_k$ resultiert, lässt sich somit innerhalb des Intervalls der Sensorreichweite $[d_{min};d_{max}]$ über eine Verteilung mit Mittelwert $d_k$ und der Varianz des Sensors $\sigma_{S}^2$ ermitteln \cite{Thrun2005}:
+Es soll dazu die Pose $\vec{x}_{\ind{p}}$ eines Partikels innerhalb der Karte $m$ betrachtet. Die Wahrscheinlichkeit $p$, ob eine gemessene Distanz $d_{\ind{m}}^i$ aus einem bekannten Hindernis in der Entfernung $d_{\ind{k}}$ resultiert, lässt sich somit innerhalb des Intervalls der Sensorreichweite $[d_{\ind{min}};d_{\ind{max}}]$ über eine Gaußverteilung mit Mittelwert $d_{\ind{k}}$ und der Varianz des Sensors $\sigma_{\ind{S}}^2$ ermitteln \cite{Thrun2005}:
 
 \begin{equation}
-p(d_m^i|\vek{x}{}{t},m) = \left\lbrace\begin{array}{ll}
-\eta \: \mathcal{N}(d_m^i;d_k,\sigma_S^2) & \quad \mathrm{wenn} \quad d_{min}\leq d_m^i \leq d_{max} \\
+p(d_\ind{m}^i|\vec{x}_{\ind{p}},m) = \left\lbrace\begin{array}{ll}
+\eta  \cdot \mathcal{N}(d_{\ind{m}}^i;d_{\ind{k}},\sigma_{\ind{S}}^2) & \quad \mathrm{wenn} \quad d_{\ind{min}}\leq d_{\ind{m}}^i \leq d_{\ind{max}} \\
 0 & \quad \mathrm{sonst}
 \end{array}
 \right.
 \end{equation}
-Dabei ist $\eta$ ein für die verwendeten Modelle konstanter Normalisierungsfaktor und die Gaußverteilung mit der Differenz der Distanzen $\Delta d = d_m^i-d_k$  gegeben durch:
+
+\nomenclature[l]{$\vec{x}_{\ind{p}}$}{Pose eines Partikels}
+\nomenclature[l]{$m$}{Karte}
+\nomenclature[l]{$p$}{Wahrscheinlichkeitswert eines Partikels}
+\nomenclature[l]{$d_{\ind{m}}^i$}{i-ter Wert einer Entfernungsmessung}
+\nomenclature[l]{$d_{\ind{k}}$}{Distanzwert eines Hindernisses}
+\nomenclature[l]{$d_{\ind{min}}$}{Minimal auflösbare Sensordistanz}
+\nomenclature[l]{$d_{\ind{max}}$}{Maximal auflösbare Sensordistanz}
+\nomenclature[g]{$\sigma_{\ind{S}}$}{Standardabweichung des Sensors}
+\nomenclature[g]{$\eta$}{Normalisierungsfaktor}
+\nomenclature[l]{$\vec{d}_{\ind{m}}$}{Vektor aus Messwerten einer Messung}
+\nomenclature[l]{$\Delta d$}{Differenz aus Messwert und Distanzwert der Karte}
+\nomenclature[l]{$\mathrm{K}$}{Konstante}
+
+Dabei ist $\eta$ ein für die verwendeten Modelle konstanter Normalisierungsfaktor und die Gaußverteilung mit der Differenz der Distanzen $\Delta d = d_{\ind{m}}^i-d_{\ind{k}}$  gegeben durch:
 
 \begin{equation}
-\mathcal{N}(d_m^i;d_k,\sigma_S^2) = \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_S^2}} \; e^{-\dfrac{1}{2} \cdot \dfrac{{(\Delta d})^2}{\sigma_S^2}}
+\mathcal{N}(d_{\ind{m}}^i;d_{\ind{k}},\sigma_{\ind{S}}^2) = \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}}  \cdot e^{-\dfrac{1}{2} \cdot \dfrac{{(\Delta d})^2}{\sigma_{\ind{S}}^2}}
 \end{equation}
 
-Die Bestimmung der Wahrscheinlichkeit einer Pose erfolgt durch Betrachtung aller $n$, im Vektor $\vek{d}{}{m}$ zusammengefassten, Messwerte. Dazu wird angenommen, dass die Messwerte voneinander unabhängig sind und das Produkt der einzelnen Wahrscheinlichkeiten gebildet \cite{Hornung2010}. Dies ergibt die Likelihood-Funktion:
+Die Bestimmung der Wahrscheinlichkeit einer Pose erfolgt durch Betrachtung aller $n$, im Vektor $\vec{d}_{\ind{m}}$ zusammengefassten, Messwerte. Dazu wird angenommen, dass die Messwerte voneinander unabhängig sind und das Produkt der einzelnen Wahrscheinlichkeiten gebildet \cite{Hornung2010}. Dies ergibt die Likelihood-Funktion:
 
 \begin{equation}
 \label{eq.likelihood}
-p(\vek{d}{}{m}|\vek{x}{}{t},m) = \prod_{i=1}^{n}p(d_m^i|\vek{x}{}{t},m)
+p(\vec{d}_{\ind{m}}|\vec{x}_{\ind{p}},m) = \prod_{i=1}^{n}p(d_{\ind{m}}^i|\vec{x}_{\ind{p}},m)
 \end{equation}
 
 Durch Anwendung des natürlichen Logarithmus auf \eq{eq.likelihood} ergibt sich die Log-Likelihood-Funktion und die Berechnung vereinfacht sich zur Bildung der Summe über die Messwerte:
 
 \begin{equation}
 \begin{split}
-\log \: p(\vek{d}{}{m}|\vek{x}{}{t},m) & = \sum_{i=1}^{n}\log\: p(d_m^i|\vek{x}{}{t},m) \\[1em]
-& = \sum_{i=1}^{n}\log \left( \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_S^2}} \cdot \; e^{-\dfrac{1}{2} \cdot \dfrac{{(\Delta d})^2}{\sigma_S^2}} \right)\\[1em]
-& = \underbrace{-\frac{1}{2} \cdot \log(2 \cdot \pi \cdot\sigma_S^2)}_K-\dfrac{\sum_{i=1}^{n}(\Delta d)^2}{2 \cdot \sigma_S^2}
+\log \: p(\vec{d}_{\ind{m}}|\vec{x}_{\ind{p}},m) & = \sum_{i=1}^{n}\log\: p(d_{\ind{m}}^i|\vec{x}_{\ind{p}},m) \\[1em]
+& = \sum_{i=1}^{n}\log \left( \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}} \cdot e^{-\dfrac{1}{2} \cdot \dfrac{{(\Delta d})^2}{\sigma_{\ind{S}}^2}} \right)\\[1em]
+& = \underbrace{-\frac{1}{2} \cdot \log(2 \cdot \pi \cdot\sigma_{\ind{S}}^2)}_{\ind{K}}-\dfrac{\sum_{i=1}^{n}(\Delta d)^2}{2 \cdot \sigma_{\ind{S}}^2}
 \end{split}
 \end{equation}
-Da der natürliche Logarithmus eine streng monotone Funktion ist, bleibt die Stelle des Maximums der Ursprungsfunktion erhalten. Das bedeutet, dass der Partikel mit maximalem Wahrscheinlichkeitswert erhalten bleibt. Da die Partikel bei jeder Lokalisation lediglich relativ untereinander verglichen werden, hat dieser Schritt keine Auswirkungen auf das Ergebnis. Die Konstante $K$ ist bei gleichbleibender Varianz für alle Messungen identisch und kann daher vorab berechnet werden.\\
+Da der natürliche Logarithmus eine streng monotone Funktion ist, bleibt die Stelle des Maximums der Ursprungsfunktion erhalten. Das bedeutet, dass der Partikel mit maximalem Wahrscheinlichkeitswert erhalten bleibt. Da die Partikel bei jeder Lokalisation lediglich relativ untereinander verglichen werden, hat dieser Schritt keine Auswirkungen auf das Ergebnis. Die Konstante $\mathrm{K}$ ist bei gleichbleibender Varianz für alle Messungen identisch und kann daher vorab berechnet werden.\\
 Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtung verwendet werden, um das Maximum über alle Partikel zu bestimmen. 
 
 \subsection{Endpoint-Modell}
@@ -260,7 +274,7 @@ Das Kalman-Filter \cite{Kalman1960} stellt eine in der Praxis bewährte Methode 
 Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}.\\
 Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert.\\
 Mit Hilfe der inertialen Messeinheit kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt
-exemplarisch das Prinzip der Zustandsannäherung und die auf Basis der Messwerte der visuellen Odometrie ($\mu_O$, $\sigma_O$) und der IMU ($\mu_I$, $\sigma_I$) durchgeführte Korrektur.
+exemplarisch das Prinzip der Zustandsannäherung durch die visuelle Odometrie ($\mu_O$, $\sigma_O$) und die auf Basis der Messwerte der IMU ($\mu_I$, $\sigma_I$) durchgeführte Korrektur.
 \prever{
 \red[in anlehung an Hertzberg s.134]
 }%
@@ -271,15 +285,24 @@ exemplarisch das Prinzip der Zustandsannäherung und die auf Basis der Messwerte
 	\begin{center}%
 		\includesvgnew[1]{images/kalman}%
 %		\includegraphics[scale=1.0]{projector_tech_02}
-		\caption{Approximation des Systemzustands durch das Kalman-Filter}
+		\caption{Approximation des Systemzustands durch das Kalman-Filter. Darstellung nach \cite{Hertzberg2012}}
 		\label{fig.kalman}
 	\end{center}
 	\vspace*{-8mm}
 \end{figure}
 
 \prever{
-\red[plot?\\]
+\red[plot?\\
+Darstellung überarbeiten! Indizes korrekt!?\\]
 }
+
+\nomenclature[g]{$\mu_{\ind{O}}$}{Mittelwert einer Messung auf Basis der visuellen Odometrie}
+\nomenclature[g]{$\mu_{\ind{I}}$}{Mittelwert einer Messung auf Basis der IMU}
+\nomenclature[g]{$\sigma_{\ind{O}}$}{Standardabweichung einer Messung auf Basis der visuellen Odometrie}
+\nomenclature[g]{$\sigma_{\ind{I}}$}{Standardabweichung einer Messung auf Basis der IMU}
+\nomenclature[g]{$\mu_{\ind{EKF}}$}{Durch das EKF angenäherter Mittelwert}
+\nomenclature[g]{$\sigma_{\ind{EKF}}$}{Durch das EKF angenäherte Standardabweichung}
+
 
 \nomenclature[a]{EKF}{Erweitertes Kalman-Filter}
 

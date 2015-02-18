@@ -16,7 +16,8 @@ Um die Funktionalität des \kps{s} bewerten zu können wird eine experimentelle 
 s \cdot \ve{SP}{\tilde{p}} = \tmat{SP}{P}\cdot\tmat{P}{KPS}\cdot\tmat{KPS}{Odom}\cdot\tmat{Odom}{M}\cdot\tmat{M}{0}\cdot\ve{0}{\tilde{P}}
 \end{equation}
 
-Die Karte kann in den Ursprung des globalen Koordinatensystems verschoben werden, wodurch sich $\tmat{M}{0} = \vec{I}$ ergibt. Im Rahmen der globalen Lokalisation wird die Transformation $\tmat{Odom}{M}$ zwischen der Karte und dem Referenz-Koordinatensystem $\ks{Odom}$ ermittelt. Die lokale Lokalisation vervollständigt die Bestimmung der Pose des \kps{s} innerhalb der Karte durch Ermittlung der Transformation $\tmat{KPS}{Odom}$. Die Projektionsgenauigkeit bezogen auf das \kps{} wird abschließend durch die Verknüpfung der extrinsischen $\tmat{P}{KPS}$ und intrinsischen $\tmat{SP}{P}$ Transformationsvorschrift des Projektors beschrieben. Im Folgenden sollen die aufgeführten Transformationen separat betrachtet werden, um die jeweiligen Fehlereinflüsse bestimmen zu können.\\
+Die Karte kann in den Ursprung des globalen Koordinatensystems verschoben werden, wodurch sich $\tmat{M}{0} = \vec{I}$ ergibt. Im Rahmen der globalen Lokalisation wird die Transformation $\tmat{Odom}{M}$ zwischen der Karte und dem Referenz-Koordinatensystem $\ks{Odom}$ ermittelt. Die lokale Lokalisation vervollständigt die Bestimmung der Pose des \kps{s} innerhalb der Karte durch Ermittlung der Transformation $\tmat{KPS}{Odom}$. Die Projektionsgenauigkeit bezogen auf das \kps{} wird abschließend durch die Verknüpfung der extrinsischen $\tmat{P}{KPS}$ und intrinsischen $\tmat{SP}{P}$ Transformationsvorschrift des Projektors beschrieben.\\
+Im Folgenden sollen die aufgeführten Transformationen separat betrachtet werden, um die jeweiligen Fehlereinflüsse bestimmen zu können.\\
 
 \prever{
 %\red[Gesamte Transformation hier angeben!?\\Globale Lokalisation: Map -> Odom\\Lokale Lokalisation: Odom -> KPS\\Projektionsgenauigkeit: KPS -> Projektor\\]
@@ -50,11 +51,16 @@ Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöh
 	%\vspace*{-8mm}
 \end{figure}
 
-Die betrachten Fehlerwerte werden dabei für alle Bewertungen der Lokalisation als Quadratisches Mittel über $k$ Messungen aus den jeweiligen Einzeldifferenzen $r_i$ der Freiheitsgrade der Posen bestimmt:
+Die betrachten Fehlerwerte werden dabei für alle Bewertungen der Lokalisation als Quadratisches Mittel (QM) über $k$ Messungen aus den jeweiligen Einzeldifferenzen $r_i$ der Freiheitsgrade der Posen bestimmt:
 
 \begin{equation}
-QM = \sqrt{\frac{1}{k} \cdot \sum_{i=1}^kr_i^2}
+\mathrm{QM} = \sqrt{\frac{1}{k} \cdot \sum_{i=1}^kr_i^2}
 \end{equation}
+
+\nomenclature[l]{$n$}{Anzahl, allgemein}
+\nomenclature[l]{$k$}{Anzahl an Messungen}
+\nomenclature[a]{QM}{Quadratisches Mittel}
+\nomenclature[l]{$r_i$}{$i$-ter Differenzwert}
 
 
 \section{Globale Lokalisation}
@@ -77,6 +83,14 @@ Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit de
 \end{equation}
 
 Aus der fixierten Pose wird anschließend die globale Lokalisation durchgeführt. Für beide Modelle werden insgesamt $n=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzposition verglichen. Dazu wird das quadratische Mittel der Fehler bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems bestimmt.\\
+
+\nomenclature[l]{$\Delta X$}{Differenz der }
+\nomenclature[l]{$\Delta Y$}{}
+\nomenclature[l]{$\Delta Z$}{}
+\nomenclature[g]{$\Delta \Phi$}{}
+\nomenclature[g]{$\Delta \Theta$}{}
+\nomenclature[g]{$\Delta \Psi$}{}
+
 
 In der Fehlerbetrachtung sollen nur die ermittelten Posen berücksichtigt werden, welche eine Annäherung an die tatsächliche Pose innerhalb bestimmter Grenzen darstellen. Außerhalb dieses Bereiches wird von einer fehlerhaften Lokalisation ausgegangen.\\
 Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.loclimits} dargestellt deshalb ein Grenzraum um die wahre Position des \kps{s} definiert. Die maximal zulässigen translatorischen und rotatorischen Fehler sind in \tab{thresh_glob} aufgeführt. Die Definition der Grenzwerte erfolgt orientiert an Fehlerwerten, aus welchen in der Literatur die angenäherte Pose optimiert werden konnte \cite{Forster2013}.\\

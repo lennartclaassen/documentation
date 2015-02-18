@@ -25,7 +25,11 @@ Innerhalb des Softwaremoduls \textit{Interaktion} (\kapitel{chap.softwarestruct}
 \prever{
 %\red[Bemaßung!\\]
 }
-Der minimale Abstand $z_{min}$ beträgt \SI{0,5}{\meter} und wird durch die Spezifikationen der Kinect definiert. Der maximale Interaktionsabstand $z_{int}$ ist parametrierbar und kann damit anwendungsspezifisch definiert werden.\\
+Der minimale Abstand $z_\ind{{min}}$ beträgt \SI{0,5}{\meter} und wird durch die Spezifikationen der Kinect definiert. Der maximale Interaktionsabstand $z_\ind{{int}}$ ist parametrierbar und kann damit anwendungsspezifisch definiert werden.\\
+
+\nomenclature[l]{$z_\ind{{min}}$}{Minimal auflösbarer Tiefenwert der Kinect}
+\nomenclature[l]{$z_\ind{{int}}$}{Maximaler Tiefenwert des Interaktionsbereichs}
+
 
 Basierend auf den nach der Filterung verbleibenden Punkten wird eine Ebenendetektion nach \cite{Fischler1981} durchgeführt. Alle Punkte innerhalb eines definierten Abstandes werden daraufhin auf die ermittelte Ebene projiziert, wodurch eine zweidimensionale Abbildung erzeugt und Messwertrauschen geglättet wird. Außerhalb der Ebene liegende Punkte werden für die weiteren Schritte aus der Betrachtung entfernt. Dazu gehören deutliche Ausreißer innerhalb der detektierten Interaktionsstruktur sowie weitere Artefakte in der Punktwolke.\\
 
@@ -65,10 +69,7 @@ Die Auswertung der auf Basis der Zeigebewegung ermittelten Linie erfolgt innerha
 
 Um zu determinieren, auf welches Modellobjekt der Benutzer gezeigt hat werden entlang der Linie alle Schnittpunkte mit den virtuellen Modelldaten bestimmt. Dazu wird die Visualisierungsumgebung VTK verwendet, welche die Ermittlung von Schnittpunkten zwischen den Modellobjekten und Linien als Funktion zur Verfügung stellt. Aus den Schnittpunkten kann somit ermittelt werden, welches Objekt der Benutzer ausgewählt hat. Um die Auswahl eines Objektes, analog einer \glqq Klick\grqq -Aktion, zu ermöglichen wurden zwei Verfahren implementiert.\\
 Die erste Implementierung erfolgt durch Überprüfung der Verweildauer des simulierten Zeigers auf dem Objekt. Überschreitet diese einen definierten Grenzwert wird dies als Auswahlbefehl gewertet und das Objekt in den Zustand \textit{aktiv} versetzt.\\
-Für das zweite Verfahren wurde die Software des Arduino um einen zusätzliche Schnittstelle erweitert. Durch die Anbindung eines Tasters wird die Möglichkeit einer echten \glqq Klick\grqq -Aktion zur Befehlseingabe realisiert.
-\prever{
-%\red[Oder im Ausblick aufführen?\\]
-}
+Für das zweite Verfahren wurde die Software des Arduino um einen zusätzliche Schnittstelle erweitert. Durch die Anbindung eines Tasters wird die Möglichkeit einer echten \glqq Klick\grqq -Aktion zur Befehlseingabe realisiert.\\
 Durch Veränderung der Textur erhält der Anwender wie in \abb{fig.intintersect} dargestellt das visuelle Feedback, dass ein Objekt ausgewählt und in den neuen Status versetzt wurde.
 
 \begin{figure}[!ht]

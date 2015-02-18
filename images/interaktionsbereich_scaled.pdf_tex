@@ -50,7 +50,7 @@
   \makeatother%
   \begin{picture}(1,0.92426973)%
     \put(0,0){\includegraphics[width=\unitlength]{interaktionsbereich_scaled.pdf}}%
-    \put(0.73406848,0.21900608){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36385093\unitlength}\centering $z_{int}$\end{minipage}}}%
-    \put(0.26387195,0.20718106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36385093\unitlength}\centering $z_{min}$\end{minipage}}}%
+    \put(0.73406848,0.21900608){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36385093\unitlength}\centering $z_{\ind{int}}$\end{minipage}}}%
+    \put(0.26387195,0.20718106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.36385093\unitlength}\centering $z_{\ind{min}}$\end{minipage}}}%
   \end{picture}%
 \endgroup%
