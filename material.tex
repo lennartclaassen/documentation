@@ -18,7 +18,7 @@ Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Fo
 \subsection{Microsoft Kinect\textsuperscript{\texttrademark} Sensor}
 \label{chap.kinect}
 Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect\textsuperscript{\texttrademark} Sensor\footnote{Im Folgenden als Kinect bezeichnet.} ist ein System welches eine natürliche Benutzerschnittstelle für Computer und Spielkonsolen bereitstellt indem es die Steuerung von Programmen und Spielen durch Gesten, Körperbewegungen und Sprachbefehle ermöglicht. Die Kinect verfügt über zwei Kameras, mit denen Videoaufnahmen im Farb- (RGB) sowie im Infrarotbereich (IR) möglich sind.\\
-Die Technik zur Ermittlung der Tiefeninformationen stammt von der Firma PrimeSense (PrimeSense LTD, Tel Aviv, Israel) und ist unter anderem durch das Patent \cite{Freedman2008} geschützt. Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet, um Tiefenbilder zu generieren. Der IR-Projektor projiziert ein irreguläres, bekanntes IR-Muster, welches von der IR-Kamera erkannt wird. Über die Verzerrungen des Musters sind anschließend softwareseitig Rückschlüsse auf die Tiefenwerte der aufgenommenen Szene möglich. Da ein Projektor auch als inverse Kamera betrachtet werden kann \cite{Kimura2007}, entspricht der Aufbau der Kinect dem einer Stereokamera. Da die Bildachsen der IR-Kamera und des IR-Projektors parallel orientiert sind, wird ein Punkt im projizierten Muster auf der in \abb{fig.kinect_depth} dargestellten horizontalen Epipolarlinie $e$ in der Bildebene der Kamera abgebildet. 
+Die Technik zur Ermittlung der Tiefeninformationen stammt von der Firma PrimeSense (PrimeSense LTD, Tel Aviv, Israel) und ist unter anderem durch das Patent \cite{Freedman2008} geschützt. Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet, um Tiefenbilder zu generieren. Der IR-Projektor projiziert ein irreguläres, bekanntes IR-Muster, welches von der IR-Kamera erkannt wird. Über die Verzerrungen des Musters sind anschließend softwareseitig Rückschlüsse auf die Tiefenwerte der aufgenommenen Szene möglich. Da ein Projektor auch als inverse Kamera betrachtet werden kann \cite{Kimura2007}, entspricht der Aufbau der Kinect dem einer Stereokamera. Da die Bildachsen der IR-Kamera und des IR-Projektors parallel orientiert sind, wird ein Punkt im projizierten Muster auf der in \abb{fig.kinect_depth} dargestellten horizontalen Epipolarlinie $\vec{e}$ in der Bildebene der Kamera abgebildet. 
 
 \nomenclature[a]{RGB}{Farbraum, beschrieben durch die Grundfarben Rot, Grün und Blau}
 \nomenclature[a]{IR}{Infrarot}
@@ -42,10 +42,12 @@ Wird der korrespondierende Punkt im Kamerabild identifiziert kann die Disparitä
 \nomenclature[l]{$d$}{Disparität}
 \nomenclature[l]{$D$}{Basisabstand der Bildachsen von IR-Kamera und -Projektor der Kinect}
 \nomenclature[l]{$f$}{Brennweite}
-\nomenclature[l]{$e$}{Epipolarlinie}
+\nomenclature[l]{$\vec{e}$}{Epipolarlinie}
 %\nomenclature[l]{$z$}{Tiefenabstand eines Punktes im Koordinatensystem der Kinect}
 
-\red[e sollte dick sein!?]\\
+\prever{
+%\red[e sollte dick sein!?]\\
+}
 
 \begin{equation}
 z = \frac{D}{d}\cdot f
@@ -64,7 +66,7 @@ Die Kinect stellt eine kostengünstige Möglichkeit zur parallelen Aufnahme von 
 %\red[Da Microsoft selbst keine Angaben über die von ihnen lizensierte Technologie macht stammen die Beschreibungen zur Funktionsweise der Kinect aus den Patentschriften der Firma PrimeSense.]\\
 
 \prever{
-\red[Datenblatt/Spezifikationen in Anhang!\\]
+%\red[Datenblatt/Spezifikationen in Anhang!\\]
 }
 
 \subsection{Microvision ShowWX+\textsuperscript{\texttrademark}}%Pico Laser Projektor}
@@ -83,7 +85,9 @@ Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Micro
 	%\vspace*{-8mm}
 \end{figure}
 
-\red[Laser ergänzen]
+\prever{
+%\red[Laser ergänzen]
+}
 
 Die Verwendung von Lasern führt dazu, dass die Schärfe des Bildes unabhängig vom Abstand zur Projektionsfläche ist. Der Einsatz von Linsen zur Fokussierung der Strahlen ist daher ebenso wie eine manuelle Anpassung der Fokuseinstellungen nicht erforderlich. Genauere Spezifikationen des ShowWX+\textsuperscript{\texttrademark} finden sich in Anhang \ref{app:projector}.
 
@@ -103,7 +107,7 @@ Damit zusätzliche Lageinformationen für die Lokalisation des \kps{s} zur Verf�
 
 \subsection{Inertiale Messeinheit}
 \label{chap.imu}
-Die von der Firma InvenSense (InvenSense Inc., San Jose, USA) entwickelte inertiale Messeinheit MPU-9250 ermöglicht die Messung der Beschleunigungsdaten bezüglich der sechs räumlichen Freiheitsgrade des Systems. Aus diesen Daten kann die Lage des Systems bezüglich der Achswinkel bestimmt werden \cite{IMU}.\\
+Die von der Firma InvenSense (InvenSense Inc., San Jose, USA) entwickelte inertiale Messeinheit (englisch inertial measurement unit, IMU) MPU-9250 ermöglicht die Messung der Beschleunigungsdaten bezüglich der sechs räumlichen Freiheitsgrade des Systems. Aus diesen Daten kann die Lage des Systems bezüglich der Achswinkel bestimmt werden \cite{IMU}.\\
 Die Anbindung an das System erfolgt wie zuvor beschrieben durch den Arduino, welcher wiederum die Schnittstelle zu der entwickelten Programmstruktur bildet.\\
 \prever{
 \red[Datenblatt in Anhang!]
@@ -121,7 +125,7 @@ Der Raspberry wird für diese Arbeit mit einer angepassten Version des Meta-Betr
 \nomenclature[a]{RISC}{Reduced Instruction Set Computer}
 
 \section{Aufbau des \kps{s}}
-Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellte handführbare \kps{} aufgebaut. Die Lage des Projektors wurde dabei so gewählt, dass eine Überdeckung des Projektionsfeldes mit dem Sichtfeld der RGB-Kamera der \kin erreicht wird. Im Zentrum des Systems ist eine Platine positioniert, über welche die Kommunikationsverbindung zwischen der inertialen Messeinheit und dem Arduino realisiert wird.\\
+Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellte handführbare \kps{} aufgebaut. Die Lage des Projektors wurde dabei so gewählt, dass eine Überdeckung des Projektionsfeldes mit dem Sichtfeld der RGB-Kamera der \kin erreicht wird. Im Zentrum des Systems ist eine Platine positioniert, über welche die Kommunikationsverbindung zwischen der IMU und dem Arduino realisiert wird.\\
 
 \begin{figure}[ht]
 	\begin{center}%
@@ -144,7 +148,7 @@ Der Ablauf der sequentiellen Kalibrierung des Gesamtsystems wird im Folgenden n�
 \subsection{Begriffe und Notationen}
 In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} und 3D-Punkte mit \pteq[P]{X,Y,Z} bezeichnet. Auf gleiche Weise werden auch Vektoren und Matrizen beschrieben, ausgenommen der für die Punktbeschreibung verwendeten Notation. Vektoren werden demnach über $\vec{v}$ und Matrizen über $\vec{M}$ beschrieben.\\
 Mittels der homogenen Koordinatendarstellung lassen sich Punkte gleichzeitig sowohl translatorisch als auch rotatorisch transformieren. Dazu wird der \textit{inverse Streckungsfaktor} als zusätzliche Komponente eingeführt, für welchen standardmäßig $w=1$ gilt \cite{Nischwitz20111}. Zur Unterscheidung werden homogene Koordinaten damit zu \ptheq{x,y} beziehungsweise \ptheq[P]{X,Y,Z} definiert.\\
-Falls nicht mittels eines vorangestellten Index $_{(i)}\vec{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das globale Koordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ind{(KS)}_j$ und $\ind{(KS)}_k$ werden mit Hilfe der Matrixschreibweise als ${^{j}\vec{T}_{k}}$ ausgedrückt.\\
+Falls nicht mittels eines vorangestellten Index $_{(a)}\vec{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das globale Koordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ind{(KS)}_a$ und $\ind{(KS)}_b$ werden mit Hilfe der Matrixschreibweise als ${^{a}\vec{T}_{b}}$ ausgedrückt.\\
 Die Transformation, die einen Punkt vom globalen Koordinatensystem in das Koordinatensystem des Projektors $\ks{P}$ abbildet, lässt sich beispielsweise demnach ausdrücken als:
 
 \begin{equation}
@@ -158,20 +162,20 @@ Die Transformation, die einen Punkt vom globalen Koordinatensystem in das Koordi
 \nomenclature[l]{$\tilde{\vec{P}}$}{Punkt in homogenen 3D-Koordinaten}
 \nomenclature[l]{$w$}{Inverser Streckungsfaktor}
 \nomenclature[l]{$i$}{Zählvariable}
-\nomenclature[l]{$j,k$}{Variablen}
-\nomenclature[l]{${^{j}\vec{T}_{k}}$}{Homogene Transformation vom $\ind{(KS)}_j$ ins $\ind{(KS)}_k$}
+\nomenclature[l]{$a,b$}{Variablen}
+\nomenclature[l]{${^{a}\vec{T}_{b}}$}{Homogene Transformation vom $\ind{(KS)}_a$ ins $\ind{(KS)}_b$}
 %\nomenclature[l]{$\ks{j},\ks{k}$}{Variable Koordinatensysteme}
-\nomenclature[l]{$\ks{0}$}{Globales Koordinatensystem}
-\nomenclature[l]{$\ks{K}$}{KS der RGB-Kamera der Kinect}
-\nomenclature[l]{$\ks{K_\ind{IR}}$}{KS der IR-Kamera der Kinect}
-\nomenclature[l]{$\ks{P_\ind{IR}}$}{KS des IR-Projektors der Kinect}
-\nomenclature[l]{$\ks{KPS}$}{Basis-KS des \kps{s}}
-\nomenclature[l]{$\ks{P}$}{KS des Pico-Laser-Projektors}
-\nomenclature[l]{$\ks{M}$}{KS der Lokalisationsumgebung}
-\nomenclature[l]{$\ks{Env}$}{KS der Modellumgebung}
-\nomenclature[l]{$\ks{Odom}$}{Odometrie-KS für die Bewegung des \kps{s} im Raum}
-\nomenclature[l]{$\ks{MF}$}{KS des Markerfeldes}
-\nomenclature[l]{$\ks{K_\ind{ext}}$}{KS der externen Kamera}
+\nomenclature[k]{$\ks{0}$}{Globales Koordinatensystem}
+\nomenclature[k]{$\ks{K}$}{KS der RGB-Kamera der Kinect}
+\nomenclature[k]{$\ks{K_\ind{IR}}$}{KS der IR-Kamera der Kinect}
+\nomenclature[k]{$\ks{P_\ind{IR}}$}{KS des IR-Projektors der Kinect}
+\nomenclature[k]{$\ks{KPS}$}{Basis-KS des \kps{s}}
+\nomenclature[k]{$\ks{P}$}{KS des Pico-Laser-Projektors}
+\nomenclature[k]{$\ks{M}$}{KS der Lokalisationsumgebung}
+\nomenclature[k]{$\ks{Env}$}{KS der Modellumgebung}
+\nomenclature[k]{$\ks{Odom}$}{Odometrie-KS für die Bewegung des \kps{s}}
+\nomenclature[k]{$\ks{MF}$}{KS des Markerfeldes}
+\nomenclature[k]{$\ks{K_\ind{ext}}$}{KS der externen Kamera}
 
 
 Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB-Darstellung. Die $x$-Achsen werden somit rot, die $y$-Achsen grün und die $z$-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren wird die Orientierung der körpereigenen Koordinatensysteme darüber hinaus so gewählt, dass die $z$-Achse in Richtung der optischen Achse ausgerichtet wird. Die gewählten Konventionen sind in \abb{fig.coords} anhand des \kps{s} dargestellt.
@@ -268,7 +272,7 @@ Durch die Vereinigung von Translation und Rotation in der homogenen Transformati
 }
 \end{equation}
 
-\nomenclature[l]{$\rmat{j}{k}$}{Rotationsmatrix vom $\ks{j}$ ins $\ks{k}$}
+\nomenclature[l]{${^{a}\vec{R}_{b}}$}{Rotationsmatrix vom vom $\ind{(KS)}_a$ ins $\ind{(KS)}_b$}
 
 Ein in globalen Koordinaten bekannter Punkt lässt sich damit im Koordinatensystem der Kamera abbilden:
 
@@ -403,7 +407,7 @@ Z\\
 
 Eine Vereinfachung dieser Darstellung lässt sich erreichen, indem die Kalibrierebene mit der globalen Ebene in $Z=0$ gleichgesetzt wird. Dadurch können die Dimensionen der intrinsischen und extrinsischen Kameramatrix reduziert werden. Die Abbildungsgleichung ergibt sich damit unter Umformulierung der Rotations-Matrix als $\rmat{K}{0} = [\vec{r}_1 \quad \vec{r}_2 \quad \vec{r}_3]$ zu:
 
-\nomenclature[l]{$\vec{r}_i$}{i-ter Spaltenvektor der Rotationsmatrix}
+\nomenclature[l]{$\vec{r}_i$}{$i$-ter Spaltenvektor der Rotationsmatrix}
 
 \begin{equation}
 s \cdot
@@ -549,7 +553,7 @@ Das Robot Operating System (ROS) ist eine speziell für die Anwendung in der Rob
 \nomenclature[a]{ROS}{Robot Operating System}
 
 \prever{
-\red[Hertzberg Buch detaillierter]
+%\red[Hertzberg Buch detaillierter]
 }
 
 \subsection{Open Source Computer Vision Library}
@@ -570,8 +574,9 @@ Die von der Firma Trolltech entwickelte und mittlerweile von der Firma Digia (Di
 Das Visualization Toolkit (VTK) stellt eine auf dem C++ Standard basierende Bibliothek dar, welche für die Verarbeitung und Visualisierung von 3D-Bilddaten entwickelt wurde. Die Firma Kitware (Kitware Inc., New York, USA) entwickelt die Bibliothek ständig weiter und stellt sie als quelloffene Software zur Verfügung \cite{VTK}. Verschiedene Schnittstellen zwischen VTK und PCL ermöglichen neben der Darstellung von 3D-Objekten auch die Integration und Visualisierung von Punktwolken. Die Verfahren zur Abbildung dreidimensionaler Szenen werden im Rahmen dieser Arbeit genutzt, um die Modellumgebung zu visualisieren und die perspektivisch korrekte Projektion zu generieren. Dabei wird die VTK Version 5.8.0 eingesetzt.
 
 \nomenclature[a]{VTK}{Visualization Toolkit}
+
 \prever{
-\red[Ausführlicher?\\]
+%\red[Ausführlicher?\\]
 %\red[Versionen!\\]
 }
 
@@ -587,15 +592,15 @@ Einen Überblick über die Softwaremodule, ihre Verknüpfung untereinander und d
 
 \begin{figure}[ht]
 	\begin{center}%
-		\includesvgnew[1]{images/modules_solo}%
-		\caption{Übersicht der Softwaremodule}
+		\includesvgnew[1]{images/modules_solo_02}%
+		\caption{Übersicht über die Verknüpfungen zwischen Datenstruktur, Softwaremodulen und Umgebung}
 		\label{fig.modules}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
 \prever{
-\red[Modelldaten an Überschrift von Kapitel 4 anpassen! Datengrundlage/Datenbasis/Modelldaten. Und gesondert darstellen (andere Farbe+Form)\\]
+%\red[Modelldaten an Überschrift von Kapitel 4 anpassen! Datengrundlage/Datenbasis/Modelldaten. Und gesondert darstellen (andere Farbe+Form)\\]
 %\red[handgeführtes ersetzen durch handführbares?\\]
 }
 
@@ -611,6 +616,11 @@ Darüber hinaus wurde eine grafische Benutzeroberfläche (GUI) implementiert, we
 \nomenclature[a]{GUI}{Graphical User Interface}
 
 In den folgenden Kapiteln wird zunächst die Datengrundlage spezifiziert und darauf aufbauend die Struktur und Funktionalität der Softwaremodule erläutert.
+
+
+\prever{
+\red[eigene leistung]
+}
 
 \prever{
 %\red[In den folgenden Kapiteln erfolgt eine Spezifizierung der Module und ihrer Komponenten.\\]

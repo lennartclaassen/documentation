@@ -2,7 +2,7 @@
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
-	ymax=0.3,
+	ymax=0.35,
 	ymin=0,
 	bar width=20pt,
 	scaled y ticks = false,
@@ -12,14 +12,14 @@
 	legend style={at={(0.5,-0.15)},
 	legend style={/tikz/every even column/.append style={column sep=0.5cm}},
 	anchor=north,legend columns=-1},
-	ylabel={Positionsfehler \lbrack m\rbrack},
+	ylabel={QM der Positionsfehler \lbrack m\rbrack},
 %	symbolic x coords={\Delta,y,z},
 	xtick={1,2,3,4,5,6},
 	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
 %	xtick=data,
-	every node near coord/.style={/pgf/number format/fixed,/pgf/number format/use comma, anchor=west},
-	nodes near coords,
-	nodes near coords align={vertical},
+%	every node near coord/.style={/pgf/number format/fixed,/pgf/number format/use comma, anchor=west},
+%	nodes near coords,
+%	nodes near coords align={vertical},
 	width=14cm,
 	height=8cm,
 	grid=major,
@@ -27,17 +27,17 @@
     	scaled y ticks = false,
 ]
 \addplot[
-	every node near coord/.append style={xshift=-0.9cm},
-	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+%	every node near coord/.append style={xshift=-0.9cm},
+%	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
 	color=red,
-	fill=red!30!white,
+	fill=red!50!white,
 	bar shift=-11pt,
 ] coordinates {(1,0.06) (2,0.05) (3,0.08)};
 \addplot[
-	every node near coord/.append style={xshift=-0.12cm},
-	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+%	every node near coord/.append style={xshift=-0.12cm},
+%	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
 	color=blue,
-	fill=blue!30!white,
+	fill=blue!50!white,
 	bar shift=11pt,	
 ] coordinates {(1,0.039) (2,0.097) (3,0.047)};
 \addplot[fill opacity=0.0,draw=none,] coordinates {(4,0) (5,0) (6,0)};	%dummy
@@ -47,7 +47,7 @@
 \begin{axis}[
 %	scale only axis,
 	ybar,
-	ymax=6,
+	ymax=7,
 	ymin=0,
 	bar width=20pt,
 %	enlarge y limits={0.4,upper},
@@ -56,35 +56,32 @@
 	legend style={/tikz/every even column/.append style={column sep=0.5cm}},
 	anchor=north,legend columns=-1},
 	axis y line*=right,
-	axis x line=none,
-	ylabel={Winkelfehler \lbrack °\rbrack},
+	ylabel={QM der Winkelfehler \lbrack °\rbrack},
 %	symbolic x coords={\Delta,y,z},
 	xtick={1,2,3,4,5,6},
-	xticklabels={$\Delta X$, $\Delta Y$, $\Delta Z$, $\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$},
+	xticklabels={},
 %	xtick=data,
 %	bar shift=0pt,
-	every node near coord/.style={/pgf/number format/fixed,/pgf/number format/use comma, anchor=west},
-	nodes near coords,
-	nodes near coords align={vertical},
+%	every node near coord/.style={/pgf/number format/fixed,/pgf/number format/use comma, anchor=west},
+%	nodes near coords,
+%	nodes near coords align={vertical},
 	width=14cm,
 	height=8cm,
-	grid=major,
-    	grid style={dotted,lightgray!80!white},
     	scaled y ticks = false,
 ]
 \addplot[fill opacity=0.0,draw=none,] coordinates {(1,0) (2,0) (3,0)};	%dummy
 \addplot[
-	every node near coord/.append style={xshift=-0.9cm},
-	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+%	every node near coord/.append style={xshift=-0.9cm},
+%	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
 	color=red,
-	fill=red!30!white,
+	fill=red!50!white,
 	bar shift=-11pt,	
 ] coordinates {(4,4.08) (5,3.51) (6,3.23)};
 \addplot[
-	every node near coord/.append style={xshift=-0.12cm},
-	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
+%	every node near coord/.append style={xshift=-0.12cm},
+%	nodes near coords=\raisebox{0.7cm}{\pgfmathprintnumber\pgfplotspointmeta},
 	color=blue,
-	fill=blue!30!white,
+	fill=blue!50!white,
 	bar shift=11pt,	
 ] coordinates {(4,1.50) (5,1.76) (6,3.83)};
 \end{axis}

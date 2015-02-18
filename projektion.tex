@@ -2,7 +2,7 @@
 \label{chap.vis}
 
 \prever{
-\red[TODO:\\
+%\red[TODO:\\
 %Ergänzung von Zusatzinformationen noch etwas ausführlicher?\\
 %Karte einblenden implementiert?\\
 ]
@@ -13,7 +13,7 @@ Zunächst ist die Visualisierung der Modellumgebung und die Ermittlung der Pose 
 Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
 
 \section{Visualisierung der Modelldaten}
-Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen die dem Anwender bereitgestellt werden sollen. \\
+Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen, die dem Anwender bereitgestellt werden sollen. \\
 Um die perspektivische Darstellung zu ermöglichen, ist zunächst die gesamte Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\footnote{Rendern bezeichnet das Ableiten eines Bildes aus virtuellen räumlichen Daten indem die Perspektive eines Beobachters simuliert wird. Dabei können sowohl Lichtverhältnisse als auch Materialeigenschaften berücksichtigt werden, um realistische Darstellungen zu erzeugen.} Abbildung der dreidimensionalen Modellszene zu erzeugen, wird die Visualisierungsbibliothek VTK (\kapitel{chap.vtk}) verwendet. \abb{fig.modscene} zeigt die Darstellung eines Ausschnitts der Modellszene innerhalb des Visualisierungsbereiches der grafischen Benutzeroberfläche.\\
 
 \begin{figure}[!ht]
@@ -36,8 +36,7 @@ Da die für die Lokalisation verwendete Karte aus den Daten der Modellumgebung e
 \ks{Env} = \ks{M}
 \end{equation}
 
-\nomenclature[l]{$\ks{Obj}$}{KS eines Modellobjektes}
-\nomenclature[l]{$\ks{Env}$}{KS einer Modellumgebung}
+\nomenclature[k]{$\ks{Obj}$}{KS eines Modellobjektes}
 
 Die Transformation $\tmat{0}{Env}$ ist damit äquivalent zu der Transformation zwischen Karte und globalem Koordinatensystem $\tmat{0}{M}$ und wird deshalb in allen weiteren Ausführungen über diese beschrieben.\\
 \prever{

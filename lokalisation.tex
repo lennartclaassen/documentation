@@ -1,13 +1,13 @@
 \chapter{Lokalisation}
 \label{chap.loc}
 \prever{
-\red[TODO:\\
+%\red[TODO:\\
 %Einleitender Absatz\\
-Transformationen\\
-Auslösen der globalen und lokalen Lokalisation durch den Anwender jederzeit möglich (erstmal unabhängig von den Buttons)\\
+%Transformationen\\
+%Auslösen der globalen und lokalen Lokalisation durch den Anwender jederzeit möglich (erstmal unabhängig von den Buttons)\\
 %Englische oder deutsche Bezeichnung der Modelle?\\
 %Auswahl des Ansatzes/der Ansätze für die Lokalisation hier beschreiben/begründen oder schon beim Stand der Technik?\\
-]
+%]
 }
 
 In diesem Kapitel wird das Vorgehen zur Bestimmung der Systempose innerhalb der realen Umgebung beschrieben. Die Lokalisation des handgeführten \kps{s} bildet die Grundlage für die lagerichtige Projektion der Modelldaten. Basierend auf der Modellumgebung wird zunächst eine geeignete Struktur zur Repräsentation der Lokalisationsumgebung definiert. Aufbauend darauf werden die Verfahren zur Bestimmung der initialen Systempose erläutert. Abschließend wird die kontinuierliche Verfolgung der Systempose und die dafür durchgeführte Fusion der Sensormesswerte beschrieben.
@@ -101,7 +101,7 @@ p(d_\ind{m}^i|\vec{x}_{\ind{p}},m) = \left\lbrace\begin{array}{ll}
 \nomenclature[l]{$\vec{x}_{\ind{p}}$}{Pose eines Partikels}
 \nomenclature[l]{$m$}{Karte}
 \nomenclature[l]{$p$}{Wahrscheinlichkeitswert eines Partikels}
-\nomenclature[l]{$d_{\ind{m}}^i$}{i-ter Wert einer Entfernungsmessung}
+\nomenclature[l]{$d_{\ind{m}}^i$}{$i$-ter Wert einer Entfernungsmessung}
 \nomenclature[l]{$d_{\ind{k}}$}{Distanzwert eines Hindernisses}
 \nomenclature[l]{$d_{\ind{min}}$}{Minimal auflösbare Sensordistanz}
 \nomenclature[l]{$d_{\ind{max}}$}{Maximal auflösbare Sensordistanz}
@@ -257,12 +257,12 @@ Die Pose des \kps{s} wird im Rahmen der lokalen Lokalisation mit Bezug auf das R
 %\subsection{Inertiale Messeinheit}
 }
 \section{Inertiale Messeinheit}
-Die in \abschnitt{chap.imu} beschriebene inertiale Messeinheit ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von Mahony \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}.\\
+Die in \abschnitt{chap.imu} beschriebene IMU ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von Mahony \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}.\\
 Um die Messdaten in die Programmstruktur einzubinden wurde die Implementierung um eine Schnittstelle für ROS erweitert. Darüber hinaus wurde eine Gravitationskompensation implementiert, welche neben der Bestimmung des Roll- und Nick-Winkels des \kps{s} auch das Auslesen der relativen Beschleunigungen des Systems ermöglicht.\\
 
 Die globale Lokalisation verwendet die bestimmten Winkel bezüglich der Roll- und Nick-Achse in der Initialisierung der Partikel. Es können dadurch zwei Freiheitsgrade der Pose direkt bestimmt werden, wodurch der erforderliche Rechenaufwand deutlich reduziert werden kann.\\
 
-Als Ergänzung der visuellen Odometrie werden die Messdaten der inertialen Messeinheit mit den Odometriedaten fusioniert. Dabei werden sowohl die Werte des Roll- und Nick-Winkels als auch die ermittelten Beschleunigungswerte entlang der Koordinatenachsen des \kps{s} berücksichtigt. Die Fusion der Sensordaten wird durch ein Erweitertes-Kalman-Filter realisiert.
+Als Ergänzung der visuellen Odometrie werden die Messdaten der IMU mit den Odometriedaten fusioniert. Dabei werden sowohl die Werte des Roll- und Nick-Winkels als auch die ermittelten Beschleunigungswerte entlang der Koordinatenachsen des \kps{s} berücksichtigt. Die Fusion der Sensordaten wird durch ein Erweitertes-Kalman-Filter realisiert.
 
 \prever{
 %\subsection{Erweitertes Kalman-Filter}
@@ -273,7 +273,7 @@ Das Kalman-Filter \cite{Kalman1960} stellt eine in der Praxis bewährte Methode 
 
 Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}.\\
 Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert.\\
-Mit Hilfe der inertialen Messeinheit kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt
+Mit Hilfe der IMU kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt
 exemplarisch das Prinzip der Zustandsannäherung durch die visuelle Odometrie ($\mu_O$, $\sigma_O$) und die auf Basis der Messwerte der IMU ($\mu_I$, $\sigma_I$) durchgeführte Korrektur.
 \prever{
 \red[in anlehung an Hertzberg s.134]
@@ -310,16 +310,16 @@ Darstellung überarbeiten! Indizes korrekt!?\\]
 
 
 \prever{
-\begin{figure}[!ht]
-	\begin{center}
-		\includegraphics[scale=1.0]{spacer}
-		\caption{EKF Übersicht - Kombination der Messwerte und ausgegebene Transformation}
-		\label{fig.ekf}
-	\end{center}
-	%\vspace*{-8mm}
-\end{figure}
+%\begin{figure}[!ht]
+%	\begin{center}
+%		\includegraphics[scale=1.0]{spacer}
+%		\caption{EKF Übersicht - Kombination der Messwerte und ausgegebene Transformation}
+%		\label{fig.ekf}
+%	\end{center}
+%	%\vspace*{-8mm}
+%\end{figure}
 
-\red[Ergebnis der Lokalisation in Darstellung zusammenfassen? EKF kombiniert Messwerte und liefert $\tmat{Odom}{K}$, globale Lokalisatoin liefert $\tmat{M}{Odom}$, kombiniert ergibt sich $\tmat{M}{K}$\\]
+%\red[Ergebnis der Lokalisation in Darstellung zusammenfassen? EKF kombiniert Messwerte und liefert $\tmat{Odom}{K}$, globale Lokalisatoin liefert $\tmat{M}{Odom}$, kombiniert ergibt sich $\tmat{M}{K}$\\]
 
 %\red[%odometrie auch Messung...Varianz der -sensoren aber klein gegenüber dem Umgebungseinfluss]
 %Partikelbasiertes Tracking\\

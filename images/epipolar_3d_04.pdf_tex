@@ -59,6 +59,6 @@
     \put(0.00406393,0.09904767){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{RGB-Kamera}}}%
     \put(0.00406393,0.02788526){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{IR-Projektor}}}%
     \put(0.98201064,0.4347011){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$z$}}}%
-    \put(0.27955863,0.41007701){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$e$}}}%
+    \put(0.27955863,0.41007701){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\vec{e}$}}}%
   \end{picture}%
 \endgroup%

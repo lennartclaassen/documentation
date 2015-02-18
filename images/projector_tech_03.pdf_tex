@@ -57,5 +57,7 @@
 %    \put(0.67736637,0.02262592){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{MEMS Spiegelaktor}}}%
     \put(0.68736637,0.02262592){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{MEMS Spiegelaktor}}}%
     \put(0.75476658,0.43550075){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Projektionsfläche}}}%
+    \put(0.06586024,0.07593479){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Laser}}}%
+    \put(0.37081869,0.31153114){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Optiken}}}%
   \end{picture}%
 \endgroup%
