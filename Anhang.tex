@@ -8,31 +8,31 @@
 \hline
 \rowcolor{lightgray} Eigenschaft & Spezifikation \\
 \hline
-Auflösung 	& WVGA (848x480) \\
+Auflösung 	& WVGA (\SI{848}{}$\mathrm{x}$\SI{480}{}) \\
 \hline
-Seitenverhältnis & 16:9 \\
+Seitenverhältnis & \SI{16}{}$:$\SI{9}{} \\
 \hline
-Helligkeit 	& 15 Laser-Lumen \\
+Helligkeit 	& \SI{15}{} Laser-Lumen \\
 \hline
-Wiederholfrequenz & 60 Hz \\
+Wiederholfrequenz & \SI{60}{\Hz} \\
 \hline
-Farbumfang 	& $\sim$ 200\% NTSC \\
+Farbumfang 	& $\sim$ \SI{200}{}\% NTSC \\
 \hline
-Kontrastverhältnis 	& $>$ 5.000:1 \\
+Kontrastverhältnis 	& $>$ \SI{5.000}{}$:$\SI{1}{} \\
 \hline
-Projektionsverhältnis 	& 1:1 \\
+Projektionsverhältnis 	& \SI{1}{}$:$\SI{1}{} \\
 \hline
-Öffnungswinkel & $\sim$ 30°\\
+Öffnungswinkel & $\sim$ \SI{30}{°}\\
 \hline
-Projektionsdistanz 	& 200 bis 2500 mm \\
+Projektionsdistanz 	& \SI{200}{\milli\meter}$-$\SI{2500}{\milli\meter} \\
 \hline
-Bildgröße 	& 150 bis 2500 mm \\
+Bildgröße 	& \SI{150}{\milli\meter}$-$\SI{2500}{\milli\meter} \\
 \hline
 Verschlüsselung 	& HDCP \\
 \hline
-Videoeingang & HDMI (480p) \\
+Videoeingang & HDMI (\SI{480}{p}) \\
 \hline
-Gewicht 	& 122 g \\
+Gewicht 	& \SI{122}{\gram} \\
 \hline
 \end{tabular}
 \end{center}
@@ -63,31 +63,31 @@ Gewicht 	& 122 g \\
 \hline
 Microcontroller & Atmel ATmega328\\
 \hline
-Betriebsspannung & 5V\\
+Betriebsspannung & \SI{5}{\volt}\\
 \hline
-Eingangsspannung & 7-12V\\
+Eingangsspannung & \SI{7}{}$-$\SI{12}{\volt}\\
 \hline
-Grenzen der Eingangsspannung & 6-20V\\
+Grenzen der Eingangsspannung & \SI{6}{}$-$\SI{20}{\volt}\\
 \hline
-Digitale I/O Pins & 14\\
+Digitale I/O Pins & \SI{14}{}\\
 \hline
-Analoge Eingangspins & 8\\
+Analoge Eingangspins & \SI{8}{}\\
 \hline
-Gleichstrom pro I/O Pin & 40mA\\
+Gleichstrom pro I/O Pin & \SI{40}{\milli\ampere}\\
 \hline
-Flash Speicher & 32KB\\
+Flash Speicher & \SI{32}{KB}\\
 \hline
-SRAM & 2KB \\
+SRAM & \SI{2}{KB} \\
 \hline
-EEPROM & 1KB\\
+EEPROM & \SI{1}{KB}\\
 \hline
-Taktfrequenz & 16MHz\\
+Taktfrequenz & \SI{16}{\mega\Hz}\\
 \hline
-Länge & 45mm\\
+Länge & \SI{45}{\milli\meter}\\
 \hline
-Breite & 18mm\\
+Breite & \SI{18}{\milli\meter}\\
 \hline
-Gewicht & 5g\\
+Gewicht & \SI{5}{\gram}\\
 \hline
 \end{tabular}
 \end{center}
@@ -108,35 +108,68 @@ Gewicht & 5g\\
 \hline
 System-on-a-Chip & Broadcom BCM2835\\
 \hline
-CPU & 700MHz ARM11 ARM1176JZF-S\\
+CPU & \SI{700}{\mega\Hz} ARM11 ARM1176JZF-S\\
 \hline
 GPU & Broadcom VideoCore IV\\
 \hline
-Speicher & 512MB\\
+Speicher & \SI{512}{GB}\\
 \hline
-USB 2.0 Ports & 2\\
+USB 2.0 Ports & \SI{2}{}\\
 \hline
 Videoausgänge & Composite RCA, HDMI\\
 \hline
-Audioausgänge & 3,5mm Jack, HDMI\\
+Audioausgänge & \SI{3,5}{\milli\meter} Jack, HDMI\\
 \hline
-Low-Level Peripherie & 26 General Purpose Input/Output Pins,\\
+Low-Level Peripherie & \SI{26}{} General Purpose Input/Output Pins,\\
 & Serial Peripheral Bus Interface (SPI), I²C, I²S,\\
 & Universal Asynchronous receiver/transmitter (UART)\\
 \hline
-Netzwerkschnittstelle & 10/100 wired Ethernet RJ45\\
+Netzwerkschnittstelle & \SI{10}{}/\SI{100}{} wired Ethernet RJ45\\
 \hline
-Stromversorgung & 700mA\\
+Stromaufnahme & \SI{700}{\milli\ampere}\\
 \hline
-Spannungsversorgung & 5V\\
+Spannungsversorgung & \SI{5}{\volt}\\
 \hline
-Länge & 85mm\\
+Länge & \SI{85}{\milli\meter}\\
 \hline
-Breite & 56mm\\
+Breite & \SI{56}{\milli\meter}\\
 \hline
-Höhe & 15mm\\
+Höhe & \SI{15}{\milli\meter}\\
 \hline
-Gewicht & 31g\\
+Gewicht & \SI{31}{\gram}\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:raspberry}
+\end{table}
+
+\clearpage{}
+
+\section{Technische Spezifikationen der inertialen Messeinheit}
+\label{app.imu}
+
+\begin{table}[ht]
+\caption{Technische Spezifikationen des Raspberry Pi}
+\begin{center}
+\begin{tabular}{|l|r|}
+\hline
+\rowcolor{lightgray} \multicolumn{1}{|c|}{\textbf{Spezifikation}} & \multicolumn{1}{|c|}{\textbf{Wert}}\\
+\hline
+Typ & MPU-9250 \\
+\hline
+Stromaufnahme & \SI{3,5}{\milli\ampere} \\
+\hline
+Spannungsversorgung & \SI{2,4}{}$-$\SI{3,6}{\volt} \\
+\hline
+Schnittstellen & I²C, SPI \\
+\hline
+Messbereich Drehrate & \SI{250}{}$-$\SI{2000}{} $\nicefrac{\deg}{\sec}$\\
+\hline
+Messbereich Beschleunigung &  \SI{2}{}$-$\SI{16}{} $\mathrm{g}$\\
+\hline
+Breite & \SI{20}{\milli\meter} \\
+\hline
+Höhe & \SI{22}{\milli\meter}\\
 \hline
 \end{tabular}
 \end{center}

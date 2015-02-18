@@ -8,8 +8,7 @@
 %]
 }
 
-Das Ziel der Anwendung liegt in der Darstellung von Modelldaten durch das \kps{} innerhalb der realen Umgebung. Als Grundlage für die spätere Lokalisation ist es daher erforderlich, ein möglichst originalgetreues Abbild der realen Umgebung zu erstellen. Diese Modellumgebung ermöglicht bei hoher Modellgüte die präzise Positionierung virtueller Objekte in der realen Umgebung.\\
-In diesem Kapitel wird die Erstellung einer geeigneten Modellumgebung und der zu visualisierenden Modellobjekte erläutert. Darüber hinaus wird eine Datenstruktur definiert, welche die Repräsentation erstellter Modellszenarien ermöglicht.
+Das Ziel der Anwendung liegt in der Darstellung von Modelldaten durch das \kps{} innerhalb der realen Umgebung. Als Grundlage für die spätere Lokalisation ist es daher erforderlich, ein möglichst originalgetreues Abbild der realen Umgebung zu erstellen. Diese Modellumgebung ermöglicht bei hoher Modellgüte die präzise Positionierung virtueller Objekte in der realen Umgebung. In diesem Kapitel wird die Erstellung einer geeigneten Modellumgebung und der zu visualisierenden Modellobjekte erläutert. Darüber hinaus wird eine Datenstruktur definiert, welche die Repräsentation erstellter Modellszenarien ermöglicht.
 
 %Die zu visualisierenden Modellobjekte werden anhand der virtuellen Umgebungsdaten orientiert und positioniert und können über einen Abgleich in die reale Umgebung übertragen werden. 
 %Die Projektion der Modellumgebung selbst innerhalb der realen Umgebung würde lediglich zu Überlagerungen gleicher Strukturen führen und besitzt außerhalb von Validierungen des \kps{s} keine Relevanz.\\
@@ -55,8 +54,7 @@ Die erstellte Modellumgebung dient als Basis der späteren Lokalisation und kann
 \section{Modellobjekte}
 Die Projektion visueller Zusatzinformationen basiert auf virtuellen Modelldaten. Als Modellobjekte werden daher alle Strukturen und Objekte bezeichnet, welche keine Elemente der realen Umgebung abbilden. Zur Modellierung der Objekte können ebenfalls die bei der Erstellung der Modellumgebung eingesetzten Verfahren verwendet werden. Anstelle von Algortihmen zur Kartierung der Umgebung existieren dabei jedoch spezielle Verfahren zur Erfassung dreidimensionaler Objekte, wie beispielsweise von Xu \textit{et al.} \cite{Xu2012} beschrieben.\\
 
-Anders als die Modellumgebung müssen die Modellobjekte nicht als reale Objekte vorhanden sein, weshalb die Modellgüte auch keine Auswirkungen auf die Lokalisations- oder Projektionsgenauigkeit hat. Es können somit beliebige Objekte modelliert werden, um diese später in der realen Umgebung zu visualisieren.  Für die Visualisierung ist jedoch eine ausreichende Auflösung der Modellstrukturen und -texturen anzustreben. \abb{fig.modobj} zeigt ein beispielhaftes Modellobjekt und die Integration von Objekten in die Modellumgebung.\\
-Die zu visualisierenden Modellobjekte werden anhand der virtuellen Umgebungsdaten orientiert und positioniert und können damit über die im Rahmen der Lokalisation durchgeführte Bestimmung der Systempose in die reale Umgebung projiziert werden.
+Anders als die Modellumgebung müssen die Modellobjekte nicht als reale Objekte vorhanden sein, weshalb die Modellgüte auch keine Auswirkungen auf die Lokalisations- oder Projektionsgenauigkeit hat. Es können somit beliebige Objekte modelliert werden, um diese später in der realen Umgebung zu visualisieren.  Für die Visualisierung ist jedoch eine ausreichende Auflösung der Modellstrukturen und -texturen anzustreben. \abb{fig.modobj} zeigt ein beispielhaftes Modellobjekt und die Integration von Objekten in die Modellumgebung. Die zu visualisierenden Modellobjekte werden anhand der virtuellen Umgebungsdaten orientiert und positioniert und können damit über die im Rahmen der Lokalisation durchgeführte Bestimmung der Systempose in die reale Umgebung projiziert werden.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -93,5 +91,4 @@ Die zu visualisierenden Modellobjekte werden anhand der virtuellen Umgebungsdate
 %\red[Modellobjekte ruhig in CAD Umgebung einfügen!\\Vielleicht das Bild von später nehmen?\\]
 
 \section{Datenstruktur}
-Um die Szene, bestehend aus der Modellumgebung und allen integrierten Modellobjekten, später wieder in den virtuellen Planungsablauf integrieren zu können, wird eine Dateistruktur definiert, welche die Konfiguration der Modellszene repräsentiert.\\
-Alle Modellelemente werden dazu mit ihrer aktuellen Pose, Textur und geometrischen Repräsentation erfasst, so dass eine Wiederherstellung jederzeit möglich ist. Ein Beispiel, welches den Aufbau der Datenstruktur beschreibt, findet sich in \anhang{app.datastructure}\\
+Um die Szene, bestehend aus der Modellumgebung und allen integrierten Modellobjekten, später wieder in den virtuellen Planungsablauf integrieren zu können, wird eine Dateistruktur definiert, welche die Konfiguration der Modellszene repräsentiert. Alle Modellelemente werden dazu mit ihrer aktuellen Pose, Textur und geometrischen Repräsentation erfasst, so dass eine Wiederherstellung jederzeit möglich ist. Ein Beispiel, welches den Aufbau der Datenstruktur beschreibt, findet sich in \anhang{app.datastructure}\\
