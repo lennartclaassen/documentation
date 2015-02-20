@@ -66,13 +66,13 @@ Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \
 \end{equation}
 
 
-Das in dieser Arbeit gewählte Verfahren zur globalen Lokalisation basiert auf dem \textit{Monte-Carlo-Algorithmus} \cite{Dellaert1999} und stellt damit wie in \abschnitt{chap:mcl} beschrieben einen partikelbasierten Ansatz dar. Es wurde dazu eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. Als Referenz wird die zuvor beschriebene, aus der Modellumgebung erzeugte \textit{Octomap} verwendet.\\
+Das in dieser Arbeit gewählte Verfahren zur globalen Lokalisation basiert auf dem \textit{Monte-Carlo-Algorithmus} \cite{Dellaert1999}. Es stellt damit wie in \abschnitt{chap:mcl} beschrieben einen partikelbasierten Ansatz dar, welcher die effiziente Lokalisation ohne initiale Hypothese der Systempose ermöglicht. Zur Umsetzung wurde eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. Als Referenz wird die zuvor beschriebene, aus der Modellumgebung erzeugte \textit{Octomap} verwendet.\\
 
 \prever{
 %\red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
 }
 
-In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Zufallsverteilung generiert. Jeder Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \textit{Endpoint}-Modell (EPM) und dem \textit{Raycasting}-Modell (RCM). Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen, soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
+In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Zufallsverteilung generiert. Jedes Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \textit{Endpoint}-Modell (EPM) und dem \textit{Raycasting}-Modell (RCM). Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen, soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
 
 \nomenclature[a]{EPM}{Endpoint-Modell}
 \nomenclature[a]{RCM}{Raycasting-Modell}
@@ -102,7 +102,7 @@ p(d_\ind{m}^i|\vec{x}_{\ind{p}},m) = \left\lbrace\begin{array}{ll}
 \nomenclature[g]{$\eta$}{Normalisierungsfaktor}
 \nomenclature[l]{$\vec{d}_{\ind{m}}$}{Vektor aus Messwerten einer Messung}
 \nomenclature[l]{$\Delta d$}{Differenz aus Messwert und Distanzwert der Karte}
-\nomenclature[l]{$\mathrm{K}$}{Konstante}
+\nomenclature[l]{$\mathrm{K}$}{Konstante der Log-Likelihood-Funktion}
 
 Dabei ist $\eta$ ein für die verwendeten Modelle konstanter Normalisierungsfaktor und die Gaußverteilung mit der Differenz der Distanzen $\Delta d = d_{\ind{m}}^i-d_{\ind{k}}$  gegeben durch:
 
@@ -126,7 +126,7 @@ Durch Anwendung des natürlichen Logarithmus auf \eq{eq.likelihood} ergibt sich 
 & = \underbrace{-\frac{1}{2} \cdot \log(2 \cdot \pi \cdot\sigma_{\ind{S}}^2)}_{\ind{K}}-\dfrac{\sum_{i=1}^{n}(\Delta d)^2}{2 \cdot \sigma_{\ind{S}}^2}
 \end{split}
 \end{equation}
-Da der natürliche Logarithmus eine streng monotone Funktion ist, bleibt die Stelle des Maximums der Ursprungsfunktion erhalten. Das bedeutet, dass der Partikel mit maximalem Wahrscheinlichkeitswert erhalten bleibt. Da die Partikel bei jeder Lokalisation lediglich relativ untereinander verglichen werden, hat dieser Schritt keine Auswirkungen auf das Ergebnis. Die Konstante $\mathrm{K}$ ist bei gleichbleibender Varianz für alle Messungen identisch und kann daher vorab berechnet werden. Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtung verwendet werden, um das Maximum über alle Partikel zu bestimmen. 
+Da der natürliche Logarithmus eine streng monotone Funktion ist, bleibt die Stelle des Maximums der Ursprungsfunktion erhalten. Das bedeutet, dass das Partikel mit maximalem Wahrscheinlichkeitswert erhalten bleibt. Da die Partikel bei jeder Lokalisation lediglich relativ untereinander verglichen werden, hat dieser Schritt keine Auswirkungen auf das Ergebnis. Die Konstante $\mathrm{K}$ ist bei gleichbleibender Varianz für alle Messungen identisch und kann daher vorab berechnet werden. Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtung verwendet werden, um das Maximum über alle Partikel zu bestimmen. 
 
 \subsection{Endpoint-Modell}
 Das EPM, welches von Konolige und Chou in \cite{Konolige1999} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei basierend auf der Entfernung zum nächsten Hindernis ein Distanzwert zugewiesen. Als Hindernisse gelten alle besetzten Zellen der \textit{Octomap}, also neben dem Raum selbst auch alle weiteren in der Karte vorhanden Strukturen. Bei der Bestimmung der Distanzwerte werden die Messunsicherheiten des verwendeten Sensors berücksichtigt, so dass ein Abbild der Karte wie in \abb{fig.dist_map} erzeugt wird.\\
@@ -157,7 +157,7 @@ Das EPM, welches von Konolige und Chou in \cite{Konolige1999} beschrieben wurde,
 
 Erfolgt die Lokalisation wie in dieser Arbeit innerhalb einer statischen Umgebung kann die Berechnung der Distanz-Karte bereits vor der Lokalisation erfolgen. In jedem Schritt der Lokalisation kann dadurch eine deutliche Verringerung des Rechenaufwands erzielt werden. Anzumerken bleibt, dass die Distanz-Karte während der gesamten Programmlaufdauer im Speicher behalten wird und bezüglich des Speicherbedarfs die Ausgangskarte deutlich übersteigen kann.\\
 
-Die Lokalisation erfolgt beim EPM indem die durch die Kinect aufgenommene Punktwolke betrachtet wird. Die Einträge werden als Endpunkte der Strahlen interpretiert, welche von der Kamera an der jeweiligen Partikelpose ausgesendet werden. Durch Abbildung auf die zuvor berechnete Distanz-Karte können die darin gespeicherten Werte für $\Delta d$ ausgelesen werden. Die Wahrscheinlichkeit, dass die Punktwolke von der Stelle des betrachteten Partikels aus aufgenommen wurde, lässt sich anschließend anhand der Distanzwerte bestimmen. Die berechneten Wahrscheinlichkeiten aller Strahlen werden innerhalb der unter \abschnitt{chap.loglik} beschriebenen Log-Likelihood-Funktion addiert, um den Partikel mit der höchsten Gewichtung zu ermitteln.\\
+Die Lokalisation erfolgt beim EPM indem die durch die Kinect aufgenommene Punktwolke betrachtet wird. Die Einträge werden als Endpunkte der Strahlen interpretiert, welche von der Kamera an der jeweiligen Partikelpose ausgesendet werden. Durch Abbildung auf die zuvor berechnete Distanz-Karte können die darin gespeicherten Werte für $\Delta d$ ausgelesen werden. Die Wahrscheinlichkeit, dass die Punktwolke von der Stelle des betrachteten Partikels aus aufgenommen wurde, lässt sich anschließend anhand der Distanzwerte bestimmen. Die berechneten Wahrscheinlichkeiten aller Strahlen werden innerhalb der unter \abschnitt{chap.loglik} beschriebenen Log-Likelihood-Funktion addiert, um das Partikel mit der höchsten Gewichtung zu ermitteln.\\
 
 Das EPM bildet durch den verwendeten Ansatz nicht direkt die physikalische Arbeitsweise eines Entfernungsmessers ab, da es durch Hindernisse \glqq hindurchsehen\grqq{} kann, wie \abb{fig.endpoint} zeigt. Die Sensorstrahlen durchqueren Bereiche, welche als Hindernisse in der Distanz-Karte eingetragen sind. Das EPM registriert dies jedoch nicht, da lediglich die Endpunkte der Strahlen betrachtet werden. Obwohl so eventuell unmögliche Posen ermittelt werden können, ist das EPM generell in der Lage, eine zuverlässige Approximation der wahren Systempose zu bestimmen \cite{Konolige1999}.\\
 
@@ -173,19 +173,19 @@ Das EPM bildet durch den verwendeten Ansatz nicht direkt die physikalische Arbei
 \end{figure}
 
 \subsection{Raycasting-Modell}
-Beim RCM, beschrieben von Thrun \textit{et al.} in \cite{Thrun2005}, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{fig.raycast} dargestellt. Freie Bereiche sind in der Darstellung grün und besetzte Bereiche rot gekennzeichnet.
+Beim RCM, beschrieben von Thrun \textit{et al.} in \cite{Thrun2005}, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{fig.raycast} dargestellt. Freie Bereiche sind in der Darstellung grün und besetzte Bereiche rot gekennzeichnet.\\
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=0.5]{raycasting}
-		\caption{Betrachtung des Strahlenverlaufs beim \textit{Raycasting}-Modell}
+		\includegraphics[scale=1.0]{raycasting_02}
+		\caption{Betrachtung des Verlaufs der Strahlen (rot) entlang der Verbindungslinien zu den Messpunkten (schwarz) beim \textit{Raycasting}-Modell}
 		\label{fig.raycast}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}
 
 \prever{
-\red[isometrisch besser?\\]
+%\red[isometrisch besser?\\]
 }
 Die Entfernung zwischen dem ermittelten Punkt und dem betrachteten Partikel wird anschließend berechnet und mit der Entfernung des zugehörigen Sensorwertes verglichen. Die Differenz $\Delta d$ der beiden Distanzen wird verwendet, um die Wahrscheinlichkeit zu bestimmen, dass der Sensorwert an dieser Stelle aufgenommen wurde. Die Berechnung der jeweiligen Wahrscheinlichkeit erfolgt beim RCM wie auch beim EPM mittels der Log-Likelihood-Funktion.\\
 
@@ -262,26 +262,33 @@ Als Ergänzung der visuellen Odometrie werden die Messdaten der IMU mit den Odom
 \label{chap.kalman}
 Das Kalman-Filter \cite{Kalman1960} stellt eine in der Praxis bewährte Methode zur Fusion von Sensordaten dar. Es ermöglicht die Vorhersage des aktuellen Systemzustands durch statistische Approximation. Der Ausgang jeder auf ein System wirkenden Aktion, beispielsweise die Drehung der Räder, kann in der Realität nicht ohne Unsicherheiten vorhergesagt werden. Der neue Systemzustand ist deshalb allein auf Basis der Odometriedaten nur mit großer Varianz bestimmbar. Messungen können dazu verwendet werden, diese Unsicherheiten zu korrigieren, um den realen Zustand mit höherer Genauigkeit schätzen zu können.\\
 
-Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert. Mit Hilfe der IMU kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt exemplarisch das Prinzip der Zustandsannäherung durch die visuelle Odometrie ($\mu_O$, $\sigma_O$) und die auf Basis der Messwerte der IMU ($\mu_I$, $\sigma_I$) durchgeführte Korrektur.
+Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden \cite{Hertzberg2012}. Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert. Mit Hilfe der IMU kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt exemplarisch das Prinzip der Zustandsannäherung durch die visuelle Odometrie ($\mu_{\ind{O}}$, $\sigma_{\ind{O}}$) und die auf Basis der Messwerte der IMU ($\mu_{\ind{I}}$, $\sigma_{\ind{I}}$) durchgeführte Korrektur des EKF ($\mu_{\ind{EKF}}$, $\sigma_{\ind{EKF}}$).
 \prever{
-\red[in anlehung an Hertzberg s.134]
+%\red[in anlehung an Hertzberg s.134]
 }%
 \prever{
-\red[verschieben nach Stand der Technik?]\red[Beschreibung!]\\
+%\red[verschieben nach Stand der Technik?]\red[Beschreibung!]\\
 }
 \begin{figure}[ht]
 	\begin{center}%
-		\includesvgnew[1]{images/kalman}%
+		\subfigure[Abweichende Approximationen der Systempose auf Basis der visuellen Odometrie (O) und der IMU (I)]{
+			\includesvgnew[1]{images/kalman_a}%
+		}
+		\hspace{5mm}
+		\subfigure[Fusion der Messwerte durch das EKF zu einer gemeinsamen Approximation der Systempose]{
+			\includesvgnew[1]{images/kalman_b}%
+		}
+%		\includesvgnew[1]{images/kalman}%
 %		\includegraphics[scale=1.0]{projector_tech_02}
-		\caption{Approximation des Systemzustands durch das Kalman-Filter. Darstellung nach \cite{Hertzberg2012}}
+		\caption{Approximation der Systempose durch das EKF. Darstellung nach \cite{Hertzberg2012}}
 		\label{fig.kalman}
 	\end{center}
 	\vspace*{-8mm}
 \end{figure}
 
 \prever{
-\red[plot?\\
-Darstellung überarbeiten! Indizes korrekt!?\\]
+%\red[plot?\\
+%Darstellung überarbeiten! Indizes korrekt!?\\]
 }
 
 \nomenclature[g]{$\mu_{\ind{O}}$}{Mittelwert einer Messung auf Basis der visuellen Odometrie}

@@ -24,7 +24,7 @@ Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect\texts
 	\begin{center}
 		\includesvgnew[1]{images/epipolar_3d_04}
 		%\includegraphics[scale=1.0]{spacer}
-		\caption{Bestimmung der Tiefenwerte über die Epipolargeometrie am Beispiel der Kinect}
+		\caption{Bestimmung des Tiefenwertes eines Punktes über die Epipolargeometrie am Beispiel der Kinect}
 		\label{fig.kinect_depth}
 	\end{center}
 	%\vspace*{-8mm}
@@ -104,7 +104,7 @@ Der Arduino\textsuperscript{\texttrademark} Nano\footnote{Im Folgenden als Ardui
 \label{chap.imu}
 Die von der Firma InvenSense (InvenSense Inc., San Jose, USA) entwickelte inertiale Messeinheit (englisch inertial measurement unit, IMU) MPU-9250 ermöglicht die Messung der Beschleunigungsdaten bezüglich der sechs räumlichen Freiheitsgrade des Systems. Aus diesen Daten kann die Lage des Systems bezüglich der Achswinkel bestimmt werden \cite{IMU}. Die Anbindung an das System erfolgt wie zuvor beschrieben durch den Arduino, welcher wiederum die Schnittstelle zu der entwickelten Programmstruktur bildet.\\
 \prever{
-\red[Datenblatt in Anhang!]
+%\red[Datenblatt in Anhang!]
 }
 
 %Kompass hier nicht verwendet, aber spätere Verwendung denkbar, bedeutet allerdings, dass Orientierung des Raumes bekannt sein muss (oder irgendwie später hinzugefügt werden kann)
@@ -139,7 +139,7 @@ Auch die lagerichtige Projektion in der Umgebung erfordert die Ermittlung von Ko
 %Um diese Transformation zu ermitteln wird eine Kalibrierung der RGB- und der IR-Kamera der Kinect durchgeführt.\\
 
 \subsection{Begriffe und Notationen}
-In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} und 3D-Punkte mit \pteq[P]{X,Y,Z} bezeichnet. Auf gleiche Weise werden auch Vektoren und Matrizen beschrieben, ausgenommen der für die Punktbeschreibung verwendeten Notation. Vektoren werden demnach über $\vec{v}$ und Matrizen über $\vec{M}$ beschrieben. Mittels der homogenen Koordinatendarstellung lassen sich Punkte gleichzeitig sowohl translatorisch als auch rotatorisch transformieren. Dazu wird der \textit{inverse Streckungsfaktor} als zusätzliche Komponente eingeführt, für welchen standardmäßig $w=1$ gilt \cite{Nischwitz20111}. Zur Unterscheidung werden homogene Koordinaten damit zu \ptheq{x,y} beziehungsweise \ptheq[P]{X,Y,Z} definiert. Falls nicht mittels eines vorangestellten Index $_{(a)}\vec{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das globale Koordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ind{(KS)}_a$ und $\ind{(KS)}_b$ werden mit Hilfe der Matrixschreibweise als ${^{a}\vec{T}_{b}}$ ausgedrückt. Die Transformation, die einen Punkt vom globalen Koordinatensystem in das Koordinatensystem des Projektors $\ks{P}$ abbildet, lässt sich beispielsweise demnach ausdrücken als:
+In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} und 3D-Punkte mit \pteq[P]{X,Y,Z} bezeichnet. Auf gleiche Weise werden auch Vektoren und Matrizen beschrieben, ausgenommen der für die Punktbeschreibung verwendeten Notation. Vektoren werden demnach über $\vec{v}$ und Matrizen über $\vec{M}$ beschrieben. Mittels der homogenen Koordinatendarstellung lassen sich Punkte gleichzeitig sowohl translatorisch als auch rotatorisch transformieren. Dazu wird der \textit{inverse Streckungsfaktor} als zusätzliche Komponente eingeführt, für welchen standardmäßig $w=1$ gilt \cite{Nischwitz20111}. Zur Unterscheidung werden homogene Koordinaten damit zu \ptheq{x,y} beziehungsweise \ptheq[P]{X,Y,Z} definiert. Falls nicht mittels eines vorangestellten Index $\ve{A}{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das globale Koordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ks{A}$ und $\ks{B}$ werden mit Hilfe der Matrixschreibweise als $\tmat{B}{A}$ ausgedrückt. Die Transformation, die einen Punkt vom globalen Koordinatensystem in das Koordinatensystem des Projektors $\ks{P}$ abbildet, lässt sich beispielsweise demnach ausdrücken als:
 
 \begin{equation}
 \ve{P}{P} = \tmat{P}{0}\cdot\ve{0}{P}
@@ -152,8 +152,8 @@ In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} u
 \nomenclature[l]{$\tilde{\vec{P}}$}{Punkt in homogenen 3D-Koordinaten}
 \nomenclature[l]{$w$}{Inverser Streckungsfaktor}
 \nomenclature[l]{$i$}{Zählvariable}
-\nomenclature[l]{$a,b$}{Variablen}
-\nomenclature[l]{${^{a}\vec{T}_{b}}$}{Homogene Transformation vom $\ind{(KS)}_a$ ins $\ind{(KS)}_b$}
+%\nomenclature[l]{$a,b$}{Variablen}
+\nomenclature[l]{$\tmat{B}{A}$}{Homogene Transformation vom $\ks{A}$ ins $\ks{B}$}
 %\nomenclature[l]{$\ks{j},\ks{k}$}{Variable Koordinatensysteme}
 \nomenclature[k]{$\ks{0}$}{Globales Koordinatensystem}
 \nomenclature[k]{$\ks{K}$}{KS der RGB-Kamera der Kinect}
@@ -210,7 +210,7 @@ s \cdot \ve{S}{\tilde{p}} = \tmat{S}{0} \cdot \ve{0}{\tilde{P}}
 
 Dabei wird über den Skalierungsfaktor $s$ die Unbestimmtheit der Tiefeninformationen beschrieben, da alle Punkte auf der Verbindungslinie zwischen $\ve{0}{\tilde{P}}$ und $\ve{S}{\tilde{p}}$ ebenfalls auf $\ve{S}{\tilde{p}}$ abgebildet werden.\\ 
 \prever{
-\red[Bild, dass die Uneindeutigkeit zeigt?\\]%
+%\red[Bild, dass die Uneindeutigkeit zeigt?\\]%
 }
 Die Transformationsmatrix $\tmat{S}{0}$ beschreibt das Produkt aus der intrinsischen $\tmat{S}{K}$ und extrinsischen $\tmat{K}{0}$ Matrix der Kamera:
 
@@ -223,7 +223,7 @@ Durch die Kamerakalibrierung können die Parameter dieser beiden Matrizen bestim
 \subsubsection{Extrinsische Kameramatrix}
 \label{chap.perspproj}
 \prever{
-\red[Bilder der Kalibrierung?\\]
+%\red[Bilder der Kalibrierung?\\]
 }
 Die extrinsische Kameramatrix definiert die Transformation zwischen dem globalen Koordinatensystem und dem Koordinatensystem der Kamera. Sie gibt damit die Lage von $\ks{K}$ im $\ks{0}$ an und wird über eine Translation und eine Rotation beschrieben. Während die Translation allgemein über den Verschiebungsvektor zwischen den Koordinatensystemen $\vec{t} = [t_x, t_y, t_z]^T$ angegeben wird, existieren für die Definition der Rotation verschiedene Konventionen.\\
 
@@ -259,7 +259,7 @@ Durch die Vereinigung von Translation und Rotation in der homogenen Transformati
 }
 \end{equation}
 
-\nomenclature[l]{${^{a}\vec{R}_{b}}$}{Rotationsmatrix vom vom $\ind{(KS)}_a$ ins $\ind{(KS)}_b$}
+\nomenclature[l]{$\rmat{B}{A}$}{Rotationsmatrix vom $\ks{A}$ ins $\ks{B}$}
 
 Ein in globalen Koordinaten bekannter Punkt lässt sich damit im Koordinatensystem der Kamera abbilden:
 
@@ -327,7 +327,7 @@ In der Realität ist es erforderlich, Objektive mit Linsen einzusetzen, um das L
 		\includesvgnew[0.25]{images/verzeichnungen_tonnen}
 		\label{fig.verzTonn}
 	}
-	\caption{Auftretende Formen der Verzeichnung und ihre Auswirkungen auf die Abbildung}
+	\caption{Auftretende Formen der radialen Linsenverzeichnung und ihre Auswirkungen auf die Abbildung}
 	\label{fig.distortions}
 	\end{center}
 	%\vspace*{-8mm}
@@ -357,7 +357,7 @@ Aus verschiedenen Lagen werden anschließend mit der Kamera Bilder des Musters a
 Die Kalibrierung erfordert die Bestimmung der Ebene des Musters und darauf befindlicher, eindeutig zu identifizierender Punkte. Das Schachbrettmuster eignet sich besonders als Kalibriermuster, da zwischen den Feldern ein hoher Kontrast besteht. Die Eckpunkte können somit robust erkannt und extrahiert werden, woraufhin sich die Kalibrierebene bestimmen lässt.\\
 
 \prever{
-\red[\abb{fig.chessplane} Vielleicht chesscalib (b)!? Oder 3 verschiedene Posen mit Koordinatensystem!?]\\
+%\red[\abb{fig.chessplane} Vielleicht chesscalib (b)!? Oder 3 verschiedene Posen mit Koordinatensystem!?]\\
 }
 
 Die 4 intrinsischen und die 6 extrinsischen Parameter werden zunächst auf Basis des Lochkameramodells ohne Berücksichtigung der radialen Verzeichnungen bestimmt. Die Abbildung eines Punktes auf die Sensorebene kann unter Verwendung der intrinsischen und extrinsischen Kameramatrix nach \eq{eq.persp_abb} ausgedrückt werden als:
@@ -442,8 +442,8 @@ Basierend auf den ermittelten intrinsischen Parametern können nun die radialen 
 %Kameramatrix aufführen, Herleitung ist aber nicht wirklich relevant. Extrinsische und intrinsische Transformation unterscheiden. Parameter beschreiben und erklären. Lochkameramodell als Grundlage nennen und in ein paar Sätzen erläutern, aber nicht zu detailliert drauf eingehen. Ermittlung der Tiefeninformationen beschreiben. projektor als inverse Kamera.\\
 
 \prever{
-\red[Kalibrierung der Kameras (RGB + IR) mit cameracalibration beschreiben und Gesamtsystem mit Matlab box bouguet (gibt extr. und intr. parameter).\\
-Isometrische Ansicht als Prinzip der Kalibrierung? Schachbrett fest und 3 Ansichten des Systems (der Kamera) mit Koordinatensystemen!?\\]
+%\red[Kalibrierung der Kameras (RGB + IR) mit cameracalibration beschreiben und Gesamtsystem mit Matlab box bouguet (gibt extr. und intr. parameter).\\
+%Isometrische Ansicht als Prinzip der Kalibrierung? Schachbrett fest und 3 Ansichten des Systems (der Kamera) mit Koordinatensystemen!?\\]
 }
 
 \subsection{Projektorkalibrierung}
@@ -474,7 +474,7 @@ Zunächst ist es erforderlich, die Lage der Kamera bezüglich der Kalibrierebene
 Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang anwendbar, wodurch die intrinsische Projektormatrix $\tmat{SP}{P}$ bestimmt werden kann.\\
 
 \prever{
-\red[Auch hier isometrische Ansicht mit Gesamtsystem? Transformationen lassen sich dort gut zeigen\\]
+%\red[Auch hier isometrische Ansicht mit Gesamtsystem? Transformationen lassen sich dort gut zeigen\\]
 }
 
 Da für jede Aufnahme während der Kalibrierungsvorgänge die Transformationen zwischen dem globalen Koordinatensystem und den Koordinatensystemen von Kamera und Projektor ermittelt wurden, kann die statische Transformation zwischen Kamera und Projektor ebenfalls bestimmt werden:

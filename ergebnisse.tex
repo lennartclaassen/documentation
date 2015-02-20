@@ -71,7 +71,7 @@ Um die wahre Pose des \kps{s} zu bestimmen wird das Markerfeld innerhalb der rea
 Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit der Kamera des Systems erfolgen. Dazu wird das \kps{} in einer Pose fixiert und die Transformation $\tmat{MF}{K}$ zwischen dem Markerfeld und der Kamera des \kps{s} bestimmt. Durch die vorhandene Verknüpfung zwischen der realen und der Modellumgebung ist die Transformation $\tmat{M}{MF}$ zwischen den Koordinaten der Karte und dem Markerfeld beschrieben. Ebenso bekannt ist die statische Transformation $\tmat{K}{KPS}$ zwischen der Kamera und dem Basis-Koordinatensystem des \kps{s}. Es lässt sich somit die Transformation zwischen \kps{} und Karte bestimmen zu:
 
 \prever{
-\red[Bild für Aufbau?]
+%\red[Bild für Aufbau?]
 }
 
 \begin{equation}
@@ -229,7 +229,7 @@ Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basi
 
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[scale=1]{loc_loc_rot_02}
+		\includegraphics[scale=0.5]{loc_loc_rot_03}
 		\caption{Rotatorische Bewegung}
 		\label{fig.rotmove}
 	\end{center}
@@ -319,7 +319,7 @@ Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb
 \begin{figure}[!ht]
 	\begin{center}
 		\includegraphics[scale=0.4]{board_eval_cropped}
-		\caption{Detektion des realen und projizierten Markerfeldes im Bild der externen Kamera}
+		\caption{Detektion der Lage des realen und projizierten Markerfeldes im Bild der externen Kamera}
 		\label{fig.arprojected}
 	\end{center}
 	%\vspace*{-8mm}
@@ -337,7 +337,7 @@ Insgesamt beträgt die Ungenauigkeit der Projektion innerhalb der Darstellungseb
 
 \prever{
 %\red[Legende!?\\]
-\red[Öffnungswinkel $\sim$ 30°, dadurch Faktor 16/9 für Fehlerwerte in z-Richtung. Sogar (16/9)²!! für Detektion+Projektion? Dann würden sich die Werte auf jeden Fall stark annähern\\Bereinigtes Diagramm zeigen? welchen Nutzen?\\]
+%\red[Öffnungswinkel $\sim$ 30°, dadurch Faktor 16/9 für Fehlerwerte in z-Richtung. Sogar (16/9)²!! für Detektion+Projektion? Dann würden sich die Werte auf jeden Fall stark annähern\\Bereinigtes Diagramm zeigen? welchen Nutzen?\\]
 }
 %\red[Nennen, dass Boxplot ganze Messreihe abbildet! Oder umwandeln zu 5/95 Perzentil?\\]
 
