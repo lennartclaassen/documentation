@@ -11,7 +11,9 @@
 Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde, kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.modeldata}) erfolgen. Dieses Kapitel beschreibt das Vorgehen, um die ausgewählten Modelldaten mittels des Projektors perspektivisch korrekt in die Umgebung zu projizieren. Zunächst ist die Visualisierung der Modellumgebung und die Ermittlung der Pose des Projektors innerhalb dieser erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Perspektive wird dabei ausgehend von einem Kameramodell generiert, da der Projektor wie in \abschnitt{chap.kinect} beschrieben als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
 
 \section{Visualisierung der Modelldaten}
-Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen, die dem Anwender bereitgestellt werden sollen. Um die perspektivische Darstellung zu ermöglichen, ist zunächst die gesamte Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\footnote{Rendern bezeichnet das Ableiten eines Bildes aus virtuellen räumlichen Daten indem die Perspektive eines Beobachters simuliert wird. Dabei können sowohl Lichtverhältnisse als auch Materialeigenschaften berücksichtigt werden, um realistische Darstellungen zu erzeugen.} Abbildung der dreidimensionalen Modellszene zu erzeugen, wird die Visualisierungsbibliothek VTK (\kapitel{chap.vtk}) verwendet. \abb{fig.modscene} zeigt die Darstellung eines Ausschnitts der Modellszene innerhalb des Visualisierungsbereiches der grafischen Benutzeroberfläche.\\
+Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen, die dem Anwender bereitgestellt werden sollen. Um die perspektivische Darstellung zu ermöglichen, ist zunächst die gesamte Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\footnote{Rendern bezeichnet das Ableiten eines Bildes aus virtuellen räumlichen Daten indem die Perspektive eines Beobachters simuliert wird. Dabei können sowohl Lichtverhältnisse als auch Materialeigenschaften berücksichtigt werden, um realistische Darstellungen zu erzeugen.} Abbildung der dreidimensionalen Modellszene zu erzeugen, wird die Visualisierungsbibliothek VTK verwendet. \abb{fig.modscene} zeigt die Darstellung eines Ausschnitts der Modellszene innerhalb des Visualisierungsbereiches der grafischen Benutzeroberfläche.\\
+
+\clearpage{}
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -34,7 +36,7 @@ Die grafische Benutzeroberfläche ermöglicht die individuelle Positionierung un
 
 \nomenclature[k]{$\ks{Obj}$}{KS eines Modellobjektes}
 
-Die Transformation $\tmat{0}{Env}$ ist damit äquivalent zu der Transformation zwischen Karte und globalem Koordinatensystem $\tmat{0}{M}$ und wird deshalb in allen weiteren Ausführungen über diese beschrieben.\\
+Die Transformation $\tmat{0}{Env}$ ist damit äquivalent zu der Transformation zwischen Karte und globalem Koordinatensystem $\tmat{0}{M}$ und wird deshalb in allen weiteren Ausführungen über diese beschrieben. Durch die definierte Beziehung zwischen den Koordinatensystemen der Lokalisationsumgebung und der Modellumgebung wird basierend auf der im Rahmen der Lokalisation bestimmten Pose die Abbildung der Projektorperspektive innerhalb der Modellumgebung ermöglicht.
 \prever{
 %Der Zusammenhang zwischen den Koordinaten der Modellumgebung und der Karte der Lokalisation wäre bei einer Veränderung der Pose nicht mehr gegeben und würde zu einem Fehler in der späteren Visualisierung führen. \red[Die grafische Benutzeroberfläche enthält die Möglichkeit eine Zuweisung der Modellelemente zu den Gruppen Umgebung und Objekt vorzunehmen, wodurch die Möglichkeiten zur Modifikation der Elemente entsprechend eingeschränkt oder freigegeben werden.]
 %\red[ Objekteigenschaft bool static um Zugehörigkeit zur Map bzw. globalen Koordinaten zu signalisieren. Eigentlich irrelevant in dieser Beschreibung oder?\\]
@@ -42,7 +44,7 @@ Die Transformation $\tmat{0}{Env}$ ist damit äquivalent zu der Transformation z
 }
 
 \section{Ermittlung der Projektorposition}
-Durch die in \abschnitt{chap.projcalib} durchgeführte Kalibrierung ist die externe Transformation $\tmat{KPS}{P}$ zwischen den Basiskoordinaten des \kps{s} und dem Projektor bekannt. Die kontinuierlich durchgeführte Lokalisation des \kps{s} bestimmt die Pose innerhalb der Umgebung worüber sich somit auch die Pose des Projektors bestimmen lässt. Ist diese bekannt, kann durch die Kopplung zwischen den Kartendaten der Lokalisation und den verwendeten Modelldaten die Pose des Projektors innerhalb der simulierten Umgebung bestimmt werden:
+Durch die in \abschnitt{chap.projcalib} durchgeführte Kalibrierung ist die externe Transformation $\tmat{KPS}{P}$ zwischen den Basiskoordinaten des \kps{s} und dem Projektor bekannt. Die kontinuierlich durchgeführte Lokalisation des \kps{s} bestimmt die Pose innerhalb der Umgebung, worüber sich auch die Pose des Projektors bestimmen lässt. Ist diese bekannt, kann durch die Kopplung zwischen den Kartendaten der Lokalisation und den verwendeten Modelldaten die Pose des Projektors innerhalb der simulierten Umgebung bestimmt werden:
 
 \begin{equation}
 \tmat{M}{P} = \tmat{M}{Odom} \cdot \tmat{Odom}{KPS} \cdot \tmat{KPS}{P}
@@ -52,17 +54,17 @@ Durch die in \abschnitt{chap.projcalib} durchgeführte Kalibrierung ist die exte
 Die perspektivische Abbildung einer 3D-Umgebung auf eine 2D-Ebene wurde bereits in \kapitel{chap.perspproj} beschrieben. Der Projektor wird eingesetzt, um Daten zu visualisieren, welche zwar innerhalb der Modellumgebung, nicht jedoch in der realen Umgebung vorhanden sind. In der Modellumgebung kann der Projektor deshalb als Kamera simuliert werden, wodurch die Abbildung der Perspektive und Visualisierung dieser möglich wird. Die perspektivische Transformation der Modelldaten erfolgt damit basierend auf der durch die Lokalisation bestimmten extrinsischen $\tmat{M}{P}$ und der bei der Kalibrierung ermittelten intrinsischen Transformation $\tmat{SP}{P}$ des Projektors. Die Abbildung der 3D-Modellpunkte auf die Pixel-Koordinaten der simulierten Kamera wird demnach beschrieben durch:
 
 \begin{equation}
-\left(\begin{array}{c}
+\left[\begin{array}{c}
 u_{\ind{P}}'\\
 v_{\ind{P}}'\\
 w_{\ind{P}}'
-\end{array}\right)
-= \tmat{SP}{P} \cdot (\tmat{M}{P})^{-1} \cdot \ve{M}{\tilde{P}} = \tmat{SP}{P} \cdot \tmat{P}{M} \cdot \left(\begin{array}{c}
+\end{array}\right]
+= \tmat{SP}{P} \cdot (\tmat{M}{P})^{-1} \cdot \ve{M}{\tilde{P}} = \tmat{SP}{P} \cdot \tmat{P}{M} \cdot \left[\begin{array}{c}
 X_{\ind{M}}\\
 Y_{\ind{M}}\\
 Z_{\ind{M}}\\
 1
-\end{array} \right)
+\end{array} \right]
 \label{eq.proj_trans}
 \end{equation}
 %s \cdot \ve{SP}{\tilde{p}} = \tmat{SP}{P}(\tmat{M}{P})^{-1}\ve{M}{\tilde{P}} = \tmat{SP}{P}\tmat{P}{M}\ve{M}{\tilde{P}}
@@ -74,15 +76,15 @@ Z_{\ind{M}}\\
 Der durch die Transformation des homogenen 3D-Punktes ermittelte Vektor $[u_{\ind{P}}',v_{\ind{P}}',w_{\ind{P}}']^T$ enthält dabei drei Einträge, welche den in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$ enthalten. Um die korrekten Pixelkoordinaten zu ermitteln ist deshalb die Umrechnung der Darstellung des homogenen 2D-Punktes auf einen inversen Streckungsfaktor von $w=1$ erforderlich. Die Pixelkoordinaten des Projektorbildes ergeben sich damit zu:
 
 \begin{equation}
-\left(\begin{array}{c}
+\left[\begin{array}{c}
 u_{\ind{P}}\\
 v_{\ind{P}}
-\end{array}\right)
+\end{array}\right]
 =
-\left(\begin{array}{c}
+\left[\begin{array}{c}
 \nicefrac{u_{\ind{P}}'}{w_{\ind{P}}'}\\
 \nicefrac{v_{\ind{P}}'}{w_{\ind{P}}'}
-\end{array}\right)
+\end{array}\right]
 \end{equation}
 
 \abb{fig.projpersp_gui} (a) zeigt die Perspektive des Projektors auf die Modellobjekte innerhalb der Modellumgebung. Bei Generierung der Projektionsabbildung ist zu beachten, dass lediglich die Modellelemente sichtbar sind, die mit dem später projizierten Bild visualisiert werden sollen. Die Modelldaten aller bereits vorhandenen Strukturen werden deshalb wie in \abb{fig.projpersp_gui} (b) gezeigt ausgeblendet, um Überlagerungen von Modelldaten und realen Strukturen zu vermeiden.
@@ -122,9 +124,11 @@ v_{\ind{P}}
 %
 \section{Projektion}
 \label{chap.projection}
-Nachdem durch die perspektivische Transformation ein Bild der Projektorsicht vorliegt, erfolgt die Visualisierung der Modellstrukturen in der realen Umgebung. Da bereits alle nötigen Transformationen des Bildes im Rahmen der perspektivischen Abbildung durchgeführt wurden, kann das vorliegende Bild direkt als Ausgangssignal des Projektors verwendet werden. Die Projektion des virtuellen Modellobjektes in die Umgebung ist in \abb{fig.perspproj} dargestellt. 
+Nachdem durch die perspektivische Transformation ein Bild der Projektorsicht vorliegt, erfolgt die Visualisierung der Modellstrukturen in der realen Umgebung. Da bereits alle nötigen Transformationen des Bildes im Rahmen der perspektivischen Abbildung durchgeführt wurden, kann das vorliegende Bild direkt als Ausgangssignal des Projektors verwendet werden. Die Bilddaten werden an das gekapselte Projektionsmodul gesendet, welches aus dem Laser-Projektor und dem Raspberry besteht. Die Projektion des virtuellen Modellobjektes in die Umgebung zeigt \abb{fig.perspproj} anhand einer modellhaften Darstellung. 
 %zeigt die Abbildung eines Modellobjektes auf die Bildebene des als Kamera simulierten Projektors. 
 Die Bildebene wurde dabei zur Verdeutlichung vergrößert innerhalb des Sichtfeldes des Projektors dargestellt. 
+
+\clearpage{}
 
 \begin{figure}[!ht]
 	\begin{center}
