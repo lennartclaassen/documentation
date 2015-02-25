@@ -27,7 +27,9 @@
 %---------------------------------------------------------------
 % Trennmuster fuer Ausnahmef�lle
 %---------------------------------------------------------------
-\hyphenation{} % z.B. \hypenation{Trenn-text}
+\hyphenation{Ver-zeich-nung-en} % z.B. \hypenation{Trenn-text}
+\hyphenation{Mo-dell-um-ge-bung}
+\hyphenation{Mo-dell-ob-jek-te}
 
 %---------------------------------------------------------------
 % Dokumentenanfang:
@@ -84,7 +86,7 @@
 
 \newcommand{\red}[1][TODO]{\textbf{\color{red}{#1}}}
 \newcommand{\prever}[1]{
-%#1
+#1
 }%
 
 %\newcommand{\pt}[1][p]{$\boldsymbol{#1}$ }
@@ -92,7 +94,7 @@
 	{\boldsymbol{#1} } 
 }}
 \newcommand{\pteq}[2][p]{\ensuremath{
-	{\boldsymbol{#1} = \left[ {#2} \right] ^T}
+	{\boldsymbol{#1} = \left[ {#2} \right] ^\transpose}
 }}
 
 %\newcommand{\pti}[2][p]{\ensuremath{
@@ -103,7 +105,7 @@
 	{\boldsymbol{\tilde{#1}} }
 }}
 \newcommand{\ptheq}[2][p]{\ensuremath{
-	{\boldsymbol{\tilde{#1}} = \left[ {#2},1 \right] ^T}
+	{\boldsymbol{\tilde{#1}} = \left[ {#2},1 \right] ^\transpose}
 }}
 
 %\newcommand{\tran}[3][T]{\ensuremath{
@@ -144,6 +146,7 @@
     \tableofcontents                        % Inhaltsverzeichnis
     \listoffigures
     \listoftables
+    \renewcommand{\nompreamble}{\markboth{\nomname}{\nomname}}
     \printnomenclature                      % Formelverzeichnis einbinden
     \mainmatter                             % der eigentliche Text
 		%\input{abkuerzungen}                    % Abk�rzungen im Text, z.B. CI = Cochleaimplantat
