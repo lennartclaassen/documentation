@@ -8,17 +8,75 @@
 \red[TODO:\\
 Blockschaltbild zu technischen Komponenten\\
 Blockschaltbild Software Elemente gleiche Form!?\\
-Notation verschieben\\
+%Notation verschieben\\
 KS für Bildebene einführen!?\\
 ]
 }
 Dieses Kapitel erläutert die Elemente, aus welchen das erstellte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten wird die Kalibrierung des \kps{s} beschrieben. Darüber hinaus erfolgt eine Darstellung der verwendeten Softwarebibliotheken und der entwickelten Programmstruktur.
 
 \section{Technische Komponenten}
-Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. 
+Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. Eine Übersicht über die Verbindungen der Komponenten ist in \abb{fig.components} dargestellt.
+
+\begin{figure}[ht]
+	\begin{center}
+%		\includesvgnew[1]{images/projector_tech_03}
+		\includegraphics[scale=1.0]{spacer}
+		\caption{Komponenten}
+		\label{fig.components}
+	\end{center}
+\end{figure}
+
 \prever{
 %\red[TODO: PC Beschreibung]
 }
+
+\prever{
+%\red[Zunächst werden dafür einige Begriffe und Notationen definiert, welche im Verlauf dieser Arbeit verwendet werden.]
+}
+
+\subsection{Begriffe und Notationen}
+Für die weiteren Beschreibungen im Verlauf dieser Arbeit sollen zunächst einige Begriffe und Notationen definiert werden. In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} und 3D-Punkte mit \pteq[P]{X,Y,Z} bezeichnet. Auf gleiche Weise werden auch Vektoren und Matrizen beschrieben, ausgenommen der für die Punktbeschreibung verwendeten Notation. Vektoren werden demnach über $\vec{v}$ und Matrizen über $\vec{M}$ beschrieben. Mittels der homogenen Koordinatendarstellung lassen sich Punkte gleichzeitig sowohl translatorisch als auch rotatorisch transformieren. Dazu wird der \textit{inverse Streckungsfaktor} $w$ als zusätzliche Komponente eingeführt, für welchen standardmäßig $w=1$ gilt \cite{Nischwitz20111}. Zur Unterscheidung werden homogene Koordinaten damit zu \ptheq{x,y} beziehungsweise \ptheq[P]{X,Y,Z} definiert. Falls nicht mittels eines vorangestellten Index $\ve{A}{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das Inertialkoordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ks{A}$ und $\ks{B}$ werden mit Hilfe der Matrixschreibweise als $\tmat{B}{A}$ ausgedrückt. Die Transformation, die einen Punkt vom Inertialkoordinatensystem in das Koordinatensystem des Projektors $\ks{P}$ abbildet, lässt sich beispielsweise ausdrücken als:%
+%
+\begin{equation}
+\ve{P}{\tilde{P}} = \tmat{P}{0}\cdot\ve{0}{\tilde{P}} \; \text{.}
+\end{equation}
+
+\nomenclature[a]{KS}{Koordinatensystem}
+\nomenclature[l]{$\vec{p}$}{Punkt in 2D-Koordinaten}
+\nomenclature[l]{$\vec{P}$}{Punkt in 3D-Koordinaten}
+\nomenclature[l]{$\tilde{\vec{p}}$}{Punkt in homogenen 2D-Koordinaten}
+\nomenclature[l]{$\tilde{\vec{P}}$}{Punkt in homogenen 3D-Koordinaten}
+\nomenclature[l]{$w$}{Inverser Streckungsfaktor}
+\nomenclature[l]{$i$}{Zählvariable}
+%\nomenclature[l]{$a,b$}{Variablen}
+\nomenclature[l]{$\tmat{B}{A}$}{Homogene Transformation vom $\ks{A}$ ins $\ks{B}$}
+%\nomenclature[l]{$\ks{j},\ks{k}$}{Variable Koordinatensysteme}
+\nomenclature[k]{$\ks{0}$}{Inertialkoordinatensystem}
+\nomenclature[k]{$\ks{K}$}{KS der RGB-Kamera der Kinect}
+\nomenclature[k]{$\ks{K_\ind{IR}}$}{KS der IR-Kamera der Kinect}
+\nomenclature[k]{$\ks{P_\ind{IR}}$}{KS des IR-Projektors der Kinect}
+\nomenclature[k]{$\ks{KPS}$}{Basis-KS des \kps{s}}
+\nomenclature[k]{$\ks{P}$}{KS des Pico-Laser-Projektors}
+\nomenclature[k]{$\ks{M}$}{KS der Lokalisationsumgebung}
+\nomenclature[k]{$\ks{Env}$}{KS der Modellumgebung}
+\nomenclature[k]{$\ks{Odom}$}{Odometrie-KS für die Bewegung des \kps{s}}
+\nomenclature[k]{$\ks{MF}$}{KS des Markerfeldes}
+\nomenclature[k]{$\ks{K_\ind{ext}}$}{KS der externen Kamera}
+
+
+Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB-Darstellung. Die $x$-Achsen werden somit rot, die $y$-Achsen grün und die $z$-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren werden die Orientierungen der körpereigenen Koordinatensysteme so gewählt, dass die $z$-Achsen in Richtung der optischen Achsen ausgerichtet sind. Die gewählten Konventionen verdeutlicht \abb{fig.coords} anhand des \kps{s}.
+
+\begin{figure}[ht]
+	\begin{center}%
+		\includesvgnew[1]{images/coordinate_systems_KS}%
+		%\includegraphics[scale=1.0]{coordinate_systems}
+		\caption{Darstellung von Koordinatensystemen, Punkten und Transformationen am Beispiel des \kps{s}}
+		\label{fig.coords}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
+
+
 \subsection{Microsoft Kinect\textsuperscript{\texttrademark} Sensor}
 \label{chap.kinect}
 Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect\textsuperscript{\texttrademark} Sensor\footnote{Im Folgenden als Kinect bezeichnet.} ist ein System, welches eine natürliche Benutzerschnittstelle für Computer und Spielkonsolen bereitstellt. Es ermöglicht die Steuerung von Programmen und Spielen durch Gesten, Körperbewegungen und Sprachbefehle. Die Kinect verfügt über zwei Kameras, mit denen Videoaufnahmen im Farb- (RGB) sowie im Infrarotbereich (IR) möglich sind. Die Technik zur Ermittlung der Tiefeninformationen stammt von der Firma PrimeSense (PrimeSense LTD, Tel Aviv, Israel) und ist unter anderem durch das Patent \cite{Freedman2008} geschützt. Die IR-Kamera wird dabei in Verbindung mit einem IR-Projektor verwendet, um Tiefenbilder zu generieren. Der IR-Projektor projiziert ein irreguläres, bekanntes Muster, welches von der IR-Kamera erkannt wird. Über die Verzerrungen des Musters sind anschließend softwareseitig Rückschlüsse auf die Tiefenwerte der aufgenommenen Szene möglich. Da ein Projektor auch als inverse Kamera betrachtet werden kann \cite{Kimura2007}, entspricht der Aufbau der Kinect dem einer Stereokamera. Die Bildachsen der IR-Kamera und des IR-Projektors sind parallel orientiert, so dass ein Punkt $\vec{P}$ im projizierten Muster auf der in \abb{fig.kinect_depth} dargestellten horizontalen Epipolarlinie $\vec{e}$ in der Bildebene der Kamera abgebildet wird.\\
@@ -28,7 +86,7 @@ Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect\texts
 
 \begin{figure}[ht]
 	\begin{center}
-		\includesvgnew[1]{images/epipolar_3d_04}
+		\includesvgnew[1]{images/epipolar_3d_05}
 		%\includegraphics[scale=1.0]{spacer}
 		\caption{Bestimmung des Tiefenwertes eines Punktes über die Epipolargeometrie am Beispiel der Kinect}
 		\label{fig.kinect_depth}
@@ -40,7 +98,7 @@ Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect\texts
 %\red[Bildebenen kennzeichnen\\Beschreiben, dass Bildebenen dargestellt sind\\]
 }
 
-Wird der korrespondierende Punkt im Kamerabild identifiziert, kann die Disparität $d = x - x'$ berechnet und zusammen mit dem Basisabstand $D$ und der Brennweite $f$ darüber der Tiefenwert des Punktes bestimmt werden:
+Der Punkt $x_{\ind{P}}'$ im Koordinatensystem der Bildebene des IR-Projektors $\ks{S,P_{IR}}$ ist aufgrund des definierten Musters bekannt. Durch Erfassung der Position im Kamerabild, wird der korrespondierende Punkt $x_{\ind{P}}$ im Koordinatensystem der Bildebene der IR-Kamera $\ks{S,K_{IR}}$ ermittelt. Die Differenz der Punkte beschreibt die Disparität $d = x_\ind{P} - x_{\ind{P}}'$, über welche zusammen mit dem Basisabstand $D$ und der Brennweite $f$ der Tiefenwert $z_\ind{P}$ des Punktes bestimmt werden kann:
 %
 \nomenclature[l]{$d$}{Disparität}
 \nomenclature[l]{$D$}{Basisabstand der Bildachsen von IR-Kamera und -Projektor der Kinect}
@@ -50,7 +108,7 @@ Wird der korrespondierende Punkt im Kamerabild identifiziert, kann die Disparit�
 %
 %
 \begin{equation}
-z = \frac{D}{d}\cdot f
+z_\ind{P} = \frac{D}{d}\cdot f \; \text{.}
 \end{equation}
 
 Die bekannte relative Pose zwischen der RGB- und IR-Kamera ermöglicht abschließend die Zuordnung von Farb- und Tiefenwerten (englisch Depth Values). Sensoren dieser Art werden daher auch als RGB-D Kameras bezeichnet.\\
@@ -137,53 +195,51 @@ Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellt
 Die Selbstlokalisation des Systems basiert auf einem Abgleich zwischen Umgebung und Modelldaten. Voraussetzung dafür ist die Kenntnis über die Abbildungstransformation zwischen den Punkten der Umgebung und den Koordinaten der Kinect. Es wird daher eine Kalibrierung der Kameras der Kinect durchgeführt, um die Abbildungsgleichungen zu bestimmen.\\
 
 Auch die lagerichtige Projektion in der Umgebung erfordert die Ermittlung von Koordinatentransformationen. Die Pose des Projektors kann aufgrund der Fixierung innerhalb des \kps{s} durch eine Transformation zwischen den Projektor-Koordinaten und den Kamera-Koordinaten ausgedrückt werden. Neben der Transformationsvorschrift zwischen Kamera und Projektor ist die Bestimmung der Abbildungsgleichung zwischen der Bildebene des Projektors und den Punkten der Umgebung erforderlich. Der Projektor wird wie beschrieben als inverse Kamera betrachtet, die Kalibrierung erfolgt daher basierend auf dem Vorgehen der Kamerakalibrierung. Der Ablauf der sequentiellen Kalibrierung des Gesamtsystems wird im Folgenden näher beschrieben. 
-\prever{
-\red[Zunächst werden dafür einige Begriffe und Notationen definiert, welche im Verlauf dieser Arbeit verwendet werden.]
-}
+
 % werden darüber hinaus weitere Transformationen bestimmt. Die extrinsische Projektor-Transformation beschreibt die Lage des Projektors bezüglich der Kamera und darüber auch bezüglich der Umgebung. Abbildungen zwischen Umgebungspunkten und Projektorkoordinaten werden über die intrinsische Projektor-Transformation charakterisiert. Bei bekannten Kalibrierungsparametern der Kamera lassen sich beide Transformationen durch eine gekoppelte Kalibrierung des \kps{s} bestimmen. 
 %Um diese Transformation zu ermitteln wird eine Kalibrierung der RGB- und der IR-Kamera der Kinect durchgeführt.\\
 
-\subsection{Begriffe und Notationen}
-In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} und 3D-Punkte mit \pteq[P]{X,Y,Z} bezeichnet. Auf gleiche Weise werden auch Vektoren und Matrizen beschrieben, ausgenommen der für die Punktbeschreibung verwendeten Notation. Vektoren werden demnach über $\vec{v}$ und Matrizen über $\vec{M}$ beschrieben. Mittels der homogenen Koordinatendarstellung lassen sich Punkte gleichzeitig sowohl translatorisch als auch rotatorisch transformieren. Dazu wird der \textit{inverse Streckungsfaktor} $w$ als zusätzliche Komponente eingeführt, für welchen standardmäßig $w=1$ gilt \cite{Nischwitz20111}. Zur Unterscheidung werden homogene Koordinaten damit zu \ptheq{x,y} beziehungsweise \ptheq[P]{X,Y,Z} definiert. Falls nicht mittels eines vorangestellten Index $\ve{A}{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das Inertialkoordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ks{A}$ und $\ks{B}$ werden mit Hilfe der Matrixschreibweise als $\tmat{B}{A}$ ausgedrückt. Die Transformation, die einen Punkt vom Inertialkoordinatensystem in das Koordinatensystem des Projektors $\ks{P}$ abbildet, lässt sich beispielsweise ausdrücken als:%
+%\subsection{Begriffe und Notationen}
+%In Anlehnung an die Literatur \cite{Zhang2000} werden 2D-Punkte mit \pteq{x,y} und 3D-Punkte mit \pteq[P]{X,Y,Z} bezeichnet. Auf gleiche Weise werden auch Vektoren und Matrizen beschrieben, ausgenommen der für die Punktbeschreibung verwendeten Notation. Vektoren werden demnach über $\vec{v}$ und Matrizen über $\vec{M}$ beschrieben. Mittels der homogenen Koordinatendarstellung lassen sich Punkte gleichzeitig sowohl translatorisch als auch rotatorisch transformieren. Dazu wird der \textit{inverse Streckungsfaktor} $w$ als zusätzliche Komponente eingeführt, für welchen standardmäßig $w=1$ gilt \cite{Nischwitz20111}. Zur Unterscheidung werden homogene Koordinaten damit zu \ptheq{x,y} beziehungsweise \ptheq[P]{X,Y,Z} definiert. Falls nicht mittels eines vorangestellten Index $\ve{A}{p}$ anders gekennzeichnet, bezieht sich die Darstellung von Punkten und Körpern immer auf das Inertialkoordinatensystem, welches mit $\ks{0}$ bezeichnet wird. Transformationsvorschriften zwischen zwei Koordinatensystemen $\ks{A}$ und $\ks{B}$ werden mit Hilfe der Matrixschreibweise als $\tmat{B}{A}$ ausgedrückt. Die Transformation, die einen Punkt vom Inertialkoordinatensystem in das Koordinatensystem des Projektors $\ks{P}$ abbildet, lässt sich beispielsweise ausdrücken als:%
+%%
+%\begin{equation}
+%\ve{P}{\tilde{P}} = \tmat{P}{0}\cdot\ve{0}{\tilde{P}}
+%\end{equation}
 %
-\begin{equation}
-\ve{P}{\tilde{P}} = \tmat{P}{0}\cdot\ve{0}{\tilde{P}}
-\end{equation}
-
-\nomenclature[a]{KS}{Koordinatensystem}
-\nomenclature[l]{$\vec{p}$}{Punkt in 2D-Koordinaten}
-\nomenclature[l]{$\vec{P}$}{Punkt in 3D-Koordinaten}
-\nomenclature[l]{$\tilde{\vec{p}}$}{Punkt in homogenen 2D-Koordinaten}
-\nomenclature[l]{$\tilde{\vec{P}}$}{Punkt in homogenen 3D-Koordinaten}
-\nomenclature[l]{$w$}{Inverser Streckungsfaktor}
-\nomenclature[l]{$i$}{Zählvariable}
-%\nomenclature[l]{$a,b$}{Variablen}
-\nomenclature[l]{$\tmat{B}{A}$}{Homogene Transformation vom $\ks{A}$ ins $\ks{B}$}
-%\nomenclature[l]{$\ks{j},\ks{k}$}{Variable Koordinatensysteme}
-\nomenclature[k]{$\ks{0}$}{Inertialkoordinatensystem}
-\nomenclature[k]{$\ks{K}$}{KS der RGB-Kamera der Kinect}
-\nomenclature[k]{$\ks{K_\ind{IR}}$}{KS der IR-Kamera der Kinect}
-\nomenclature[k]{$\ks{P_\ind{IR}}$}{KS des IR-Projektors der Kinect}
-\nomenclature[k]{$\ks{KPS}$}{Basis-KS des \kps{s}}
-\nomenclature[k]{$\ks{P}$}{KS des Pico-Laser-Projektors}
-\nomenclature[k]{$\ks{M}$}{KS der Lokalisationsumgebung}
-\nomenclature[k]{$\ks{Env}$}{KS der Modellumgebung}
-\nomenclature[k]{$\ks{Odom}$}{Odometrie-KS für die Bewegung des \kps{s}}
-\nomenclature[k]{$\ks{MF}$}{KS des Markerfeldes}
-\nomenclature[k]{$\ks{K_\ind{ext}}$}{KS der externen Kamera}
-
-
-Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB-Darstellung. Die $x$-Achsen werden somit rot, die $y$-Achsen grün und die $z$-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren werden die Orientierungen der körpereigenen Koordinatensysteme so gewählt, dass die $z$-Achsen in Richtung der optischen Achsen ausgerichtet sind. Die gewählten Konventionen verdeutlicht \abb{fig.coords} anhand des \kps{s}.
-
-\begin{figure}[ht]
-	\begin{center}%
-		\includesvgnew[1]{images/coordinate_systems_KS}%
-		%\includegraphics[scale=1.0]{coordinate_systems}
-		\caption{Darstellung von Koordinatensystemen, Punkten und Transformationen am Beispiel des \kps{s}}
-		\label{fig.coords}
-	\end{center}
-	%\vspace*{-8mm}
-\end{figure}
+%\nomenclature[a]{KS}{Koordinatensystem}
+%\nomenclature[l]{$\vec{p}$}{Punkt in 2D-Koordinaten}
+%\nomenclature[l]{$\vec{P}$}{Punkt in 3D-Koordinaten}
+%\nomenclature[l]{$\tilde{\vec{p}}$}{Punkt in homogenen 2D-Koordinaten}
+%\nomenclature[l]{$\tilde{\vec{P}}$}{Punkt in homogenen 3D-Koordinaten}
+%\nomenclature[l]{$w$}{Inverser Streckungsfaktor}
+%\nomenclature[l]{$i$}{Zählvariable}
+%%\nomenclature[l]{$a,b$}{Variablen}
+%\nomenclature[l]{$\tmat{B}{A}$}{Homogene Transformation vom $\ks{A}$ ins $\ks{B}$}
+%%\nomenclature[l]{$\ks{j},\ks{k}$}{Variable Koordinatensysteme}
+%\nomenclature[k]{$\ks{0}$}{Inertialkoordinatensystem}
+%\nomenclature[k]{$\ks{K}$}{KS der RGB-Kamera der Kinect}
+%\nomenclature[k]{$\ks{K_\ind{IR}}$}{KS der IR-Kamera der Kinect}
+%\nomenclature[k]{$\ks{P_\ind{IR}}$}{KS des IR-Projektors der Kinect}
+%\nomenclature[k]{$\ks{KPS}$}{Basis-KS des \kps{s}}
+%\nomenclature[k]{$\ks{P}$}{KS des Pico-Laser-Projektors}
+%\nomenclature[k]{$\ks{M}$}{KS der Lokalisationsumgebung}
+%\nomenclature[k]{$\ks{Env}$}{KS der Modellumgebung}
+%\nomenclature[k]{$\ks{Odom}$}{Odometrie-KS für die Bewegung des \kps{s}}
+%\nomenclature[k]{$\ks{MF}$}{KS des Markerfeldes}
+%\nomenclature[k]{$\ks{K_\ind{ext}}$}{KS der externen Kamera}
+%
+%
+%Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstellung und Orientierung von Koordinatensystemen verwendet: Die farbliche Zuordnung der Koordinatenachsen richtet sich nach der RGB-Darstellung. Die $x$-Achsen werden somit rot, die $y$-Achsen grün und die $z$-Achsen blau eingefärbt abgebildet. Bei Kameras und Projektoren werden die Orientierungen der körpereigenen Koordinatensysteme so gewählt, dass die $z$-Achsen in Richtung der optischen Achsen ausgerichtet sind. Die gewählten Konventionen verdeutlicht \abb{fig.coords} anhand des \kps{s}.
+%
+%\begin{figure}[ht]
+%	\begin{center}%
+%		\includesvgnew[1]{images/coordinate_systems_KS}%
+%		%\includegraphics[scale=1.0]{coordinate_systems}
+%		\caption{Darstellung von Koordinatensystemen, Punkten und Transformationen am Beispiel des \kps{s}}
+%		\label{fig.coords}
+%	\end{center}
+%	%\vspace*{-8mm}
+%\end{figure}
 
 \prever{
 %\red[Punkte in KS einfügen!\\Punkte als Kreuze?\\]
@@ -196,7 +252,7 @@ Weiterhin werden die in der Literatur verbreiteten Konventionen für die Darstel
 Ziel der Kalibrierung ist es, die Funktion $g$ zu bestimmen, welche die Punkte der realen Umgebung $\ve{0}{P}$ auf die Sensorkoordinaten der Kamera $\ve{S}{p}$ abbildet:
 %
 \begin{equation}
-g : \; \ve{0}{P} \mapsto \ve{S}{p}
+g : \; \ve{0}{P} \mapsto \ve{S}{p} \; \text{.}
 \end{equation}
 
 \nomenclature[l]{$g$}{Abbildungsfunktion}
@@ -207,7 +263,7 @@ g : \; \ve{0}{P} \mapsto \ve{S}{p}
 Unter Verwendung des Lochkameramodells \cite{Jaehne2012}, welches von einer Kamera ohne Optik mit infinitesimal kleiner Blendenöffnung ausgeht, kann diese Abbildung beschrieben werden über:
 %
 \begin{equation}
-s \cdot \ve{S}{\tilde{p}} = \tmat{S}{0} \cdot \ve{0}{\tilde{P}}
+s \cdot \ve{S}{\tilde{p}} = \tmat{S}{0} \cdot \ve{0}{\tilde{P}} \; \text{.}
 \label{eq.persp_abb}
 \end{equation}
 
@@ -220,7 +276,7 @@ Dabei wird über den Skalierungsfaktor $s$ die Unbestimmtheit der Tiefeninformat
 Die Transformationsmatrix $\tmat{S}{0}$ beschreibt das Produkt aus der intrinsischen $\tmat{S}{K}$ und extrinsischen $\tmat{K}{0}$ Matrix der Kamera:
 %
 \begin{equation}
-\tmat{S}{0} = \tmat{S}{K} \cdot \tmat{K}{0}
+\tmat{S}{0} = \tmat{S}{K} \cdot \tmat{K}{0} \; \text{.}
 \end{equation}
 
 Durch die Kamerakalibrierung können die Parameter dieser beiden Matrizen bestimmt werden. Die intrinsischen Parameter der Kamera sind konstant, während die extrinsische Kameramatrix in der späteren Anwendung durch die Lokalisation ermittelt wird. Im Rahmen der Kamerakalibrierung dient sie daher lediglich zur Bestimmung der intrinsischen Parameter. Die folgende Beschreibung des Kalibriervorgangs gilt sowohl für die RGB- als auch für die IR-Kamera der Kinect. Die Abläufe unterscheiden sich lediglich bezüglich der aufgenommenen Bilder, da die Kalibrierung der IR-Kamera die Ausleuchtung der Umgebung durch eine IR-Lichtquelle erfordert.
@@ -241,7 +297,7 @@ In dieser Arbeit erfolgt die Beschreibung unter Verwendung der ($z$,$y'$,$x''$)-
 \begin{equation}
 \begin{split}
 \vec{R} & = \matz{\Phi} \cdot \maty{\Theta} \cdot \matx{\Psi} \\[1em]
-& = \vec{R}_z(\Phi) \cdot \vec{R}_y(\Theta) \cdot \vec{R}_x(\Psi)
+& = \vec{R}_z(\Phi) \cdot \vec{R}_y(\Theta) \cdot \vec{R}_x(\Psi) \; \text{.}
 \end{split}
 \end{equation}
 
@@ -261,7 +317,7 @@ Durch die Vereinigung von Translation und Rotation in der homogenen Transformati
   & \rmat{K}{0} &   & \ve{K}{t}_\ind{0} \\
 \hline
 0 &      0      & 0 & 1 \\
-}
+} \; \text{.}
 \end{equation}
 
 \nomenclature[l]{$\rmat{B}{A}$}{Rotationsmatrix vom $\ks{A}$ ins $\ks{B}$}
@@ -269,7 +325,7 @@ Durch die Vereinigung von Translation und Rotation in der homogenen Transformati
 Ein in inertialen Koordinaten bekannter Punkt lässt sich damit im Koordinatensystem der Kamera ausdrücken:
 %
 \begin{equation}
-\ve{K}{\tilde{P}} = \tmat{K}{0} \cdot \ve{0}{\tilde{P}}
+\ve{K}{\tilde{P}} = \tmat{K}{0} \cdot \ve{0}{\tilde{P}} \; \text{.}
 \end{equation}
 
 %\red[Rotationsmatrix und Translationsvektor vorher beschreiben und Punktabbildung definieren, dann hom. Trafo]
@@ -306,12 +362,14 @@ X\\
 Y\\
 Z\\
 1
-}
+} \; \text{.}
 \label{eq.intrinsic}
 \end{equation}%
-%
+\prever{
+\red[Satzzeichen zwischen den Formeln? Komma? Punkt? Überleitung?\\]
+}
 \begin{equation}
-s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K} \cdot \ve{K}{\tilde{P}}
+s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K} \cdot \ve{K}{\tilde{P}} \; \text{.}
 \end{equation}
 
 Im Weiteren werden die Produkte aus Brennweite und Umrechnungsfaktoren in den gemeinsamen Parametern $f_x := s_x \cdot f$ und $f_y := s_y \cdot f$ zusammengefasst, da diese im Rahmen der folgenden Kalibrierung nicht unabhängig voneinander zu bestimmen sind.
@@ -399,7 +457,7 @@ X\\
 Y\\
 Z\\
 1
-}
+} \; \text{.}
 \end{equation}
 
 Eine Vereinfachung dieser Darstellung lässt sich erreichen, indem die Kalibrierebene mit der globalen Ebene in $Z=0$ gleichgesetzt wird. Dadurch können die Dimensionen der intrinsischen und extrinsischen Kameramatrix reduziert werden. Die Abbildungsgleichung ergibt sich damit unter Umformulierung der Rotations-Matrix als $\rmat{K}{0} = [\vec{r}_1 \quad \vec{r}_2 \quad \vec{r}_3]$ zu:
@@ -430,7 +488,7 @@ v\\
 	X\\
 	Y\\
 	1
-}
+} \; \text{.}
 \end{equation}
 
 \nomenclature[l]{$\vec{H}$}{Homographie-Matrix}
@@ -494,7 +552,7 @@ Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen den Punkte
 Da für jede Aufnahme während der Kalibrierungsvorgänge die Transformationen zwischen dem Inertialkoordinatensystem und den Koordinatensystemen von Kamera und Projektor ermittelt wurden, kann die statische Transformation zwischen Kamera und Projektor ebenfalls bestimmt werden:
 %
 \begin{equation}
-\tmat{K}{P} = \left( \tmat{0}{K} \right)^{-1} \cdot \tmat{0}{P} = \tmat{K}{0} \cdot \tmat{0}{P}
+\tmat{K}{P} = \left( \tmat{0}{K} \right)^{-1} \cdot \tmat{0}{P} = \tmat{K}{0} \cdot \tmat{0}{P} \; \text{.}
 \end{equation}
 
 Da das \kps{} damit als Gesamtsystem kalibriert ist, wird ein gemeinsames Basis-Koordinatensystem $\ks{KPS}$ definiert. Dieses unveränderliche Koordinatensystem dient als Referenz, um die externen Transformationen zu beschreiben. Die Orientierung wird entsprechend der ($z$,$y'$,$x''$)-Konvention gewählt und die Position wie in \abb{fig.coords_kps} dargestellt in Abhängigkeit der Kinect definiert. Die Transformation $\tmat{KPS}{K}$ ergibt sich damit aus den geometrischen Beziehungen, woraufhin sich $\tmat{KPS}{P}$ ebenfalls bestimmen lässt.
@@ -511,7 +569,7 @@ Da das \kps{} damit als Gesamtsystem kalibriert ist, wird ein gemeinsames Basis-
 \end{figure}
 
 \prever{
-%\red[
+\red[
 %Notation\\
 %Lochkameramodell\\
 %Intrinsische + Extrinsische Parameter\\
@@ -521,7 +579,7 @@ Da das \kps{} damit als Gesamtsystem kalibriert ist, wird ein gemeinsames Basis-
 %Kalibrierung Projektor + Kamera+Projektor\\
 %Projektor Linsenverzeichnung!?\\
 Toolboxen und verwendete Kalibrierungsnode nennen?\\
-%Transformationen zwischen den Koordinatensystemen angeben wenn möglich (oder in Kapiteln erst?)]\\
+]
 }
 
 %\red[Gemeinsames Koordinatensystem des Gesamtsystems definieren, über welches die Lage in der Umgebung beschrieben wird. $\ks{KPS}$\\]

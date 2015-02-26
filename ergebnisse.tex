@@ -13,7 +13,7 @@
 Um die Funktionalität des \kps{s} bewerten zu können wurde eine experimentelle Evaluation durchgeführt. Die Auswertung der Ergebnisse in diesem Kapitel soll besonders dazu dienen, Fehlereinflüsse der aufeinander aufbauenden Transformationen zwischen der Lokalisation des Systems und der Darstellung der visuellen Zusatzinformationen zu ermitteln. Die Abbildungsgleichung von Punkten der Umgebung auf die Sensorebene des Projektors wird durch die Verkettung der beteiligten Transformationen beschrieben:
 %
 \begin{equation}
-s \cdot \ve{SP}{\tilde{p}} = \tmat{SP}{P}\cdot\tmat{P}{KPS}\cdot\tmat{KPS}{Odom}\cdot\tmat{Odom}{M}\cdot\tmat{M}{0}\cdot\ve{0}{\tilde{P}}
+s \cdot \ve{SP}{\tilde{p}} = \tmat{SP}{P}\cdot\tmat{P}{KPS}\cdot\tmat{KPS}{Odom}\cdot\tmat{Odom}{M}\cdot\tmat{M}{0}\cdot\ve{0}{\tilde{P}} \; \text{.}
 \end{equation}
 
 Die Karte kann in den Ursprung des Inertialkoordinatensystems verschoben werden, wodurch sich $\tmat{M}{0} = \vec{I}$ ergibt. Im Rahmen der globalen Lokalisation wird die Transformation $\tmat{Odom}{M}$ zwischen der Karte und dem Referenz-Koordinatensystem $\ks{Odom}$ ermittelt. Die lokale Lokalisation vervollständigt die Bestimmung der Pose des \kps{s} innerhalb der Karte durch Ermittlung der Transformation $\tmat{KPS}{Odom}$. Die Projektionsgenauigkeit bezogen auf das \kps{} wird abschließend durch die Verknüpfung der extrinsischen $\tmat{P}{KPS}$ und intrinsischen $\tmat{SP}{P}$ Transformationsvorschrift des Projektors beschrieben. Im Folgenden sollen die aufgeführten Transformationen separat betrachtet werden, um die jeweiligen Fehlereinflüsse bestimmen zu können.\\
@@ -71,7 +71,7 @@ Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit de
 %
 %
 \begin{equation}
-\tmat{M}{KPS} = \tmat{M}{MF} \cdot \tmat{MF}{K} \cdot \tmat{K}{KPS}
+\tmat{M}{KPS} = \tmat{M}{MF} \cdot \tmat{MF}{K} \cdot \tmat{K}{KPS} \; \text{.}
 \end{equation}
 
 Aus der fixierten Pose wird anschließend die globale Lokalisation durchgeführt. Für beide Modelle werden insgesamt $k=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzpose verglichen. Dazu wird das QM der Fehler bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems bestimmt.\\
@@ -386,7 +386,7 @@ Voraussetzung für die dynamische Interaktion des Benutzers mit den visualisiert
 Die Bestimmung der Latenzzeit wird mittels einer externen Kamera durchgeführt, um die Projektion und die Visualisierung innerhalb der grafischen Benutzeroberfläche gleichzeitig betrachten zu können. Die Kamera zeichnet die Bilddaten mit einer Frequenz $f_\ind{I}$ von \SI{50}{\Hz} auf, so dass die Dauer zwischen zwei aufgenommenen Bildern \SI{20}{\milli\second} beträgt. Dementsprechend wird auch die erreichbare Auflösung der ermittelten Latenzzeit über diese Dauer definiert. Um die Latenzzeit zu bestimmen werden die aufgezeichneten Einzelbilder ausgewertet und die Anzahl der Bilder $n_\ind{I}$ ermittelt, welche zwischen eindeutigen Abbildungen der Visualisierung liegt. Damit kann die Latenzzeit über die bekannte Aufnahmefrequenz ermittelt werden:
 %
 \begin{equation}
-t_\ind{lat} = \frac{n_\ind{I}}{f_\ind{I}}
+t_\ind{lat} = \frac{n_\ind{I}}{f_\ind{I}} \; \text{.}
 \end{equation}
 
 \nomenclature[l]{$t_\ind{lat}$}{Latenzzeit der Visualisierung}
