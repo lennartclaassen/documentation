@@ -7,9 +7,9 @@
 %GUI Struktur auslagern oder hier beschreiben?\\
 \red[TODO:\\
 Blockschaltbild zu technischen Komponenten\\
-Blockschaltbild Software Elemente gleiche Form!?\\
+%Blockschaltbild Software Elemente gleiche Form!?\\
 %Notation verschieben\\
-KS für Bildebene einführen!?\\
+%KS für Bildebene einführen!?\\
 ]
 }
 Dieses Kapitel erläutert die Elemente, aus welchen das erstellte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten wird die Kalibrierung des \kps{s} beschrieben. Darüber hinaus erfolgt eine Darstellung der verwendeten Softwarebibliotheken und der entwickelten Programmstruktur.
@@ -19,8 +19,8 @@ Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Fo
 
 \begin{figure}[ht]
 	\begin{center}
-%		\includesvgnew[1]{images/projector_tech_03}
-		\includegraphics[scale=1.0]{spacer}
+		\includesvgnew[1]{images/block_components_02}
+%		\includegraphics[scale=1.0]{spacer}
 		\caption{Komponenten}
 		\label{fig.components}
 	\end{center}
@@ -98,12 +98,14 @@ Der von Microsoft (Microsoft Corporation, Redmond, USA) entwickelte Kinect\texts
 %\red[Bildebenen kennzeichnen\\Beschreiben, dass Bildebenen dargestellt sind\\]
 }
 
-Der Punkt $x_{\ind{P}}'$ im Koordinatensystem der Bildebene des IR-Projektors $\ks{S,P_{IR}}$ ist aufgrund des definierten Musters bekannt. Durch Erfassung der Position im Kamerabild, wird der korrespondierende Punkt $x_{\ind{P}}$ im Koordinatensystem der Bildebene der IR-Kamera $\ks{S,K_{IR}}$ ermittelt. Die Differenz der Punkte beschreibt die Disparität $d = x_\ind{P} - x_{\ind{P}}'$, über welche zusammen mit dem Basisabstand $D$ und der Brennweite $f$ der Tiefenwert $z_\ind{P}$ des Punktes bestimmt werden kann:
+Der Punkt $x_{\ind{P}}'$ im Koordinatensystem der Bildebene des IR-Projektors $\ks{B,P_{IR}}$ ist aufgrund des definierten Musters bekannt. Durch Erfassung der Position im Kamerabild, wird der korrespondierende Punkt $x_{\ind{P}}$ im Koordinatensystem der Bildebene der IR-Kamera $\ks{B,K_{IR}}$ ermittelt. Die Differenz der Punkte beschreibt die Disparität $d = x_\ind{P} - x_{\ind{P}}'$, über welche zusammen mit dem Basisabstand $D$ und der Brennweite $f$ der Tiefenwert $z_\ind{P}$ des Punktes bestimmt werden kann:
 %
 \nomenclature[l]{$d$}{Disparität}
 \nomenclature[l]{$D$}{Basisabstand der Bildachsen von IR-Kamera und -Projektor der Kinect}
 \nomenclature[l]{$f$}{Brennweite}
 \nomenclature[l]{$\vec{e}$}{Epipolarlinie}
+\nomenclature[k]{$\ks{B,P_{IR}}$}{KS der Bildebene des IR-Projektors der Kinect}
+\nomenclature[k]{$\ks{B,K_{IR}}$}{KS der Bildebene der IR-Kamera der Kinect}
 %\nomenclature[l]{$z$}{Tiefenabstand eines Punktes im Koordinatensystem der Kinect}
 %
 %
@@ -333,7 +335,7 @@ Ein in inertialen Koordinaten bekannter Punkt lässt sich damit im Koordinatensy
 \subsubsection{Intrinsische Kameramatrix}
 Ist die Position eines Punktes im Kamera-Koordinatensystem bekannt, so lässt sich mittels der intrinsischen Kameramatrix die Abbildung der dreidimensionalen Koordinaten auf die Pixel-Koordinaten $\ve{S}{p} = [u,v]^\transpose$ der Sensorfläche der Kamera beschreiben. In Bezug auf das Modell der Lochkamera treffen die Strahlen an einem Punkt $\ve{K}{{p}}$ auf die Bildebene der Kamera, welche als deckungsgleich mit der Ebene der Sensorfläche angenommen wird. Die Position des Punktes ist abhängig von der Brennweite $f$, welche den Abstand zwischen Blendenöffnung und Bildebene angibt. Die Abbildung auf eine Ebene führt zu einer Reduktion der Dimension, wodurch die Bild-Koordinaten nur noch zweidimensional angegeben werden können. Dies führt zu dem in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$, durch welchen die Unbestimmtheit der Tiefeninformationen gekennzeichnet ist.\\
 \prever{
-\red[Punkt in Bildebene der Kamera mit index K!? KS für Bildebene und Sensorfläche einführen?\\]
+%\red[Punkt in Bildebene der Kamera mit index K!? KS für Bildebene und Sensorfläche einführen?\\]
 }
 Die Umrechnung der metrischen Koordinaten in diskrete Pixel-Koordinaten erfolgt abschließend durch Verschiebung des Koordinatensystems der Bildebene um $[u_0,v_0]$ in den Sensorursprung und Berücksichtigung der Umrechnungsparameter $s_x$ und $s_y$, welche sich aus der Geometrie der Sensorelemente ergeben. Die Abbildung kann mit der intrinsischen Kameramatrix $\tmat{S}{K}$ anhand dieser Parameter beschrieben werden als
 %
@@ -375,10 +377,10 @@ s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K} \cdot \ve{K}{\tilde{P}} \; \text{.}
 Im Weiteren werden die Produkte aus Brennweite und Umrechnungsfaktoren in den gemeinsamen Parametern $f_x := s_x \cdot f$ und $f_y := s_y \cdot f$ zusammengefasst, da diese im Rahmen der folgenden Kalibrierung nicht unabhängig voneinander zu bestimmen sind.
 
 \subsubsection{Verzeichnungen}
-Um das Lochkameramodell in der Realität anzunähern, aber dennoch ausreichende Belichtung zu gewährleisten, werden Objektive mit Linsen eingesetzt. Es kommt dadurch jedoch zu Verzeichungen, resultierend aus der Form der Linsen und ihrer Anordnung. Die Verzeichnungsform mit dem häufig stärksten Einfluss ist die radiale Verzeichnung, welche durch die Krümmung der Linsen entsteht. Parallele Strahlen laufen dabei nicht in einem Brennpunkt zusammen, wodurch es in Abhängigkeit des Radius zu den in \abb{fig.distortions} (a) dargestellten kissen- oder zu den in \abb{fig.distortions} (c) gezeigten tonnenförmigen Verzeichnungen kommen kann \cite{Hertzberg2012}.
+Um das Lochkameramodell in der Realität anzunähern, aber dennoch ausreichende Belichtung zu gewährleisten, werden Objektive mit Linsen eingesetzt. Resultierend aus der Form der Linsen und ihrer Anordnung zueinander kommt es dadurch jedoch zu geometrischen Abbildungsfehlern in der Bildebene, sogenannten Verzeichungen. Die Verzeichnungsform mit dem häufig stärksten Einfluss ist die radiale Verzeichnung, welche durch die Krümmung der Linsen entsteht. Parallele Strahlen laufen dabei nicht in einem Brennpunkt zusammen, wodurch es in Abhängigkeit des Radius zu den in \abb{fig.distortions} (a) dargestellten kissen- oder zu den in \abb{fig.distortions} (c) gezeigten tonnenförmigen Verzeichnungen kommen kann \cite{Hertzberg2012}.
 
 \prever{
-\red[Was ist das Ergebnis der Linsenform und Anordnung -> Strahlen werden unterschiedlich gebrochen etc.\\]
+%\red[Was ist das Ergebnis der Linsenform und Anordnung -> Strahlen werden unterschiedlich gebrochen etc.\\]
 } 
 
 \begin{figure}[!ht]
@@ -520,11 +522,9 @@ Basierend auf den ermittelten intrinsischen Parametern können nun die radialen 
 \label{chap.projcalib}
 Um die Darstellung visueller Informationen an definierten Stellen im Raum zu ermöglichen ist eine Kalibrierung des Projektors erforderlich. Indem die Projektion in umgekehrter Richtung betrachtet wird, kann ein Projektor, wie in \kapitel{chap.kinect} erwähnt, als inverse Kamera aufgefasst werden. Das Verfahren zur Kamera-Kalibrierung lässt sich dadurch auf den Projektor erweitern \cite{Falcao2008}.\\
 
-Aufgrund der Fixierung des Projektors im \kps{} ist die Lage bezüglich des Kamera-Koordinatensystems unveränderlich. Anstelle einer globalen Positionsbestimmung ist daher insbesondere die Ermittlung der konstanten, relativen Transformation zwischen den Koordinatensystemen des Projektors und der Kamera von Interesse. Ziel der Kalibrierung des Projektors ist daher die Bestimmung der konstanten Parameter der intrinsischen Projektormatrix und der Pose des Projektors bezüglich des Kamera-Koordinatensystems $\ks{K}$.\\
+Aufgrund der Fixierung des Projektors im \kps{} ist die Lage bezüglich des Kamera-Koordinatensystems unveränderlich. Anstelle einer globalen Positionsbestimmung ist insbesondere die Ermittlung der konstanten, relativen Transformation zwischen den Koordinatensystemen des Projektors und der Kamera von Interesse. Ziel der Kalibrierung des Projektors ist daher die Bestimmung der konstanten Parameter der intrinsischen Projektormatrix und der Pose des Projektors bezüglich des Kamera-Koordinatensystems $\ks{K}$.\\
 
 Die Kalibrierung erfolgt anhand des von Falcao \textit{et al.} beschriebenen Verfahrens \cite{Falcao2008}. Dabei wird zur Definition der Kalibrierebene erneut ein Muster auf einer Platte verwendet. Ein weiteres Kalibriermuster wird als digitales Bild erstellt und wie in \abb{fig.projcalib} gezeigt durch den Projektor neben das reale Muster auf die Platte projiziert.
-
-\clearpage{}
 
 \begin{figure}[ht]
 	\begin{center}
@@ -645,7 +645,7 @@ Einen Überblick über die Softwaremodule, ihre Verknüpfung untereinander und d
 
 \begin{figure}[ht]
 	\begin{center}%
-		\includesvgnew[1]{images/modules_solo_02}%
+		\includesvgnew[1]{images/modules_solo_03}%
 		\caption{Übersicht über die Verknüpfungen zwischen Datenstruktur, Softwaremodulen und Umgebung}
 		\label{fig.modules}
 	\end{center}

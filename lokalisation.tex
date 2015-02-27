@@ -52,7 +52,7 @@ Die Besonderheit des von Hornung \textit{et al.} entwickelten Ansatzes liegt dar
 
 \clearpage{}
 
-Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen den Koordinatensystemen des \kps{s} $\ks{KPS}$ und der Karte $\ks{M}$. Die Transformation $\tmat{0}{M}$ ist konstant, da die Karte als statische Referenz bezüglich des Inertialkoordinatensystems betrachtet werden kann. Die Lage kann somit beliebig gewählt werden, weshalb das Koordinatensystem im Folgenden in den globalen Ursprung gesetzt wird, so dass gilt:
+Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen dem Koordinatensystem $\ks{KPS}$ des \kps{s} und dem Koordinatensystem $\ks{M}$ der Karte $\vec{m}$, welche die zugrunde liegende Datenstruktur in Vektorform repräsentiert. Die Transformation $\tmat{0}{M}$ ist konstant, da die Karte als statische Referenz bezüglich des Inertialkoordinatensystems betrachtet werden kann. Die Lage kann somit beliebig gewählt werden, weshalb das Koordinatensystem im Folgenden in den globalen Ursprung gesetzt wird, so dass gilt:
 %
 \begin{equation}
 \tmat{0}{M} = \vec{I} \; \text{.}
@@ -68,7 +68,7 @@ Die globale Lokalisation dient zur Bestimmung der initialen Transformation des \
 \end{equation}
 
 \prever{
-\red[Karte als M bezeichnen hier?\\]
+%\red[Karte als M bezeichnen hier?\\]
 }
 
 Das in dieser Arbeit gewählte Verfahren zur globalen Lokalisation basiert auf dem \textit{Monte-Carlo-Algorithmus} \cite{Dellaert1999}. Es stellt damit wie in \abschnitt{chap:mcl} beschrieben einen partikelbasierten Ansatz dar, welcher die effiziente Lokalisation ohne initiale Hypothese der Systempose ermöglicht. Zur Umsetzung wurde eine Implementierung \cite{humanoidNavigation} verwendet, welche das Lokalisationsverfahren innerhalb einer ROS-Node bereitstellt. Als Referenz wird die zuvor beschriebene, aus der Modellumgebung erzeugte \textit{Octomap} verwendet.\\
@@ -88,10 +88,10 @@ In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Gleichvert
 \label{chap.loglik}
 Ideale Entfernungssensoren würden bei einer Messung die exakten Distanzen zu den Hindernissen in ihrem Messbereich ermitteln. In der Realität sind jedoch alle Messungen mit einem Fehler durch lokales Messrauschen behaftet, welches im Fall der Kinect als Gaußverteilung modelliert werden kann \cite{Nguyen2012}.\\
 
-Es soll dazu die Pose $\vec{x}_{\ind{p}}$ eines Partikels innerhalb der Karte $m$ betrachtet werden. Die Wahrscheinlichkeit $p$, ob eine gemessene Distanz $d_{\ind{m,i}}$ aus einem bekannten Hindernis in der Entfernung $d_{\ind{k}}$ resultiert, lässt sich innerhalb des Intervalls der Sensorreichweite $[d_{\ind{min}};d_{\ind{max}}]$ über eine Gaußverteilung mit Mittelwert $d_{\ind{k}}$ und der Varianz des Sensors $\sigma_{\ind{S}}^2$ ermitteln \cite{Thrun2005}:
+Es soll dazu die Pose $\vec{x}_{\ind{p}}$ eines Partikels innerhalb der Karte $\vec{m}$ betrachtet werden. Die Wahrscheinlichkeit $p$, ob eine gemessene Distanz $d_{\ind{m,i}}$ aus einem bekannten Hindernis in der Entfernung $d_{\ind{k}}$ resultiert, lässt sich innerhalb des Intervalls der Sensorreichweite $[d_{\ind{min}};d_{\ind{max}}]$ über eine Gaußverteilung mit Mittelwert $d_{\ind{k}}$ und der Varianz des Sensors $\sigma_{\ind{S}}^2$ ermitteln \cite{Thrun2005}:
 %
 \begin{equation}
-p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},m) = \left\lbrace\begin{array}{ll}
+p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},\vec{m}) = \left\lbrace\begin{array}{ll}
 \eta  \cdot \mathcal{N}(d_{\ind{m,i}};d_{\ind{k}},\sigma_{\ind{S}}^2) & \quad \text{wenn} \quad d_{\ind{min}}\leq d_{\ind{m}}^i \leq d_{\ind{max}} \\
 0 & \quad \text{sonst}
 \end{array}
@@ -121,20 +121,21 @@ Die Bestimmung der Wahrscheinlichkeit einer Pose erfolgt durch Betrachtung aller
 %
 \begin{equation}
 \label{eq.likelihood}
-p(\vec{d}_{\ind{m}}|\vec{x}_{\ind{p}},m) = \prod_{i=1}^{n}p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},m) \; \text{.}
+p(\vec{d}_{\ind{m}}|\vec{x}_{\ind{p}},\vec{m}) = \prod_{i=1}^{n}p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},m) \; \text{.}
 \end{equation}
 
 Durch Anwendung des natürlichen Logarithmus auf \eq{eq.likelihood} ergibt sich die Log-Likelihood-Funktion und die Berechnung vereinfacht sich zur Bildung der Summe über die Messwerte:
 %
 \begin{equation}
 \begin{split}
-\log \: p(\vec{d}_{\ind{m}}|\vec{x}_{\ind{p}},m) & = \sum_{i=1}^{n}\log\: p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},m) \\[1em]
-& = \sum_{i=1}^{n}\log \left( \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}} \cdot e^{-\dfrac{{({\Delta d}_i)}^2}{2 \cdot \sigma_{\ind{S}}^2}} \right)\\[1em]
-& = \underbrace{-\frac{1}{2} \cdot \log(2 \cdot \pi \cdot\sigma_{\ind{S}}^2)}_{\ind{K}}-\dfrac{\sum_{i=1}^{n}({\Delta d}_i)^2}{2 \cdot \sigma_{\ind{S}}^2}
+\ln \: p(\vec{d}_{\ind{m}}|\vec{x}_{\ind{p}},\vec{m}) & = \sum_{i=1}^{n} \ln \: p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},\vec{m}) \\[1em]
+& = \sum_{i=1}^{n}\ln \left( \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}} \cdot e^{-\dfrac{{({\Delta d}_i)}^2}{2 \cdot \sigma_{\ind{S}}^2}} \right)\\[1em]
+& = \underbrace{-\frac{1}{2} \cdot \ln(2 \cdot \pi \cdot\sigma_{\ind{S}}^2)}_{\ind{K}}-\dfrac{\sum_{i=1}^{n}({\Delta d}_i)^2}{2 \cdot \sigma_{\ind{S}}^2}
  \; \text{.} \end{split}
 \end{equation}
+
 \prever{
-\red[ln statt log?\\]
+%\red[ln statt log?\\]
 }
 Da der natürliche Logarithmus eine streng monotone Funktion ist, bleibt die Stelle des Maximums der Ursprungsfunktion erhalten. Das bedeutet, dass das Partikel mit maximalem Wahrscheinlichkeitswert erhalten bleibt. Da die Partikel bei jeder Lokalisation lediglich relativ untereinander verglichen werden, hat dieser Schritt keine Auswirkungen auf das Ergebnis. Die Konstante $\mathrm{K}$ ist bei gleichbleibender Varianz für alle Messungen identisch und kann daher vorab berechnet werden. Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtung verwendet werden, um das Maximum über alle Partikel zu bestimmen. 
 

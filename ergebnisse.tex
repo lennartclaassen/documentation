@@ -23,7 +23,7 @@ Die Karte kann in den Ursprung des Inertialkoordinatensystems verschoben werden,
 }
 Zunächst erfolgt eine Betrachtung der globalen Lokalisationsgenauigkeit, indem die zwei in \kapitel{chap.globloc} beschriebenen Modelle gegenübergestellt werden. Anschließend wird die Genauigkeit der lokalen Lokalisation bewertet, wobei die visuelle Odometrie und die mittels des EKF fusionierten Sensordaten betrachtet werden. Abschließend wird eine gesonderte Auswertung des Projektionsvorgangs durchgeführt, welcher durch die Transformation zwischen Kamera und Projektor beschrieben wird.\\
 
-Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Durch Erfassung in Kamerabildern können Orientierung und Ursprung der Felder bestimmt werden \cite{arsys}. Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Die betrachten Fehlerwerte werden für alle Bewertungen der Lokalisation als Quadratisches Mittel (\kapitel{chap.globloc})  aus den Differenzen der auf Basis der Lokalisation und der Markerfelder bestimmten Systemposen berechnet.\\
+Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Die Detektion der Marker in Kamerabildern ermöglicht die Ermittlung ihrer Position und Orientierung, worüber die Pose der Koordinatensysteme $\ks{MF_1}$ und $\ks{MF_2}$ der Felder bestimmt werden kann \cite{arsys}. Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Wird ein Markerfeld mit der RGB-Kamera des \kps{s} erfasst, kann die Transformation $\tmat{MF}{KPS}$ zwischen dem Feld und dem \kps{} berechnet werden. Ist die Pose der Markerfelder im Inertialkoordinatensystem bekannt, lässt sich somit auch die Pose des \kps{s} in globalen Koordinaten bestimmen. Die ermittelte Transformation kann anschließend mit der im Rahmen der Lokalisation bestimmten Systempose verglichen und die Fehlerwerte bezüglich der Freiheitsgrade des Systems berechnet werden. Die betrachten Fehlerwerte werden für alle Bewertungen der Lokalisation als Quadratisches Mittel (\kapitel{chap.globloc}) aus den Differenzen der bestimmten Systemposen berechnet.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -31,16 +31,18 @@ Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigt
 		\begingroup\fboxsep=0pt\fboxrule=1pt
 		\fbox{%
 			\includegraphics[scale=0.5]{ar_board_01}%
+%			\includesvgnew[1]{images/ar_board_01}%
 		}
 		\endgroup
 	}
 	\hspace{5mm}
 	\subfigure[Markerfeld 2]{
-		\begingroup\fboxsep=0pt\fboxrule=1pt
-		\fbox{%
-			\includegraphics[scale=0.5]{ar_board_02}%	
-		}
-		\endgroup
+%		\begingroup\fboxsep=0pt\fboxrule=1pt
+%		\fbox{%
+%			\includegraphics[scale=0.5]{ar_board_02}%
+			\includesvgnew[1]{images/ar_board_02_dim}%				
+%		}
+%		\endgroup
 	}
 	\caption{Markerfelder zur Lagevalidierung}
 	\label{fig.armarker}
