@@ -1,6 +1,6 @@
 %% Creator: Inkscape inkscape 0.48.4, www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'ar_board_02_dim.pdf' (pdf, eps, ps)
+%% Accompanies image file 'projection_validation_cropped_02.pdf' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{235.26796875bp}%
+    \setlength{\unitlength}{299.28733606bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,13 +48,19 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.72961148)%
-    \put(0,0){\includegraphics[width=\unitlength]{ar_board_02_dim.pdf}}%
-    \put(0.1395284,0.30848063){\color[rgb]{1,1,1}\rotatebox{-180}{\makebox(0,0)[b]{\smash{$h_\ind{MF}$}}}}%
-    \put(0.49915945,0.6986096){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$b_\ind{MF}$}}}%
-    \put(0.8604716,0.30050943){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$h_\ind{MF}$}}}%
-    \put(0.55194418,0.4728141){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$l_\ind{M}$}}}%
-    \put(0.6709574,0.36060163){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$l_\ind{M}$}}}%
-    \put(0.49894942,0.15962143){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{MF_2}$}}}%
+  \begin{picture}(1,0.98312133)%
+    \put(0,0){\includegraphics[width=\unitlength]{projection_validation_cropped_02.pdf}}%
+    \put(0.2588213,0.26258248){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K}$}}}%
+    \put(0.15556755,0.37689276){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{P}$}}}%
+    \put(0.49969404,0.1167241){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{K_{ext}}$}}}%
+    \put(0.80370407,0.55312252){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{MF_1}$}}}%
+    \put(0.69193905,0.77393263){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\ks{MF_2}$}}}%
+    \put(0.81461745,0.1715849){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{MF_2}$}}}%
+    \put(0.53257749,0.25203855){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K_{ext}}{MF_1}$}}}%
+    \put(0.47684965,0.35684645){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{MF_1}$}}}%
+    \put(0.30390549,0.56921756){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{P}{MF_2}$}}}%
+    \put(0.29722295,0.3807699){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{$\tmat{K}{P}$}}}%
+    \put(0.98080283,0.73486864){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{real}}}%
+    \put(0.45558429,0.77058255){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{projiziert}}}%
   \end{picture}%
 \endgroup%
