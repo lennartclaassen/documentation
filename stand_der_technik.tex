@@ -1,11 +1,11 @@
 \chapter{Stand der Technik}
 \label{chap.tech}
 \prever{
-\red[TODO:\\
+%\red[TODO:\\
 %Lokalisation mobiler Systeme in Gebäuden etc.\\
 %Augmented Reality inkl. Interaktion mit Projektionen\\
 %Handgeführte Lokalisationssysteme (Ohne Projektion)\\
-Bilder von Systemen?\\
+%Bilder von Systemen?\\
 %Lokalisation bisschen näher beschreiben/kurze Einführung -> Lokalisation ist Grundvoraussetzung für Betrieb des aufgebauten Systems\\
 %Umgebung und Transformation erklären\\
 %Wann und wie Karte definieren?\\
@@ -13,8 +13,8 @@ Bilder von Systemen?\\
 %Quelle warum Definition von Deskriptoren häufig nicht generalisierbar\\
 %AR-Paper etwas näher ausführen -> 2 Sätze\\
 %Quelle Jan-Philipp aktualisieren und ausführen\\
-Autorennamen groß oder so? -> textsc\\
-]
+%Autorennamen groß oder so? -> textsc\\
+%]
 %\red[Viele Forschungsgruppen beschäftigen sich mit der Problematik, sowohl Lokalisation in bekannter als auch unbekannter Umgebung.
 %Da das Ziel des entwickelten Systems in der Lokalisation in bekannter Umgebung liegt wird sich bei der Darstellung der bisherigen Forschungsansätze auf diesen Bereich konzentriert. Da das entwickelte System aufgrund seiner Komponenten dafür ausgelegt ist, die Lokalisation auf Basis von Tiefen- und Farbinformationen durchzuführen werden an dieser Stelle Ansätze, welche auf anderen Verfahren wie Ortung von Funkwellen basieren, ebenfalls nicht näher ausgeführt.]\\
 }
@@ -110,7 +110,7 @@ Anwendungsmöglichkeiten für AR finden sich dabei in verschiedensten Gebieten. 
 }
 
 %\subsection{Projektion}
-Die Miniaturisierung der Projektionstechnologie hat zu einer Entwicklung mobiler, handgeführter Systeme geführt. In den letzten Jahren wurden verschiedene Ansätze untersucht, welche sich mit der Projektion virtueller Zusatzinformationen durch tragbare Systeme befassen. Dabei werden sowohl eigenständige als auch in Smartphones integrierte Projektionssysteme eingesetzt.\\
+Die Miniaturisierung der Projektionstechnologie hat zu einer Entwicklung mobiler und handgeführter Systeme geführt. In den letzten Jahren wurden verschiedene Ansätze untersucht, welche sich mit der Projektion virtueller Zusatzinformationen durch tragbare Systeme befassen. Dabei werden sowohl eigenständige als auch in Smartphones integrierte Projektionssysteme eingesetzt.\\
 % Im Folgenden soll ein Überblick über vorhandene handgeführte Projektionssysteme und ihre Anwendungsbereiche gegeben werden.\\
 
 \prever{
@@ -121,9 +121,24 @@ In der Chirurgie kann durch tragbare Projektionssysteme die Flexibilität in der
 
 Die Navigation innerhalb eines Museums wird von \textsc{Wecker} \textit{et al.} \cite{Wecker2013} mittels handgeführter Projektionssysteme durch die Visualisierung von Karten- und Wegdaten unterstützt. Ein System mit ähnlichem Ziel haben \textsc{Chung} \textit{et al.} \cite{Chung2011} entwickelt. Dieses soll dem Anwender bei der Navigation innerhalb von Gebäuden behilflich sein. Ein Miniprojektor wird dabei in Kombination mit einem Smartphone verwendet, um zusätzliche Informationen bei der Erkennung von Visitenkarten oder Gebäudeplänen zu visualisieren. Die Funktionalität soll dabei an eine Taschenlampe erinnern, welche die Zusatzinformationen sichtbar macht. Auch \textsc{Li} \textit{et al.} \cite{Li2013} stellen ein handgeführtes Projektionssystem vor, welches im Konzept an eine Taschenlampe angelehnt ist. Durch Projektion von Karten- und Wegdaten auf den Boden vor dem Benutzer wird dieser entlang eines Pfades geführt. Im Gegensatz zu \textsc{Chung} \textit{et al.} erfolgt dabei eine kontinuierliche Aktualisierung der Projektion in Abhängigkeit der Position entlang des Weges, welche manuell durch eine Begleitperson erfasst wird. \textsc{Molyneaux} \textit{et al.} \cite{Molyneaux2012} erweitern die Metapher der Taschenlampe und integrieren darüber hinaus eine automatische Lokalisation des handgeführten Projektionssystems. Eine externe Infrastruktur aus 3D-Kameras erkennt und verfolgt die Systempose und ermöglicht dadurch die verzerrungsfreie Projektion beliebiger Zusatzinformationen innerhalb eines Raumes. Durch Infrarot-Kameras am Projektionssystem selbst wird zudem eine Interaktion mit den visualisierten Daten realisiert.\\
 
-Das \textit{SideBySide} Projekt von \textsc{Willis} \textit{et al.} \cite{Willis2011} ermöglicht die Interaktion zwischen Benutzern über handgeführte Projektionssysteme. Jedes System projiziert sowohl ein Bild im sichtbaren Lichtspektrum als auch einen Marker im Infrarot Spektrum. Die Erkennung der Marker durch die Systeme erlaubt das Zusammenspiel der jeweiligen Projektionen der Anwender. Anwendungen findet das System im Austausch von Informationen oder Dateien und in kooperativen Spielen. Einen weiteren Ansatz für kooperative Projektionssysteme liefern \textsc{Robinson} \textit{et al.} \cite{Robinson2012} mit \textit{PicoTales}. Dabei werden handgeführte Projektionssysteme eingesetzt, um gemeinsam animierte Videos zu erstellen. Die Lokalisation erfolgt über das Aufzeichnen von Bewegungsdaten durch eine inertiale Messeinheit. Die Auswertung und Fusion zu einem gemeinsamen Video wird separat nach Abschluss der Interaktion durchgeführt.\\
+Das \textit{SideBySide} Projekt von \textsc{Willis} \textit{et al.} \cite{Willis2011} ermöglicht die Interaktion zwischen Benutzern über handgeführte Projektionssysteme. Jedes System projiziert sowohl ein Bild im sichtbaren Lichtspektrum als auch einen Marker im Infrarot Spektrum. Die Erkennung der Marker durch die Systeme erlaubt das Zusammenspiel der jeweiligen Projektionen der Anwender. Anwendungen findet das System im Austausch von Informationen oder Dateien und in kooperativen Spielen, wie in \abb{fig.projsystems} (a) dargestellt. Einen weiteren Ansatz für kooperative Projektionssysteme liefern \textsc{Robinson} \textit{et al.} \cite{Robinson2012} mit \textit{PicoTales}. Dabei werden handgeführte Projektionssysteme eingesetzt, um gemeinsam animierte Videos zu erstellen. Die Lokalisation erfolgt über das Aufzeichnen von Bewegungsdaten durch eine inertiale Messeinheit. Die Auswertung und Fusion zu einem gemeinsamen Video wird separat nach Abschluss der Interaktion durchgeführt.\\
 
-Das von \textsc{Harrison} \textit{et al.} \cite{Harrison2011} entwickelte \textit{Omnitouch} ist ein körpergeführtes System, welches die Projektion grafischer Benutzungsschnittstellen auf typische im Alltag vorhandene Oberflächen ermöglicht. Das System verfügt neben einem Projektor auch über eine 3D-Kamera zur Detektion von Benutzereingaben. Dadurch wird die Funktionalität von Touchscreens abgebildet, so dass typische Anwendungen implementiert werden können, die sonst beispielsweise auf Smartphones oder Tablets genutzt werden. Ein vergleichbarer Aufbau wird von \textsc{Tan} \textit{et al.} \cite{Tan2013} verwendet, um virtuelle Modelldaten auf reale Modelle zu projizieren. Dies ermöglicht die korrekte Darstellung der virtuellen Daten auch bei einem Wechsel der Beobachterperspektive. Die Lokalisation des Systems erfolgt anhand des Abgleichs zwischen Modell und Sensordaten.\\
+Das von \textsc{Harrison} \textit{et al.} \cite{Harrison2011} entwickelte \textit{Omnitouch} ist ein körpergeführtes System, welches die Projektion grafischer Benutzungsschnittstellen auf typische im Alltag vorhandene Oberflächen ermöglicht. Das System verfügt neben einem Projektor auch über eine 3D-Kamera zur Detektion von Benutzereingaben. Dadurch wird wie in \abb{fig.projsystems} (b) gezeigt die Funktionalität von Touchscreens abgebildet, so dass typische Anwendungen implementiert werden können, die sonst beispielsweise auf Smartphones oder Tablets genutzt werden. Ein vergleichbarer Aufbau wird von \textsc{Tan} \textit{et al.} \cite{Tan2013} verwendet, um virtuelle Modelldaten auf reale Modelle zu projizieren. Dies ermöglicht die korrekte Darstellung der virtuellen Daten auch bei einem Wechsel der Beobachterperspektive. Die Lokalisation des Systems erfolgt anhand des Abgleichs zwischen Modell und Sensordaten.\\
+
+\begin{figure}[!ht]
+	\begin{center}
+	\subfigure[\textit{SideBySide} \cite{Willis2011}]{
+		\includegraphics[height=4.8cm]{sidebyside}
+	}
+	%\hspace{4mm}
+	\subfigure[\textit{Omnitouch} \cite{Harrison2011}]{
+		\includegraphics[height=4.8cm]{omnitouch}
+	}
+	\caption{Beispiele mobiler Projektionssysteme}
+	\label{fig.projsystems}
+	\end{center}
+	%\vspace*{-8mm}
+\end{figure}
 
 \prever{
 %\red[Abbildungen der Systeme?\\]
