@@ -1,27 +1,28 @@
 \chapter{Material und Methoden}
 \label{chap.material}
-\prever{
+%\prever{
 %Anwendung nicht als System zur detektion der Projektion, sondern als gekoppeltes System. Dadurch Lichtstärke nur für den Anwender relevant, nicht aber für die Erkennung von Strukturen o.ä.\\
 %\kps{} auslagern oder in Material beschreiben?\\
 %\kps{} Kalibrierung etc. inkl. Grundlagenteil, wie ausführlich?\\
 %GUI Struktur auslagern oder hier beschreiben?\\
-\red[TODO:\\
-Blockschaltbild zu technischen Komponenten\\
+%\red[TODO:\\
+%Blockschaltbild zu technischen Komponenten\\
 %Blockschaltbild Software Elemente gleiche Form!?\\
 %Notation verschieben\\
 %KS für Bildebene einführen!?\\
-]
-}
+%]
+%}
 Dieses Kapitel erläutert die Elemente, aus welchen das erstellte \kps{} aufgebaut wurde. Neben den verwendeten technischen Komponenten wird die Kalibrierung des \kps{s} beschrieben. Darüber hinaus erfolgt eine Darstellung der verwendeten Softwarebibliotheken und der entwickelten Programmstruktur.
 
 \section{Technische Komponenten}
-Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. Eine Übersicht über die Verbindungen der Komponenten ist in \abb{fig.components} dargestellt.
+Um die Funktionen des \kps{s} zu realisieren werden verschiedene Komponente eingesetzt. Die Erfassung der Umgebung und der Bewegungen des Systems wird durch Verwendung einer 3D-Kamera und einer inertialen Messeinheit realisiert. Ein Mikrocontroller wertet die Daten der inertialen Messeinheit aus und übermittelt diese an einen Computer, welcher sie zusammen mit den Sensordaten der 3D-Kamera im Rahmen der in \kapitel{chap.softwarestruct} näher erläuterten Softwarestruktur verarbeitet. Die Software generiert auf Basis der Sensorinformationen die zu visualisierenden Bilddaten und überträgt sie an einen Minicomputer. Dieser bildet zusammen mit dem verwendeten Projektor ein gekapseltes Projektionsmodul zur Darstellung der visuellen Zusatzinformationen. Eine Übersicht über die in den folgenden Abschnitten näher beschriebenen Komponenten und ihre Verbindungen zeigt \abb{fig.components}.\\
+%Das erstellte System wurde aus verschiedenen Komponenten aufgebaut, welche im Folgenden näher beschrieben werden sollen. Eine Übersicht über die Verbindungen der Komponenten ist in \abb{fig.components} dargestellt.
 
 \begin{figure}[ht]
 	\begin{center}
-		\includesvgnew[1]{images/block_components_02}
+		\includesvgnew[1]{images/block_components_03}
 %		\includegraphics[scale=1.0]{spacer}
-		\caption{Komponenten}
+		\caption{Komponenten des \kps{s}}
 		\label{fig.components}
 	\end{center}
 \end{figure}
@@ -40,6 +41,10 @@ Für die weiteren Beschreibungen im Verlauf dieser Arbeit sollen zunächst einig
 \begin{equation}
 \ve{P}{\tilde{P}} = \tmat{P}{0}\cdot\ve{0}{\tilde{P}} \; \text{.}
 \end{equation}
+
+\prever{
+%\red[Klammern!\\]
+}
 
 \nomenclature[a]{KS}{Koordinatensystem}
 \nomenclature[l]{$\vec{p}$}{Punkt in 2D-Koordinaten}
@@ -129,6 +134,35 @@ Die Kinect stellt eine kostengünstige Möglichkeit zur simultanen Aufnahme von 
 %\red[Datenblatt/Spezifikationen in Anhang!\\]
 }
 
+\subsection{Arduino\textsuperscript{\texttrademark} Nano}
+\label{chap.arduino}
+Der Arduino\textsuperscript{\texttrademark} Nano\footnote{Im Folgenden als Arduino bezeichnet.} ist ein quelloffenes Mikrocontroller Board, welches durch Schnittstellen in Form von analogen und digitalen Ein- und Ausgängen die Steuerung, Kontrolle und Kommunikation mit elektronischen Komponenten wie Sensoren oder Aktoren ermöglicht. Eine detaillierte Auflistung der Spezifikationen des Arduino findet sich in \anhang{app:arduino}. Die zur Erstellung von Programmen bereitgestellte, ebenfalls quell-offene, Software bildet im Zusammenhang mit der Hardware eine ganzheitliche Entwicklungsumgebung, mittels derer sich Projekte unterschiedlicher Komplexität realisieren lassen. Der Arduino verfügt über eine USB-Schnittstelle, welche sowohl die Übertragung der erstellten Software auf den Arduino, als auch den Empfang von Kommunikationsdaten ermöglicht. Damit zusätzliche Informationen für die Lokalisation des \kps{s} zur Verfügung gestellt werden können, wird der Arduino in dieser Arbeit verwendet, um eine inertiale Messeinheit in das System zu integrieren.
+
+\prever{
+%\red[Auf Berechnung der Lagedaten näher eingehen?]\\
+%\red[Buttons eingebaut, kurz ansprechen hier]
+}
+
+%\cite{http://arduino.cc/en/Main/ArduinoBoardNano}
+
+\subsection{Inertiale Messeinheit}
+\label{chap.imu}
+Die von der Firma InvenSense (InvenSense Inc., San Jos\'e, USA) entwickelte, in den Chipsatz MPU-9250 integrierte, inertiale Messeinheit (englisch Inertial Measurement Unit, IMU) ermöglicht die Messung von Beschleunigungsdaten bezüglich der sechs räumlichen Freiheitsgrade des Systems. Aus diesen Daten kann die Orientierung des Systems bezüglich der Achswinkel bestimmt werden \cite{IMU}. Die Anbindung an das System erfolgt wie zuvor beschrieben durch den Arduino, welcher wiederum die Schnittstelle zu der entwickelten Programmstruktur bildet.
+\prever{
+%\red[Datenblatt in Anhang!]
+}
+
+%Kompass hier nicht verwendet, aber spätere Verwendung denkbar, bedeutet allerdings, dass Orientierung des Raumes bekannt sein muss (oder irgendwie später hinzugefügt werden kann)
+%\cite{http://www.invensense.com/mems/gyro/mpu6500.html}
+
+\subsection{Raspberry Pi\textsuperscript{\texttrademark}}
+Der Raspberry Pi\textsuperscript{\texttrademark} Computer\footnote{Im Folgenden als Raspberry bezeichnet.} wurde von der Raspberry Pi Foundation (Caldecote, Vereinigtes Königreich) entwickelt und ist ein ARM\footnote{ARM (Advanced RISC Machines) ist eine von der Firma ARM (ARM Limited, Cambridge, Vereinigtes Königreich) entwickelte Systemarchitektur für Mikroprozessoren, welche sich durch geringen Energiebedarf bei hoher Leistungsfähigkeit auszeichnet.}-basierter Mini-Computer, welcher auf einer einzigen Platine aufgebaut ist. Das Ziel der Entwicklung des Raspberry liegt in der Realisierung eines voll funktionsfähigen Computers mit geringen Kosten, um die Verbreitung besonders in Schulen und Bildungseinrichtungen zu ermöglichen und so das Erlernen von Programmier- und Computerkenntnissen bei Kindern und Jugendlichen zu fördern. Detaillierte Spezifikationen des Raspberry sind in \anhang{app:raspberry} aufgeführt.\\
+
+Der Raspberry wird für diese Arbeit mit einer angepassten Version des in Kapitel \ref{chap:ros} beschriebenen Meta-Betriebssystems Robot Operating System (ROS) betrieben, um die Anbindung an die entwickelte Programmstruktur zu gewährleisten. Der Raspberry dient dabei dazu, das Signal des zu projizierenden Bildes zu empfangen und über den Projektor darzustellen. Durch die direkte Anbindung des Projektors an den Raspberry entsteht ein gekapseltes System, welches damit in jeder auf ROS basierenden Anwendung eingesetzt werden kann.
+
+\nomenclature[a]{ARM}{Advanced RISC Machines}
+\nomenclature[a]{RISC}{Reduced Instruction Set Computer}
+
 \subsection{Microvision ShowWX+\textsuperscript{\texttrademark}}%Pico Laser Projektor}
 \label{chap.projector}
 Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Microvision (Microvison Inc., Redmond, USA) zeichnet sich neben der geringen Größe dadurch aus, dass als Lichtquellen drei Laser in den Farben rot, grün und blau eingesetzt werden. Die Strahlen werden wie in \abb{fig.projtech} gezeigt durch Optiken kombiniert, um alle Farben des sichtbaren Spektrums abzubilden. Der Bildaufbau erfolgt durch Ablenkung des kombinierten Strahls an einem MEMS\footnote{Ein MEMS (Mikro-elektromechanisches System) ist ein technisches System, welches aus Komponenten aufgebaut ist, deren Abmessungen im Mikrometerbereich liegen.}-Spiegel mit zwei Freiheitsgraden.
@@ -150,36 +184,6 @@ Der Pico-Laser-Projektor ShowWX+\textsuperscript{\texttrademark} der Firma Micro
 }
 
 Die Verwendung von Lasern führt dazu, dass die Schärfe des Bildes unabhängig vom Abstand zur Projektionsfläche ist. Der Einsatz von Linsen zur Fokussierung der Strahlen ist daher ebenso wie eine manuelle Anpassung der Fokuseinstellungen nicht erforderlich. Genauere Spezifikationen des ShowWX+\textsuperscript{\texttrademark} finden sich in Anhang \ref{app:projector}.
-
-
-\subsection{Arduino\textsuperscript{\texttrademark} Nano}
-\label{chap.arduino}
-Der Arduino\textsuperscript{\texttrademark} Nano\footnote{Im Folgenden als Arduino bezeichnet.} ist ein quelloffenes Mikrocontroller Board, welches durch Schnittstellen in Form von analogen und digitalen Ein- und Ausgängen die Steuerung, Kontrolle und Kommunikation mit elektronischen Komponenten wie Sensoren oder Aktoren ermöglicht. Eine detaillierte Auflistung der Spezifikationen des Arduino findet sich in \anhang{app:arduino}. Die zur Erstellung von Programmen bereitgestellte, ebenfalls quell-offene, Software bildet im Zusammenhang mit der Hardware eine ganzheitliche Entwicklungsumgebung, mittels derer sich Projekte unterschiedlicher Komplexität realisieren lassen. Der Arduino verfügt über eine USB-Schnittstelle, welche sowohl die Übertragung der erstellten Software auf den Arduino, als auch den Empfang von Kommunikationsdaten ermöglicht. Damit zusätzliche Informationen für die Lokalisation des \kps{s} zur Verfügung gestellt werden können, wird der Arduino in dieser Arbeit verwendet, um eine inertiale Messeinheit in das System zu integrieren.
-
-\prever{
-%\red[Auf Berechnung der Lagedaten näher eingehen?]\\
-%\red[Buttons eingebaut, kurz ansprechen hier]
-}
-
-%\cite{http://arduino.cc/en/Main/ArduinoBoardNano}
-
-\subsection{Inertiale Messeinheit}
-\label{chap.imu}
-Die von der Firma InvenSense (InvenSense Inc., San Jos\'e, USA) entwickelte inertiale Messeinheit (englisch Inertial Measurement Unit, IMU) MPU-9250 ermöglicht die Messung von Beschleunigungsdaten bezüglich der sechs räumlichen Freiheitsgrade des Systems. Aus diesen Daten kann die Orientierung des Systems bezüglich der Achswinkel bestimmt werden \cite{IMU}. Die Anbindung an das System erfolgt wie zuvor beschrieben durch den Arduino, welcher wiederum die Schnittstelle zu der entwickelten Programmstruktur bildet.
-\prever{
-%\red[Datenblatt in Anhang!]
-}
-
-%Kompass hier nicht verwendet, aber spätere Verwendung denkbar, bedeutet allerdings, dass Orientierung des Raumes bekannt sein muss (oder irgendwie später hinzugefügt werden kann)
-%\cite{http://www.invensense.com/mems/gyro/mpu6500.html}
-
-\subsection{Raspberry Pi\textsuperscript{\texttrademark}}
-Der Raspberry Pi\textsuperscript{\texttrademark} Computer\footnote{Im Folgenden als Raspberry bezeichnet.} wurde von der Raspberry Pi Foundation (Caldecote, Vereinigtes Königreich) entwickelt und ist ein ARM\footnote{ARM (Advanced RISC Machines) ist eine von der Firma ARM (ARM Limited, Cambridge, Vereinigtes Königreich) entwickelte Systemarchitektur für Mikroprozessoren, welche sich durch geringen Energiebedarf bei hoher Leistungsfähigkeit auszeichnet.}-basierter Mini-Computer, welcher auf einer einzigen Platine aufgebaut ist. Das Ziel der Entwicklung des Raspberry liegt in der Realisierung eines voll funktionsfähigen Computers mit geringen Kosten, um die Verbreitung besonders in Schulen und Bildungseinrichtungen zu ermöglichen und so das Erlernen von Programmier- und Computerkenntnissen bei Kindern und Jugendlichen zu fördern. Detaillierte Spezifikationen des Raspberry sind in \anhang{app:raspberry} aufgeführt.\\
-
-Der Raspberry wird für diese Arbeit mit einer angepassten Version des in Kapitel \ref{chap:ros} beschriebenen Meta-Betriebssystems Robot Operating System (ROS) betrieben, um die Anbindung an die entwickelte Programmstruktur zu gewährleisten. Der Raspberry dient dabei dazu, das Signal des zu projizierenden Bildes zu empfangen und über den Projektor darzustellen. Durch die direkte Anbindung des Projektors an den Raspberry entsteht ein gekapseltes System, welches damit in jeder auf ROS basierenden Anwendung eingesetzt werden kann.
-
-\nomenclature[a]{ARM}{Advanced RISC Machines}
-\nomenclature[a]{RISC}{Reduced Instruction Set Computer}
 
 \section{Aufbau des \kps{s}}
 Aus den beschriebenen Komponenten wurde das in Bild \ref{fig.kinpro} dargestellte handführbare \kps{} aufgebaut. Die Pose des Projektors wurde dabei so gewählt, dass eine Überdeckung des Projektionsfeldes mit dem Sichtfeld der RGB-Kamera der \kin erreicht wird. Im Zentrum des Systems ist eine Leiterplatte positioniert, über welche die Kommunikationsverbindung zwischen der IMU und dem Arduino realisiert wird.\\
@@ -288,7 +292,11 @@ Durch die Kamerakalibrierung können die Parameter dieser beiden Matrizen bestim
 \prever{
 %\red[Bilder der Kalibrierung?\\]
 }
-Die extrinsische Kameramatrix definiert die Transformation zwischen dem Inertialkoordinatensystem und dem Koordinatensystem der Kamera. Sie gibt damit die Lage von $\ks{K}$ im $\ks{0}$ an und wird über eine Translation $\vec{t}_\ind{0}$ und eine Rotation $\rmat{K}{0}$ beschrieben. Während die Translation allgemein über den Verschiebungsvektor zwischen den Koordinatensystemen $\vec{t}_\ind{0} = [t_x, t_y, t_z]^\transpose$ angegeben wird, existieren für die Definition der Rotation verschiedene Konventionen.\\
+Die extrinsische Kameramatrix definiert die Transformation zwischen dem Inertialkoordinatensystem und dem Koordinatensystem der Kamera. Sie gibt damit die Lage von $\ks{K}$ im $\ks{0}$ an und wird über eine Translation $\vec{t}_\ind{0}$ und eine Rotation $\rmat{K}{0}$ beschrieben. Während die Translation allgemein über den Verschiebungsvektor zwischen den Koordinatensystemen $\vec{t}_\ind{0} = (t_x, t_y, t_z)^\transpose$ angegeben wird, existieren für die Definition der Rotation verschiedene Konventionen.\\
+
+\prever{
+%\red[Klammern!\\]
+}
 
 \nomenclature[l]{$\vec{t}$}{Translationsvektor}
 
@@ -333,46 +341,73 @@ Ein in inertialen Koordinaten bekannter Punkt lässt sich damit im Koordinatensy
 %\red[Rotationsmatrix und Translationsvektor vorher beschreiben und Punktabbildung definieren, dann hom. Trafo]
 
 \subsubsection{Intrinsische Kameramatrix}
-Ist die Position eines Punktes im Kamera-Koordinatensystem bekannt, so lässt sich mittels der intrinsischen Kameramatrix die Abbildung der dreidimensionalen Koordinaten auf die Pixel-Koordinaten $\ve{S}{p} = [u,v]^\transpose$ der Sensorfläche der Kamera beschreiben. In Bezug auf das Modell der Lochkamera treffen die Strahlen an einem Punkt $\ve{K}{{p}}$ auf die Bildebene der Kamera, welche als deckungsgleich mit der Ebene der Sensorfläche angenommen wird. Die Position des Punktes ist abhängig von der Brennweite $f$, welche den Abstand zwischen Blendenöffnung und Bildebene angibt. Die Abbildung auf eine Ebene führt zu einer Reduktion der Dimension, wodurch die Bild-Koordinaten nur noch zweidimensional angegeben werden können. Dies führt zu dem in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$, durch welchen die Unbestimmtheit der Tiefeninformationen gekennzeichnet ist.\\
+Ist die Position eines Punktes im Kamera-Koordinatensystem bekannt, so lässt sich mittels der intrinsischen Kameramatrix die Abbildung der dreidimensionalen Koordinaten auf die diskreten Pixel-Koordinaten $\ve{S}{p} = (u,v)^\transpose$ der Sensorfläche der Kamera beschreiben. In Bezug auf das Modell der Lochkamera treffen die Strahlen an einem Punkt $\ve{K}{{p}}$ auf die Bildebene der Kamera, welche als deckungsgleich mit der Ebene der Sensorfläche angenommen wird. Die Position des Punktes ist abhängig von der Brennweite $f$, welche den Abstand zwischen Blendenöffnung und Bildebene angibt. Die Abbildung auf eine Ebene führt zu einer Reduktion der Dimension, wodurch die Bild-Koordinaten nur noch zweidimensional angegeben werden können. Dies führt zu dem in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$, durch welchen die Unbestimmtheit der Tiefeninformationen gekennzeichnet ist.\\
 \prever{
 %\red[Punkt in Bildebene der Kamera mit index K!? KS für Bildebene und Sensorfläche einführen?\\]
 }
-Die Umrechnung der metrischen Koordinaten in diskrete Pixel-Koordinaten erfolgt abschließend durch Verschiebung des Koordinatensystems der Bildebene um $[u_0,v_0]$ in den Sensorursprung und Berücksichtigung der Umrechnungsparameter $s_x$ und $s_y$, welche sich aus der Geometrie der Sensorelemente ergeben. Die Abbildung kann mit der intrinsischen Kameramatrix $\tmat{S}{K}$ anhand dieser Parameter beschrieben werden als
+
+\prever{
+%\red[Klammern!\\]
+}
+
+Die Umrechnung der metrischen Koordinaten in diskrete Pixel-Koordinaten erfolgt abschließend durch Verschiebung des Koordinatensystems der Bildebene um $(u_0,v_0)$ in den Sensorursprung und Berücksichtigung der Umrechnungsparameter $s_x$ und $s_y$, welche sich aus der Geometrie der Sensorelemente ergeben. Die Abbildung kann mit der intrinsischen Kameramatrix $\tmat{S}{K}$ anhand dieser Parameter beschrieben werden als
 %
-\nomenclature[l]{$u$, $v$}{Pixel-Koordinaten der Sensorfläche}
+%\prever{
+%\red[Klammern!\\]
+%}
+\nomenclature[l]{$u$, $v$}{Diskrete Pixel-Koordinaten der Sensorfläche}
 \nomenclature[l]{$s_x$, $s_y$}{Umrechnungsfaktoren zwischen metrischen Koordinaten und diskreten Pixel-Koordinaten}
 \nomenclature[l]{$u_\ind{0}$, $v_\ind{0}$}{Ursprung der Sensor-Koordinaten}
 \nomenclature[l]{$f_x$, $f_y$}{Umgerechnete, richtungsabhängige Brennweiten}
 %
 %
 \begin{equation}
-s \cdot 
+s \cdot
+\underbrace{ 
+\vphantom{\mat{c}{
+X\\
+Y\\
+Z\\
+1
+}}
 \mat{c}{
 u\\
 v\\
 1
 }
+}_{\ve{S}{\tilde{p}}}
 = 
+\underbrace{ 
+\vphantom{\mat{c}{
+X\\
+Y\\
+Z\\
+1
+}}
 \mat{cccc}{
 s_x \cdot f & 0 & u_\ind{0} & 0\\
 0 & s_y \cdot f & v_\ind{0} & 0\\
 0 & 0 & 1 & 0
 }
+}_\tmat{S}{K}
  \cdot
+\underbrace{
 \mat{c}{
 X\\
 Y\\
 Z\\
 1
-} \; \text{.}
+}
+}_{\ve{K}{\tilde{P}}}
+ \; \text{.}
 \label{eq.intrinsic}
 \end{equation}%
-\prever{
-\red[Satzzeichen zwischen den Formeln? Komma? Punkt? Überleitung?\\]
-}
-\begin{equation}
-s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K} \cdot \ve{K}{\tilde{P}} \; \text{.}
-\end{equation}
+%\prever{
+%\red[Satzzeichen zwischen den Formeln? Komma? Punkt? Überleitung?\\]
+%}
+%\begin{equation}
+%s \cdot \ve{S}{\tilde{p}} = \tmat{S}{K} \cdot \ve{K}{\tilde{P}} \; \text{.}
+%\end{equation}
 
 Im Weiteren werden die Produkte aus Brennweite und Umrechnungsfaktoren in den gemeinsamen Parametern $f_x := s_x \cdot f$ und $f_y := s_y \cdot f$ zusammengefasst, da diese im Rahmen der folgenden Kalibrierung nicht unabhängig voneinander zu bestimmen sind.
 
@@ -411,7 +446,7 @@ Darüber hinaus treten weiter Formen von Verzeichnungen auf, die aufgrund ihres 
 %so dass eine Abbildungsgenauigkeit im Subpixelbereich erzielt werden kann \red[\cite{}]. Die Verzeichnungsparameter können zusammen mit den intrinsischen Parametern im Rahmen einer Kalibrierung ermittelt werden. \red[Tangentiale Verzeichnungen werden aber auch berechnet in Kalibrierung!]
 
 \subsubsection{Kalibriervorgang}
-Basierend auf dem von Zhang \cite{Zhang2000} vorgestellten Verfahren lassen sich die intrinsischen Kameraparameter bestimmen und die radialen Verzeichnungen modellieren. Die Kalibrierung erfolgt dabei durch Betrachtung eines planaren Musters aus verschiedenen Kameraperspektiven. Im folgenden werden die Schritte erläutert, welche zur Bestimmung der Parameter erforderlich sind.\\
+Basierend auf dem von \textsc{Zhang} \cite{Zhang2000} vorgestellten Verfahren lassen sich die intrinsischen Kameraparameter bestimmen und die radialen Verzeichnungen modellieren. Die Kalibrierung erfolgt dabei durch Betrachtung eines planaren Musters aus verschiedenen Kameraperspektiven. Im folgenden werden die Schritte erläutert, welche zur Bestimmung der Parameter erforderlich sind.\\
 
 Zunächst wird ein geeignetes Muster erstellt und auf eine planare Fläche aufgebracht. In dieser Arbeit wird die Kalibrierebene wie in \abb{fig.chesscalib} gezeigt durch ein Schachbrettmuster definiert, welches auf einen ebenen Untergrund aufgeklebt wird.
 
@@ -462,8 +497,12 @@ Z\\
 } \; \text{.}
 \end{equation}
 
-Eine Vereinfachung dieser Darstellung lässt sich erreichen, indem die Kalibrierebene mit der globalen Ebene in $Z=0$ gleichgesetzt wird. Dadurch können die Dimensionen der intrinsischen und extrinsischen Kameramatrix reduziert werden. Die Abbildungsgleichung ergibt sich damit unter Umformulierung der Rotations-Matrix als $\rmat{K}{0} = [\vec{r}_1 \quad \vec{r}_2 \quad \vec{r}_3]$ zu:
-
+Eine Vereinfachung dieser Darstellung lässt sich erreichen, indem die Kalibrierebene mit der globalen Ebene in $Z=0$ gleichgesetzt wird. Dadurch können die Dimensionen der intrinsischen und extrinsischen Kameramatrix reduziert werden. Die Abbildungsgleichung ergibt sich damit unter Umformulierung der Rotations-Matrix als $\rmat{K}{0} = (\vec{r}_1 \quad \vec{r}_2 \quad \vec{r}_3)$ zu:
+%
+%\prever{
+%\red[Klammern!\\]
+%}
+%
 \nomenclature[l]{$\vec{r}_i$}{Vektor der $i$-ten Spalte der Rotationsmatrix}
 %
 \begin{equation}
@@ -524,7 +563,7 @@ Um die Darstellung visueller Informationen an definierten Stellen im Raum zu erm
 
 Aufgrund der Fixierung des Projektors im \kps{} ist die Lage bezüglich des Kamera-Koordinatensystems unveränderlich. Anstelle einer globalen Positionsbestimmung ist insbesondere die Ermittlung der konstanten, relativen Transformation zwischen den Koordinatensystemen des Projektors und der Kamera von Interesse. Ziel der Kalibrierung des Projektors ist daher die Bestimmung der konstanten Parameter der intrinsischen Projektormatrix und der Pose des Projektors bezüglich des Kamera-Koordinatensystems $\ks{K}$.\\
 
-Die Kalibrierung erfolgt anhand des von Falcao \textit{et al.} beschriebenen Verfahrens \cite{Falcao2008}. Dabei wird zur Definition der Kalibrierebene erneut ein Muster auf einer Platte verwendet. Ein weiteres Kalibriermuster wird als digitales Bild erstellt und wie in \abb{fig.projcalib} gezeigt durch den Projektor neben das reale Muster auf die Platte projiziert.
+Die Kalibrierung erfolgt anhand des von \textsc{Falcao} \textit{et al.} beschriebenen Verfahrens \cite{Falcao2008}. Dabei wird zur Definition der Kalibrierebene erneut ein Muster auf einer Platte verwendet. Ein weiteres Kalibriermuster wird als digitales Bild erstellt und wie in \abb{fig.projcalib} gezeigt durch den Projektor neben das reale Muster auf die Platte projiziert.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -541,7 +580,7 @@ Die Kalibrierung erfolgt anhand des von Falcao \textit{et al.} beschriebenen Ver
 
 Um die gemeinsame Kalibrierebene zu bestimmen ist die Aufnahme beider Muster in einem Bild erforderlich. Da die Kalibrierung auch die Transformation zwischen den Koordinatensystemen von Kamera und Projektor bestimmen soll, werden die Muster mit der zuvor kalibrierten Kamera des Systems aufgezeichnet.\\
 
-Zunächst ist es erforderlich, die Lage der Kamera bezüglich der Kalibrierebene zu ermitteln. Mit Hilfe der ermittelten intrinsischen Kameraparameter können die inertialen Koordinaten der Eckpunkte und die aufgespannte Ebene des realen Schachbretts leicht bestimmt werden. Die Pixel-Koordinaten des projizierten Musters können ebenfalls extrahiert werden. Da die Kalibrierebene bekannt ist, kann der in \eq{eq.persp_abb} eingeführte Skalierungsfaktor in den Abbildungsgleichungen bestimmt und somit die räumliche Position der projizierten Eckpunkte ermittelt werden.\\
+Zunächst ist es erforderlich, die Lage der Kamera bezüglich der Kalibrierebene zu ermitteln. Mit Hilfe der ermittelten intrinsischen Kameraparameter können die inertialen Koordinaten der Eckpunkte und die aufgespannte Ebene des realen Schachbretts leicht bestimmt werden. Die diskreten Pixel-Koordinaten des projizierten Musters können ebenfalls extrahiert werden. Da die Kalibrierebene bekannt ist, kann der in \eq{eq.persp_abb} eingeführte Skalierungsfaktor in den Abbildungsgleichungen bestimmt und somit die räumliche Position der projizierten Eckpunkte ermittelt werden.\\
 
 Es liegen nun wie bei der Kamerakalibrierung Korrespondenzen zwischen den Punkten in der Kalibrierebene und der gedachten Sensorebene des Projektors vor. Damit ist das bereits beschrieben Kalibrierverfahren nach Zhang anwendbar, wodurch die intrinsische Projektormatrix $\tmat{SP}{P}$ bestimmt werden kann.\\
 
@@ -569,7 +608,7 @@ Da das \kps{} damit als Gesamtsystem kalibriert ist, wird ein gemeinsames Basis-
 \end{figure}
 
 \prever{
-\red[
+%\red[
 %Notation\\
 %Lochkameramodell\\
 %Intrinsische + Extrinsische Parameter\\
@@ -578,8 +617,8 @@ Da das \kps{} damit als Gesamtsystem kalibriert ist, wird ein gemeinsames Basis-
 %Projektor als inverse Kamera\\
 %Kalibrierung Projektor + Kamera+Projektor\\
 %Projektor Linsenverzeichnung!?\\
-Toolboxen und verwendete Kalibrierungsnode nennen?\\
-]
+%Toolboxen und verwendete Kalibrierungsnode nennen?\\
+%]
 }
 
 %\red[Gemeinsames Koordinatensystem des Gesamtsystems definieren, über welches die Lage in der Umgebung beschrieben wird. $\ks{KPS}$\\]
@@ -662,33 +701,26 @@ Die Datengrundlage stellt die Repräsentation der Umgebung und der virtuellen Mo
 %Dazu werden im Modul \textit{Visualisierung} alle Transformationen bestimmt, welche die Pose  der Modellumgebung definieren.\\
 Das Modul \textit{Interaktion} ermöglicht dem Benutzer die Modifikation der visualisierten Modelldaten indem die Tiefeninformationen der Kinect ausgewertet werden. Die Befehle des Benutzers können so erkannt und anschließend an das Modul \textit{Visualisierung} übertragen werden. Durch die Rückkopplung zu den Modelldaten können diese daraufhin angepasst werden. Das Modul \textit{Visualisierung} integriert die Benutzerinteraktion in die Darstellung der Modelldaten, so dass eine visuelle Rückmeldung während der Interaktion erfolgt.\\
 
-Darüber hinaus wurde eine grafische Benutzeroberfläche (GUI) implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurde in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Bedienung der Benutzeroberfläche lauffähig ist.\\
-
+Darüber hinaus wurde eine grafische Benutzeroberfläche (GUI) implementiert, welche verschiedene Konfigurationsmöglichkeiten bietet. Sie ermöglicht dem Benutzer direkten Zugriff auf die Einstellungen der Module. Diese übergeordnete Kommunikationsstruktur wurde in der Übersicht nicht explizit aufgeführt, da die Anwendung unabhängig von der Bedienung der Benutzeroberfläche lauffähig ist. In den folgenden Kapiteln wird zunächst die Datengrundlage spezifiziert und darauf aufbauend werden die Struktur und Funktionalität der beschriebenen Softwaremodule erläutert.
+%\prever{
+%%\red[Satz ist kein Absatz!\\]
+%}
 \nomenclature[a]{GUI}{Graphical User Interface}
-
-In den folgenden Kapiteln wird zunächst die Datengrundlage spezifiziert und darauf aufbauend werden die Struktur und Funktionalität der beschriebenen Softwaremodule erläutert.\\
-\prever{
-\red[Satz ist kein Absatz!\\]
-}
-
-
-\prever{
-%\red[eigene leistung]
-}
-
-\prever{
-%\red[In den folgenden Kapiteln erfolgt eine Spezifizierung der Module und ihrer Komponenten.\\]
-%\red[Wie KPS, Benutzer und Modelldaten bezeichnen?\\]
-}
-
+%
+%
+%\prever{
+%%\red[In den folgenden Kapiteln erfolgt eine Spezifizierung der Module und ihrer Komponenten.\\]
+%%\red[Wie KPS, Benutzer und Modelldaten bezeichnen?\\]
+%}
+%
 %Module: \mLocalization - EKF Odometrie (Tracking) - Visuelle Odometrie - IMU - Visualisierung - Transformation - Interaktion - Benutzeroberfläche - Projektion - Kartenserver\\
-
+%
 %Das \mLocalization bestimmt und überwacht die aktuelle Position des \kps{s}. Es ermittelt die initiale Position mittels globaler Lokalisation auf Basis der vom \mMapserver zur Verfügung gestellten Karte. Als weitere Eingangsgröße verwendet es die Odometriedaten, welche vom \mEkf zur Verfügung gestellt werden um Veränderungen in der Position während der Bedienung zu erkennen und die Positionsdaten dementsprechend zu aktualisieren. Das \mEkf selbst verwendet und filtert dabei die visuellen Odometriedaten des \mFovis und die Lagedaten des \mImu \red[TODO Moduls] um die kombinierten Odometriedaten zu bestimmen.\\
 %Diese so vom \mLocalization bestimmten Positionsdaten werden dem \mTransformation übermittelt, welches alle Koordinatentransformationen zwischen der ermittelten Kameraposition, dem Projektor und den relevanten Objekten der Umgebung berechnet. Diese Berechnungen werden dann vom \mVisualization verwendet, um ein Abbild der aktuellen Projektorsicht innerhalb der 3D Umgebung zu erstellen. Dem Benutzer wird diese Ansicht anschließend sowohl über die Benutzeroberfläche durch das \mGui als auch über die Projektion durch das \mProjection dargestellt. \\
 %Das \mInteraction erkennt vom Benutzer durchgeführte Gesten oder Bewegungen, über welche er auf Basis der projizierten Daten mit der Modellumgebung interagiert. Die Steuerungsbefehle werden dann über das \mTransformation an das \mVisualization übertragen, wo diese interpretiert werden und in Form von Modifikationen der Modellumgebung umgesetzt werden.\\
 %Die jeweilige Realisierung der Module wird in den folgenden Kapiteln näher spezifiziert.\\
-
-
-\prever{
-%\red[Buttons eingebaut, hier als Möglichkeit der Interaktion erwähnen(?)- Aber welches Modul managed das?]
-}
+%
+%
+%\prever{
+%%\red[Buttons eingebaut, hier als Möglichkeit der Interaktion erwähnen(?)- Aber welches Modul managed das?]
+%}

@@ -16,7 +16,7 @@ In diesem Kapitel wird das Vorgehen zur Bestimmung der Systempose innerhalb der 
 \label{chap.map}
 Als Grundlage von Karten werden häufig Entfernungsmessungen verwendet, die im Rahmen von Verfahren wie dem in \abschnitt{chap.slam} beschriebenen SLAM eingesetzt werden. Das Resultat ist meist eine Repräsentation der Umgebung in Form einer Punktwolke. Da diese Darstellung je nach Größe und Auflösung der Karte zu einem hohen Rechenaufwand führen kann, wird in dieser Arbeit eine darauf aufbauende Implementierung \cite{Octomap} verwendet, welche eine kompakte und effiziente Beschreibung der Umgebung ermöglicht.\\
 
-Die von Hornung \textit{et al.} \cite{Hornung2013} beschriebene Datenstruktur \textit{Octomap} basiert auf der Abbildung der Umgebung über eine \textit{octree} genannte Baumstruktur. Zunächst wird ein Würfelvolumen über den zu beschreibenden Bereich gelegt, welcher den maximalen Abmessungen des Umgebungsmodells entspricht. Dieser Würfel wird anschließend in acht äquivalente Volumenelemente (Voxel) unterteilt. Für jedes Voxel erfolgt eine Bestimmung, ob sich ein Messpunkt der Punktwolke innerhalb des Volumens befindet. Dabei erfolgt eine Betrachtung entlang der Sensorstrahlen, so dass gleichzeitig freie Voxel bestimmt werden können. Alle besetzten Voxel werden anschließend erneut auf gleiche Weise unterteilt. Rekursiv erfolgt somit die in \abb{fig.octree} dargestellte Verfeinerung der Baum- und Volumenstruktur. Freie Bereiche müssen dabei nicht weiter verfeinert werden, wodurch eine effiziente Darstellung erreicht wird.\\
+Die von \textsc{Hornung} \textit{et al.} \cite{Hornung2013} beschriebene Datenstruktur \textit{Octomap} basiert auf der Abbildung der Umgebung über eine \textit{octree} genannte Baumstruktur. Zunächst wird ein Würfelvolumen über den zu beschreibenden Bereich gelegt, welcher den maximalen Abmessungen des Umgebungsmodells entspricht. Dieser Würfel wird anschließend in acht äquivalente Volumenelemente (Voxel) unterteilt. Für jedes Voxel erfolgt eine Bestimmung, ob sich ein Messpunkt der Punktwolke innerhalb des Volumens befindet. Dabei erfolgt eine Betrachtung entlang der Sensorstrahlen, so dass gleichzeitig freie Voxel bestimmt werden können. Alle besetzten Voxel werden anschließend erneut auf gleiche Weise unterteilt. Rekursiv erfolgt somit die in \abb{fig.octree} dargestellte Verfeinerung der Baum- und Volumenstruktur. Freie Bereiche müssen dabei nicht weiter verfeinert werden, wodurch eine effiziente Darstellung erreicht wird.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -55,8 +55,10 @@ Die Besonderheit des von Hornung \textit{et al.} entwickelten Ansatzes liegt dar
 Ziel der Lokalisation ist die Bestimmung der Systempose innerhalb der Karte, also der Transformationsvorschrift zwischen dem Koordinatensystem $\ks{KPS}$ des \kps{s} und dem Koordinatensystem $\ks{M}$ der Karte $\vec{m}$, welche die zugrunde liegende Datenstruktur in Vektorform repräsentiert. Die Transformation $\tmat{0}{M}$ ist konstant, da die Karte als statische Referenz bezüglich des Inertialkoordinatensystems betrachtet werden kann. Die Lage kann somit beliebig gewählt werden, weshalb das Koordinatensystem im Folgenden in den globalen Ursprung gesetzt wird, so dass gilt:
 %
 \begin{equation}
-\tmat{0}{M} = \vec{I} \; \text{.}
+\tmat{0}{M} = \vec{I}_\ind{4} \; \text{.}
 \end{equation}
+
+\nomenclature[l]{$\vec{I}_\ind{4}$}{Einheitsmatrix der Größe $(4 \times 4)$}
 
 \section{Globale Lokalisation}
 \label{chap.globloc}
@@ -77,22 +79,29 @@ Das in dieser Arbeit gewählte Verfahren zur globalen Lokalisation basiert auf d
 %\red[Entwickelt für die Lokalisation eines humanoiden Roboters konnte die Implementierung so angepasst werden, dass sie auch die Lokalisation eines handgeführten Systems ermöglicht.]\\
 }
 
-In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Gleichverteilung generiert. Jedes Partikel entspricht einer möglichen Pose des Kamera-Projektor-Systems und verfügt demnach über sechs Freiheitsgrade. Die Bestimmung der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \textit{Endpoint}-Modell (EPM) und dem \textit{Raycasting}-Modell (RCM). Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen, soll diese zunächst kurz erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
+In der vorhandenen Umgebungskarte werden Partikel basierend auf einer Gleichverteilung möglicher Posen des Kamera-Projektor-Systems generiert. Jedes Partikel verfügt demnach über sechs Freiheitsgrade. Im Rahmen der verwendeten Implementierung wird eine Verringerung der zu bestimmenden Freiheitsgrade erreicht, indem der Roll- und Nick-Winkel über die Orientierungsdaten der IMU ermittelt und die $z$-Koordinate innerhalb der Karte manuell eingeschränkt wird. Die Bestimmung der verbleibenden Freiheitsgrade der Pose des Kamera-Projektor-Systems erfolgt durch Auswertung der Partikel basierend auf einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeiten können dabei auf Basis zweier verschiedener Modelle berechnet werden, dem \textit{Endpoint}-Modell (EPM) und dem \textit{Raycasting}-Modell (RCM). Da sich beide Modelle bei der Berechnung der Wahrscheinlichkeiten auf die Log-Likelihood-Funktion stützen, soll diese zunächst erläutert werden, bevor anschließend die beiden Modelle ausführlicher dargestellt werden.
 \prever{
-\red[Gleichverteilung aus welchem Raum/Bereich?\\]
+%\red[Gleichverteilung aus welchem Raum/Bereich?\\]
 }
 \nomenclature[a]{EPM}{Endpoint-Modell}
 \nomenclature[a]{RCM}{Raycasting-Modell}
 
 \subsection{Log-Likelihood-Funktion}
 \label{chap.loglik}
-Ideale Entfernungssensoren würden bei einer Messung die exakten Distanzen zu den Hindernissen in ihrem Messbereich ermitteln. In der Realität sind jedoch alle Messungen mit einem Fehler durch lokales Messrauschen behaftet, welches im Fall der Kinect als Gaußverteilung modelliert werden kann \cite{Nguyen2012}.\\
+Ideale Entfernungssensoren würden bei einer Messung die exakten Distanzen zu den Hindernissen in ihrem Messbereich ermitteln. In der Realität sind jedoch alle Messungen mit einem Fehler durch lokales Messrauschen behaftet, welches im Fall der Kinect als Gauß-Verteilung modelliert werden kann \cite{Nguyen2012}.\\
 
-Es soll dazu die Pose $\vec{x}_{\ind{p}}$ eines Partikels innerhalb der Karte $\vec{m}$ betrachtet werden. Die Wahrscheinlichkeit $p$, ob eine gemessene Distanz $d_{\ind{m,i}}$ aus einem bekannten Hindernis in der Entfernung $d_{\ind{k}}$ resultiert, lässt sich innerhalb des Intervalls der Sensorreichweite $[d_{\ind{min}};d_{\ind{max}}]$ über eine Gaußverteilung mit Mittelwert $d_{\ind{k}}$ und der Varianz des Sensors $\sigma_{\ind{S}}^2$ ermitteln \cite{Thrun2005}:
+Es soll dazu die Pose $\vec{x}_{\ind{p}}$ eines Partikels innerhalb der Karte $\vec{m}$ betrachtet werden. Die Wahrscheinlichkeit $p$, ob eine gemessene Distanz $d_{\ind{m,i}}$ aus einem bekannten Hindernis in der Entfernung $d_{\ind{k}}$ resultiert, lässt sich innerhalb des Intervalls der Sensorreichweite $[d_{\ind{min}};d_{\ind{max}}]$ über eine Gauß-Verteilung mit Mittelwert $d_{\ind{k}}$ und der Varianz des Sensors $\sigma_{\ind{S}}^2$ ermitteln \cite{Thrun2005}:
 %
+%\begin{equation}
+%p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},\vec{m}) = \left\lbrace\begin{array}{ll}
+%\eta  \cdot \mathcal{N}(d_{\ind{m,i}};d_{\ind{k}},\sigma_{\ind{S}}^2) & \quad \text{wenn} \quad d_{\ind{min}}\leq d_{\ind{m,i}} \leq d_{\ind{max}} \\
+%0 & \quad \text{sonst}
+%\end{array}
+%\right. \; \text{.}
+%\end{equation}
 \begin{equation}
 p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},\vec{m}) = \left\lbrace\begin{array}{ll}
-\eta  \cdot \mathcal{N}(d_{\ind{m,i}};d_{\ind{k}},\sigma_{\ind{S}}^2) & \quad \text{wenn} \quad d_{\ind{min}}\leq d_{\ind{m}}^i \leq d_{\ind{max}} \\
+\eta  \cdot \mathcal{N}(d_{\ind{k}},\sigma_{\ind{S}}^2) & \quad \text{wenn} \quad d_{\ind{min}}\leq d_{\ind{m,i}} \leq d_{\ind{max}} \\
 0 & \quad \text{sonst}
 \end{array}
 \right. \; \text{.}
@@ -111,10 +120,13 @@ p(d_{\ind{m,i}}|\vec{x}_{\ind{p}},\vec{m}) = \left\lbrace\begin{array}{ll}
 \nomenclature[l]{$\Delta d$}{Differenz aus Messwert und Distanzwert der Karte}
 \nomenclature[l]{$\mathrm{K}$}{Konstante der Log-Likelihood-Funktion}
 
-Dabei ist $\eta$ ein für die verwendeten Modelle konstanter Normalisierungsfaktor und die Gaußverteilung mit der Differenz der Distanzen ${\Delta d}_i = d_{\ind{m,i}}-d_{\ind{k}}$  gegeben durch:
+Dabei ist $\eta$ ein für die verwendeten Modelle konstanter Normalisierungsfaktor und die Gauß-Verteilung mit der Differenz der Distanzen ${\Delta d}_i = d_{\ind{m,i}}-d_{\ind{k}}$  gegeben durch:
 %
+%\begin{equation}
+%\mathcal{N}(d_{\ind{m,i}};d_{\ind{k}},\sigma_{\ind{S}}^2) = \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}}  \cdot e^{-\dfrac{{({\Delta d}_i)}^2}{2 \cdot \sigma_{\ind{S}}^2}} \; \text{.}
+%\end{equation}
 \begin{equation}
-\mathcal{N}(d_{\ind{m,i}};d_{\ind{k}},\sigma_{\ind{S}}^2) = \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}}  \cdot e^{-\dfrac{{({\Delta d}_i)}^2}{2 \cdot \sigma_{\ind{S}}^2}} \; \text{.}
+\mathcal{N}(d_{\ind{k}},\sigma_{\ind{S}}^2) = \frac{1}{\sqrt{2 \cdot \pi \cdot \sigma_{\ind{S}}^2}}  \cdot e^{-\dfrac{{({\Delta d}_i)}^2}{2 \cdot \sigma_{\ind{S}}^2}} \; \text{.}
 \end{equation}
 
 Die Bestimmung der Wahrscheinlichkeit einer Pose erfolgt durch Betrachtung aller $n$ im Vektor $\vec{d}_{\ind{m}}$ zusammengefassten Messwerte. Dazu wird angenommen, dass die Messwerte voneinander unabhängig sind und das Produkt der einzelnen Wahrscheinlichkeiten gebildet \cite{Hornung2010}. Dies ergibt die Likelihood-Funktion:
@@ -140,7 +152,7 @@ Durch Anwendung des natürlichen Logarithmus auf \eq{eq.likelihood} ergibt sich 
 Da der natürliche Logarithmus eine streng monotone Funktion ist, bleibt die Stelle des Maximums der Ursprungsfunktion erhalten. Das bedeutet, dass das Partikel mit maximalem Wahrscheinlichkeitswert erhalten bleibt. Da die Partikel bei jeder Lokalisation lediglich relativ untereinander verglichen werden, hat dieser Schritt keine Auswirkungen auf das Ergebnis. Die Konstante $\mathrm{K}$ ist bei gleichbleibender Varianz für alle Messungen identisch und kann daher vorab berechnet werden. Die so bestimmte Wahrscheinlichkeit der betrachteten Pose kann nun als Gewichtung verwendet werden, um das Maximum über alle Partikel zu bestimmen. 
 
 \subsection{Endpoint-Modell}
-Das EPM, welches von Konolige und Chou in \cite{Konolige1999} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei basierend auf der Entfernung zum nächsten Hindernis ein Distanzwert zugewiesen. Als Hindernisse gelten alle besetzten Zellen der \textit{Octomap}, also neben dem Raum selbst auch alle weiteren in der Karte vorhanden Strukturen. Bei der Bestimmung der Distanzwerte werden die Messunsicherheiten des verwendeten Sensors berücksichtigt, so dass ein Abbild der Karte wie in \abb{fig.dist_map} erzeugt wird.\\
+Das EPM, welches von \textsc{Konolige} und \textsc{Chou} in \cite{Konolige1999} beschrieben wurde, bestimmt die Wahrscheinlichkeit einer Pose anhand eines Distanz-Modells. Basierend auf der für die Lokalisation verwendeten \textit{Octomap} wird zunächst eine Lookup-Table erstellt, welche die räumlichen Dimensionen der Ausgangskarte abbildet. Jedem Voxel wird dabei basierend auf der Entfernung zum nächsten Hindernis ein Distanzwert zugewiesen. Als Hindernisse gelten alle besetzten Zellen der \textit{Octomap}, neben dem Raum selbst also auch alle weiteren in der Karte vorhanden Strukturen. Bei der Bestimmung der Distanzwerte werden die Messunsicherheiten des verwendeten Sensors berücksichtigt, so dass ein Abbild der Karte wie in \abb{fig.dist_map} erzeugt wird.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -182,7 +194,7 @@ Das EPM bildet durch den verwendeten Ansatz nicht direkt die physikalische Arbei
 \end{figure}
 
 \subsection{Raycasting-Modell}
-Beim RCM, beschrieben von Thrun \textit{et al.} in \cite{Thrun2005}, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{fig.raycast} dargestellt. Freie Bereiche sind in der Darstellung grün und besetzte Bereiche rot gekennzeichnet.\\
+Beim RCM, beschrieben von \textsc{Thrun} \textit{et al.} in \cite{Thrun2005}, werden für jede Pose nicht die Endpunkte der ausgesendeten Strahlen betrachtet, sondern ihr Verlauf. Entlang der Strahlen von der Kamera zu den Messpunkten der aufgenommenen Punktwolke findet ein Abgleich mit den Daten der Karte statt. Erreicht der Strahl einen besetzen Bereich in der Karte endet die Betrachtung wie in \abb{fig.raycast} dargestellt. Freie Bereiche sind in der Darstellung grün und besetzte Bereiche rot gekennzeichnet.\\
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -267,7 +279,7 @@ Die Pose des \kps{s} wird im Rahmen der lokalen Lokalisation mit Bezug auf das R
 %\subsection{Inertiale Messeinheit}
 }
 \section{Inertiale Messeinheit}
-Die in \abschnitt{chap.imu} beschriebene IMU ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von Mahony \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}. Um die Messdaten in die Programmstruktur einzubinden wurde die Implementierung um eine Schnittstelle für ROS erweitert. Darüber hinaus wurde eine Gravitationskompensation implementiert, welche neben der Bestimmung des Roll- und Nick-Winkels des \kps{s} auch das Auslesen der relativen Beschleunigungen des Systems ermöglicht.\\
+Die in \abschnitt{chap.imu} beschriebene IMU ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von \textsc{Mahony} \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}. Um die Messdaten in die Programmstruktur einzubinden wurde die Implementierung um eine Schnittstelle für ROS erweitert. Darüber hinaus wurde eine Gravitationskompensation implementiert, welche neben der Bestimmung des Roll- und Nick-Winkels des \kps{s} auch das Auslesen der relativen Beschleunigungen des Systems ermöglicht.\\
 
 Die globale Lokalisation verwendet die gemessenen Winkel bezüglich der Roll- und Nick-Achse in der Initialisierung der Partikel. Es können dadurch zwei Freiheitsgrade der Pose direkt bestimmt werden, wodurch der erforderliche Rechenaufwand deutlich reduziert werden kann. Als Ergänzung der visuellen Odometrie werden die Messdaten der IMU mit den Odometriedaten fusioniert. Dabei werden sowohl die Werte des Roll- und Nick-Winkels als auch die ermittelten Beschleunigungswerte entlang der Koordinatenachsen des \kps{s} berücksichtigt. Die Fusion der Sensordaten wird durch ein Erweitertes-Kalman-Filter realisiert.
 
@@ -278,7 +290,7 @@ Die globale Lokalisation verwendet die gemessenen Winkel bezüglich der Roll- un
 \label{chap.kalman}
 Das Kalman-Filter \cite{Kalman1960} stellt eine in der Praxis bewährte Methode zur Fusion von Sensordaten dar. Es ermöglicht die Approximation des aktuellen Systemzustands durch statistische Methoden. Der Ausgang jeder auf ein System wirkenden Aktion, beispielsweise die Bewegung des \kps{s} durch den Anwender, kann in der Realität nicht ohne Unsicherheiten vorhergesagt werden. Der neue Systemzustand ist deshalb allein auf Basis der Odometriedaten nur mit großer Varianz bestimmbar. Messungen können dazu verwendet werden, diese Unsicherheiten zu korrigieren, um den realen Zustand mit höherer Genauigkeit schätzen zu können.\\
 
-Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gaußverteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden. Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden \cite{Hertzberg2012}. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert. Mit Hilfe der IMU kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt exemplarisch das Prinzip der Zustandsannäherung durch die visuelle Odometrie ($\mu_{\ind{O}}$, $\sigma_{\ind{O}}$) und die auf Basis der Messwerte der IMU ($\mu_{\ind{I}}$, $\sigma_{\ind{I}}$) durchgeführte Korrektur des EKF ($\mu_{\ind{EKF}}$, $\sigma_{\ind{EKF}}$).
+Die Besonderheit des Kalman-Filters liegt darin, dass die Unsicherheiten der Messungen und Aktionsresultate durch Gauß-Verteilungen mit dem Erwartungswert $\mu$ und der Standardabweichung $\sigma$ modelliert werden. Durch das Erweiterte Kalman-Filter (EKF) kann das Filterprinzip mittels Linearisierung der Systemzustände auch auf nichtlineare Systeme angewendet werden \cite{Hertzberg2012}. In dieser Arbeit wurde eine Implementierung des EKF verwendet \cite{EKF}, welche eine direkte Anbindung an ROS zur Verfügung stellt. Die auf das handgeführte System einwirkenden Aktionen, insbesondere also die Bewegung des Systems durch den Anwender, werden dabei durch die verwendete visuelle Odometrie detektiert. Mit Hilfe der IMU kann die bestimmte Systempose aktualisiert und verfeinert werden. Dabei werden neben den absoluten Werten des Roll- und Nick-Winkels auch die Beschleunigungen bezüglich der drei Systemachsen integriert, um die Bewegung des Systems zu schätzen. \abb{fig.kalman} zeigt exemplarisch das Prinzip der Zustandsannäherung durch die visuelle Odometrie ($\mu_{\ind{O}}$, $\sigma_{\ind{O}}$) und die auf Basis der Messwerte der IMU ($\mu_{\ind{I}}$, $\sigma_{\ind{I}}$) durchgeführte Korrektur des EKF ($\mu_{\ind{EKF}}$, $\sigma_{\ind{EKF}}$).
 \prever{
 %\red[in anlehung an Hertzberg s.134]
 }%

@@ -31,13 +31,13 @@ Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusa
 Die grafische Benutzeroberfläche ermöglicht die individuelle Positionierung und Ausrichtung aller Elemente. Es werden dadurch die Koordinatensysteme der Objekte $\ks{Obj}$ und der Umgebung $\ks{Env}$ definiert und damit die Transformationen der Modellobjekte $\tmat{0}{Obj}$ und der Modellumgebung $\tmat{0}{Env}$ bezüglich des Inertialkoordinatensystems eindeutig festgelegt. Da die für die Lokalisation verwendete Karte aus den Daten der Modellumgebung erzeugt wurde, gilt:
 %
 \begin{equation}
-\tmat{Env}{M}=\vec{I} \; \text{.}
+\tmat{Env}{M}=\vec{I}_\ind{4} \; \text{.}
 \end{equation}
 
 \nomenclature[k]{$\ks{Obj}$}{KS eines Modellobjektes}
 
 \prever{
-\red[Einheitsmatrix mit n=4?\\]
+%\red[Einheitsmatrix mit n=4?\\]
 }
 
 Die Transformation $\tmat{0}{Env}$ ist damit äquivalent zu der Transformation zwischen Karte und Inertialkoordinatensystem $\tmat{0}{M}$ und wird deshalb in allen weiteren Ausführungen über diese beschrieben. Durch die definierte Beziehung zwischen den Koordinatensystemen der Lokalisationsumgebung und der Modellumgebung wird basierend auf der im Rahmen der Lokalisation bestimmten Pose die Abbildung der Projektorperspektive innerhalb der Modellumgebung ermöglicht.
@@ -55,40 +55,46 @@ Durch die in \abschnitt{chap.projcalib} durchgeführte Kalibrierung ist die exte
 \end{equation}
 
 \section{Perspektivische Transformation}
-Die perspektivische Abbildung einer 3D-Umgebung auf eine 2D-Ebene wurde bereits in \kapitel{chap.perspproj} beschrieben. Der Projektor wird eingesetzt, um Daten zu visualisieren, welche zwar innerhalb der Modellumgebung, nicht jedoch in der realen Umgebung vorhanden sind. In der Modellumgebung kann der Projektor deshalb als Kamera simuliert werden, wodurch die Abbildung der Perspektive und Visualisierung dieser möglich wird. Die perspektivische Transformation der Modelldaten erfolgt damit basierend auf der durch die Lokalisation bestimmten extrinsischen $\tmat{M}{P}$ und der bei der Kalibrierung ermittelten intrinsischen Transformation $\tmat{SP}{P}$ des Projektors. Die Abbildung der 3D-Modellpunkte auf die Pixel-Koordinaten der simulierten Kamera wird demnach beschrieben durch:
+Die perspektivische Abbildung einer 3D-Umgebung auf eine 2D-Ebene wurde bereits in \kapitel{chap.perspproj} beschrieben. Der Projektor wird eingesetzt, um Daten zu visualisieren, welche zwar innerhalb der Modellumgebung, nicht jedoch in der realen Umgebung vorhanden sind. In der Modellumgebung kann der Projektor deshalb als Kamera simuliert werden, wodurch die Abbildung der Perspektive und Visualisierung dieser möglich wird. Die perspektivische Transformation der Modelldaten erfolgt damit basierend auf der durch die Lokalisation bestimmten extrinsischen $\tmat{M}{P}$ und der bei der Kalibrierung ermittelten intrinsischen Transformation $\tmat{SP}{P}$ des Projektors. Die Abbildung der 3D-Modellpunkte auf die diskreten Pixel-Koordinaten der simulierten Kamera wird demnach beschrieben durch:
 %
 \begin{equation}
-\left[\begin{array}{c}
+\mat{c}{
 u_{\ind{P}}'\\
 v_{\ind{P}}'\\
 w_{\ind{P}}'
-\end{array}\right]
-= \tmat{SP}{P} \cdot (\tmat{M}{P})^{-1} \cdot \ve{M}{\tilde{P}} = \tmat{SP}{P} \cdot \tmat{P}{M} \cdot \left[\begin{array}{c}
+}
+= \tmat{SP}{P} \cdot (\tmat{M}{P})^{-1} \cdot \ve{M}{\tilde{P}} = \tmat{SP}{P} \cdot \tmat{P}{M} \cdot 
+\mat{c}{
 X_{\ind{M}}\\
 Y_{\ind{M}}\\
 Z_{\ind{M}}\\
 1
-\end{array} \right] \; \text{.}
+}
+\; \text{.}
 \label{eq.proj_trans}
 \end{equation}
 %s \cdot \ve{SP}{\tilde{p}} = \tmat{SP}{P}(\tmat{M}{P})^{-1}\ve{M}{\tilde{P}} = \tmat{SP}{P}\tmat{P}{M}\ve{M}{\tilde{P}}
 
-\nomenclature[l]{$u_{\ind{P}}'$, $v_{\ind{P}}'$}{Unskalierte Pixel-Koordinaten des Projektors}
+\nomenclature[l]{$u_{\ind{P}}'$, $v_{\ind{P}}'$}{Unskalierte diskrete Pixel-Koordinaten des Projektors}
 \nomenclature[l]{$w_{\ind{P}}'$}{Unskalierter inverser Streckungsfaktor}
-\nomenclature[l]{$u_{\ind{P}}$, $v_{\ind{P}}$}{Skalierte Pixel-Koordinaten des Projektors}
+\nomenclature[l]{$u_{\ind{P}}$, $v_{\ind{P}}$}{Skalierte diskrete Pixel-Koordinaten des Projektors}
 
-Der durch die Transformation des homogenen 3D-Punktes ermittelte Vektor $[u_{\ind{P}}',v_{\ind{P}}',w_{\ind{P}}']^\transpose$ enthält dabei drei Einträge, welche den in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$ enthalten. Um die korrekten Pixelkoordinaten zu ermitteln ist deshalb die Umrechnung der Darstellung des homogenen 2D-Punktes auf einen inversen Streckungsfaktor von $w=1$ erforderlich. Die Pixelkoordinaten des Projektorbildes ergeben sich damit zu:
+Der durch die Transformation des homogenen 3D-Punktes ermittelte Vektor $(u_{\ind{P}}',v_{\ind{P}}',w_{\ind{P}}')^\transpose$ enthält dabei drei Einträge, welche den in \eq{eq.persp_abb} eingeführten Skalierungsfaktor $s$ enthalten. Um die korrekten Pixel-Koordinaten zu ermitteln ist deshalb die Umrechnung der Darstellung des homogenen 2D-Punktes auf einen inversen Streckungsfaktor von $w=1$ erforderlich. Die diskreten Pixel-Koordinaten des Projektorbildes ergeben sich damit zu:
+%
+%\prever{
+%\red[Klammern!\\]
+%}
 %
 \begin{equation}
-\left[\begin{array}{c}
+\mat{c}{
 u_{\ind{P}}\\
 v_{\ind{P}}
-\end{array}\right]
+}
 =
-\left[\begin{array}{c}
+\mat{c}{
 \nicefrac{u_{\ind{P}}'}{w_{\ind{P}}'}\\
 \nicefrac{v_{\ind{P}}'}{w_{\ind{P}}'}
-\end{array}\right] \; \text{.}
+} \; \text{.}
 \end{equation}
 
 \abb{fig.projpersp_gui} (a) zeigt die Perspektive des Projektors auf die Modellobjekte innerhalb der Modellumgebung. Bei Generierung der Projektionsabbildung ist zu beachten, dass lediglich die Modellelemente sichtbar sind, die mit dem später projizierten Bild visualisiert werden sollen. Die Modelldaten aller bereits vorhandenen Strukturen werden deshalb wie in \abb{fig.projpersp_gui} (b) gezeigt ausgeblendet, um Überlagerungen von Modelldaten und realen Strukturen zu vermeiden.

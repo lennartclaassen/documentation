@@ -16,7 +16,7 @@ Um die Funktionalität des \kps{s} bewerten zu können wurde eine experimentelle
 s \cdot \ve{SP}{\tilde{p}} = \tmat{SP}{P}\cdot\tmat{P}{KPS}\cdot\tmat{KPS}{Odom}\cdot\tmat{Odom}{M}\cdot\tmat{M}{0}\cdot\ve{0}{\tilde{P}} \; \text{.}
 \end{equation}
 
-Die Karte kann in den Ursprung des Inertialkoordinatensystems verschoben werden, wodurch sich $\tmat{M}{0} = \vec{I}$ ergibt. Im Rahmen der globalen Lokalisation wird die Transformation $\tmat{Odom}{M}$ zwischen der Karte und dem Referenz-Koordinatensystem $\ks{Odom}$ ermittelt. Die lokale Lokalisation vervollständigt die Bestimmung der Pose des \kps{s} innerhalb der Karte durch Ermittlung der Transformation $\tmat{KPS}{Odom}$. Die Projektionsgenauigkeit bezogen auf das \kps{} wird abschließend durch die Verknüpfung der extrinsischen $\tmat{P}{KPS}$ und intrinsischen $\tmat{SP}{P}$ Transformationsvorschrift des Projektors beschrieben. Im Folgenden sollen die aufgeführten Transformationen separat betrachtet werden, um die jeweiligen Fehlereinflüsse bestimmen zu können.\\
+Die Karte kann in den Ursprung des Inertialkoordinatensystems verschoben werden, wodurch sich $\tmat{M}{0} = \vec{I}_\ind{4}$ ergibt. Im Rahmen der globalen Lokalisation wird die Transformation $\tmat{Odom}{M}$ zwischen der Karte und dem Referenz-Koordinatensystem $\ks{Odom}$ ermittelt. Die lokale Lokalisation vervollständigt die Bestimmung der Pose des \kps{s} innerhalb der Karte durch Ermittlung der Transformation $\tmat{KPS}{Odom}$. Die Projektionsgenauigkeit bezogen auf das \kps{} wird abschließend durch die Verknüpfung der extrinsischen $\tmat{P}{KPS}$ und intrinsischen $\tmat{SP}{P}$ Transformationsvorschrift des Projektors beschrieben. Im Folgenden sollen die aufgeführten Transformationen separat betrachtet werden, um die jeweiligen Fehlereinflüsse bestimmen zu können.\\
 
 \prever{
 %\red[Gesamte Transformation hier angeben!?\\Globale Lokalisation: Map -> Odom\\Lokale Lokalisation: Odom -> KPS\\Projektionsgenauigkeit: KPS -> Projektor\\]
@@ -49,7 +49,7 @@ Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigt
 	\label{fig.armarker}
 	\end{center}
 	\vspace*{-2mm}
-\end{figure}%
+\end{figure}
 
 % über $k$ Messungen aus den jeweiligen Einzeldifferenzen $r_i$ der Freiheitsgrade der Posen bestimmt:
 
@@ -92,8 +92,14 @@ In der Fehlerbetrachtung sollen nur die ermittelten Posen berücksichtigt werden
 
 \begin{figure}[!ht]
 	\begin{center}
+	\subfigure[Modellansicht]{
 		\includegraphics[scale=0.5]{glob_loc_thresh_02}
-		\caption{Grenzbereich der Lokalisation mit korrekt angenäherter Pose (grün) und fehlerhafter Lokalisation (rot)}
+	}
+	\hspace{5mm}
+	\subfigure[Kamerasicht]{
+		\includegraphics[scale=0.35]{glob_loc_view_03}	
+	}
+	\caption{Grenzbereich der Lokalisation mit korrekt angenäherter Pose (grün) und fehlerhafter Lokalisation (rot)}
 		\label{fig.loclimits}
 	\end{center}
 \end{figure}
@@ -270,7 +276,7 @@ Die Lokalisation während der Rotationsbewegungen wird zunächst allein auf Basi
 %\prever{
 %\subsubsection{Visuelle Odometrie}
 %}
-Für alle Messungen wird eine Rotation des \kps{s} von \SI{45}{°} um die betrachtete Achse ausgeführt. Die Quadratischen Mittel der in jeweils $k=20$ Messungen ermittelten Fehler zeigt \abb{fig.loc_loc_rot_fovis}.
+Für alle Messungen wird eine Rotation des \kps{s} von \SI{45}{°} um die betrachtete Achse ausgeführt. Die Quadratischen Mittel der in jeweils $k=20$ Messungen ermittelten Fehler zeigt \abb{fig.loc_loc_rot_fovis}.\\
 
 \begin{figure}[!ht]
 \input{plot/loc_loc_rot_fovis}
@@ -284,7 +290,7 @@ Für alle Messungen wird eine Rotation des \kps{s} von \SI{45}{°} um die betrac
 Die Ergebnisse zeigen für alle Achsen einen verbleibenden translatorischen Fehler von unter $10\%$. Die Quadratischen Mittel der rotatorischen Differenzen betragen ebenfalls um $10\%$ und liegen damit nur geringfügig unter den gemessenen Winkelfehlern der translatorischen Bewegungen. Es zeigt sich damit, dass die innerhalb der vorliegenden Rahmenbedingungen über die visuelle Odometrie bestimmten Positionen und Orientierungen unabhängig von der ausgeführten Bewegung mit deutlichen Fehlern behaftet sind.\\
 
 %\red[Allgemein stark abhängig von Features]\\
-Eine Erklärung dafür könnte eine geringe Anzahl an zuverlässig ermittelten Deskriptoren innerhalb der Kamerabilder sein. Je weniger Merkmale in der Umgebung erkannt werden, desto größer wird der Einfluss fehlerhafter Detektionen auf das Resultat. Die visuelle Odometrie basiert wie in \kapitel{locloc} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
+Eine Erklärung dafür könnte eine geringe Anzahl an zuverlässig ermittelten Deskriptoren innerhalb der Kamerabilder sein. Je weniger Merkmale in der Umgebung erkannt werden, desto größer wird der Einfluss fehlerhafter Detektionen auf das Resultat. Das Unterschreiten einer definierten Anzahl an detektierten Merkmalen führt darüber hinaus dazu, dass keine Lokalisationsdaten ermittelt werden können. Die visuelle Odometrie basiert wie in \kapitel{locloc} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
 
 Eine weitere Fehlerursache bezüglich der bestimmten Orientierung ergibt sich aus den Anforderungen der verwendeten Implementierung. Diese erfordert eine hohe Frequenz in der Berechnung, um Rotationen korrekt anzunähern \cite{Fovis}. Obwohl die Kinect Bilddaten mit einer Rate von \SI{30}{} Bildern pro Sekunde liefert konnten auf dem verwendeten System während der Anwendung nur etwa \SI{5}{} Bilder pro Sekunde ausgewertet werden. Dies ist zum einen auf die Komplexität der Berechnungen zur Bestimmung der visuellen Odometrie und zum anderen auf die hohe Auslastung der Rechenkapazität aufgrund der weiteren verwendeten Softwarekomponenten zurückzuführen.\\ 
 
@@ -311,10 +317,10 @@ Die Messungen werden auf gleiche Weise wie zuvor durchgeführt. Verglichen werde
 
 %\red[Ergebnisse interpretieren\\]
 
-In beiden Messreihen zeigen sich deutliche Auswirkungen auf die Freiheitsgrade, für welche die IMU Orientierungsdaten bereitstellt. Die Fusion der Sensorwerte führt zu einer starken Verringerung der Fehler in der Winkelbestimmung bezüglich der Roll- und Nick-Achse. Die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose konnte damit für zwei der sechs Freiheitsgrade erhöht werden.\\ 
+In beiden Messreihen zeigen sich deutliche Auswirkungen auf die Freiheitsgrade, für welche die IMU Orientierungsdaten bereitstellt. Die Fusion der Sensorwerte führt zu einer starken Verringerung der Fehler in der Winkelbestimmung bezüglich der Roll- und Nick-Achse. Geringe Auswirkungen zeigen sich auch auf die gemessenen Fehlerwerte der weiteren Freiheitsgrade. Diese Abweichungen erklären sich aus dem Einsatz des EKF und der Verbesserung in der Bestimmung des Roll- und Nick-Winkels, wobei für die verschiedenen Freiheitsgrade sowohl Verringerungen als auch Zunahmen der Fehlerwerte zu beobachten sind. Insgesamt konnte die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose durch die Fusion der Sensordaten mittels des EKF somit für zwei der sechs Freiheitsgrade erhöht werden.\\ 
 
 \prever{
-\red[Da das \kps{} als Starrkörper betrachtet werden kann, ergeben sich durch die \\]
+%\red[Da das \kps{} als Starrkörper betrachtet werden kann, ergeben sich durch die \\]
 }
 
 Um die Fehlerfortpflanzung im Verlauf der lokalen Lokalisation zu verringern wurde die Implementierung der globalen Lokalisation um zusätzliche Funktionalität erweitert. Dabei wird die Ausführung einer modifizierten Variante der globalen Lokalisation ermöglicht. In einem definierten Parameterbereich werden Partikel um die aktuelle Pose gestreut, so dass das lokale Optimum neu ermittelt wird. Die verwendete Anzahl Partikel kann dabei geringer gewählt werden als bei der globalen Lokalisation, wodurch dieser Schritt mit deutlich geringerer Rechenzeit verbunden ist. Diese Funktion kann automatisch oder manuell durch den Benutzer aufgerufen werden, so dass zu definierten Zeitpunkten eine Korrektur der ermittelten Pose erzielt wird. Dabei ermöglicht die in \kapitel{chap.projection} beschriebene visuelle Rückmeldung über den aktuellen Überdeckungsfehler dem Anwender eine direkte Bewertung der korrigierten Pose.
@@ -333,7 +339,7 @@ Um die Fehlerfortpflanzung im Verlauf der lokalen Lokalisation zu verringern wur
 Um die lagerichtige Abbildung der visuellen Zusatzinformationen in der realen Umgebung zu ermöglichen ist über die Lokalisation hinaus auch eine hohe Genauigkeit der Projektion erforderlich. Die Interaktion des Benutzers mit der Projektion erfordert zudem eine dynamische Darstellung mit geringer Verzögerung. Im Folgenden soll deshalb im Rahmen experimenteller Untersuchungen zunächst die Projektionsgenauigkeit und abschließend die Latenzzeit der Visualisierung ermittelt werden.
 
 \subsection{Projektionsgenauigkeit}
-Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera analysiert. Diese wird zunächst analog zu dem in \kapitel{chap.calib} beschriebenen Vorgehen für die RGB-Kamera der Kinect kalibriert, wodurch eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht wird. Der Rückprojektionsfehler der Kalibrierung der externen Kamera beträgt \SI{0,26}{Pixel}, die Kalibrierung des \kps{s} ergab einen horizontalen Projektionsfehler von $e_\ind{x} = \SI{1,57}{Pixel}$ und einen vertikalen Projektionsfehler von $e_\ind{y} = \SI{1,00}{Pixel}$. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sicht- und Projektionsfeld des \kps{s} platziert. Das Markerfeld wird mittels der RGB-Kamera der Kinect erfasst, um die Transformation des \kps{s} relativ zum Markerfeld zu bestimmen.\\
+Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera analysiert. Diese wird zunächst analog zu dem in \kapitel{chap.calib} beschriebenen Vorgehen für die RGB-Kamera der Kinect kalibriert, wodurch eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht wird. Der Rückprojektionsfehler der Kalibrierung der externen Kamera beträgt \SI{0,26}{Pixel}, die Kalibrierung des \kps{s} ergab einen horizontalen Projektionsfehler von $e_\ind{x} = \SI{1,57}{Pixel}$ und einen vertikalen Projektionsfehler von $e_\ind{y} = \SI{1}{Pixel}$. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sicht- und Projektionsfeld des \kps{s} platziert. Das Markerfeld wird mittels der RGB-Kamera der Kinect erfasst, um die Transformation des \kps{s} relativ zum Markerfeld zu bestimmen.\\
 
 Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht daraufhin die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. Dazu werden beide Markerfelder in der Modellumgebung dargestellt und überlagert. Die externe Kamera wird anschließend so positioniert, dass sie in der Lage ist das reale und das projizierte Markerfeld zu erfassen. Es ergibt sich daraus der in \abb{fig.arprojected} dargestellte Versuchsaufbau.\\
 
