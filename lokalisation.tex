@@ -33,16 +33,16 @@ Die von \textsc{Hornung} \textit{et al.} \cite{Hornung2013} beschriebene Datenst
 	%\vspace*{-8mm}
 \end{figure}
 
-Die Besonderheit des von Hornung \textit{et al.} entwickelten Ansatzes liegt darin, dass im Gegensatz zu einer binären Darstellung der Voxelzustände eine probabilistische Bewertung vorgenommen wird. Es können somit bei der Betrachtung der Voxel mehr als zwei Zustände unterschieden werden, so dass zwischen besetzten, freien und unbekannten Bereichen differenziert werden kann. Als Grenzwert der Verfeinerung kann eine anwendungsabhängige Auflösung definiert werden. Dabei ist auch die Kombination verschiedener Strukturbäume mit unterschiedlichen Auflösungen bei der Verwendung von \textit{Octomap} möglich, so dass bei Bedarf bestimmte Strukturen feiner aufgelöst werden können, um die Genauigkeit der Abbildung zu erhöhen. Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap} zeigt \abb{fig.octomap}. Freie Voxel sind in der Abbildung nicht dargestellt, die Farbkodierung der Octomap bezieht sich daher auf die Höhenwerte der Modelldaten.
+Die Besonderheit des von Hornung \textit{et al.} entwickelten Ansatzes liegt darin, dass im Gegensatz zu einer binären Darstellung der Voxelzustände eine probabilistische Bewertung vorgenommen wird. Es können somit bei der Betrachtung der Voxel mehr als zwei Zustände unterschieden werden, so dass zwischen besetzten, freien und unbekannten Bereichen differenziert werden kann. Als Grenzwert der Verfeinerung kann eine anwendungsabhängige Auflösung definiert werden. Dabei ist auch die Kombination verschiedener Strukturbäume mit unterschiedlichen Auflösungen bei der Verwendung von \textit{Octomap} möglich, so dass bei Bedarf bestimmte Strukturen feiner aufgelöst werden können, um die Genauigkeit der Abbildung zu erhöhen. Einen Vergleich zwischen Modellumgebung und der daraus erzeugten \textit{Octomap} zeigt \abb{fig.octomap}. Freie Voxel sind in der Abbildung nicht dargestellt, die Farbkodierung der \textit{Octomap} bezieht sich daher auf die Höhenwerte der Modelldaten.
 
 \begin{figure}[!ht]
 	\begin{center}
 	\subfigure[\textit{Octomap}]{
-		\includegraphics[scale=0.2]{octomap_rviz}
+		\includegraphics[scale=0.25]{octomap_rviz}
 	}
 	\hspace{5mm}
 	\subfigure[Punktwolke]{
-		\includegraphics[scale=0.2]{pointcloud_meshlab}	
+		\includegraphics[scale=0.25]{pointcloud_meshlab}	
 	}
 	\caption{\textit{Octomap}-Struktur der Modellumgebung (a) abgeleitet aus der aufgezeichneten Punktwolke (b)}
 	\label{fig.octomap}
@@ -281,7 +281,7 @@ Die Pose des \kps{s} wird im Rahmen der lokalen Lokalisation mit Bezug auf das R
 %\subsection{Inertiale Messeinheit}
 }
 \section{Inertiale Messeinheit}
-Die in \abschnitt{chap.imu} beschriebene IMU ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von \textsc{Mahony} \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}. Um die Messdaten in die Programmstruktur einzubinden wurde die Implementierung um eine Schnittstelle für ROS erweitert. Darüber hinaus wurde eine Gravitationskompensation implementiert, welche neben der Bestimmung des Roll- und Nick-Winkels des \kps{s} auch das Auslesen der relativen Beschleunigungen des Systems ermöglicht.\\
+Die in \abschnitt{chap.imu} beschriebene IMU ist in der Lage die translatorischen und rotatorischen Beschleunigungen des Systems zu messen. Auf Basis des von \textsc{Mahony} \textit{et al.} \cite{Mahony2008} entwickelten Algorithmus wird aus den Messdaten die Orientierung der Messeinheit bestimmt. Die verwendete Implementierung für den Arduino Nano (\abschnitt{chap.arduino}) zur Anbindung an das System basiert auf \cite{IMUCode}. Um die Messdaten in die Programmstruktur einzubinden wurde die Implementierung um eine Schnittstelle für ROS erweitert. Eine zusätzlich implementierte Gravitationskompensation ermöglicht neben der Bestimmung des Roll- und Nick-Winkels des \kps{s} auch das Auslesen der relativen Beschleunigungen des Systems.\\
 
 Die globale Lokalisation verwendet die gemessenen Winkel bezüglich der Roll- und Nick-Achse in der Initialisierung der Partikel. Es können dadurch zwei Freiheitsgrade der Pose direkt bestimmt werden, wodurch der erforderliche Rechenaufwand deutlich reduziert werden kann. Als Ergänzung der visuellen Odometrie werden die Messdaten der IMU mit den Odometriedaten fusioniert. Dabei werden sowohl die Werte des Roll- und Nick-Winkels als auch die ermittelten Beschleunigungswerte entlang der Koordinatenachsen des \kps{s} berücksichtigt. Die Fusion der Sensordaten wird durch ein Erweitertes-Kalman-Filter realisiert.
 

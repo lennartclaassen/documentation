@@ -239,7 +239,7 @@ Die translatorischen Bewegungen werden parallel ($y$-Achse des Systems) und orth
 	%\vspace*{-8mm}
 \end{figure}
 
-Bei jeder Messung wird das \kps{} entlang der betrachteten Achse um \SI{1}{\meter} translatorisch verschoben. Insgesamt werden für jede Achse $n=20$ Messungen ausgewertet. Die Quadratischen Mittel der Lokalisationsfehler bei translatorischen Bewegungen parallel und orthogonal zur Betrachtungsebene sind in \abb{fig.loc_loc_trans} dargestellt.
+Insgesamt werden für jede Achse $n=20$ Messungen ausgewertet, wobei das \kps{} bei jeder Messung um \SI{1}{\meter} translatorisch entlang der betrachteten Achse verschoben wird. Die Quadratischen Mittel der Lokalisationsfehler bei translatorischen Bewegungen parallel und orthogonal zur Betrachtungsebene sind in \abb{fig.loc_loc_trans} dargestellt.
 
 \begin{figure}[!ht]
 \input{plot/loc_loc_trans}
@@ -345,7 +345,7 @@ Um die lagerichtige Abbildung der visuellen Zusatzinformationen in der realen Um
 \subsection{Projektionsgenauigkeit}
 Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera analysiert. Diese wird zunächst analog zu dem in \kapitel{chap.calib} beschriebenen Vorgehen für die RGB-Kamera der Kinect kalibriert, wodurch eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht wird. Der Rückprojektionsfehler der Kalibrierung der externen Kamera beträgt \SI{0,26}{Pixel}, die Kalibrierung des \kps{s} ergab einen horizontalen Projektionsfehler von $e_\ind{x} = \SI{1,57}{Pixel}$ und einen vertikalen Projektionsfehler von $e_\ind{y} = \SI{1}{Pixel}$. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sicht- und Projektionsfeld des \kps{s} platziert. Das Markerfeld wird mittels der RGB-Kamera der Kinect erfasst, um die Transformation des \kps{s} relativ zum Markerfeld zu bestimmen.\\
 
-Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht daraufhin die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. Dazu werden beide Markerfelder in der Modellumgebung dargestellt und überlagert. Die externe Kamera wird anschließend so positioniert, dass sie in der Lage ist das reale und das projizierte Markerfeld zu erfassen. Es ergibt sich daraus der in \abb{fig.projsetup} dargestellte Versuchsaufbau.
+Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. Dazu werden beide Markerfelder in der Modellumgebung dargestellt und überlagert. Die externe Kamera wird anschließend so positioniert, dass sie in der Lage ist das reale und das projizierte Markerfeld zu erfassen. Es ergibt sich daraus der in \abb{fig.projsetup} dargestellte Versuchsaufbau.
 
 \begin{figure}[!ht]
 	\begin{center}%
