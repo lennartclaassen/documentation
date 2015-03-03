@@ -8,17 +8,17 @@
 %]
 }
 
-Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde, kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den Modelldaten (siehe \kapitel{chap.modeldata}) erfolgen. Dieses Kapitel beschreibt das Vorgehen, um die ausgewählten Modelldaten mittels des Projektors perspektivisch korrekt in die Umgebung zu projizieren. Zunächst ist die Visualisierung der Modellumgebung und die Ermittlung der Pose des Projektors innerhalb dieser erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Perspektive wird dabei ausgehend von einem Kameramodell generiert, da der Projektor wie in \abschnitt{chap.kinect} beschrieben als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
+Sobald die aktuelle Position des \kps{s} innerhalb der Umgebung ermittelt wurde, kann die Visualisierung der gewünschten Zusatzinformationen basierend auf den in \kapitel{chap.modeldata} vorgestellten Modelldaten erfolgen. Dieses Kapitel beschreibt das Vorgehen, um die ausgewählten Modelldaten mittels des Projektors perspektivisch korrekt in die Umgebung zu projizieren. Zunächst ist die Visualisierung der Modellumgebung und die Ermittlung der Pose des Projektors innerhalb dieser erforderlich. Anschließend erfolgt die Simulation der Projektorsicht durch eine perspektivische Transformation. Die Perspektive wird dabei ausgehend von einem Kameramodell generiert, da der Projektor wie in \abschnitt{chap.kinect} beschrieben als inverse Kamera betrachtet werden kann. Abschließend werden basierend auf der simulierten Perspektive Bilddaten generiert, welche mittels des Projektors für den Anwender und Beobachter innerhalb der realen Umgebung visualisiert werden.
 
 \section{Visualisierung der Modelldaten}
-Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen, die dem Anwender bereitgestellt werden sollen. Um die perspektivische Darstellung zu ermöglichen, ist zunächst die gesamte Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\footnote{Rendern bezeichnet das Ableiten eines Bildes aus virtuellen räumlichen Daten indem die Perspektive eines Beobachters simuliert wird. Dabei können sowohl Lichtverhältnisse als auch Materialeigenschaften berücksichtigt werden, um realistische Darstellungen zu erzeugen.} Abbildung der dreidimensionalen Modellszene zu erzeugen, wird die Visualisierungsbibliothek VTK verwendet. \abb{fig.modscene} zeigt die Darstellung eines Ausschnitts der Modellszene innerhalb des Visualisierungsbereiches der grafischen Benutzeroberfläche.\\
+Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusatzinformationen, die dem Anwender bereitgestellt werden sollen. Um die perspektivische Darstellung zu ermöglichen, ist zunächst die gesamte Szene durch die Modelldaten abzubilden. Aufbauend auf der in \kapitel{chap.modeldata} beschriebenen Datenstruktur kann eine Szene erstellt oder geladen und anschließend modifiziert werden. Um eine gerenderte\footnote{Rendern bezeichnet das Ableiten eines Bildes aus virtuellen räumlichen Daten indem die Perspektive eines Beobachters simuliert wird. Dabei können sowohl Lichtverhältnisse als auch Materialeigenschaften berücksichtigt werden, um realistische Darstellungen zu erzeugen.} Abbildung der dreidimensionalen Modellszene zu erzeugen, wird die Visualisierungsbibliothek VTK verwendet. \abb{fig.modscene} zeigt die Darstellung eines Ausschnitts der Modellszene innerhalb des Visualisierungsbereiches der grafischen Benutzungsschnittstelle.\\
 
 \clearpage{}
 
 \begin{figure}[!ht]
 	\begin{center}
 		\includegraphics[scale=0.25]{gui}
-		\caption{Modellumgebung und Modellobjekte abgebildet innerhalb der grafischen Benutzeroberfläche}
+		\caption{Modellumgebung und Modellobjekte abgebildet innerhalb der grafischen Benutzungsschnittstelle}
 		\label{fig.modscene}
 	\end{center}
 	%\vspace*{-8mm}
@@ -28,7 +28,7 @@ Die Modellumgebung und die Modellobjekte bilden die Grundlage der visuellen Zusa
 %\red[CAD-Modell oder Punktwolke? Textur wahrscheinlich schlecht abzubilden!?\\]
 }
 
-Die grafische Benutzeroberfläche ermöglicht die individuelle Positionierung und Ausrichtung aller Elemente. Es werden dadurch die Koordinatensysteme der Objekte $\ks{Obj}$ und der Umgebung $\ks{Env}$ definiert und damit die Transformationen der Modellobjekte $\tmat{0}{Obj}$ und der Modellumgebung $\tmat{0}{Env}$ bezüglich des Inertialkoordinatensystems eindeutig festgelegt. Da die für die Lokalisation verwendete Karte aus den Daten der Modellumgebung erzeugt wurde, gilt:
+Die grafische Benutzungsschnittstelle ermöglicht die individuelle Positionierung und Ausrichtung aller Elemente. Es werden dadurch die Koordinatensysteme der Objekte $\ks{Obj}$ und der Umgebung $\ks{Env}$ definiert und damit die Transformationen der Modellobjekte $\tmat{0}{Obj}$ und der Modellumgebung $\tmat{0}{Env}$ bezüglich des Inertialkoordinatensystems eindeutig festgelegt. Da die für die Lokalisation verwendete Karte aus den Daten der Modellumgebung erzeugt wurde, gilt:
 %
 \begin{equation}
 \tmat{Env}{M}=\vec{I}_\ind{4} \; \text{.}
@@ -134,7 +134,7 @@ v_{\ind{P}}
 %
 \section{Projektion}
 \label{chap.projection}
-Nachdem durch die perspektivische Transformation ein Bild der Projektorsicht vorliegt, erfolgt die Visualisierung der Modellstrukturen in der realen Umgebung. Da bereits alle nötigen Transformationen des Bildes im Rahmen der perspektivischen Abbildung durchgeführt wurden, kann das vorliegende Bild direkt als Ausgangssignal des Projektors verwendet werden. Die Bilddaten werden an das gekapselte Projektionsmodul gesendet, welches aus dem Laser-Projektor und dem Raspberry besteht. Die Projektion des virtuellen Modellobjektes in die Umgebung zeigt \abb{fig.perspproj} anhand einer modellhaften Darstellung. 
+Nachdem durch die perspektivische Transformation ein Bild der Projektorsicht vorliegt, erfolgt die Visualisierung der Modellstrukturen in der realen Umgebung. Da bereits alle nötigen Transformationen des Bildes im Rahmen der perspektivischen Abbildung durchgeführt wurden, kann das vorliegende Bild direkt als Ausgangssignal des Projektors verwendet werden. Die Bilddaten werden an das gekapselte Projektionsmodul gesendet, welches aus dem Pico-Laser-Projektor und dem Raspberry besteht. Die Projektion des virtuellen Modellobjektes in die Umgebung zeigt \abb{fig.perspproj} anhand einer modellhaften Darstellung. 
 %zeigt die Abbildung eines Modellobjektes auf die Bildebene des als Kamera simulierten Projektors. 
 Die Bildebene wurde dabei zur Verdeutlichung vergrößert innerhalb des Sichtfeldes des Projektors dargestellt. 
 
@@ -149,7 +149,7 @@ Die Bildebene wurde dabei zur Verdeutlichung vergrößert innerhalb des Sichtfel
 	%\vspace*{-8mm}
 \end{figure}
 
-Das projizierte Bild muss dabei nicht auf die Visualisierung der Modellobjekte beschränkt werden. Ergänzend kann das Bild mit weiteren visuellen Informationen versehen werden. \abb{fig.proj_rms} zeigt, wie das Ausgabebild um einem Rahmen erweitert wurde, welcher dem Anwender eine visuelle Rückmeldung über die Güte der Lokalisation basierend auf dem berechneten Quadratischen Mittel der Überdeckungsfehler (siehe \kapitel{chap.globloc}) gibt.\\
+Das projizierte Bild muss dabei nicht auf die Visualisierung der Modellobjekte beschränkt werden. Ergänzend kann das Bild mit weiteren visuellen Informationen versehen werden. \abb{fig.proj_rms} zeigt, wie das Ausgabebild um einem Rahmen erweitert wurde, welcher dem Anwender eine visuelle Rückmeldung über die Güte der Lokalisation basierend auf dem berechneten Quadratischen Mittel der Überdeckungsfehler (siehe \kapitel{chap.globloc}) gibt.
 
 \prever{
 %\red[Projektion der Sicht des Projektors auf das Modell. Ausblenden des Raumes, sodass nur die gewünschten Strukturen dargestellt werden. Alternativ Raummodell als schwarzes Objekt darstellen.\\]

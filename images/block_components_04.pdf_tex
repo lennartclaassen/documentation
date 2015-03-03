@@ -1,0 +1,63 @@
+%% Creator: Inkscape inkscape 0.48.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'block_components_04.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{430.65bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.36369442)%
+    \put(0,0){\includegraphics[width=\unitlength]{block_components_04.pdf}}%
+    \put(0.12190647,0.22743486){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{3D-Kamera}}}%
+    \put(0.01073487,0.10982615){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.22069786\unitlength}\centering Inertiale Messeinheit\end{minipage}}}%
+    \put(0.38106961,0.07850801){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Mikrocontroller}}}%
+    \put(0.62256545,0.15281429){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Computer}}}%
+    \put(0.88263772,0.22743486){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Mini-Computer}}}%
+    \put(0.88263783,0.07850801){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Projektor}}}%
+    \put(0.12093365,0.33323333){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Sensoren}}}%
+    \put(0.88288733,0.33287413){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Projektionsmodul}}}%
+    \put(0.50206265,0.33517897){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Datenverarbeitung}}}%
+  \end{picture}%
+\endgroup%

@@ -1,6 +1,6 @@
 \chapter{Interaktion}
 \label{chap.interaction}
-Um aus der Visualisierung ausgewählter Strukturen und Informationen eine interaktive Projektion zu erzeugen, ist es erforderlich, Benutzereingaben zu erfassen und auszuwerten. Die in diesem Kapitel beschriebene Interaktion ermöglicht dem Benutzer die Projektion und die damit gekoppelten Modelldaten zu modifizieren.
+Um aus der Visualisierung ausgewählter Strukturen und Informationen eine interaktive Projektion zu erzeugen, ist es erforderlich, Benutzereingaben zu erfassen und auszuwerten. Die in diesem Kapitel beschriebene Interaktion ermöglicht dem Benutzer, die Projektion und die damit gekoppelten Modelldaten zu modifizieren.
 
 \section{Detektion der Benutzerinteraktion}
 Die Erkennung der Benutzereingaben erfolgt durch Auswertung der durch die Kinect gewonnenen Tiefeninformationen in Form der erzeugten Punktwolken. Während der Benutzer das \kps{} in der einen Hand hält, kann die andere Hand verwendet werden, um mit der Projektion zu interagieren. Darüber hinaus ist auch die Interaktion weiterer Benutzer mit dem System möglich.\\
@@ -24,13 +24,10 @@ Der implementierte Interaktionsansatz basiert auf der Analogie zu einem Laserpoi
 \prever{
 %\red[Bemaßung!\\]
 }
-Der minimale Abstand $z_\ind{{min}}$, in welchem Tiefeninformationen ausgewertet werden können, beträgt \SI{0,5}{\meter} und wird durch die Spezifikationen der Kinect definiert. Der maximale Interaktionsabstand $z_\ind{{int}}$ ist im Rahmen der Implementierung parametrierbar und kann damit anwendungsspezifisch definiert werden.\\
-
 \nomenclature[l]{$z_\ind{{min}}$}{Minimal auflösbarer Tiefenwert der Kinect}
 \nomenclature[l]{$z_\ind{{int}}$}{Maximaler Tiefenwert des Interaktionsbereichs}
 
-
-Basierend auf den nach der Filterung verbleibenden Punkten wird eine Ebenendetektion nach \cite{Fischler1981} durchgeführt. Alle Punkte innerhalb eines definierten Abstandes werden daraufhin auf die ermittelte Ebene projiziert, wodurch eine zweidimensionale Abbildung erzeugt und Messwertrauschen geglättet wird. Außerhalb der Ebene liegende Punkte werden für die weiteren Schritte aus der Betrachtung entfernt. Dazu gehören deutliche Ausreißer innerhalb der detektierten Interaktionsstruktur sowie Artefakte in der Punktwolke.\\
+Der minimale Abstand $z_\ind{{min}}$, in welchem Tiefeninformationen ausgewertet werden können, beträgt \SI{0,5}{\meter} und wird durch die Spezifikationen der Kinect definiert. Der maximale Interaktionsabstand $z_\ind{{int}}$ ist im Rahmen der Implementierung parametrierbar und kann damit anwendungsspezifisch definiert werden. Basierend auf den nach der Filterung verbleibenden Punkten wird eine Ebenendetektion nach \cite{Fischler1981} durchgeführt. Alle Punkte innerhalb eines definierten Abstandes werden daraufhin auf die ermittelte Ebene projiziert, wodurch eine zweidimensionale Abbildung erzeugt und Messwertrauschen geglättet wird. Außerhalb der Ebene liegende Punkte werden für die weiteren Schritte aus der Betrachtung entfernt. Dazu gehören deutliche Ausreißer innerhalb der detektierten Interaktionsstruktur sowie Artefakte in der Punktwolke.\\
 
 Um eine gleichmäßige Objektstruktur zu erhalten wird anschließend eine Hüllkurve um die verbleibenden Punkte gelegt und die vorhandene Struktur mittels einer äquidistanten Verteilung von Punkten angenähert. Aus dieser Hüllkurve wird der geometrische Schwerpunkt (Basis) sowie der vom \kps{} am weitesten entfernte Punkt (Spitze) bestimmt. Der Verbindungsvektor zwischen Basis und Spitze bildet damit die Zeigerichtung des Anwenders ab. Der gesamte Ablauf zur Bestimmung der Zeigerichtung ist in \abb{fig.intdir} dargestellt.\\
 
@@ -50,7 +47,7 @@ Um eine gleichmäßige Objektstruktur zu erhalten wird anschließend eine Hüllk
 	\subfigure[Zeigerichtung definiert durch Verbindung zwischen Basis und Spitze]{
 		\includegraphics[width=5cm]{interaction_04_02}
 	}
-	\caption{Filterung der Punktwolke zur Bestimmung der Zeigerichtung}
+	\caption{Filterung der Punktwolke und Bestimmung der Zeigerichtung}
 	\label{fig.intdir}
 	\end{center}
 	%\vspace*{-8mm}
@@ -60,12 +57,12 @@ Um das Signal der ermittelten Linie zu glätten wird der gleitende Mittelwert de
 
 %Da die Kamera des Kinect Sensors auch von dem \mFovis verwendet wird besteht die Gefahr der Beeinflussung zwischen der Benutzereingabe und der lokalen Lokalisation. Um diese zu vermeiden sendet das \mInteraction Modul einen Befehl zum Pausieren der visuellen Odometrie sobald Punkte innerhalb des Interaktionsbereiches erkannt werden. Die visuelle Odometrie wird somit für die Dauer der Benutzerinteraktion unterbrochen. Sobald keine Punkte mehr innerhalb des Interaktionsbereiches detektiert werden, sendet das \mInteraction ein Signal zur Wiederaufnahme der visuellen Odometrie an das \mFovis .
 
-Da die Kamera der Kinect auch zur Bestimmung der visuellen Odometrie verwendet wird, besteht die Möglichkeit, dass die lokale Lokalisation durch die Benutzereingabe beeinträchtigt wird. Um dies zu vermeiden wurde eine direkte Kommunikation zwischen den beteiligten Modulen implementiert. Die Berechnung der visuellen Odometrie wird dabei unterbrochen, sobald Punkte innerhalb des Interaktionsbereiches erkannt werden. Endet die Interaktion, kann die Ermittlung der visuellen Odometrie wieder aufgenommen werden. Im Falle kleiner Posenänderungen während der Benutzereingabe ist die Lokalisation in der Lage die Veränderungen zu erkennen und die Pose im Anschluss an die Benutzerinteraktion zu aktualisieren. Während der Interaktion sollte das Projektionsfeld jedoch ohnehin auf das ausgewählte Objekt ausgerichtet und eine starke Veränderung der Pose des \kps{s} vermieden werden.
+Da die Kamera der Kinect auch zur Bestimmung der visuellen Odometrie verwendet wird, besteht die Möglichkeit, dass die lokale Lokalisation durch die Benutzereingabe beeinträchtigt wird. Um dies zu vermeiden, wurde eine direkte Kommunikation zwischen den beteiligten Modulen implementiert. Die Berechnung der visuellen Odometrie wird dabei unterbrochen, sobald Punkte innerhalb des Interaktionsbereiches erkannt werden. Endet die Interaktion, kann die Ermittlung der visuellen Odometrie wieder aufgenommen werden. Im Falle kleiner Posenänderungen während der Benutzereingabe ist die Lokalisation in der Lage die Veränderungen zu erkennen und die Pose im Anschluss an die Benutzerinteraktion zu aktualisieren. Während der Interaktion sollte das Projektionsfeld jedoch ohnehin auf das ausgewählte Objekt ausgerichtet und eine starke Veränderung der Pose des \kps{s} vermieden werden.
 
 \section{Erkennung von Befehlen}
 Die Auswertung der auf Basis der Zeigebewegung ermittelten Linie erfolgt innerhalb des Moduls \textit{Visualisierung}. Die Detektion der Linie erfolgte im Koordinatensystem der Kamera $\ks{K}$, so dass diese für die Auswertung zunächst über $\tmat{M}{K}$ in das Koordinatensystem der Karte $\ks{M}$ transformiert wird.\\
 
-Um zu bestimmen, auf welches Modellobjekt der Benutzer gezeigt hat, werden entlang der Linie alle Schnittpunkte mit den virtuellen Modelldaten bestimmt. Dazu wird die Visualisierungsumgebung VTK verwendet, welche die Ermittlung von Schnittpunkten zwischen den Modellobjekten und Linien als Funktion zur Verfügung stellt. Aus den Schnittpunkten kann somit ermittelt werden, welches Objekt der Benutzer ausgewählt hat. Um die Auswahl eines Objektes, analog einer \glqq Klick\grqq -Aktion, zu ermöglichen wurden zwei Verfahren implementiert. Die erste Implementierung erfolgt durch Überprüfung der Verweildauer des simulierten Zeigers auf dem Objekt. Überschreitet diese einen definierten Grenzwert wird dies als Auswahlbefehl gewertet und das Objekt in den Zustand \textit{aktiv} versetzt. Für das zweite Verfahren wurde die Software des Arduino um einen zusätzliche Schnittstelle erweitert. Durch die Anbindung eines Tasters wird die Möglichkeit einer echten \glqq Klick\grqq -Aktion zur Befehlseingabe realisiert. Durch Veränderung der Textur erhält der Anwender wie in \abb{fig.intintersect} dargestellt das visuelle Feedback, dass ein Objekt ausgewählt und in den neuen Status versetzt wurde.\\
+Um zu bestimmen, auf welches Modellobjekt der Benutzer gezeigt hat, werden entlang der Linie alle Schnittpunkte mit den virtuellen Modelldaten bestimmt. Dazu wird die Visualisierungsumgebung VTK verwendet, welche die Ermittlung von Schnittpunkten zwischen den Modellobjekten und Linien als Funktion zur Verfügung stellt. Aus den Schnittpunkten kann somit ermittelt werden, welches Objekt der Benutzer ausgewählt hat. Um die Auswahl eines Objektes, analog einer \glqq Klick\grqq -Aktion, zu ermöglichen wurden zwei Verfahren implementiert. Die erste Implementierung erfolgt durch Überprüfung der Verweildauer des simulierten Zeigers auf dem Objekt. Überschreitet diese einen definierten Grenzwert wird dies als Auswahlbefehl gewertet und das Objekt in den Zustand \textit{aktiv} versetzt. Für das zweite Verfahren wurde die Software des Arduino um einen zusätzliche Schnittstelle erweitert. Durch die Anbindung eines Tasters wird die Möglichkeit einer echten \glqq Klick\grqq -Aktion zur Befehlseingabe realisiert. Durch Veränderung der Textur erhält der Anwender wie in \abb{fig.intintersect} dargestellt das visuelle Feedback, dass ein Objekt ausgewählt und in den neuen Status versetzt wurde.
 
 \begin{figure}[!ht]
 	\begin{center}

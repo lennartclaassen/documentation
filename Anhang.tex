@@ -121,7 +121,7 @@ Gewicht & \SI{31}{\gram}\\
 \toprule
 Eigenschaft & Spezifikation \\
 \midrule
-Typ & MPU-9250 \\ \addlinespace
+Chip & MPU-9250 \\ \addlinespace
 Stromaufnahme & \SI{3,5}{\milli\ampere} \\ \addlinespace
 Spannungsversorgung & \SI{2,4}{}$-$\SI{3,6}{\volt} \\ \addlinespace
 Schnittstellen & I²C, SPI \\ \addlinespace
@@ -143,36 +143,38 @@ Höhe & \SI{22}{\milli\meter}\\
 \begin{lstlisting}[label=source.data,caption=Datenstruktur zur Repräsentation der Modellszene]
 <?xml version="1.0"?>
 <modelscene>
-     <name>Model World</name>
+     <name>Model_World</name>
      <object>
           <name>Map</name>
           <position>
-          	<x> 0 </x>
-          	<y> 0 </y>
-          	<z> 0 </z>
+          	<x>0</x>
+          	<y>0</y>
+          	<z>0</z>
           </position>
           <orientation>
-          	<x> 0 </x>
-          	<y> 0 </y>
-          	<z> 0 </z>
+          	<y>0</y>
+          	<p>0</p>
+          	<r>0</r>
           </orientation>
-          <texture> map.jpg </texture>
-          <geometry> map.obj </geometry>
+          <texture>map.jpg</texture>
+          <geometry>map.obj</geometry>
+          <visible>false</visible>
      </object>
           <object>
-          <name>Power Outlet</name>
+          <name>Power_Outlet</name>
           <position>
-          	<x> 3.15 </x>
-          	<y> 1.8 </y>
-          	<z> 0.4 </z>
+          	<x>3.15</x>
+          	<y>1.8</y>
+          	<z>0.4</z>
           </position>
           <orientation>
-          	<x> 90 </x>
-          	<y> 0 </y>
-          	<z> 180 </z>
+          	<y>90</y>
+          	<p>0</p>
+          	<r>180</r>
           </orientation>
-          <texture> outlet.jpg </texture>
-          <geometry> outlet.obj </geometry>
+          <texture>outlet.jpg</texture>
+          <geometry>outlet.obj</geometry>
+          <visible>true</visible>
      </object>
 </modelscene>
 \end{lstlisting}

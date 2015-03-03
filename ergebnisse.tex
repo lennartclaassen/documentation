@@ -23,7 +23,7 @@ Die Karte kann in den Ursprung des Inertialkoordinatensystems verschoben werden,
 }
 Zunächst erfolgt eine Betrachtung der globalen Lokalisationsgenauigkeit, indem die zwei in \kapitel{chap.globloc} beschriebenen Modelle gegenübergestellt werden. Anschließend wird die Genauigkeit der lokalen Lokalisation bewertet, wobei die visuelle Odometrie und die mittels des EKF fusionierten Sensordaten betrachtet werden. Abschließend wird eine gesonderte Auswertung des Projektionsvorgangs durchgeführt, welcher durch die Transformation zwischen Kamera und Projektor beschrieben wird.\\
 
-Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Die Detektion der Marker in Kamerabildern ermöglicht die Ermittlung ihrer Position und Orientierung, worüber die Pose der Koordinatensysteme $\ks{MF_1}$ und $\ks{MF_2}$ der Felder bestimmt werden kann \cite{arsys}. Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Alle Marker haben eine Kantenlänge von $l_\ind{M} = \SI{57}{\milli\meter}$. Die Felder wurden im Format DIN A3 erstellt, mit einer Breite von $b_\ind{MF}=\SI{297}{\milli\meter}$ und einer Höhe von $h_\ind{MF}=\SI{420}{\milli\meter}$. Wird ein Markerfeld mit der RGB-Kamera des \kps{s} erfasst, kann die Transformation $\tmat{MF}{KPS}$ zwischen dem Feld und dem \kps{} berechnet werden. Ist die Pose der Markerfelder im Inertialkoordinatensystem bekannt, lässt sich somit auch die Pose des \kps{s} in globalen Koordinaten bestimmen. Die ermittelte Transformation kann anschließend mit der im Rahmen der Lokalisation bestimmten Systempose verglichen und die Fehlerwerte bezüglich der Freiheitsgrade des Systems berechnet werden. Die betrachten Fehlerwerte werden für alle Bewertungen der Lokalisation über das in \kapitel{chap.globloc} eingeführte Quadratische Mittel aus den Differenzen der bestimmten Systemposen berechnet.\\
+Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigten Markerfelder verwendet. Die Detektion der Marker in Kamerabildern ermöglicht die Ermittlung ihrer Position und Orientierung, worüber die Pose der Koordinatensysteme $\ks{MF_1}$ und $\ks{MF_2}$ der Felder bestimmt werden kann \cite{arsys}. Je Feld werden vier Marker aufgebracht um die Robustheit der Detektion zu erhöhen. Alle Marker haben eine Kantenlänge von $l_\ind{M} = \SI{57}{\milli\meter}$. Die Felder wurden im Format DIN A3 erstellt, mit einer Breite von $b_\ind{MF}=\SI{297}{\milli\meter}$ und einer Höhe von $h_\ind{MF}=\SI{420}{\milli\meter}$. Wird ein Markerfeld mit der RGB-Kamera des \kps{s} erfasst, kann die Transformation $\tmat{MF}{KPS}$ zwischen dem Feld und dem \kps{} berechnet werden. Ist die Pose der Markerfelder im Inertialkoordinatensystem bekannt, lässt sich somit auch die Pose des \kps{s} in globalen Koordinaten bestimmen. Die ermittelte Transformation kann anschließend mit der im Rahmen der Lokalisation bestimmten Systempose verglichen und die Fehlerwerte bezüglich der Freiheitsgrade des Systems berechnet werden. Die betrachten Fehlerwerte werden für alle Bewertungen der Lokalisation über das in \kapitel{chap.globloc} eingeführte Quadratische Mittel aus den Differenzen der bestimmten Systemposen berechnet.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -45,7 +45,7 @@ Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigt
 %		\endgroup
 	}
 	\hspace{-23mm}
-	\caption{Markerfelder zur Lagevalidierung}
+	\caption{Markerfelder zur Validierung der Systempose}
 	\label{fig.armarker}
 	\end{center}
 	\vspace*{-2mm}
@@ -64,13 +64,13 @@ Als Bewertungsreferenz der Lokalisation werden die in \abb{fig.armarker} gezeigt
 
 
 \section{Globale Lokalisation}
-Die globale Lokalisation bildet die Basis der Lagebestimmung des \kps{s}. Im folgenden werden das RCM und das EPM verglichen und auf ihre Eignung als globales Lokalisationsverfahren des \kps{s} geprüft. Neben der möglichst exakten Annäherung ist dabei auch eine approximative Bestimmung der Systempose von Bedeutung. Wird die Pose innerhalb eines Grenzbereiches angenähert, kann die verbleibende Abweichung durch anschließende Optimierungsschritte verringert werden. Im Falle einer fehlerhaften initialen Lokalisation kann jedoch trotz lokaler Optimierung nicht von einer Verringerung der Abweichung zur wahren Pose ausgegangen werden. Als zusätzliches Bewertungskriterium der globalen Lokalisation wird deshalb im Folgenden neben der Abweichung zur realen Pose auch die Erfolgsquote der Approximation erfasst. Als drittes Vergleichskriterium wird die für den Lokalisationsvorgang benötigte Rechenzeit ausgewertet.\\
+Die globale Lokalisation bildet die Basis der Lagebestimmung des \kps{s}. Im folgenden werden das RCM und das EPM verglichen und auf ihre Eignung als globales Lokalisationsverfahren für das \kps{} geprüft. Neben der möglichst exakten Annäherung ist dabei auch eine approximative Bestimmung der Systempose von Bedeutung. Wird die Pose innerhalb eines Grenzbereiches angenähert, kann die verbleibende Abweichung durch anschließende Optimierungsschritte verringert werden. Im Falle einer fehlerhaften initialen Lokalisation kann jedoch trotz lokaler Optimierung nicht von einer Verringerung der Abweichung zur wahren Pose ausgegangen werden. Als zusätzliches Bewertungskriterium der globalen Lokalisation wird deshalb im Folgenden neben der Abweichung zur realen Pose auch die Erfolgsquote der Approximation erfasst. Als drittes Vergleichskriterium wird die für den Lokalisationsvorgang benötigte Rechenzeit ausgewertet.\\
 
 %Dabei ist besonders eine approximative Bestimmung der Systempose von Bedeutung. Die Bestimmung einer möglichst exakten Annäherung der Pose ist zwar prinzipiell ebenso Ziel der globalen Lokalisation, kann jedoch bei korrekter initialer Approximation auch durch anschließende Optimierungsschritte erreicht werden. Im Falle einer fehlerhaften initialen Lokalisation kann trotz einer lokalen Optimierung nicht von einer Verringerung der Abweichung zur wahren Pose ausgegangen werden. Als zusätzliches Bewertungskriterium der globale Lokalisation wird deshalb im Folgenden neben der Abweichung zur realen Pose auch die Erfolgswahrscheinlichkeit der Approximation erfasst.\\
 
 Um die wahre Pose des \kps{s} zu bestimmen wird das Markerfeld innerhalb der realen Umgebung auf einer ebenen Fläche befestigt. Der Abgleich zwischen der daraus bestimmten Pose und der durch die Lokalisation ermittelten Pose ist dabei nur möglich, wenn die Pose des Markerfeldes auch in der Modellumgebung bekannt ist. Dies kann entweder durch Anbringung der Markerfelder vor der Kartierung oder durch Definition der Markerpose anhand eindeutiger Landmarken der Umgebung erreicht werden.\\
 
-Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit der Kamera des Systems erfolgen. Dazu wird das \kps{} in einer Pose fixiert und die Transformation $\tmat{MF}{K}$ zwischen dem Markerfeld und der Kamera des \kps{s} bestimmt. Durch die vorhandene Verknüpfung zwischen der realen und der Modellumgebung ist die Transformation $\tmat{M}{MF}$ zwischen den Koordinaten der Karte und dem Markerfeld beschrieben. Ebenso bekannt ist die statische Transformation $\tmat{K}{KPS}$ zwischen der Kamera und dem Basis-Koordinatensystem des \kps{s}. Es lässt sich somit die Transformation zwischen \kps{} und Karte bestimmen zu:
+Die Bestimmung der Referenzpose kann nun durch Erfassung des Markerfeldes mit der Kamera des Systems erfolgen. Dazu wird das \kps{} in einer Pose fixiert und die Transformation $\tmat{MF}{K}$ zwischen dem Markerfeld und der Kamera des \kps{s} bestimmt. Die Kameraperspektive mit Blick auf das Markerfeld zeigt \abb{fig.loclimits} (a). Durch die vorhandene Verknüpfung zwischen der realen und der Modellumgebung ist die Transformation $\tmat{M}{MF}$ zwischen den Koordinaten der Karte und dem Markerfeld beschrieben. Ebenso bekannt ist die statische Transformation $\tmat{K}{KPS}$ zwischen der Kamera und dem Basis-Koordinatensystem des \kps{s}. Es lässt sich somit die Transformation zwischen \kps{} und Karte bestimmen zu:
 %
 %
 \begin{equation}
@@ -87,25 +87,25 @@ Aus der fixierten Pose wird anschließend die globale Lokalisation durchgeführt
 \nomenclature[g]{$\Delta \Psi$}{Fehler in der bestimmten Pose bezüglich des Roll-Winkels}
 
 
-In der Fehlerbetrachtung sollen nur die ermittelten Posen berücksichtigt werden, welche eine Annäherung an die tatsächliche Pose innerhalb bestimmter Grenzen darstellen. Außerhalb dieses Bereiches wird von einer fehlerhaften Lokalisation ausgegangen. Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.loclimits} dargestellt deshalb ein Grenzraum um die wahre Position des \kps{s} definiert. Die maximal zulässigen translatorischen und rotatorischen Fehler sind in \tab{thresh_glob} aufgeführt. Die Definition der Grenzwerte erfolgt orientiert an Fehlerwerten, aus welchen in der Literatur eine anschließende Optimierung der angenäherten Pose erreicht werden konnte \cite{Forster2013}.\\
+In der Fehlerbetrachtung sollen nur die ermittelten Posen berücksichtigt werden, welche eine Annäherung an die tatsächliche Pose innerhalb bestimmter Grenzen darstellen. Außerhalb dieses Bereiches wird von einer fehlerhaften Lokalisation ausgegangen. Um die erfolgreiche Approximation der Pose zu bewerten wird wie in \abb{fig.loclimits} (b) dargestellt deshalb ein Grenzraum um die wahre Position des \kps{s} definiert. Die maximal zulässigen translatorischen und rotatorischen Fehler sind in \tab{thresh_glob} aufgeführt. Die Definition der Grenzwerte erfolgt orientiert an Fehlerwerten, aus welchen in der Literatur eine anschließende Optimierung der angenäherten Pose erreicht werden konnte \cite{Forster2013}.\\
 %\red[Festgelegt nach \cite{Forster2013}\\]
 
 \begin{figure}[!ht]
 	\begin{center}
-	\subfigure[Modellansicht]{
-		\includegraphics[scale=0.5]{glob_loc_thresh_02}
-	}
-	\hspace{5mm}
-	\subfigure[Kamerasicht]{
+	\subfigure[Bilddaten der RGB-Kamera mit verwendetem Markerfeld bei der globalen Lokalisation]{
 		\includegraphics[scale=0.35]{glob_loc_view_03}	
 	}
-	\caption{Grenzbereich der Lokalisation mit korrekt angenäherter Pose (grün) und fehlerhafter Lokalisation (rot)}
+	\hspace{5mm}
+	\subfigure[Modellansicht des Grenzbereiches der globalen Lokalisation mit korrekt angenäherter Pose (grün) und fehlerhafter Lokalisation (rot)]{
+		\includegraphics[scale=0.5]{glob_loc_thresh_02}
+	}
+	\caption{Kameraperspektive und definierter Grenzbereich der globalen Lokalisation}
 		\label{fig.loclimits}
 	\end{center}
 \end{figure}
 
 \prever{
-\red[Subfigure von realem Kamerabild ergänzen!\\]
+%\red[Subfigure von realem Kamerabild ergänzen!\\]
 }
 
 \begin{table}[ht]
@@ -162,14 +162,14 @@ Die Erfolgsquote der Annäherung der wahren Systempose berechnet sich aus dem Qu
 \end{center}
 \end{table}%
 
-In der benötigten Rechenzeit zeigt sich deutlich der erwartete höhere Rechenaufwand bei der Verwendung des RCM. Sie beträgt nahezu das zehnfache der für das EPM benötigten Zeit. Die berechnete Erfolgsquote hingegen bestätigt nicht die durch den Rechenaufwand erwartete Genauigkeit des Modells. Nur etwa die Hälfte der Lokalisationsvorgänge des RCM wurde nach den definierten Kriterien als erfolgreich gewertet. Das EPM hingegen schaffte es in drei Viertel der Messungen, die Systempose zu approximieren.\\
+In der benötigten Rechenzeit zeigt sich deutlich der erwartete höhere Rechenaufwand bei der Verwendung des RCM. Sie beträgt nahezu das zehnfache der für das EPM benötigten Zeit. Die berechnete Erfolgsquote hingegen bestätigt nicht die durch den Rechenaufwand erwartete Genauigkeit des Modells. Nur etwa die Hälfte der Lokalisationsvorgänge des RCM wurde nach den definierten Kriterien als erfolgreich gewertet. Das EPM hingegen schaffte es in drei Viertel der Messungen, die Systempose korrekt zu approximieren.\\
 
 %\red[Erfolgsquote interpretieren\\]
 %
 %Wie aus \tab{approx_time} darüber hinaus ersichtlich wird, beträgt die benötigte Rechenzeit des \red[Raycasting]-Modells fast das \SI{10}{}-fache der vom \red[Endpoint]-Model benötigten Zeit. 
 %\red[Zeit der Lokalisation auswerten\\]
 
-Da die Erfolgsquote allein kein ausreichendes Maß darstellt, um die Präzision der Annäherung zu bewerten, wird das QM der Differenzen zwischen tatsächlicher und angenäherter Pose bestimmt. Wie bereits beschrieben wurden für jedes Modell $n=12$ gültige Messungen ausgewertet. Die Ergebnisse sind in \abb{fig.glob_loc} in Abhängigkeit des verwendeten Modells aufgeführt.\\
+Da die Erfolgsquote allein kein ausreichendes Maß darstellt, um die Präzision der Annäherung zu bewerten, wird das QM der Differenzen zwischen tatsächlicher und angenäherter Pose bestimmt. Wie bereits beschrieben wurden für jedes Modell $n=12$ gültige Messungen ausgewertet. Die Ergebnisse sind in \abb{fig.glob_loc} in Abhängigkeit der verwendeten Modelle aufgeführt.
 
 %Auch die globale Lokalisation wird durchgeführt während sich das \kps{} in der fixierten Pose befindet. Für beide Modelle werden insgesamt $n=20.000$ Partikel zufällig in der Karte verteilt. Die jeweils ermittelte Pose mit der höchsten Wahrscheinlichkeit wird anschließen mit der Referenzposition verglichen. Das quadratische Mittel der Fehler aus jeweils \red[$n$] Messungen ist bezüglich der translatorischen ($\Delta X$, $\Delta Y$, $\Delta Z$) und rotatorischen ($\Delta \Psi$, $\Delta \Theta$, $\Delta \Phi$) Freiheitsgrade des Systems sind in \abb{fig.glob_loc} in Abhängigkeit des verwendeten Modells aufgeführt.\\
 
@@ -184,11 +184,13 @@ Da die Erfolgsquote allein kein ausreichendes Maß darstellt, um die Präzision 
 \label{fig.glob_loc}
 \end{figure}
 
+\vspace{5mm}
+
 \prever{
-\red[Abweichungen zwischen den IMU Daten erklären!? Messrauschen?\\]
+%\red[Abweichungen zwischen den IMU Daten erklären!? Messrauschen?\\]
 }
 
-Die bei der Lokalisation eingesetzte \textit{Octomap} wurde mit einer Auflösung von \SI{0,02}{\meter} aus der vermessenen Umgebung generiert. Der Rückprojektionsfehler der Kalibrierung der IR-Kamera beträgt \SI{0,25}{Pixel} und führt zu Positionsungenauigkeiten in der aufgenommenen Punktwolke. Die Kalibrierung der RGB-Kamera ergab einen Rückprojektionsfehler von \SI{0,23}{Pixel}, welcher sich auf die Genauigkeit der bestimmten Referenzpose des Markerfeldes auswirkt. Diese Unsicherheiten sind daher bei der Bewertung der Lokalisationsgüte zu berücksichtigen.\\
+Die bei der Lokalisation eingesetzte \textit{Octomap} wurde mit einer Auflösung von \SI{0,02}{\meter} aus der vermessenen Umgebung generiert. Der Rückprojektionsfehler der Kalibrierung der IR-Kamera beträgt \SI{0,25}{Pixel} und führt zu Positionsungenauigkeiten in der aufgenommenen Punktwolke. Die Kalibrierung der RGB-Kamera ergab einen Rückprojektionsfehler von \SI{0,23}{Pixel}, welcher sich auf die Genauigkeit der bestimmten Referenzpose des Markerfeldes auswirkt. Diese Unsicherheiten sind bei der Bewertung der Lokalisationsgüte zu berücksichtigen.\\
 
 %eine Unsicherheit in der bestimmten Pose des Markerfeldes von etwa \SI{0,05}{\meter} angenommen werden muss.
 %bei einem Abstand von \SI{0.5}{\meter} zum Markerfeld ein
@@ -196,7 +198,7 @@ Aufgrund der Programmstruktur ist die Vorgabe eines Bereiches zur Verteilung der
 
 Für die modellabhängigen Fehlerwerte zeigen sich zwischen dem RCM und dem EPM jedoch deutliche Unterschiede in der Genauigkeit der ermittelten Pose. Die translatorischen Fehlerwerte betragen für das RCM mehr als das Doppelte der bei Einsatz des EPM verbleibenden Fehler. Auch in der Bestimmung des Gier-Winkels $\Phi$ liegt der Fehlerwert des RCM deutlich über dem des EPM. Die berechnete Erfolgsquote zeigte bereits, dass das RCM die Systempose im betrachteten Anwendungsfall mit geringerer Wahrscheinlichkeit annähert. Aus der Betrachtung der Fehlerwerte ergibt sich, dass die korrekt angenäherten Posen im Vergleich zum EPM darüber hinaus größere Ungenauigkeiten aufweisen.\\
 
-Eine mögliche Ursache für die ungenauere Bestimmung der Systempose durch das RCM liegt in der größeren Toleranz des EPM gegenüber kleineren Abweichungen beim Abgleich zwischen Modell und Messwerten ist. Als Beispiel wird ein Partikel betrachtet, für welches die Messwerte einige Zentimeter in ein Hindernis hinein abgebildet werden. Durch Nichtbeachtung des Strahlenverlaufs unterscheidet sich die Bewertung durch das EPM in diesem Fall nicht von der Bewertung eines Partikels, für welches die Messwerte direkt mit der Außenfläche der Wand abgeglichen werden. Das RCM liefert durch den Abgleich entlang des Sensorstrahls für diese beiden Partikel jedoch deutlich unterschiedliche Fehlerwerte, weshalb das Partikel unter Umständen verworfen wird. Durch Verwendung einer größeren Varianz innerhalb des Sensormodells kann dieser Tatsache zwar entgegengewirkt werden, die Ungenauigkeit in der bestimmten Pose würde sich dadurch jedoch vergrößern.\\
+Eine mögliche Ursache für die ungenauere Bestimmung der Systempose durch das RCM liegt in der größeren Toleranz des EPM gegenüber kleineren Abweichungen beim Abgleich zwischen Modell und Messwerten. Als Beispiel wird ein Partikel betrachtet, für welches die Messwerte einige Zentimeter in ein Hindernis hinein abgebildet werden. Durch Nichtbeachtung des Strahlenverlaufs unterscheidet sich die Bewertung durch das EPM in diesem Fall nicht von der Bewertung eines Partikels, für welches die Messwerte direkt mit der Außenfläche der Wand abgeglichen werden. Das RCM liefert durch den Abgleich entlang des Sensorstrahls für diese beiden Partikel jedoch deutlich unterschiedliche Fehlerwerte, weshalb das Partikel unter Umständen verworfen wird. Durch Verwendung einer größeren Varianz innerhalb des Sensormodells kann dieser Tatsache zwar entgegengewirkt werden, die Ungenauigkeit in der bestimmten Pose würde sich dadurch jedoch vergrößern.\\
 
 Anzumerken ist, dass aufgrund der Funktionsweise eines Partikelfilters durch Erhöhung der Partikelanzahl das Raster und damit die Auflösung der betrachteten Posen nahezu infinitesimal verfeinert werden kann. Die durchgeführte Fehlerbetrachtung dient daher insbesondere als Vergleich der beiden Modelle. Die höhere Genauigkeit des EPM in der Approximation zeigt zusammen mit der größeren Erfolgswahrscheinlichkeit und der deutlich geringeren Rechenzeit, dass es für den vorliegenden Anwendungsfall gegenüber dem RCM bevorzugt werden sollte. Die Ungenauigkeiten aufgrund der Funktionsweise des EPM treten in geradlinigen Umgebungen mit geringer Komplexität in den Hintergrund. Da diese Arbeit insbesondere derartige Umgebungen betrachtet, ist das EPM besser als globales Lokalisationsverfahren für diesen Anwendungsfall geeignet als das RCM.
 
@@ -221,7 +223,7 @@ Anzumerken ist, dass aufgrund der Funktionsweise eines Partikelfilters durch Erh
 %\red[Relokalisation bei globaler Lokalisation beschreiben. Besser später als Ergänzung um die lokale Lokalisation zu korrigieren!\\]
 
 \section{Lokale Lokalisation}%Tracking/Kontinuierliche Lokalisation}
-Die Genauigkeit der lokalen Lokalisation wird gesondert von der durch die globale Lokalisation bestimmten Pose betrachtet. Dazu wird ebenfalls das für die Untersuchung der globalen Lokalisation verwendete Markerfeld genutzt. Die Referenzpose des Systems kann darüber bestimmt und als Initialisierung der Lokalisation verwendet werden. Zu Beginn der Messungen ist die durch die Lokalisation bestimmte Pose damit identisch zu der über das Markerfeld ermittelten Referenzpose.\\
+Die Genauigkeit der lokalen Lokalisation wird gesondert von der durch die globale Lokalisation bestimmten Pose betrachtet. Dazu wird ebenfalls das für die Untersuchung der globalen Lokalisation verwendete Markerfeld genutzt. Die Referenzpose des Systems kann darüber bestimmt und als Initialisierung der Lokalisation verwendet werden. Zu Beginn der Messungen liegen damit keine Abweichungen zwischen der durch die Lokalisation bestimmten und der über das Markerfeld ermittelten Pose vor.\\
 
 Zur Bewertung der kontinuierlichen Lokalisation werden translatorische und rotatorische Veränderungen der Systempose vorgenommen. Um eine Beeinflussung der Bewegungen untereinander zu vermeiden erfolgt eine separate Durchführung aller Messungen.\\
 
@@ -237,15 +239,17 @@ Die translatorischen Bewegungen werden parallel ($y$-Achse des Systems) und orth
 	%\vspace*{-8mm}
 \end{figure}
 
-Bei jeder Messung wird das \kps{} entlang der betrachteten Achse um \SI{1}{\meter} translatorisch verschoben. Insgesamt werden für jede Achse $n=20$ Messungen ausgewertet. Die Quadratischen Mittel der Lokalisationsfehler bei translatorischen Bewegungen parallel und orthogonal zur Betrachtungsebene sind in \abb{fig.loc_loc_trans} dargestellt.\\
+Bei jeder Messung wird das \kps{} entlang der betrachteten Achse um \SI{1}{\meter} translatorisch verschoben. Insgesamt werden für jede Achse $n=20$ Messungen ausgewertet. Die Quadratischen Mittel der Lokalisationsfehler bei translatorischen Bewegungen parallel und orthogonal zur Betrachtungsebene sind in \abb{fig.loc_loc_trans} dargestellt.
 
-\begin{figure}
+\begin{figure}[!ht]
 \input{plot/loc_loc_trans}
 \caption{Quadratisches Mittel der Fehlerwerte in der lokalen Lokalisation auf Basis der visuellen Odometrie bei translatorischer Bewegung}
 \label{fig.loc_loc_trans}
 \end{figure}
 
-Beide Messreihen zeigen einen erhöhten Fehlerwert entlang der jeweiligen Translationsrichtung. Die Positionsfehler betragen dabei für die Bewegung parallel zur Betrachtungsebene $15\%$ der gesamten translatorischen Distanz und für die Bewegung orthogonal zur Betrachtungsebene über $20\%$. Doch auch entlang der zur Translationsrichtung orthogonalen Ebene liegen die Fehlerwerte der Messungen bei etwa $10\%$. Es ergibt sich damit ein deutlicher translatorischer Fehler in der durch die visuelle Odometrie bestimmten Pose.\\
+\vspace{5mm}
+
+Beide Messreihen zeigen einen erhöhten Fehlerwert entlang der jeweiligen Translationsrichtung. Die Positionsfehler betragen dabei für die Bewegung parallel zur Betrachtungsebene etwa $15\%$ der gesamten translatorischen Distanz und für die Bewegung orthogonal zur Betrachtungsebene über $20\%$. Doch auch entlang der zur Translationsrichtung orthogonalen Ebene liegen die Fehlerwerte der Messungen bei bis zu $10\%$. Es ergibt sich damit ein deutlicher translatorischer Fehler in der durch die visuelle Odometrie bestimmten Pose.\\
 
 Auffällig sind die trotz der rein translatorisch ausgeführten Bewegung hohen Fehler in den ermittelten Achswinkeln. Da sich aus den Ergebnissen kein direkter Zusammenhang bezüglich der Translationsrichtung ableiten lässt, deutet dies auf einen grundlegenden Fehler in der durch die visuelle Odometrie ermittelten Orientierung hin. Für eine vollständige Überprüfung sollen im Folgenden die Messungen der rein rotatorischen Bewegungen betrachtet werden.
 
@@ -290,7 +294,7 @@ Für alle Messungen wird eine Rotation des \kps{s} von \SI{45}{°} um die betrac
 Die Ergebnisse zeigen für alle Achsen einen verbleibenden translatorischen Fehler von unter $10\%$. Die Quadratischen Mittel der rotatorischen Differenzen betragen ebenfalls um $10\%$ und liegen damit nur geringfügig unter den gemessenen Winkelfehlern der translatorischen Bewegungen. Es zeigt sich damit, dass die innerhalb der vorliegenden Rahmenbedingungen über die visuelle Odometrie bestimmten Positionen und Orientierungen unabhängig von der ausgeführten Bewegung mit deutlichen Fehlern behaftet sind.\\
 
 %\red[Allgemein stark abhängig von Features]\\
-Eine Erklärung dafür könnte eine geringe Anzahl an zuverlässig ermittelten Deskriptoren innerhalb der Kamerabilder sein. Je weniger Merkmale in der Umgebung erkannt werden, desto größer wird der Einfluss fehlerhafter Detektionen auf das Resultat. Das Unterschreiten einer definierten Anzahl an detektierten Merkmalen führt darüber hinaus dazu, dass keine Lokalisationsdaten ermittelt werden können. Die visuelle Odometrie basiert wie in \kapitel{locloc} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
+Eine Erklärung dafür könnte eine geringe Anzahl an zuverlässig ermittelten Deskriptoren innerhalb der Kamerabilder sein. Je weniger Merkmale in der Umgebung erkannt werden, desto größer wird der Einfluss fehlerhafter Detektionen auf das Resultat. Das Unterschreiten einer definierten Anzahl an detektierten Merkmalen kann darüber hinaus dazu führen, dass zwischenzeitlich keine Lokalisationsdaten ermittelt werden können. Die visuelle Odometrie basiert wie in \kapitel{locloc} beschrieben auf dem Abgleich von Merkmalen, welche sich sowohl in den aufgenommen Farb- als auch in den Tiefenwerten wiederfinden. Aus dem Anwendungsziel des \kps{s} ergibt sich insbesondere auch der Einsatz in Umgebungen mit wenigen solcher Merkmale. Auch die experimentelle Auswertung wurde deshalb in einer derartigen Umgebung durchgeführt.\\
 
 Eine weitere Fehlerursache bezüglich der bestimmten Orientierung ergibt sich aus den Anforderungen der verwendeten Implementierung. Diese erfordert eine hohe Frequenz in der Berechnung, um Rotationen korrekt anzunähern \cite{Fovis}. Obwohl die Kinect Bilddaten mit einer Rate von \SI{30}{} Bildern pro Sekunde liefert konnten auf dem verwendeten System während der Anwendung nur etwa \SI{5}{} Bilder pro Sekunde ausgewertet werden. Dies ist zum einen auf die Komplexität der Berechnungen zur Bestimmung der visuellen Odometrie und zum anderen auf die hohe Auslastung der Rechenkapazität aufgrund der weiteren verwendeten Softwarekomponenten zurückzuführen.\\ 
 
@@ -317,7 +321,7 @@ Die Messungen werden auf gleiche Weise wie zuvor durchgeführt. Verglichen werde
 
 %\red[Ergebnisse interpretieren\\]
 
-In beiden Messreihen zeigen sich deutliche Auswirkungen auf die Freiheitsgrade, für welche die IMU Orientierungsdaten bereitstellt. Die Fusion der Sensorwerte führt zu einer starken Verringerung der Fehler in der Winkelbestimmung bezüglich der Roll- und Nick-Achse. Geringe Auswirkungen zeigen sich auch auf die gemessenen Fehlerwerte der weiteren Freiheitsgrade. Diese Abweichungen erklären sich aus dem Einsatz des EKF und der Verbesserung in der Bestimmung des Roll- und Nick-Winkels, wobei für die verschiedenen Freiheitsgrade sowohl Verringerungen als auch Zunahmen der Fehlerwerte zu beobachten sind. Insgesamt konnte die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose durch die Fusion der Sensordaten mittels des EKF somit für zwei der sechs Freiheitsgrade erhöht werden.\\ 
+In beiden Messreihen zeigen sich deutliche Auswirkungen auf die Freiheitsgrade, für welche die IMU Orientierungsdaten bereitstellt. Die Fusion der Sensorwerte führt zu einer starken Verringerung der Fehler in der Winkelbestimmung bezüglich der Roll- und Nick-Achse. Geringe Auswirkungen zeigen sich auch auf die gemessenen Fehlerwerte der weiteren Freiheitsgrade. Diese Abweichungen erklären sich aus der Approximation durch das EKF und der Verbesserung in der Bestimmung des Roll- und Nick-Winkels, wobei für die verschiedenen Freiheitsgrade sowohl Verringerungen als auch Zunahmen der Fehlerwerte zu beobachten sind. Insgesamt konnte die Genauigkeit der Lokalisation während der kontinuierlichen Bestimmung der Pose durch die Fusion der Sensordaten mittels des EKF somit für zwei der sechs Freiheitsgrade erhöht werden.\\ 
 
 \prever{
 %\red[Da das \kps{} als Starrkörper betrachtet werden kann, ergeben sich durch die \\]
@@ -341,7 +345,7 @@ Um die lagerichtige Abbildung der visuellen Zusatzinformationen in der realen Um
 \subsection{Projektionsgenauigkeit}
 Die Genauigkeit der Projektion virtueller Modelldaten wird unter Verwendung einer externen Kamera analysiert. Diese wird zunächst analog zu dem in \kapitel{chap.calib} beschriebenen Vorgehen für die RGB-Kamera der Kinect kalibriert, wodurch eine objektive Betrachtung der Projektionsgenauigkeit ermöglicht wird. Der Rückprojektionsfehler der Kalibrierung der externen Kamera beträgt \SI{0,26}{Pixel}, die Kalibrierung des \kps{s} ergab einen horizontalen Projektionsfehler von $e_\ind{x} = \SI{1,57}{Pixel}$ und einen vertikalen Projektionsfehler von $e_\ind{y} = \SI{1}{Pixel}$. Für die Untersuchung wird ein Markerfeld auf einer ebenen Unterlage fixiert und im Sicht- und Projektionsfeld des \kps{s} platziert. Das Markerfeld wird mittels der RGB-Kamera der Kinect erfasst, um die Transformation des \kps{s} relativ zum Markerfeld zu bestimmen.\\
 
-Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht daraufhin die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. Dazu werden beide Markerfelder in der Modellumgebung dargestellt und überlagert. Die externe Kamera wird anschließend so positioniert, dass sie in der Lage ist das reale und das projizierte Markerfeld zu erfassen. Es ergibt sich daraus der in \abb{fig.arprojected} dargestellte Versuchsaufbau.\\
+Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglicht daraufhin die Zuordnung der detektierten 3D-Koordinaten des Markerfeldes zu den 2D-Koordinaten des Projektorbildes. Um die Projektionsgenauigkeit zu überprüfen wird mittels des Projektors ein weiteres Markerfeld projiziert, welches bezogen auf die Projektorkoordinaten deckungsgleich mit dem realen Markerfeld ist. Dazu werden beide Markerfelder in der Modellumgebung dargestellt und überlagert. Die externe Kamera wird anschließend so positioniert, dass sie in der Lage ist das reale und das projizierte Markerfeld zu erfassen. Es ergibt sich daraus der in \abb{fig.projsetup} dargestellte Versuchsaufbau.
 
 \begin{figure}[!ht]
 	\begin{center}%
@@ -353,7 +357,7 @@ Die bekannte Transformation zwischen Kamera- und Projektorkoordinaten ermöglich
 \end{figure}
 %\red[Projiziertes Feld: Kästchen entfernen!\\]
 
-Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb{fig.projsetup} dargestellt die Transformationen bezüglich der Kamera ermittelt werden. Aus dem Vergleich der Transformation zwischen den Feldern lassen sich die Abweichungen bezüglich Position und Orientierung bestimmen. Sowohl die Positionierung des \kps{s} als auch der externen Kamera wird dabei während der Untersuchungen variiert.\\
+Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb{fig.arprojected} dargestellt die Transformationen bezüglich der Kamera ermittelt werden. Aus dem Vergleich der Transformation zwischen den Feldern lassen sich die Abweichungen bezüglich Position und Orientierung bestimmen. Sowohl die Positionierung des \kps{s} als auch der externen Kamera wird dabei während der Untersuchungen variiert.\\
 
 \prever{
 %\red[Markerlokalisation ausführen -> schon zu Beginn!\\]
@@ -363,13 +367,13 @@ Durch Detektion der Markerfelder im Bild der externen Kamera können wie in \abb
 	\begin{center}
 		\includesvgnew[1]{images/board_eval_cropped_02}%
 %		\includegraphics[scale=0.3]{board_eval_cropped}
-		\caption{Detektion der Lage des realen und projizierten Markerfeldes im Bild der externen Kamera}
+		\caption{Detektion der Pose des realen und projizierten Markerfeldes im Bild der externen Kamera}
 		\label{fig.arprojected}
 	\end{center}
 	%\vspace*{-8mm}
 \end{figure}%
 
-Die ermittelten Fehler der $k=6$ Messreihen mit insgesamt $n=229$ Messungen sind als Box-Whisker-Plot in \abb{fig.boxplot_proj} dargestellt. Dabei wurde die Gesamtheit der Messwerte in die Darstellung aufgenommen. Die minimalen und maximalen Messwerte werden durch die Whisker beschreiben, während die Boxen das zweite und dritte Quartil abbilden. Der Median ist als Trennlinie innerhalb der Boxen repräsentiert. Für eine bessere Übersicht orientiert sich die farbliche Abbildung der Messungen an der verwendeten RGB-Darstellung der Koordinatensysteme.\\
+Die ermittelten Fehler der $k=6$ Messreihen mit insgesamt $n=229$ Messungen sind als Box-Whisker-Plot in \abb{fig.boxplot_proj} dargestellt. Dabei wurde die Gesamtheit der Messwerte in die Darstellung aufgenommen. Die minimalen und maximalen Messwerte werden durch die Whisker beschrieben, während die Boxen das zweite und dritte Quartil abbilden. Der Median ist als Trennlinie innerhalb der Boxen repräsentiert. Für eine bessere Übersicht orientiert sich die farbliche Abbildung der Messungen an der verwendeten RGB-Darstellung der Koordinatensysteme.
 
 \prever{
 %\red[Box Whisker Plot erklären -> Gesamte Messreihe, IQR,Median,keine Ausreisser\\]
@@ -379,7 +383,7 @@ Die ermittelten Fehler der $k=6$ Messreihen mit insgesamt $n=229$ Messungen sind
 
 Die ermittelte Projektionsgenauigkeit zeigt deutliche Unterschiede zwischen den Freiheitsgraden der Markerposen. Die Fehlerwerte der Abbildung in $x$-Richtung liegen gleichmäßig verteilt um die Nulllinie mit einem Median von \SI{-0.5}{\milli\meter}. Die Hälfte der Messwerte zeigt dabei einen absoluten Projektionsfehler von weniger als \SI{3}{\milli\meter}. Auch die Fehler bezüglich der $y$-Richtung liegen in einem vergleichbaren Bereich. Der Median der Messwerte ist jedoch leicht verschoben und liegt knapp unter \SI{3}{\milli\meter}. Die Verschiebung deutet auf einen systematischen Fehler hin, eine genauere Betrachtung der Messreihen konnte dies jedoch nicht bestätigen.\\
 
-Sehr viel höhere Fehler in der Abbildung liegen bezüglich der $z$-Richtung vor. Die absoluten Fehler betragen dabei bis zu \SI{30}{\milli\meter}. Die Streuung der Messwerte ist ebenfalls sehr viel größer. Zusammen mit den ebenfalls hohen Winkelfehlern bezüglich der $x$- und $y$-Achse der Markerfelder zeigt dies, dass die Tiefenwerte durch die Projektion nur sehr ungenau abgebildet werden. Die Orientierung und Lage innerhalb der Ebene der Markerfelder selbst wird hingegen mit guter Genauigkeit wiedergegeben. Dies wird auch durch den Nahe an Null liegenden Median und die geringe Streuung der Messwerte der Winkelfehler bezüglich der $z$-Achse abgebildet.\\
+Sehr viel höhere Fehler in der Abbildung liegen bezüglich der $z$-Richtung vor. Die absoluten Fehler betragen dabei bis zu \SI{30}{\milli\meter}. Die Streuung der Messwerte ist ebenfalls sehr viel größer. Zusammen mit den ebenfalls hohen Winkelfehlern bezüglich der $x$- und $y$-Achse der Markerfelder zeigt dies, dass die Tiefenwerte durch die Projektion nur sehr ungenau abgebildet werden. Die Position und Orientierung innerhalb der Ebene der Markerfelder selbst wird hingegen mit guter Genauigkeit wiedergegeben. Dies wird auch durch den Nahe an Null liegenden Median und die geringe Streuung der Messwerte der Winkelfehler bezüglich der $z$-Achse abgebildet.\\
 
 Insgesamt beträgt die Ungenauigkeit der Projektion innerhalb der Darstellungsebene damit nur wenige Millimeter und weist einen sehr geringen Winkelfehler auf. Für die Projektion auf ebene Flächen, die in der geplanten Anwendung des \kps{s} vorliegt, resultieren daraus geringe Fehler in der Positionierung und Orientierung der Objekte. Die großen Abweichungen bezüglich der $z$-Koordinate führen zu einem Abbildungsfehler in der Skalierung der Objekte, welcher zwar prinzipiell ebenso unerwünscht ist, für die Anwendung selbst jedoch weniger Relevanz besitzt als die korrekte Abbildung der Position und Orientierung bezüglich der Projektionsebene.
 
@@ -401,7 +405,7 @@ Voraussetzung für die dynamische Interaktion des Benutzers mit den visualisiert
 %\red[Raspberry pi Bezeichnung in Material]\\
 }
 
-Die Bestimmung der Latenzzeit wird mittels einer externen Kamera durchgeführt, um die Projektion und die Visualisierung innerhalb der grafischen Benutzeroberfläche gleichzeitig betrachten zu können. Die Kamera zeichnet die Bilddaten mit einer Frequenz $f_\ind{I}$ von \SI{50}{\Hz} auf, so dass die Dauer zwischen zwei aufgenommenen Bildern \SI{20}{\milli\second} beträgt. Dementsprechend wird auch die erreichbare Auflösung der ermittelten Latenzzeit über diese Dauer definiert. Um die Latenzzeit zu bestimmen werden die aufgezeichneten Einzelbilder ausgewertet und die Anzahl der Bilder $n_\ind{I}$ ermittelt, welche zwischen eindeutigen Abbildungen der Visualisierung liegt. Damit kann die Latenzzeit über die bekannte Aufnahmefrequenz ermittelt werden:
+Die Bestimmung der Latenzzeit wird mittels einer externen Kamera durchgeführt, um die Projektion und die Visualisierung innerhalb der grafischen Benutzungsschnittstelle gleichzeitig betrachten zu können. Die Kamera zeichnet die Bilddaten mit einer Frequenz $f_\ind{I}$ von \SI{50}{\Hz} auf, so dass die Dauer zwischen zwei aufgenommenen Bildern \SI{20}{\milli\second} beträgt. Dementsprechend wird auch die erreichbare Auflösung der ermittelten Latenzzeit über diese Dauer definiert. Um die Latenzzeit zu bestimmen werden die aufgezeichneten Einzelbilder ausgewertet und die Anzahl der Bilder $n_\ind{I}$ ermittelt, welche zwischen eindeutigen Abbildungen der Visualisierung liegt. Damit kann die Latenzzeit über die bekannte Aufnahmefrequenz ermittelt werden:
 %
 \begin{equation}
 t_\ind{lat} = \frac{n_\ind{I}}{f_\ind{I}} \; \text{.}
@@ -411,7 +415,7 @@ t_\ind{lat} = \frac{n_\ind{I}}{f_\ind{I}} \; \text{.}
 \nomenclature[l]{$n_\ind{I}$}{Anzahl an aufgenommenen Bildern zwischen perspektivischer Berechnung und Visualisierung}
 \nomenclature[l]{$f_\ind{I}$}{Aufnahmefrequenz der zur Bestimmung der Latenzzeit eingesetzten Kamera}
 
-Um den Einfluss des gekapselten Projektionssystems zu bewerten wird eine Vergleichsuntersuchung durchgeführt, bei welcher die Visualisierung direkt auf dem PC erfolgt, auf welchem die weiteren Softwarekomponenten ausgeführt werden. Die durchschnittliche Latenzzeit der beiden Analysen ist zusammen mit den Leistungsdaten der Systeme in \tab{latency} aufgeführt.\\
+Um den Einfluss des gekapselten Projektionssystems zu bewerten wird eine Vergleichsuntersuchung durchgeführt, bei welcher die Visualisierung direkt auf dem PC erfolgt, auf welchem die weiteren Softwarekomponenten ausgeführt werden. Die durchschnittliche Latenzzeit der beiden Analysen ist zusammen mit den Leistungsdaten der Systeme in \tab{latency} aufgeführt.
 
 
 %\begin{table}[ht]
@@ -450,4 +454,4 @@ Durchschnittliche Latenzzeit [\SI{}{\milli\second}] & 216 & 40 \\
 
 Die Ergebnisse zeigen, dass sich durch die Verwendung des gekapselten Projektionssystems deutliche Verzögerungen in der Visualisierung ergeben. Eine Latenzzeit von \SI{216}{\milli\second} ist für den Benutzer wahrnehmbar und kann bei der Interaktion mit den visualisierten Daten störend wirken. Die Latenzzeit der Visualisierung durch den Computer liegt hingegen bei \SI{40}{\milli\second} und sollte damit keinen merklichen Einfluss auf die Dynamik der Interaktion haben. Der ermittelte Unterschied in den Latenzzeiten ergibt sich dabei aus der Kombination von höherer Rechenleistung des Computers und der  durch die Netzwerkverbindung hervorgerufenen Verzögerung.\\
 
-Ein Grund für die Ausgliederung des Projektionsvorgangs mittels des Raspberry lag darin, ein Projektionsmodul zur Verfügung zu stellen, welches in beliebigen auf ROS basierenden Anwendungen eingesetzt werden kann. Die Rechenkapazität des Raspberry sollte genutzt werden um die verfügbaren Ressourcen des verwendeten Computers auf die anderen Softwaremodule aufzuteilen. Im Zusammenhang mit der entwickelten Anwendung für das \kps{} sind die zusätzlichen Rechenressourcen gegenüber der Dynamik der Interaktion abzuwägen. In Anwendungsfällen, in denen ausreichend Rechenkapazität zur Verfügung steht, sollte daher unter Umständen auf die Auslagerung der Projektion verzichtet werden.
+Ein Grund für die Ausgliederung des Projektionsvorgangs mittels des Raspberry lag darin, ein Projektionsmodul zum Einsatz in ROS basierten Anwendungen zur Verfügung zu stellen. Die Rechenkapazität des Raspberry sollte genutzt werden, um die verfügbaren Ressourcen des verwendeten Computers auf die anderen Softwaremodule aufzuteilen. Im Zusammenhang mit der entwickelten Anwendung für das \kps{} sind die zusätzlichen Rechenressourcen gegenüber der Dynamik der Interaktion abzuwägen. In Anwendungsfällen, in denen ausreichend Rechenkapazität zur Verfügung steht, sollte daher unter Umständen auf die Auslagerung der Projektion verzichtet werden.
